@@ -1,0 +1,51 @@
+<template>
+  <header class="header">
+    <div class="intro">
+      <div class="myNickname">{{ intro.nickname }}</div>
+      <div class="myIntro">{{ intro.intro }}</div>
+    </div>
+    <nav class="nav clearfix">
+      <div class="logo">
+        <div class="v"></div>
+      </div>
+      <ul>
+        <li v-for="(item,index) in links" :key="index">
+          <router-link :to="item.path">{{ item.name }}</router-link>
+        </li>
+      </ul>
+      <div class="search">
+        <input type="text" name="search" placeholder="search" v-model="searchInfo" autofocus @keyup.enter="search">
+      </div>
+    </nav>
+  </header>
+</template>
+<script>
+export default {
+  name: 'header',
+  data() {
+    return {
+      links: [{
+        name: '首页',
+        path: '/'
+      }, {
+        name: '新随笔',
+        path: '/essay',
+      }, {
+        name: '管理',
+        path: '/admin'
+      }],
+      searchInfo:''
+    }
+  },
+  computed: {
+    intro() {
+      return this.$store.state.intro
+    }
+  },
+  methods: {
+    search(){
+      console.log(this.searchInfo)
+    }
+  }
+}
+</script>

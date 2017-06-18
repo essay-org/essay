@@ -44,7 +44,8 @@ export default {
   },
   methods: {
     search(){
-      console.log(this.searchInfo)
+      this.$router.push({name:'searchInfo',params:{info:this.searchInfo}})
+      // console.log(this.searchInfo)
     }
   }
 }

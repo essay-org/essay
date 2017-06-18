@@ -26,7 +26,11 @@ function tag() {
 function intro() {
   return axios.get('/userinfo')
 }
-
+function search(info) {
+  var info = info ? info : '';
+  var id = id ? id : 1;
+  return axios.get(`/search?info=${info}&limit=15&page=${id}`)
+}
 /* ============================= */
 // 文章列表 
 export function indexdata(id) {
@@ -42,4 +46,9 @@ export function articledata(id) {
 // 根据标签获取文章
 export function bytagdata(params,id) {
   return axios.all([bytag(params,id), intro(),tag()])
+}
+
+// 搜索
+export function searchdata(info,id) {
+  return axios.all([search(info,id), intro(),tag()])
 }

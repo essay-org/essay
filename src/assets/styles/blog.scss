@@ -20,7 +20,8 @@ body {
 
 .index,
 .article,
-.category {
+.category,
+.search {
   .container {
     overflow: hidden;
     margin-bottom: 30px;
@@ -146,7 +147,9 @@ body {
   }
 }
 
-.article-list {
+.article-list,
+.search-list,
+.bytag-list {
   margin-right: 340px;
   background-color: #fff;
   padding: 10px 15px 9999px;
@@ -179,8 +182,8 @@ body {
       }
     }
     .content {
-      height: 148px;
-      overflow: hidden;
+      max-height: 100px;
+      margin-bottom: 20px;
     }
     .date {
       position: absolute;
@@ -211,7 +214,16 @@ body {
     }
   }
 }
-
+.search-list {
+  .tips {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 50px;
+    strong {
+      color:red;
+    }
+  }
+}
 .article-detail {
   margin-right: 340px;
   background-color: #fff;

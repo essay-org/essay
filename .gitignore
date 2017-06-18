@@ -3,7 +3,7 @@ node_modules/
 dist/
 .idea
 example/
-scratc/
+scratch/
 note.md
 npm-debug.log
 *.iml

@@ -22,6 +22,7 @@
 <script>
 import SimpleMDE from 'simplemde'
 import marked from 'marked'
+import highlight from 'highlight.js'
 import MyHeader from '../components/global/MyHeader.vue'
 import MyFooter from '../components/global/MyFooter.vue'
 marked.setOptions({
@@ -32,7 +33,7 @@ marked.setOptions({
   pedantic: false,
   sanitize: false,
   smartLists: true,
-  smartypants: false
+  smartypants: false,
 })
 export default {
   name:'essay',
@@ -52,6 +53,9 @@ export default {
         previewRender: function(plainText) {
           return marked(plainText);
         },
+        highlight: function (code) {
+          return require('highlight.js').highlightAuto(code).value;
+        }
       });
       smde.codemirror.on("change", function() {
         that.content = marked(smde.value());

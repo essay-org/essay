@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { indexdata, articledata, bytagdata } from '../api'
+import { indexdata, articledata, bytagdata,searchdata } from '../api'
 
 Vue.use(Vuex)
 
@@ -16,7 +16,8 @@ export function createStore() {
       tag: [],
       byTag: [],
       byTagNumber: '',
-      byTagArticle: ''
+      byTagArticle: '',
+      searchlist:[],
     },
     // 通过异步请求的逻辑在这里
     actions: {
@@ -52,7 +53,19 @@ export function createStore() {
               tag: tag
             })
           }))
-      }
+      },
+      SEARCHDATA({ commit, state }) {
+        var info = state.route.params.info
+        var id = state.route.params.id
+        return searchdata(info,id)
+          .then(axios.spread(function(searchlist, intro, tag) {
+            commit('SEARCHDATA', {
+              searchlist: searchlist,
+              intro: intro,
+              tag: tag
+            })
+          }))
+        }
     },
     // 同步更新数据的逻辑
     mutations: {
@@ -67,7 +80,6 @@ export function createStore() {
         state.number = data.articleList.data.number
         state.intro = data.intro.data.result[0]
         if (data.tag.data.result.length) {
-
           state.tag = data.tag.data.result[0].tags
         }
       },
@@ -75,7 +87,6 @@ export function createStore() {
         state.article = data.article.data.result[0]
         state.intro = data.intro.data.result[0]
         if (data.tag.data.result.length) {
-
           state.tag = data.tag.data.result[0].tags
         }
       },
@@ -87,6 +98,15 @@ export function createStore() {
         state.intro = data.intro.data.result[0]
         if (data.tag.data.result.length) {
 
+          state.tag = data.tag.data.result[0].tags
+        }
+      },
+      SEARCHDATA(state,data) {
+
+        state.searchlist = data.searchlist.data.result
+        state.number = data.searchlist.data.number
+        state.intro = data.intro.data.result[0]
+        if (data.tag.data.result.length) {
           state.tag = data.tag.data.result[0].tags
         }
       },

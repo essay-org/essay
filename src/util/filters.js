@@ -76,3 +76,8 @@ export function cutString(str, len) {
   }
     
 }
+
+// html格式化
+export function formatHtml(str){
+  return str.replace(/<.*?>/g,'')
+}

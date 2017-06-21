@@ -2,10 +2,20 @@
   <aside class="aside">
     <div class="tags">
       <div class="title">标签</div>
-      <div class="tag">
+      <div class="list">
         <ul>
-          <li v-for="(item,index) in tag" :key="index">
-            <a @click="link(item)">{{item}}</a>
+          <li v-for="(item,index) in tags" :key="index">
+            <a @click="byTag(item)">{{item}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="archives">
+      <div class="title">归档</div>
+      <div class="list">
+        <ul>
+          <li v-for="(item,index) in archives" :key="index">
+            <a @click="byArchive(item.date)">{{item.date}} ({{item.count}})</a>
           </li>
         </ul>
       </div>
@@ -16,16 +26,35 @@
 export default {
   name: 'aside',
   computed: {
-    tag() {
-      return this.$store.state.tag
+    tags() {
+      return this.$store.state.tags
+    },
+    archives() {
+      return this.$store.state.archives
     }
   },
   methods: {
-    link(item) {
+    byTag(item) {
       this.$router.push({
         name: 'categoryTag',
         params: {
           tag: item
+        }
+      })
+    },
+    byArchive(date) {
+      // 处理日期
+      var year = parseInt(date);
+      var month =date.slice(5,-1); 
+      if(month.length === 1) {
+        month = '0'+month;
+      }
+      var dateParam = year + month
+      // console.log(dateParam)
+      this.$router.push({
+        name:'archiveDate',
+        params: {
+          date:dateParam
         }
       })
     }

@@ -17,7 +17,6 @@ body {
   margin: 0 auto;
 }
 
-
 .index,
 .article,
 .category,
@@ -27,6 +26,7 @@ body {
     margin-bottom: 30px;
   }
 }
+
 .header {
   width: 100%;
   height: 250px;
@@ -83,10 +83,10 @@ body {
       display: inline-block;
       width: 300px;
       border-radius: 4px;
-      margin:10px 15px;
+      margin: 10px 15px;
       background-color: $headerBgc;
-      border:1px solid $headerBgc;
-      color:$navColor;
+      border: 1px solid $headerBgc;
+      color: $navColor;
       height: 40px;
       line-height: 40px;
       text-indent: 1em;
@@ -119,7 +119,7 @@ body {
   }
 }
 
-.tags {
+.aside {
   float: right;
   width: 340px;
   height: auto !important;
@@ -127,22 +127,25 @@ body {
   padding: 15px 15px 9999px;
   margin-bottom: -9999px;
   overflow: hidden;
-  .title {
-    font-size: 20px;
-    font-style: bold;
-    padding-bottom: 10px;
-    border-bottom: 1px solid $border;
-  }
-  .tag {
-    li {
-      padding: 10px 0;
+  .tags,
+  .archives {
+    .title {
+      font-size: 20px;
+      font-style: bold;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $border;
     }
-    li + li {
-      border-top: 1px dashed $border;
-    }
-    a {
-      display: inline-block;
-      font-size: 18px;
+    .list {
+      li {
+        padding: 10px 0;
+      }
+      li + li {
+        border-top: 1px dashed $border;
+      }
+      a {
+        display: inline-block;
+        font-size: 18px;
+      }
     }
   }
 }
@@ -214,16 +217,18 @@ body {
     }
   }
 }
+
 .search-list {
   .tips {
     font-size: 20px;
     text-align: center;
     margin-top: 50px;
     strong {
-      color:red;
+      color: red;
     }
   }
 }
+
 .article-detail {
   margin-right: 340px;
   background-color: #fff;
@@ -241,7 +246,7 @@ body {
 .essay {
   .form {
     background-color: #fff;
-    padding:10px 15px;
+    padding: 10px 15px;
     margin-bottom: 20px;
     .title {
       input[type="text"] {
@@ -289,7 +294,7 @@ body {
 .footer {
   height: 100px;
   width: 1120px;
-  margin:0 auto;
+  margin: 0 auto;
   border-top: 1px solid $border;
   color: #C8C9CA;
   .copy {
@@ -310,7 +315,6 @@ body {
     }
   }
 }
-
 
 .login {
   position: absolute;

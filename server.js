@@ -155,7 +155,8 @@ app.get('/api/tag',router.tag);//http://localhost:8080/api/tag
 app.get('/api/bytag',router.bytag);//http://localhost:8080/api/bytag?tag=js
 // 模糊搜索
 app.get('/api/search',router.search);// http://localhost:8080/api/search?info=js
-app.get('/api/archive',router.archive);// http://localhost:8080/api/archive?date=201706
+app.get('/api/archive',router.archive);// http://localhost:8080/api/archive
+app.get('/api/byArchive',router.byarchive);// http://localhost:8080/api/archive?date=201706
 // 发表文章
 app.post('/api/publish',router.publish);
 // 用户登录

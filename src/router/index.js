@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
   // 需要渲染数据的组件
-import { Index, Category, Article, Search } from '../views/CreateListView'
+import { Index, Category, Article, Search, Archive } from '../views/CreateListView'
 // 不需要渲染数据的组件
 const Login = () =>
   import ('../views/Login.vue')
@@ -58,6 +58,20 @@ export function createRouter() {
         }]
       }],
       component: Search('search')
+    }, {
+      path: '/archive',
+      name: 'archive',
+      children: [{
+        path: ':date?',
+        name: 'archiveDate',
+        component: Archive('archive'),
+        children: [{
+          path: ':id?',
+          name: 'archiveID',
+          component: Archive('archive'),
+        }]
+      }],
+      component: Archive('archive')
     }, {
       path: '/article/:id',
       name: 'article',

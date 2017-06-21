@@ -2,6 +2,7 @@ import index from '../views/Index.vue'
 import category from '../views/Category.vue'
 import article from '../views/Article.vue'
 import search from '../views/Search.vue'
+import archive from '../views/Archive.vue'
 export function Index(type) {
   return {
     name: `${type}-stories-view`,
@@ -46,6 +47,18 @@ export function Search(type) {
     },
     render(h) {
       return h(search)
+    }
+  }
+}
+
+export function Archive(type) {
+  return {
+    name: `${type}-stories-view`,
+    asyncData({ store }) {
+      return store.dispatch('ARCHIVEDATA')
+    },
+    render(h) {
+      return h(archive)
     }
   }
 }

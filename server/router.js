@@ -63,7 +63,7 @@ exports.publish = function(req, res, next) {
         "title": title,
         "content": content,
         "tag": tag,
-        "date": 1494777600000
+        "date": Date.now()
       }, function(err, result) {
         if (err) {
           // console.log(err)
@@ -113,66 +113,71 @@ exports.publish = function(req, res, next) {
 }
 
 exports.archive = function(req, res, next) {
-    // 归档文章
-    var date = req.query.date || '';
-    if (date) {
-      var limit = Number(req.query.limit); // 每页多少条
-      var page = Number(req.query.page); // 分页
-      var sortInfo = Number(req.query.sort) || -1; // 按最新发布
-      var sort = { "date": sortInfo }; // 按最新发布排序
-
-      var year = req.query.date.slice(0, 4);
-      var samllMonth = req.query.date.slice(4) - 1 ;
-      var bigMonth = req.query.date.slice(4);
-      var smallDate = new Date(+year, +samllMonth).getTime() //6月1号
-      var bigDate = new Date(+year, +bigMonth).getTime() // 7月1号
-        // smallDate <= datetime < bigDate
-      db.find('infos', { "query": { "date": { $lt: bigDate, $gte: smallDate } },"limit": limit, "page": page, "sort": sort }, function(err, result) {
-        if (err) {
-          console.log(err);
-          res.json({ "result": [] })
-          return;
-        }
-        res.json({ "result": result })
-      })
-    } else {
-      // 归档信息
-      db.find('infos', { "query": {} }, function(err, result) {
-        if (err) {
-          console.log(err);
-          res.json({ "result": [] })
-          return;
-        }
-        // console.log(result[10])
-        var arr = [],
-          arr2 = [];
-        for (var i = 0; i < result.length; i++) {
-          var year = new Date(result[i].date).getFullYear()
-          var month = new Date(result[i].date).getMonth() + 1
-          var date = `${year}年${month}月`;
-          arr.push(date)
-        }
-
-        arr.sort()
-        for (var i = 0; i < arr.length;) {
-          var count = 0;
-          for (var j = i; j < arr.length; j++) {
-            if (arr[i] === arr[j]) {
-              count++;
-            }
-          }
-          arr2.push({
-            date: arr[i],
-            count: count
-          })
-          i += count;
-        }
-        res.json({ "result": arr2 })
-      })
+  // 归档信息
+  db.find('infos', { "query": {} }, function(err, result) {
+    if (err) {
+      console.log(err);
+      res.json({ "result": [] })
+      return;
+    }
+    // console.log(result[10])
+    var arr = [],
+      arr2 = [];
+    for (var i = 0; i < result.length; i++) {
+      var year = new Date(result[i].date).getFullYear()
+      var month = new Date(result[i].date).getMonth() + 1
+      var date = `${year}年${month}月`;
+      arr.push(date)
     }
 
-  }
-  // 获取某个用户的发布 默认显示所有发布
+    arr.sort()
+    for (var i = 0; i < arr.length;) {
+      var count = 0;
+      for (var j = i; j < arr.length; j++) {
+        if (arr[i] === arr[j]) {
+          count++;
+        }
+      }
+      arr2.push({
+        date: arr[i],
+        count: count
+      })
+      i += count;
+    }
+
+    arr2.reverse()
+    res.json({ "result": arr2 })
+  })
+
+}
+
+exports.byarchive = function(req, res, next) {
+  // 归档文章
+  var limit = Number(req.query.limit); // 每页多少条
+  var page = Number(req.query.page); // 分页
+  var sortInfo = Number(req.query.sort) || -1; // 按最新发布
+  var sort = { "date": sortInfo }; // 按最新发布排序
+
+  var year = req.query.date.slice(0, 4);
+  var samllMonth = req.query.date.slice(4) - 1;
+  var bigMonth = req.query.date.slice(4);
+  var smallDate = new Date(+year, +samllMonth).getTime() //6月1号
+  var bigDate = new Date(+year, +bigMonth).getTime() // 7月1号
+    // smallDate <= datetime < bigDate
+  db.find('infos', { "query": { "date": { $lt: bigDate, $gte: smallDate } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
+    if (err) {
+      console.log(err);
+      res.json({ "result": [] })
+      return;
+    }
+    db.find('infos', { "query": { "date": { $lt: bigDate, $gte: smallDate } } }, function(err, result2) {
+      result2 = { "result": result, "number": result2.length }
+      res.json(result2)
+    })
+  })
+}
+
+// 获取某个用户的发布 默认显示所有发布
 exports.people = function(req, res, next) {
   /*var username = req.query.username || false;
   var query = { "user": username };

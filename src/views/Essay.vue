@@ -34,6 +34,9 @@ marked.setOptions({
   sanitize: false,
   smartLists: true,
   smartypants: false,
+  highlight: function (code) {
+    return require('highlight.js').highlightAuto(code).value;
+  }
 })
 export default {
   name:'essay',
@@ -52,9 +55,6 @@ export default {
         autosave: true,
         previewRender: function(plainText) {
           return marked(plainText);
-        },
-        highlight: function (code) {
-          return require('highlight.js').highlightAuto(code).value;
         }
       });
       smde.codemirror.on("change", function() {

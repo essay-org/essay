@@ -6,6 +6,7 @@
     </div>
 </template>
 <script>
+import '../../../static/github-markdown/atom-one-light.css';
 export default {
   name: 'articleDetail',
   title() {

@@ -17,7 +17,7 @@ exports.login = function(req, res, next) {
     // 根据用户名查询数据库
     db.find('users', { "query": { "user": username } }, function(err, result) {
       if (err) {
-        res.send('-3');// 内部服务器错误
+        res.send('-3'); // 内部服务器错误
         return;
       }
       if (result.length === 0) {
@@ -51,62 +51,128 @@ exports.publish = function(req, res, next) {
   form.parse(req, function(err, fields, files) {
     var title = fields.title + parseInt(Math.random() * 100);
     var content = fields.content;
-    var tag = fields.tag;
+    var tag;
+    if (fields.tag[0] === '') {
+      tag = ['default']
+    } else {
+      tag = fields.tag;
+    }
     // 插入到数据库
     db.insertOne('infos', {
-      "user": username,
-      "title": title,
-      "content": content,
-      "tag": tag,
-      "date": Date.now()
-    }, function(err, result) {
-      if (err) {
-        // console.log(err)
-        res.send('-5'); //发布失败
+        "user": username,
+        "title": title,
+        "content": content,
+        "tag": tag,
+        "date": 1494777600000
+      }, function(err, result) {
+        if (err) {
+          // console.log(err)
+          res.send('-5'); //发布失败
+          return;
+        }
+        res.send('2'); // 发布成功
         return;
-      }
-      res.send('2'); // 发布成功
-      return;
-    })
-    // 标签更新处理
-    // 思路：先查询，再合并数组去重，再更新
+      })
+      // 标签更新处理
+      // 思路：先查询，再合并数组去重，再更新
     var tags = [];
-    db.find('tags',{},function(err,result){
-      if(err){
+    db.find('tags', {}, function(err, result) {
+      if (err) {
         // console.log(err);
         return;
       }
-      if(!result.length){
+      if (!result.length) {
         // 第一次插入操作
         tags = tag;
-        db.insertOne('tags',{"tags":tags},function(err){
-          if(err){
+        db.insertOne('tags', { "tags": tags }, function(err) {
+          if (err) {
             console.log(err)
           }
         })
-      }else{
-        var newTags = [],getTags=[];
+      } else {
+        var newTags = [],
+          getTags = [];
         tags = result[0].tags;
         newTags = tags.concat(tag)
-        // 去重
+          // 去重
         for (var i = 0; i < newTags.length; i++) {
-          if(getTags.indexOf(newTags[i]) === -1){
+          if (getTags.indexOf(newTags[i]) === -1) {
             getTags.push(newTags[i])
-          }          
+          }
         }
         // 更新
-        db.updateMany('tags',{"tags":tags},{"tags":getTags},function(err,result){
-          if(err){
+        db.updateMany('tags', { "tags": tags }, { "tags": getTags }, function(err, result) {
+          if (err) {
             console.log(err)
           }
         })
       }
-      
+
     })
   })
 }
 
-// 获取某个用户的发布 默认显示所有发布
+exports.archive = function(req, res, next) {
+    // 归档文章
+    var date = req.query.date || '';
+    if (date) {
+      var limit = Number(req.query.limit); // 每页多少条
+      var page = Number(req.query.page); // 分页
+      var sortInfo = Number(req.query.sort) || -1; // 按最新发布
+      var sort = { "date": sortInfo }; // 按最新发布排序
+
+      var year = req.query.date.slice(0, 4);
+      var samllMonth = req.query.date.slice(4) - 1 ;
+      var bigMonth = req.query.date.slice(4);
+      var smallDate = new Date(+year, +samllMonth).getTime() //6月1号
+      var bigDate = new Date(+year, +bigMonth).getTime() // 7月1号
+        // smallDate <= datetime < bigDate
+      db.find('infos', { "query": { "date": { $lt: bigDate, $gte: smallDate } },"limit": limit, "page": page, "sort": sort }, function(err, result) {
+        if (err) {
+          console.log(err);
+          res.json({ "result": [] })
+          return;
+        }
+        res.json({ "result": result })
+      })
+    } else {
+      // 归档信息
+      db.find('infos', { "query": {} }, function(err, result) {
+        if (err) {
+          console.log(err);
+          res.json({ "result": [] })
+          return;
+        }
+        // console.log(result[10])
+        var arr = [],
+          arr2 = [];
+        for (var i = 0; i < result.length; i++) {
+          var year = new Date(result[i].date).getFullYear()
+          var month = new Date(result[i].date).getMonth() + 1
+          var date = `${year}年${month}月`;
+          arr.push(date)
+        }
+
+        arr.sort()
+        for (var i = 0; i < arr.length;) {
+          var count = 0;
+          for (var j = i; j < arr.length; j++) {
+            if (arr[i] === arr[j]) {
+              count++;
+            }
+          }
+          arr2.push({
+            date: arr[i],
+            count: count
+          })
+          i += count;
+        }
+        res.json({ "result": arr2 })
+      })
+    }
+
+  }
+  // 获取某个用户的发布 默认显示所有发布
 exports.people = function(req, res, next) {
   /*var username = req.query.username || false;
   var query = { "user": username };
@@ -170,7 +236,7 @@ exports.tag = function(req, res, next) {
 // 根据标签获取文章
 exports.bytag = function(req, res, next) {
   var tag = [];
-  if(req.query.tag){
+  if (req.query.tag) {
     tag.push(req.query.tag)
   }
   var limit = Number(req.query.limit); // 每页多少条
@@ -196,21 +262,21 @@ exports.bytag = function(req, res, next) {
 // 模糊搜索
 exports.search = function(req, res, next) {
   var info;
-  if(req.query.info){
+  if (req.query.info) {
     info = req.query.info
-  }else{
+  } else {
     info = ''
   }
   var limit = Number(req.query.limit); // 每页多少条
   var page = Number(req.query.page); // 分页
   var sortInfo = Number(req.query.sort) || -1; // 按最新发布
   var sort = { "date": sortInfo }; // 按最新发布排序
-  db.find('infos', { "query": { title: {$regex : ".*"+info+".*"} }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
+  db.find('infos', { "query": { title: { $regex: ".*" + info + ".*" } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
       res.json({ "result": [] });
       return;
     }
-    db.find('infos', { "query": { title: {$regex : ".*"+info+".*"} }}, function(err, result2) {
+    db.find('infos', { "query": { title: { $regex: ".*" + info + ".*" } } }, function(err, result2) {
       if (err) {
         res.json({ "result": [] });
         return;

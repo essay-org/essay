@@ -144,7 +144,7 @@ function render (req, res) {
 
 
 // 获取某用户的文章
-app.get('/api/people',router.people);//http://localhost:8080/api/people?username=q
+app.get('/api/people',router.people);//http://localhost:8080/api/people
 // 获取用户信息
 app.get('/api/userinfo',router.userinfo);//http://localhost:8080/api/userinfo
 // 获取文章详情
@@ -155,6 +155,7 @@ app.get('/api/tag',router.tag);//http://localhost:8080/api/tag
 app.get('/api/bytag',router.bytag);//http://localhost:8080/api/bytag?tag=js
 // 模糊搜索
 app.get('/api/search',router.search);// http://localhost:8080/api/search?info=js
+app.get('/api/archive',router.archive);// http://localhost:8080/api/archive?date=201706
 // 发表文章
 app.post('/api/publish',router.publish);
 // 用户登录

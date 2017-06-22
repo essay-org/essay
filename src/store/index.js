@@ -100,17 +100,13 @@ export function createStore() {
         state.articleList = data.articleList.data.result
         state.number = data.articleList.data.number
         state.intro = data.intro.data.result[0]
-        if (data.tags.data.result.length) {
-          state.tags = data.tags.data.result[0].tags
-        }
+        state.tags = data.tags.data.result
         state.archives = data.archives.data.result
       },
       ARTICLEDATA(state, data) {
         state.article = data.article.data.result[0]
         state.intro = data.intro.data.result[0]
-        if (data.tags.data.result.length) {
-          state.tags = data.tags.data.result[0].tags
-        }
+        state.tags = data.tags.data.result
         state.archives = data.archives.data.result
       },
 
@@ -119,10 +115,7 @@ export function createStore() {
         state.byTag = data.byTag.data.result
         state.byTagNumber = data.byTag.data.number
         state.intro = data.intro.data.result[0]
-        if (data.tags.data.result.length) {
-
-          state.tags = data.tags.data.result[0].tags
-        }
+        state.tags = data.tags.data.result
         state.archives = data.archives.data.result
       },
       SEARCHDATA(state, data) {
@@ -130,9 +123,7 @@ export function createStore() {
         state.searchlist = data.searchlist.data.result
         state.number = data.searchlist.data.number
         state.intro = data.intro.data.result[0]
-        if (data.tags.data.result.length) {
-          state.tags = data.tags.data.result[0].tags
-        }
+        state.tags = data.tags.data.result
         state.archives = data.archives.data.result
       },
 
@@ -140,9 +131,7 @@ export function createStore() {
         state.byArchive = data.byArchive.data.result
         state.byArchiveNumber = data.byArchive.data.number
         state.intro = data.intro.data.result[0]
-        if (data.tags.data.result.length) {
-          state.tags = data.tags.data.result[0].tags
-        }
+        state.tags = data.tags.data.result
         state.archives = data.archives.data.result
       },
       INFOMATIONS(state, data) {

@@ -13,7 +13,7 @@
       </div>
       <div class="btn">
         <button type="button" @click="publish">发布</button>
-        <button type="button">存草稿</button>
+        <button type="button" @click="draft">存草稿</button>
       </div>
     </div>
     <my-footer></my-footer>
@@ -67,7 +67,16 @@ export default {
         this.axios.post('/publish', {
           "title": this.title,
           "content": this.content,
-          "tag": this.trim(this.tag)
+          "tag": this.trim(this.tag),
+          "state":"publish"
+        })
+      },
+      draft() {
+        this.axios.post('/publish', {
+          "title": this.title,
+          "content": this.content,
+          "tag": this.trim(this.tag),
+          "state":"draft"
         })
       },
       trim(str) {

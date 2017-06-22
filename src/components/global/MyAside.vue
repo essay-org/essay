@@ -5,7 +5,7 @@
       <div class="list">
         <ul>
           <li v-for="(item,index) in tags" :key="index">
-            <a @click="byTag(item)">{{item}}</a>
+            <a @click="byTag(item.tag)">{{item.tag}} ({{item.count}})</a>
           </li>
         </ul>
       </div>

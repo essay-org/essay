@@ -129,12 +129,19 @@ body {
   overflow: hidden;
   .tags,
   .archives {
+
+    .icon-iconfontyouhuiquan, 
+    .icon-wodedangan,
     .title {
       font-size: 20px;
       font-style: bold;
-      padding-bottom: 10px;
+      padding-bottom: 5px;
+      margin-right: 10px;
+    }
+    .title {
       border-bottom: 1px solid $border;
     }
+  
     .list {
       li {
         padding: 10px 0;
@@ -166,23 +173,9 @@ body {
       border-top: 1px dashed $border;
     }
     .title {
-      font-size: 20px;
+      font-size: 18px;
       margin: 10px auto;
       display: inline-block;
-      font-weight: bold;
-      width: 600px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      &::before {
-        content: "";
-        display: inline-block;
-        height: 25px;
-        width: 4px;
-        margin-right: 10px;
-        vertical-align: middle;
-        background-color: $link;
-      }
     }
     .content {
       max-height: 100px;
@@ -269,6 +262,17 @@ body {
         text-indent: 1em;
         border: 1px solid #ddd;
         border-radius: 4px;
+      }
+    }
+    .tags {
+      color:#757575;
+      padding:10px 0;
+      span {
+        display: inline-block;
+        margin-left: 10px;
+      }
+      span:nth-child(1) {
+        margin-left: 0;
       }
     }
     .btn {

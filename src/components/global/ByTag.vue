@@ -3,8 +3,7 @@
       <ul class="items">
         <li v-for="(item,index) in data" :key="index" class="item">
           <router-link class="title" :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link>
-          <article class="content markdown-body">{{item.content | formatHtml | cutString(200)}}</article>
-          <span class="date"> {{item.date | formatDate('yyyy-MM-dd hh:mm')}}</span>
+          <article class="content">{{item.content | formatHtml | cutString(200)}}</article>
         </li>
       </ul>
       <div class="page" v-show="maxPage > 1">
@@ -24,9 +23,6 @@ export default {
   beforeMount() {
     this.byTagData()
   },
-  /*beforeDestroy(){
-    this.byTagData()
-  },*/
   computed: {
     data() {
       return this.$store.state.byTag

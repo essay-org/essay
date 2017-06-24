@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { indexdata, articledata, bytagdata, searchdata, byarchivedata } from '../api'
+import { indexdata, articledata, bytagdata, searchdata, byarchivedata,getTags } from '../api'
 
 Vue.use(Vuex)
 
@@ -86,6 +86,11 @@ export function createStore() {
               archives: archives
             })
           }))
+      },
+      GETTAGS({commit,state}) {
+        return getTags().then((data) => {
+          commit('GETTAGS',data)
+        })
       }
     },
     // 同步更新数据的逻辑
@@ -133,6 +138,9 @@ export function createStore() {
         state.intro = data.intro.data.result[0]
         state.tags = data.tags.data.result
         state.archives = data.archives.data.result
+      },
+      GETTAGS(state,data) {
+        state.tags  = data.data.result
       },
       INFOMATIONS(state, data) {
         console.log(data)

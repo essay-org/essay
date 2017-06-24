@@ -8,12 +8,18 @@
       <div class="content">
         <textarea id="editor" placeholder="文章内容" class="markdown-body"></textarea>
       </div>
+      <div class="bottom clearfix">   
       <div class="tag">
         <input type="text" v-model="tag" placeholder="多个标签以英文逗号分隔">
       </div>
       <div class="btn">
         <button type="button" @click="publish">发布</button>
         <button type="button" @click="draft">存草稿</button>
+      </div>
+      </div>
+      <div class="tags">
+        <span>选择已有标签: </span>
+        <span v-for="(item,index) in tags" :key="index" @click="chooseTag(item)"><a>{{item.tag}}</a></span>
       </div>
     </div>
     <my-footer></my-footer>
@@ -81,11 +87,22 @@ export default {
       },
       trim(str) {
         return str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',');
+      },
+      chooseTag(item) {
+        this.tag = this.tag + item.tag + ',';
       }
     },
     components: {
       MyHeader,
       MyFooter
+    },
+    computed: {
+      tags(){
+        return this.$store.state.tags
+      }
+    },
+    asyncData({store,route}) {
+      return store.dispatch('GETTAGS')
     }
 }
 </script>

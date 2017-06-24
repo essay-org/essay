@@ -45,6 +45,11 @@ function byarchive(date,id) {
   return axios.get(`/byarchive?date=${date}&limit=15&page=${id}`)
 }
 
+/* ============================ */
+export function getTags() {
+  return axios.get('/tag')
+}
+
 /* ============================= */
 // 文章列表 
 export function indexdata(id) {
@@ -71,3 +76,4 @@ export function searchdata(info,id) {
 export function byarchivedata(date,id) {
   return axios.all([byarchive(date,id), intro(),tags(),archives()])
 }
+

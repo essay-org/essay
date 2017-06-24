@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="category">
     <my-header></my-header>
     <div class="container clearfix">
       <my-aside></my-aside>
@@ -14,7 +14,7 @@ import MyAside from '../components/global/MyAside.vue';
 import ArticleList from '../components/global/ArticleList.vue';
 import MyFooter from '../components/global/MyFooter.vue';
 export default {
-  name: 'index',
+  name: 'List',
   components: {
     MyHeader,
     MyAside,

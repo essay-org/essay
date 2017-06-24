@@ -36,9 +36,9 @@ export default {
   methods: {
     byTag(item) {
       this.$router.push({
-        name: 'categoryTag',
+        name: 'category',
         params: {
-          tag: item
+          change: item
         }
       })
     },
@@ -49,12 +49,11 @@ export default {
       if(month.length === 1) {
         month = '0'+month;
       }
-      var dateParam = year + month
-      // console.log(dateParam)
+      var date = year + month
       this.$router.push({
-        name:'archiveDate',
+        name:'archive',
         params: {
-          date:dateParam
+          change:date
         }
       })
     }

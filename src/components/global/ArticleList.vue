@@ -7,12 +7,20 @@
         <!-- <span class="date"> {{item.date | formatDate('yyyy-MM-dd hh:mm')}}</span> -->
       </li>
     </ul>
+    <div class="tips" v-if="data.length === 0 && this.$route.name === 'search'">
+      <p>没有搜索到和<strong>{{ change }}</strong>相关的信息！</p>
+    </div>
+    <div class="tips" v-if="data.length === 0 && this.$route.name !== 'search'">
+      <p>哇哦，一篇文章都没有!</p>
+    </div>
+
     <div class="page" v-show="maxPage > 1">
-      <router-link v-if="page > 1" :to="{name:'index',params:{id:page - 1}}" class="prev">《上一页</router-link>
+      <router-link v-if="page > 1" :to="{name:type,params:{change:change,page:page - 1}}" class="prev">《上一页</router-link>
       <a v-else class="disabled prev">《上一页</a>
-      <router-link v-if="hasMore" :to="{name:'index',params:{id:page + 1}}" class="next">下一页》</router-link>
+      <router-link v-if="hasMore" :to="{name:type,params:{change:change,page:page + 1}}" class="next">下一页》</router-link>
       <a v-else class="disabled next">下一页》</a>
     </div>
+
   </div>
 </template>
 <script>
@@ -23,19 +31,22 @@ export default {
   },
   beforeMount() {
     if (this.$root._isMounted) {
-      this.indexdata()
+      this.listdata()
     }
   },
+  props:['type'],
   computed: {
     data() {
-      // console.log(this.$store.state.articleList[0].content)
       return this.$store.state.articleList
     },
     maxPage() {
       return Math.ceil(Number(this.$store.state.number) / 15)
     },
+    change(){
+      return this.$route.params.change;
+    },
     page() {
-      return Number(this.$route.params.id) || 1
+      return Number(this.$route.params.page) || 1
     },
     hasMore() {
       return this.page < this.maxPage;
@@ -43,12 +54,12 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.indexdata()
+      this.listdata()
     }
   },
   methods: {
-    indexdata() {
-      this.$store.dispatch('INDEXDATA')
+    listdata() {
+      this.$store.dispatch('LISTDATA')
     }
   }
 }

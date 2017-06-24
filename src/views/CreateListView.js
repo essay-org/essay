@@ -1,31 +1,5 @@
-import index from '../views/Index.vue'
-import category from '../views/Category.vue'
 import article from '../views/Article.vue'
-import search from '../views/Search.vue'
-import archive from '../views/Archive.vue'
-export function Index(type) {
-  return {
-    name: `${type}-stories-view`,
-    asyncData({ store }) {
-      return store.dispatch('INDEXDATA')
-    },
-    render(h) {
-      return h(index)
-    }
-  }
-}
-
-export function Category(type) {
-  return {
-    name: `${type}-stories-view`,
-    asyncData({ store }) {
-      return store.dispatch('BYTAGDATA')
-    },
-    render(h) {
-      return h(category)
-    }
-  }
-}
+import list from '../views/List.vue'
 
 export function Article(type) {
   return {
@@ -39,26 +13,15 @@ export function Article(type) {
   }
 }
 
-export function Search(type) {
-  return {
-    name: `${type}-stories-view`,
-    asyncData({ store }) {
-      return store.dispatch('SEARCHDATA')
-    },
-    render(h) {
-      return h(search)
-    }
-  }
-}
 
-export function Archive(type) {
+export function List(type) {
   return {
     name: `${type}-stories-view`,
     asyncData({ store }) {
-      return store.dispatch('ARCHIVEDATA')
+      return store.dispatch('LISTDATA')
     },
     render(h) {
-      return h(archive)
+      return h(list,{ props: { type }})
     }
   }
 }

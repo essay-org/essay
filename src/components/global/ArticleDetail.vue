@@ -6,7 +6,6 @@
     </div>
 </template>
 <script>
-import '../../../static/github-markdown/atom-one-light.css';
 export default {
   name: 'articleDetail',
   title() {
@@ -14,7 +13,7 @@ export default {
   },
   computed: {
     article() {
-      return this.$store.state.article
+      return this.$store.state.articleDetail
     }
   },
   methods: {

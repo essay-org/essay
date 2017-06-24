@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
   // 需要渲染数据的组件
-import { Index, Category, Article, Search, Archive } from '../views/CreateListView'
+import {Article, List } from '../views/CreateListView'
 // 不需要渲染数据的组件
 const Login = () =>
   import ('../views/Login.vue')
@@ -16,9 +16,9 @@ export function createRouter() {
     linkActiveClass: 'current',
     scrollBehavior: () => ({ y: 0 }),
     routes: [{
-      path: '/index/:id?',
+      path: '/index/:page?',
       name: 'index',
-      component: Index('index'),
+      component: List('index'),
     }, {
       path: '/login',
       name: 'login',
@@ -31,47 +31,17 @@ export function createRouter() {
       },
       component: Essay
     }, {
-      path: '/category',
+      path: '/category/:change?/:page?',
       name: 'category',
-      children: [{
-        path: ':tag?',
-        name: 'categoryTag',
-        component: Category('category'),
-        children: [{
-          path: ':id?',
-          name: 'categoryID',
-          component: Category('category'),
-        }]
-      }],
-      component: Category('category')
+      component: List('category')
     }, {
-      path: '/search',
+      path: '/search/:change?/:page?',
       name: 'search',
-      children: [{
-        path: ':info?',
-        name: 'searchInfo',
-        component: Search('search'),
-        children: [{
-          path: ':id?',
-          name: 'searchID',
-          component: Search('search')
-        }]
-      }],
-      component: Search('search')
+      component: List('search')
     }, {
-      path: '/archive',
+      path: '/archive/:change?/:page?',
       name: 'archive',
-      children: [{
-        path: ':date?',
-        name: 'archiveDate',
-        component: Archive('archive'),
-        children: [{
-          path: ':id?',
-          name: 'archiveID',
-          component: Archive('archive'),
-        }]
-      }],
-      component: Archive('archive')
+      component: List('archive')
     }, {
       path: '/article/:id',
       name: 'article',

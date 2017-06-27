@@ -1,5 +1,5 @@
 <template>
-  <div class="category">
+  <div class="list">
     <my-header></my-header>
     <div class="container clearfix">
       <my-aside></my-aside>

@@ -5,7 +5,7 @@ $disabledLink:#666;
 $navBgc:#33363B;
 $navColor:#C8C9CA;
 $navBorder:#3D4045;
-$tagBgc:#f8f8f8;
+$asideBgc:#f8f8f8;
 $headerBgc:#26272B;
 html,
 body {
@@ -17,10 +17,8 @@ body {
   margin: 0 auto;
 }
 
-.index,
 .article,
-.category,
-.search {
+.list {
   .container {
     overflow: hidden;
     margin-bottom: 30px;
@@ -123,14 +121,13 @@ body {
   float: right;
   width: 340px;
   height: auto !important;
-  background-color: $tagBgc;
+  background-color: $asideBgc;
   padding: 15px 15px 9999px;
   margin-bottom: -9999px;
   overflow: hidden;
   .tags,
   .archives {
-
-    .icon-iconfontyouhuiquan, 
+    .icon-iconfontyouhuiquan,
     .icon-wodedangan,
     .title {
       font-size: 20px;
@@ -141,7 +138,6 @@ body {
     .title {
       border-bottom: 1px solid $border;
     }
-  
     .list {
       li {
         padding: 10px 0;
@@ -263,8 +259,8 @@ body {
       }
     }
     .tags {
-      color:#757575;
-      padding:10px 0;
+      color: #757575;
+      padding: 10px 0;
       span {
         display: inline-block;
         margin-left: 10px;
@@ -364,6 +360,88 @@ body {
       text-align: center;
       font-size: 14px;
       color: #666;
+    }
+  }
+}
+
+
+/* 管理后台 */
+
+.admin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .left {
+    width: 180px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    overflow: hidden;
+    .menu {
+      min-height: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: -17px;
+      overflow-y: scroll;
+      background-color: $navBgc;
+      h3 {
+        color: $navColor;
+        text-align: center;
+        padding: 10px 0;
+      }
+      li {
+        a {
+          display: block;
+          padding: 10px 20px;
+          color: $navColor;
+          text-decoration: none;
+          &:hover {
+            background-color: rgba(0, 0, 0, .1);
+          }
+        }
+      }
+      .tag {
+        h4 {
+          padding: 10px 20px;
+          color: $navColor;
+          background-color: $headerBgc;
+        }
+        a {
+          padding-left: 30px;
+        }
+      }
+    }
+  }
+  .content {
+    position: relative;
+    min-height: 100%;
+    margin-left: 180px;
+    // width: 100%;
+    .article {
+      padding: 20px 30px;
+    }
+    table {
+      width: 100%;
+      overflow: hidden;
+      border-collapse: collapse;
+      border-spacing: 0;
+      thead tr {
+        background-color: $border;
+        th {
+          text-align: left;
+        }
+      }
+      tbody tr {
+        border-bottom: 1px solid $border;
+      }
+      td,
+      th {
+        padding: 10px 15px;
+      }
     }
   }
 }

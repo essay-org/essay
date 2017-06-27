@@ -9,7 +9,7 @@ const Login = () =>
 const Essay = () =>
   import ('../views/Essay.vue')
 const Admin = () =>
-  import ('../views/Admin.vue')
+  import ('../views/admin/Admin.vue')
 export function createRouter() {
   return new Router({
     mode: 'history',

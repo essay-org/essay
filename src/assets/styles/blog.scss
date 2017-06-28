@@ -182,6 +182,8 @@ body {
       font-size: 14px;
     }
   }
+}
+
   .page {
     position: relative;
     width: 100%;
@@ -203,8 +205,6 @@ body {
       text-decoration: none;
     }
   }
-}
-
 .article-list {
   .tips {
     font-size: 20px;
@@ -441,6 +441,12 @@ body {
       td,
       th {
         padding: 10px 15px;
+      }
+      td:nth-child(1) {
+        width: 70% !important;
+      }
+      .draft {
+        color:red;
       }
     }
   }

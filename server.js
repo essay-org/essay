@@ -155,8 +155,14 @@ app.get('/api/tag',router.tag);//http://localhost:8080/api/tag
 app.get('/api/bytag',router.bytag);//http://localhost:8080/api/bytag?tag=js
 // 模糊搜索
 app.get('/api/search',router.search);// http://localhost:8080/api/search?info=js
+// 归档统计
 app.get('/api/archive',router.archive);// http://localhost:8080/api/archive
-app.get('/api/byArchive',router.byarchive);// http://localhost:8080/api/archive?date=201706
+// 通过归档日期获取文章
+app.get('/api/byarchive',router.byarchive);// http://localhost:8080/api/archive?date=201706
+// 后台管理数据
+app.get('/api/allarticle',router.allarticle);
+// 删除文章
+app.post('/api/delete',router.delete);// http://localhost:8080/api/delete?id=1496841740682
 // 发表文章
 app.post('/api/publish',router.publish);
 // 用户登录

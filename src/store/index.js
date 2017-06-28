@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { indexdata, articledata, bytagdata, searchdata, byarchivedata, getTags } from '../api'
+import { indexdata, articledata, bytagdata, searchdata, byarchivedata, getTags,allarticle } from '../api'
 
 Vue.use(Vuex)
 
@@ -15,6 +15,7 @@ export function createStore() {
       number: '',
       tags: [],
       archives: [],
+      allArticle:null
     },
     // 通过异步请求的逻辑在这里
     actions: {
@@ -92,7 +93,14 @@ export function createStore() {
         return getTags().then((data) => {
           commit('GETTAGS', data)
         })
-      }
+      },
+      // 后台数据
+      ALLARTICLE({commit,state}) {
+        var id = state.route.params.page;
+        return allarticle(id).then((data) => {
+          commit('ALLARTICLE',data)
+        })
+      },
     },
     // 同步更新数据的逻辑
     mutations: {
@@ -142,6 +150,9 @@ export function createStore() {
       },
       GETTAGS(state, data) {
         state.tags = data.data.result
+      },
+      ALLARTICLE(state,data) {
+        state.allArticle = data.data
       },
       INFOMATIONS(state, data) {
         console.log(data)

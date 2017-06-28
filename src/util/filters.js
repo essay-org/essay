@@ -81,3 +81,12 @@ export function cutString(str, len) {
 export function formatHtml(str){
   return str.replace(/<.*?>/g,'')
 }
+
+export function status(str) {
+  if (str === 'publish'){
+    return '发布'
+  }
+  if(str === 'draft') {
+    return '草稿'
+  }
+}

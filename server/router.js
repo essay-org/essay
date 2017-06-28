@@ -304,3 +304,37 @@ exports.article = function(req, res, next) {
     res.json({ "result": result })
   })
 }
+
+// 后台数据
+exports.allarticle = function(req, res, next) {
+  let limit = Number(req.query.limit); // 每页多少条
+  let page = Number(req.query.page); // 分页
+  let sortInfo = Number(req.query.sort) || -1; // 按最新发布
+  let sort = { "date": sortInfo }; // 按最新发布排序
+  db.find('infos', { "query": {}, "limit": limit, "page": page, "sort": sort }, function(err, result) {
+    if (err) {
+      res.json({ "result": [] });
+      return;
+    }
+    db.find('infos', { "query": {} }, function(err, result2) {
+      if (err) {
+        res.json({ "result": [] });
+        return;
+      }
+      result2 = { "result": result, "number": result2.length }
+      res.json(result2)
+    })
+  })
+}
+
+// 删除文章
+exports.delete  = function(req,res,next) {
+  var id = Number(req.query.id) || ''; 
+  db.deleteMany('infos',{date:id},function(err,result){
+    if(err){
+      console.log(err);
+      return;
+    }
+    res.send('删除成功')
+  })
+} 

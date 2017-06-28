@@ -2,14 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
   // 需要渲染数据的组件
-import {Article, List } from '../views/CreateListView'
+import {Article, List, Admin } from '../views/CreateListView'
 // 不需要渲染数据的组件
 const Login = () =>
   import ('../views/Login.vue')
 const Essay = () =>
   import ('../views/Essay.vue')
-const Admin = () =>
-  import ('../views/admin/Admin.vue')
+
+const Publish = () =>
+  import ('../views/admin/Publish.vue')
+const Edit = () =>
+  import ('../views/admin/Edit.vue')
 export function createRouter() {
   return new Router({
     mode: 'history',
@@ -47,13 +50,27 @@ export function createRouter() {
       name: 'article',
       component: Article('article')
     }, {
-      path: '/admin',
+      path: '/admin/:page?',
       name: 'admin',
       meta: {
         Auth: true, // 需要登录
       },
-      component: Admin
+      component: Admin('admin')
     }, {
+      path:'/adminpublish',
+      name:'adminpublish',
+      meta:{
+        Auth:true,
+      },
+      component: Publish
+    },{
+      path:'/adminedit',
+      name:'adminedit',
+      meta:{
+        Auth:true,
+      },
+      component: Edit
+    },{
       path: '/',
       name: '404',
       redirect: '/index'

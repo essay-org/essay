@@ -77,3 +77,6 @@ export function byarchivedata(date,id) {
   return axios.all([byarchive(date,id), intro(),tags(),archives()])
 }
 
+export function allarticle(id) {
+  return axios.get(`/allarticle?limit=15&page=${id}`)
+}

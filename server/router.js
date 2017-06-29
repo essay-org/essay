@@ -335,6 +335,22 @@ exports.delete  = function(req,res,next) {
       console.log(err);
       return;
     }
-    res.send('删除成功')
+    res.send('4')
   })
 } 
+
+// 个人信息更新
+exports.updateadmin = function(req,res,next){
+  let form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files) {
+    let newJson = fields.new;
+    let oldJson = fields.old;
+    db.updateMany('users',oldJson,newJson,function(err,result){
+      if(err) {
+        res.send('-6');
+        return;
+      }
+      res.send('5');
+    })
+  })
+}

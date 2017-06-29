@@ -6,8 +6,6 @@ import {Article, List, Admin } from '../views/CreateListView'
 // 不需要渲染数据的组件
 const Login = () =>
   import ('../views/Login.vue')
-const Essay = () =>
-  import ('../views/Essay.vue')
 
 const Publish = () =>
   import ('../views/admin/Publish.vue')
@@ -26,13 +24,6 @@ export function createRouter() {
       path: '/login',
       name: 'login',
       component: Login
-    }, {
-      path: '/essay',
-      name: 'essay',
-      meta: {
-        Auth: true, // 需要登录
-      },
-      component: Essay
     }, {
       path: '/category/:change?/:page?',
       name: 'category',

@@ -59,7 +59,7 @@ exports.insertOne = function(collectionName, json, callback) {
         db.close();
         return;
       }
-      // results = { "result": results }
+    
       callback(err, result);
       db.close();
     })
@@ -87,8 +87,6 @@ exports.find = function(collectionName, queryJson, callback) {
           db.close();
           return;
         }
-        // var all =  db.collection(collectionName).find({});
-        
         callback(err, results);
         db.close();
       })
@@ -105,7 +103,7 @@ exports.deleteMany = function(collectionName, json, callback) {
         db.close();
         return;
       }
-      // results = { "result": results }
+    
       callback(err, results);
       db.close();
     });
@@ -127,7 +125,7 @@ exports.updateMany = function(collectionName, jsonOld, jsonNew, callback) {
           db.close();
           return;
         }
-        // results = { "result": results }
+      
         callback(err, results);
         db.close();
       });

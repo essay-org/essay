@@ -49,7 +49,12 @@ function byarchive(date,id) {
 export function getTags() {
   return axios.get('/tag')
 }
-
+export function getIntro() {
+  return axios.get('/userinfo')
+}
+export function allarticle(id) {
+  return axios.get(`/allarticle?limit=15&page=${id}`)
+}
 /* ============================= */
 // 文章列表 
 export function indexdata(id) {
@@ -75,8 +80,4 @@ export function searchdata(info,id) {
 // 归档文章
 export function byarchivedata(date,id) {
   return axios.all([byarchive(date,id), intro(),tags(),archives()])
-}
-
-export function allarticle(id) {
-  return axios.get(`/allarticle?limit=15&page=${id}`)
 }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { indexdata, articledata, bytagdata, searchdata, byarchivedata, getTags,allarticle } from '../api'
+import { indexdata, articledata, bytagdata, searchdata, byarchivedata, getTags,allarticle,getIntro } from '../api'
 
 Vue.use(Vuex)
 
@@ -94,6 +94,11 @@ export function createStore() {
           commit('GETTAGS', data)
         })
       },
+      GETINTRO({commit,state}) {
+        return getIntro().then((data) => {
+          commit('GETINTRO',data)
+        })
+      },
       // 后台数据
       ALLARTICLE({commit,state}) {
         var id = state.route.params.page;
@@ -150,6 +155,9 @@ export function createStore() {
       },
       GETTAGS(state, data) {
         state.tags = data.data.result
+      },
+      GETINTRO(state,data) {
+        state.intro = data.data.result[0]
       },
       ALLARTICLE(state,data) {
         state.allArticle = data.data

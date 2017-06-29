@@ -36,6 +36,12 @@ axios.interceptors.response.use(
       case 3:
         store.commit('INFOMATIONS', '文章发布成功')
         break;
+      case 4:
+        store.commit('INFOMATIONS', '文章删除成功')
+        break;
+      case 5:
+        store.commit('INFOMATIONS', '信息修改成功')
+        break;
       case -1:
         store.commit('INFOMATIONS', '登录时内部服务器错误')
         break;
@@ -50,6 +56,10 @@ axios.interceptors.response.use(
         break;
       case -5:
         store.commit('INFOMATIONS', '发布或保存文章失败')
+        break;
+
+      case -6:
+        store.commit('INFOMATIONS', '信息修改失败')
         break;
     }
 

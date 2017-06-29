@@ -9,9 +9,13 @@ $asideBgc:#f8f8f8;
 $headerBgc:#26272B;
 html,
 body {
+  height: 100%;
+  width: 100%;
   background-color: $bgc;
 }
-
+#app {
+  height:100%;
+}
 .container {
   width: 1120px;
   margin: 0 auto;
@@ -184,27 +188,28 @@ body {
   }
 }
 
-  .page {
-    position: relative;
-    width: 100%;
-    .prev,
-    .next {
-      width: 50%;
-      display: inline-block;
-      padding: 20px 0;
-    }
-    .next {
-      text-align: right;
-    }
-    .prev {
-      text-align: left;
-    }
-    .disabled {
-      cursor: not-allowed;
-      color: $disabledLink;
-      text-decoration: none;
-    }
+.page {
+  position: relative;
+  width: 100%;
+  .prev,
+  .next {
+    width: 50%;
+    display: inline-block;
+    padding: 20px 0;
   }
+  .next {
+    text-align: right;
+  }
+  .prev {
+    text-align: left;
+  }
+  .disabled {
+    cursor: not-allowed;
+    color: $disabledLink;
+    text-decoration: none;
+  }
+}
+
 .article-list {
   .tips {
     font-size: 20px;
@@ -227,65 +232,6 @@ body {
   }
   .content {
     margin-bottom: 20px;
-  }
-}
-
-.essay {
-  .form {
-    background-color: #fff;
-    padding: 10px 15px;
-    margin-bottom: 20px;
-    .title {
-      input[type="text"] {
-        display: block;
-        width: 100%;
-        height: 40px;
-        line-height: 1;
-        text-indent: 1em;
-        margin-bottom: 20px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-      }
-    }
-    .tag {
-      input[type="text"] {
-        float: left;
-        width: 400px;
-        height: 40px;
-        line-height: 1;
-        text-indent: 1em;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-      }
-    }
-    .tags {
-      color: #757575;
-      padding: 10px 0;
-      span {
-        display: inline-block;
-        margin-left: 10px;
-      }
-      span:nth-child(1) {
-        margin-left: 0;
-      }
-    }
-    .btn {
-      float: right;
-      width: 200px;
-      button:nth-child(1),
-      button:nth-child(2) {
-        float: right;
-        padding: 8px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-        border: 1px solid transparent;
-      }
-      button:nth-child(1) {
-        background-color: #24292E;
-        margin-left: 20px;
-        color: #fff;
-      }
-    }
   }
 }
 
@@ -377,7 +323,6 @@ body {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 1001;
     overflow: hidden;
     .menu {
       min-height: 100%;
@@ -420,34 +365,130 @@ body {
     position: relative;
     min-height: 100%;
     margin-left: 180px;
-    // width: 100%;
-    .article {
-      padding: 20px 30px;
-    }
-    table {
-      width: 100%;
-      overflow: hidden;
-      border-collapse: collapse;
-      border-spacing: 0;
-      thead tr {
-        background-color: $border;
-        th {
-          text-align: left;
-        }
-      }
-      tbody tr {
-        border-bottom: 1px solid $border;
-      }
-      td,
+    background-color: #fff;
+  }
+}
+
+.article {
+  padding: 30px 15px;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    thead tr {
+      background-color: $border;
       th {
-        padding: 10px 15px;
-      }
-      td:nth-child(1) {
-        width: 70% !important;
-      }
-      .draft {
-        color:red;
+        text-align: left;
       }
     }
+    tbody tr {
+      border-bottom: 1px solid $border;
+    }
+    td,
+    th {
+      padding: 10px 15px;
+    }
+    td:nth-child(1) {
+      width: 70% !important;
+    }
+    .draft {
+      color: red;
+    }
+  }
+}
+
+.essay {
+  width: 100%;
+  background-color: #fff;
+  .form {
+    padding: 30px 15px;
+    .title {
+      input[type="text"] {
+        display: block;
+        width: 100%;
+        height: 40px;
+        line-height: 1;
+        text-indent: 1em;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+    }
+    .tag {
+      input[type="text"] {
+        float: left;
+        width: 400px;
+        height: 40px;
+        line-height: 1;
+        text-indent: 1em;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+    }
+    .tags {
+      color: #757575;
+      padding: 10px 0;
+      span {
+        display: inline-block;
+        margin-left: 10px;
+      }
+      span:nth-child(1) {
+        margin-left: 0;
+      }
+    }
+    .btn {
+      float: right;
+      width: 200px;
+      button:nth-child(1),
+      button:nth-child(2) {
+        float: right;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 1px solid transparent;
+      }
+      button:nth-child(1) {
+        background-color: #24292E;
+        margin-left: 20px;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.edit {
+  // position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  .avatar {
+    padding: 30px;
+    text-align: center;
+    img {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+  }
+  .nickname,
+  .intro {
+    padding-bottom: 30px;
+    input[type="text"] {
+      display: inline-block;
+      height: 40px;
+      width: 400px;
+      border: 1px solid $border;
+      border-radius: 4px;
+      text-indent: 1em;
+    }
+  }
+  button[type="button"] {
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background-color: $navBgc;
+    color:#fff;
   }
 }

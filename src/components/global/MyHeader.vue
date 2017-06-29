@@ -29,7 +29,7 @@ export default {
         path: '/'
       }, {
         name: '新随笔',
-        path: '/essay',
+        path: '/adminpublish',
       }, {
         name: '管理',
         path: '/admin'

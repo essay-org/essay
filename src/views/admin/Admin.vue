@@ -7,6 +7,7 @@
           <thead>
             <tr>
               <th>标题</th>
+              <th>日期</th>
               <th>状态</th>
               <th>操作</th>
               <th>操作</th>
@@ -15,6 +16,7 @@
           <tbody>
             <tr v-for="(item,index) in data">
               <td><router-link :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link></td>
+              <td>{{item.date | formatDate('yyyy-MM-dd')}}</td>
               <td :class="{'draft':item.state === 'draft'}">{{item.state | status}}</td>
               <td><a>编辑</a></td>
               <td><a @click="del(item)">删除</a></td>

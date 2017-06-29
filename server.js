@@ -167,6 +167,8 @@ app.post('/api/delete',router.delete);// http://localhost:8080/api/delete?id=149
 app.post('/api/publish',router.publish);
 // 用户登录
 app.post('/api/login',router.login);
+// 更新管理员信息
+app.post('/api/updateadmin',router.updateadmin)
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })

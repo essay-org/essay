@@ -4,7 +4,7 @@
 var md5 = require('./md5.js');
 var user = 'q';
 var pass = md5('q');
-var avatar = 'default.jpg';//头像
+var avatar = 'avatar.jpg';//头像
 var intro ='Never too old to learn';
 var nickname = 'VueBlog';
 module.exports = {

@@ -9,8 +9,12 @@ const Login = () =>
 
 const Publish = () =>
   import ('../views/admin/Publish.vue')
+
 const Edit = () =>
   import ('../views/admin/Edit.vue')
+
+const EditArticle = () =>
+  import ('../views/admin/EditArticle.vue')
 export function createRouter() {
   return new Router({
     mode: 'history',
@@ -61,6 +65,13 @@ export function createRouter() {
         Auth:true,
       },
       component: Edit
+    },{
+      path:'/editarticle',
+      name:'editarticle',
+      meta:{
+        Auth:true,
+      },
+      component: EditArticle
     },{
       path: '/',
       name: '404',

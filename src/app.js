@@ -43,7 +43,7 @@ axios.interceptors.response.use(
         store.commit('INFOMATIONS', '信息修改成功')
         break;
       case -1:
-        store.commit('INFOMATIONS', '登录时内部服务器错误')
+        store.commit('INFOMATIONS', '内部服务器错误')
         break;
       case -2:
         store.commit('INFOMATIONS', '用户名不存在')
@@ -61,23 +61,20 @@ axios.interceptors.response.use(
       case -6:
         store.commit('INFOMATIONS', '信息修改失败')
         break;
+      case -7:
+        store.commit('INFOMATIONS', '图片应该小于1M')
+        break;
+      case -8:
+        store.commit('INFOMATIONS', '头像修改失败')
+        break;
+        
     }
 
     return response;
   },
   error => {
     if (error.response) {
-      // this.$router.push({name:'login'})
-      // console.log(error.response)
-      switch (error.response.status) {
-        case 401:
-          // 401 清除token信息并跳转到登录页面
-          store.commit('LOGOUT');
-          router.replace({
-              path: '/login',
-              query: {redirect: router.currentRoute.fullPath}
-          })
-      }
+      // console.log(error.response.status)
     }
     return Promise.reject(error.response.data)
   });

@@ -55,6 +55,7 @@ export default {
       }
     },
     mounted() {
+      var that = this;
       var smde = new SimpleMDE({
         element: document.getElementById('editor'),
         autosave: true,

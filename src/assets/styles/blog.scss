@@ -464,10 +464,13 @@ body {
   .avatar {
     padding: 30px;
     text-align: center;
+    .img,
     img {
+      position: relative;
       display: inline-block;
       width: 100px;
       height: 100px;
+      z-index: 10;
       border-radius: 50%;
     }
   }

@@ -168,7 +168,9 @@ app.post('/api/publish',router.publish);
 // 用户登录
 app.post('/api/login',router.login);
 // 更新管理员信息
-app.post('/api/updateadmin',router.updateadmin)
+app.post('/api/updateadmin',router.updateadmin);
+// 修改头像
+app.post('/api/setavatar',router.setavatar);
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })

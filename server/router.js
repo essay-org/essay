@@ -180,7 +180,7 @@ exports.people = function(req, res, next) {
 
 // 获取管理员信息
 exports.userinfo = function(req, res, next) {
-
+  let path = req.protocol + '://' + req.headers.host + '/public/'
   db.find('users', { "query": {} }, function(err, result) {
     if (err) {
       // console.log(err)
@@ -189,6 +189,7 @@ exports.userinfo = function(req, res, next) {
     }
     for (let i = 0; i < result.length; i++) {
       delete result[i].pass
+      result[i].avatar = path + result[i].avatar
     }
 
     res.json({ "result": result })
@@ -328,29 +329,69 @@ exports.allarticle = function(req, res, next) {
 }
 
 // 删除文章
-exports.delete  = function(req,res,next) {
-  var id = Number(req.query.id) || ''; 
-  db.deleteMany('infos',{date:id},function(err,result){
-    if(err){
+exports.delete = function(req, res, next) {
+  let id = Number(req.query.id) || '';
+  db.deleteMany('infos', { date: id }, function(err, result) {
+    if (err) {
       console.log(err);
       return;
     }
     res.send('4')
   })
-} 
+}
 
 // 个人信息更新
-exports.updateadmin = function(req,res,next){
+exports.updateadmin = function(req, res, next) {
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     let newJson = fields.new;
     let oldJson = fields.old;
-    db.updateMany('users',oldJson,newJson,function(err,result){
-      if(err) {
+    db.updateMany('users', oldJson, newJson, function(err, result) {
+      if (err) {
         res.send('-6');
         return;
       }
       res.send('5');
     })
   })
+}
+
+// 用户头像修改
+exports.setavatar = function(req, res, next) {
+  let form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files) {
+    if (err) {
+      res.send('-1');
+      return;
+    }
+
+    // 限制文件大小 单位默认字节 这里限制大小为1m
+    if (files.avatar.size / 1024 > 1024) {
+      res.send('-7');
+      fs.unlink(files.avatar.path);
+      return;
+    }
+    // 获取后缀名
+    let extname = path.extname(files.avatar.name);
+    let oldpath = files.avatar.path;
+    let newpath = './public/avatar' + extname;
+    let userName = localStorage.getItem('token');
+    let avatarName = 'avatar' + extname;
+    // 更改名字和路径
+    fs.rename(oldpath, newpath, function(err) {
+      if (err) {
+        res.send('-1');
+        return;
+      }
+    })
+
+    db.updateMany('users', { "user": userName }, { "avatar": avatarName },
+      function(err, result) {
+        if (err) {
+          res.send('-8'); //修改失败
+          return;
+        }
+        res.redirect('/adminedit')
+      })
+  });
 }

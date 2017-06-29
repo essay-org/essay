@@ -4,7 +4,13 @@
     <div class="content">
       <div class="edit">
         <div class="avatar">
-          <img src="../../../public/avatar.jpg" height="239" width="239" alt="">
+          <!-- 后期改为使用ajax提交 -->
+          <form action="/api/setavatar" method="post" enctype="multipart/form-data" ref="avatarForm">
+            <div class="img"> 
+            <img :src="avatar" @click="setAvatar">
+            </div>
+            <input type="file" name="avatar" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="avatarInput">
+          </form>
         </div>
         <div class="nickname">
           <label for="nickname">昵称：</label>
@@ -30,7 +36,8 @@ export default {
         user: this.$store.state.intro.user,
         avatar: this.$store.state.intro.avatar,
         intro: this.$store.state.intro.intro,
-        nickname: this.$store.state.intro.nickname
+        nickname: this.$store.state.intro.nickname,
+        newAvatar: ''
       }
     },
     components: {
@@ -43,11 +50,34 @@ export default {
             user: this.user
           },
           new: {
-            avatar: this.avatar,
             intro: this.intro,
             nickname: this.nickname
           }
+
+        }).then((result) => {
+          this.$refs.avatarForm.submit()
+          /*var image = new FormData()
+          image.append('avatar', this.$refs.avatarInput.files[0] || this.avatar)
+          this.axios.post('/setavatar', {
+            newAvatar: image,
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          })*/
         })
+      },
+      setAvatar() {
+        this.$refs.avatarInput.click()
+      },
+      changeImage(e) {
+
+        var file = e.target.files[0]
+        var reader = new FileReader()
+        var that = this
+        reader.readAsDataURL(file)
+        reader.onload = function(e) {
+          that.avatar = this.result
+        }
       }
     },
     asyncData({

@@ -10,26 +10,26 @@ const config = merge(base, {
     app: './src/entry-client.js'
   },
   plugins: [
-    // strip dev-only code in Vue source
+    // 在Vue源中剥离dev-only代码
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"client"'
     }),
-    // extract vendor chunks for better caching
+    // 提取vendor chunk，以便更好的缓存
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module) {
-        // a module is extracted into the vendor chunk if...
+        // 一个模块被提取到vendor chunk
         return (
-          // it's inside node_modules
+          // 内部 node_modules
           /node_modules/.test(module.context) &&
-          // and not a CSS file (due to extract-text-webpack-plugin limitation)
+          // 非 CSS 文件 (由于 extract-text-webpack-plugin 限制)
           !/\.css$/.test(module.request)
         )
       }
     }),
-    // extract webpack runtime & manifest to avoid vendor chunk hash changing
-    // on every build.
+
+    // 提取webpack runtime 和 manifest，以避免vendor chunk hash变化在每个构建
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
@@ -39,22 +39,18 @@ const config = merge(base, {
 
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
-    // auto generate service worker
+    // 自动生成 service worker
     new SWPrecachePlugin({
       cacheId: 'vue-hn',
       filename: 'service-worker.js',
       dontCacheBustUrlsMatching: /./,
       staticFileGlobsIgnorePatterns: [/\.map$/, /\.json$/],
-      /*runtimeCaching: [
+      runtimeCaching: [
         {
           urlPattern: '/',
           handler: 'networkFirst'
-        },
-        {
-          urlPattern: '/:id',
-          handler: 'networkFirst'
         }
-      ]*/
+      ]
     })
   )
 }

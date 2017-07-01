@@ -3,7 +3,6 @@ let db = require('./db.js');
 let formidable = require('formidable');
 let fs = require('fs');
 let path = require('path');
-let t = 3;
 // 登陆逻辑
 exports.login = function(req, res, next) {
 
@@ -38,18 +37,22 @@ exports.login = function(req, res, next) {
   });
 }
 
+exports.logout = function(req,res, next) {
+  localStorage.setItem('token', 'null');
+  res.send('退出成功');
+  return;
+}
 
 exports.publish = function(req, res, next) {
-  if (localStorage.getItem('token') === null) {
+  if (localStorage.getItem('token') === '') {
     res.send('-4'); //没有登录
     return;
   }
-  t += 1;
   let username = localStorage.getItem('token');
   // 获取内容
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
-    // let title = fields.title + t;
+
     let title = fields.title;
     let content = fields.content;
     let tag;

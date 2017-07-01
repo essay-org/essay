@@ -7,16 +7,16 @@ import titleMixin from './util/title'
 import * as filters from './util/filters'
 import axios from 'axios'
 Vue.prototype.axios = axios
-  // mixin for handling title
+  // minxin 处理动态标题
 Vue.mixin(titleMixin)
-  // register global utility filters.
+  // 注册全局过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 const store = createStore()
 const router = createRouter()
-  // sync the router with the vuex store.
-  // this registers `store.state.route`
+  // 同步 router 和 the vuex store.
+  // 使用方式 `store.state.route`
 sync(store, router)
 axios.defaults.timeout = 5000
 axios.defaults.baseURL = 'http://localhost:8080/api'
@@ -26,9 +26,7 @@ axios.interceptors.response.use(
     // console.log(localStorage.getItem('token'))
     switch (response.data) {
       case 1:
-        store.commit('LOGIN', localStorage.getItem('token'))
         store.commit('INFOMATIONS', '登陆成功')
-        router.push({ name: 'essay' })
         break;
       case 2:
         store.commit('INFOMATIONS', '草稿保存成功')
@@ -57,7 +55,6 @@ axios.interceptors.response.use(
       case -5:
         store.commit('INFOMATIONS', '发布或保存文章失败')
         break;
-
       case -6:
         store.commit('INFOMATIONS', '信息修改失败')
         break;
@@ -67,7 +64,7 @@ axios.interceptors.response.use(
       case -8:
         store.commit('INFOMATIONS', '头像修改失败')
         break;
-        
+
     }
 
     return response;
@@ -80,19 +77,19 @@ axios.interceptors.response.use(
   });
 
 
-// Add a request interceptor
-axios.interceptors.request.use(function (config) {
-    // Do something before request is sent
-    return config;
-  }, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  });
+// http request 拦截器
+axios.interceptors.request.use(function(config) {
+  // 发送请求前
+  return config;
+}, function(error) {
+  // 请求发生错误
+  return Promise.reject(error);
+});
 
 
 router.beforeEach((to, from, next) => {
   if (to.meta.Auth) {
-    if (localStorage.getItem('token') !== null) {
+    if (localStorage.getItem('token') !== 'null') {
       next();
     } else {
       next({
@@ -106,23 +103,20 @@ router.beforeEach((to, from, next) => {
 })
 
 
-// Expose a factory function that creates a fresh set of store, router,
-// app instances on each call (which is called for each SSR request)
 export function createApp() {
-  // create store and router instances
 
-
-  // create the app instance.
-  // here we inject the router, store and ssr context to all child components,
-  // making them available everywhere as `this.$router` and `this.$store`.
+  //创建应用程序实例。
+     //这里我们将路由器，存储和ssr上下文注入到所有子组件，
+     //让它们随处可见，通过使用`this.$router` 和 `this.$store`。
   const app = new Vue({
     router,
     store,
     render: h => h(App)
   })
 
-  // expose the app, the router and the store.
-  // note we are not mounting the app here, since bootstrapping will be
-  // different depending on whether we are in a browser or on the server.
+
+  //公开app，router和store。
+     //注意，我们没有在这里挂载应用程序，因为引导将是
+     //根据我们是在浏览器还是在服务器上而不同。
   return { app, router, store }
 }

@@ -1,5 +1,4 @@
 import axios from 'axios'
-let user = localStorage.getItem('token')
 
 // 首页文章列表
 function index(id) {
@@ -49,12 +48,15 @@ function byarchive(date,id) {
 export function getTags() {
   return axios.get('/tag')
 }
+
 export function getIntro() {
   return axios.get('/userinfo')
 }
+
 export function allarticle(id) {
   return axios.get(`/allarticle?limit=15&page=${id}`)
 }
+
 /* ============================= */
 // 文章列表 
 export function indexdata(id) {

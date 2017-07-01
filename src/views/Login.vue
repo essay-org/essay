@@ -22,6 +22,9 @@ export default {
         this.axios.post('/login', {
           "user": this.user,
           "pass": this.pass
+        }).then((data) => {
+          localStorage.setItem('token',this.user)
+          this.$router.push({ name: 'adminpublish' })
         })
       }
     }

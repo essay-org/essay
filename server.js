@@ -183,6 +183,8 @@ app.post('/api/updateadmin',router.updateadmin);
 // 修改头像
 app.post('/api/setavatar',router.setavatar);
 
+// 退出登录
+app.post('/api/logout',router.logout);
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })

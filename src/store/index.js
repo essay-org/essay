@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { indexdata, articledata, bytagdata, searchdata, byarchivedata, getTags,allarticle,getIntro } from '../api'
+import { indexdata, articledata, bytagdata, searchdata, byarchivedata, getTags,allarticle,getIntro} from '../api'
 
 Vue.use(Vuex)
 

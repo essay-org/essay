@@ -13,11 +13,13 @@ body {
   width: 100%;
   background-color: $bgc;
 }
+
 #app {
-  height:100%;
+  height: 100%;
 }
+
 .container {
-  width: 1120px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
@@ -30,34 +32,29 @@ body {
 }
 
 .header {
-  width: 100%;
   height: 250px;
   background-color: $headerBgc;
-  text-align: center;
-  position: relative;
+  padding-top: 70px;
   .intro {
-    display: inline-block;
+    max-width: 1120px;
+    margin: 20px auto;
+    padding: 0 15px;
     color: #fff;
-    width: 1120px;
-    text-align: left;
-    position: absolute;
-    margin: 70px 15px;
+    position: relative;
     .myNickname {
       font-size: 30px;
     }
     .myIntro {
       font-size: 20px;
-      margin-left: 200px;
+      margin-left: 10%;
     }
   }
   .nav {
-    width: 1120px;
+    max-width: 1120px;
+    margin: 0 auto;
     height: 60px;
     background-color: $navBgc;
-    display: inline-block;
-    margin: 190px auto 0;
-    border: 1px solid $navBorder;
-    border-bottom: 0;
+    // border: 1px solid $navBorder;
     .logo {
       float: left;
       height: 36px;
@@ -229,6 +226,12 @@ body {
   height: auto !important;
   .title {
     margin: 20px 0;
+    &::after {
+      content: '';
+      display: block;
+      margin-top: 20px;
+      border-bottom: 1px dashed $border;
+    }
   }
   .content {
     margin-bottom: 20px;
@@ -237,7 +240,8 @@ body {
 
 .footer {
   height: 100px;
-  width: 1120px;
+  max-width: 1120px;
+  padding: 0 15px;
   margin: 0 auto;
   border-top: 1px solid $border;
   color: #C8C9CA;
@@ -370,7 +374,6 @@ body {
 }
 
 .article {
-  padding: 30px 15px;
   table {
     width: 100%;
     border-collapse: collapse;
@@ -492,6 +495,39 @@ body {
     cursor: pointer;
     border: 1px solid transparent;
     background-color: $navBgc;
-    color:#fff;
+    color: #fff;
   }
+}
+
+// 响应式
+@media only screen and(max-width: 700px) {
+  .search {
+    display: none;
+  }
+  .article-list{
+  	margin-right: 0;
+  }
+  .aside{
+  	display: none;
+  }
+  .article-detail{
+  	margin-right: 0;
+  }
+  .footer {
+  	text-align: center;
+  	.copy{
+
+  	.licensed,
+    .powered {
+      width: 100%;
+      display: block;
+    }
+    .licensed {
+      text-align: center;
+    }
+    .powered {
+      text-align: center;
+    }
+  }
+  	}
 }

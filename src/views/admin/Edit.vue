@@ -34,7 +34,7 @@ export default {
     data() {
       return {
         user: this.$store.state.intro.user,
-        avatar: this.$store.state.intro.avatar,
+        avatar: this.$store.state.intro.avatar+'?'+Math.random(),
         intro: this.$store.state.intro.intro,
         nickname: this.$store.state.intro.nickname,
         newAvatar: ''

@@ -55,7 +55,10 @@ export default {
           }
 
         }).then((result) => {
+          if(this.$refs.avatarInput.files.length !== 0){
           this.$refs.avatarForm.submit()
+          }
+
           /*var image = new FormData()
           image.append('avatar', this.$refs.avatarInput.files[0] || this.avatar)
           this.axios.post('/setavatar', {
@@ -70,7 +73,6 @@ export default {
         this.$refs.avatarInput.click()
       },
       changeImage(e) {
-
         var file = e.target.files[0]
         var reader = new FileReader()
         var that = this

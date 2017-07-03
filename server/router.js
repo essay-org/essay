@@ -16,28 +16,28 @@ exports.login = function(req, res, next) {
     // 根据用户名查询数据库
     db.find('users', { "query": { "user": username } }, function(err, result) {
       if (err) {
-        res.send('-1'); // 内部服务器错误
+        res.send('内部服务器错误');
         return;
       }
       if (result.length === 0) {
-        res.send('-2'); //找不到用户名
+        res.send('找不到用户名');
         return;
       }
       // console.log(result);
       let dbPassword = result[0].pass;
       if (dbPassword === password) {
         localStorage.setItem('token', username);
-        res.send('1'); //登录成功
+        res.send('登录成功');
         return;
       } else {
-        res.send('-3'); //密码错误
+        res.send('密码错误'); 
         return;
       }
     })
   });
 }
 
-exports.logout = function(req,res, next) {
+exports.logout = function(req, res, next) {
   localStorage.setItem('token', 'null');
   res.send('退出成功');
   return;
@@ -45,7 +45,7 @@ exports.logout = function(req,res, next) {
 
 exports.publish = function(req, res, next) {
   if (localStorage.getItem('token') === '') {
-    res.send('-4'); //没有登录
+    res.send('请登陆后操作'); 
     return;
   }
   let username = localStorage.getItem('token');
@@ -56,32 +56,53 @@ exports.publish = function(req, res, next) {
     let title = fields.title;
     let content = fields.content;
     let tag;
+    let date = fields.date;
+    // 默认标签
     if (fields.tag[0] === '') {
       tag = ['default']
     } else {
       tag = fields.tag;
     }
     let state = fields.state;
-    // 插入到数据库
-    db.insertOne('infos', {
+    let newData = {
       "user": username,
       "title": title,
       "content": content,
       "tag": tag,
       "state": state,
-      "date": Date.now()
-    }, function(err, result) {
-      if (err) {
-        // console.log(err)
-        res.send('-5'); //发布失败
+      "date": date
+    };
+    db.find('infos', { "query": { "date": date } }, function(err, result) {
+      if(err){
+        res.send('内部服务器错误');
         return;
       }
-      if (state === 'draft') {
-        res.send('2'); // 草稿保存成功
-        return;
+      if (result.length === 1) {
+        db.updateMany('infos', { "date": date }, newData,function(err,result2){
+          if(err){
+            res.send('文章更新失败')
+            return;
+          }
+          res.send('文章更新成功')
+          return;
+        })
+      } else{
+        // 插入到数据库
+        db.insertOne('infos', newData, function(err, result3) {
+          if (err) {
+            res.send('文章发布失败')
+            return;
+          }
+
+          if (state === 'draft') {
+            res.send('草稿保存成功'); 
+            return;
+          }
+          res.send('文章发布成功');
+          return;
+        })
       }
-      res.send('3'); // 发布成功
-      return;
+        
     })
   })
 }
@@ -90,11 +111,9 @@ exports.archive = function(req, res, next) {
   // 归档信息
   db.find('infos', { "query": { "state": "publish" } }, function(err, result) {
     if (err) {
-      console.log(err);
       res.json({ "result": [] })
       return;
     }
-    // console.log(result[10])
     let arr = [],
       arr2 = [];
 
@@ -138,10 +157,8 @@ exports.byarchive = function(req, res, next) {
   let bigMonth = req.query.date.slice(4);
   let smallDate = new Date(+year, +samllMonth).getTime() //6月1号
   let bigDate = new Date(+year, +bigMonth).getTime() // 7月1号
-    // smallDate <= datetime < bigDate
   db.find('infos', { "query": { "state": "publish", "date": { $lt: bigDate, $gte: smallDate } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
-      console.log(err);
       res.json({ "result": [] })
       return;
     }
@@ -162,10 +179,10 @@ exports.people = function(req, res, next) {
     }
   }*/
 
-  let limit = Number(req.query.limit); // 每页多少条
-  let page = Number(req.query.page); // 分页
-  let sortInfo = Number(req.query.sort) || -1; // 按最新发布
-  let sort = { "date": sortInfo }; // 按最新发布排序
+  let limit = Number(req.query.limit); 
+  let page = Number(req.query.page); 
+  let sortInfo = Number(req.query.sort) || -1; 
+  let sort = { "date": sortInfo }; 
   db.find('infos', { "query": { "state": "publish" }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
       res.json({ "result": [] });
@@ -187,7 +204,6 @@ exports.userinfo = function(req, res, next) {
   let path = req.protocol + '://' + req.headers.host + '/public/'
   db.find('users', { "query": {} }, function(err, result) {
     if (err) {
-      // console.log(err)
       res.json({ "result": [] });
       return;
     }
@@ -204,11 +220,9 @@ exports.userinfo = function(req, res, next) {
 exports.tag = function(req, res, next) {
   db.find('infos', { "query": { "state": "publish" } }, function(err, result) {
     if (err) {
-      console.log(err);
       res.json({ "result": [] })
       return;
     }
-    // console.log(result[10])
     let arr = [],
       arr2 = [];
     for (let i = 0; i < result.length; i++) {
@@ -244,10 +258,10 @@ exports.bytag = function(req, res, next) {
   if (req.query.tag) {
     tag.push(req.query.tag)
   }
-  let limit = Number(req.query.limit); // 每页多少条
-  let page = Number(req.query.page); // 分页
-  let sortInfo = Number(req.query.sort) || -1; // 按最新发布
-  let sort = { "date": sortInfo }; // 按最新发布排序
+  let limit = Number(req.query.limit);
+  let page = Number(req.query.page);
+  let sortInfo = Number(req.query.sort) || -1;
+  let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish", "tag": { $all: tag } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
       res.json({ "result": [] });
@@ -272,10 +286,10 @@ exports.search = function(req, res, next) {
   } else {
     info = ''
   }
-  let limit = Number(req.query.limit); // 每页多少条
-  let page = Number(req.query.page); // 分页
-  let sortInfo = Number(req.query.sort) || -1; // 按最新发布
-  let sort = { "date": sortInfo }; // 按最新发布排序
+  let limit = Number(req.query.limit);
+  let page = Number(req.query.page);
+  let sortInfo = Number(req.query.sort) || -1;
+  let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish", "title": { $regex: ".*" + info + ".*" } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
       res.json({ "result": [] });
@@ -312,10 +326,10 @@ exports.article = function(req, res, next) {
 
 // 后台数据
 exports.allarticle = function(req, res, next) {
-  let limit = Number(req.query.limit); // 每页多少条
-  let page = Number(req.query.page); // 分页
-  let sortInfo = Number(req.query.sort) || -1; // 按最新发布
-  let sort = { "date": sortInfo }; // 按最新发布排序
+  let limit = Number(req.query.limit); 
+  let page = Number(req.query.page); 
+  let sortInfo = Number(req.query.sort) || -1; 
+  let sort = { "date": sortInfo }; 
   db.find('infos', { "query": {}, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
       res.json({ "result": [] });
@@ -337,10 +351,10 @@ exports.delete = function(req, res, next) {
   let id = Number(req.query.id) || '';
   db.deleteMany('infos', { date: id }, function(err, result) {
     if (err) {
-      console.log(err);
+      res.send('删除失败')
       return;
     }
-    res.send('4')
+    res.send('删除成功')
   })
 }
 
@@ -352,10 +366,10 @@ exports.updateadmin = function(req, res, next) {
     let oldJson = fields.old;
     db.updateMany('users', oldJson, newJson, function(err, result) {
       if (err) {
-        res.send('-6');
+        res.send('信息修改失败');
         return;
       }
-      res.send('5');
+      res.send('信息修改成功');
     })
   })
 }
@@ -365,13 +379,13 @@ exports.setavatar = function(req, res, next) {
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     if (err) {
-      res.send('-1');
+      res.send('内部服务器错误');
       return;
     }
 
     // 限制文件大小 单位默认字节 这里限制大小为1m
     if (files.avatar.size / 1024 > 1024) {
-      res.send('-7');
+      res.send('图片应小于1M');
       fs.unlink(files.avatar.path);
       return;
     }
@@ -384,7 +398,7 @@ exports.setavatar = function(req, res, next) {
     // 更改名字和路径
     fs.rename(oldpath, newpath, function(err) {
       if (err) {
-        res.send('-1');
+        res.send('图片上传失败');
         return;
       }
     })
@@ -392,10 +406,10 @@ exports.setavatar = function(req, res, next) {
     db.updateMany('users', { "user": userName }, { "avatar": avatarName },
       function(err, result) {
         if (err) {
-          res.send('-8'); //修改失败
+          res.send('头像修改失败'); 
           return;
         }
-        res.redirect('/adminedit')
+        res.redirect('/adminedit');
       })
   });
 }

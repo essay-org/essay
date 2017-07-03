@@ -30,7 +30,6 @@
         methods:{
             logout(){
                 this.axios.post('/logout').then((data) => {
-                    console.log(data)
                 localStorage.setItem('token','null')
                 this.$router.push({name:'index'})
                 })

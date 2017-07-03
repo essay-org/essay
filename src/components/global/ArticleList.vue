@@ -3,7 +3,7 @@
     <ul class="items">
       <li v-for="(item,index) in data" class="item" :key="index">
         <router-link class="title" :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link>
-        <article class="content">{{item.content | formatHtml | cutString(200)}}</article>
+        <article class="content">{{item.content | markdownParse | formatHtml | cutString(200)}}</article>
         <!-- <span class="date"> {{item.date | formatDate('yyyy-MM-dd hh:mm')}}</span> -->
       </li>
     </ul>

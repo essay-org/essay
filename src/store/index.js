@@ -109,12 +109,6 @@ export function createStore() {
     },
     // 同步更新数据的逻辑
     mutations: {
-      LOGIN(state, data) {
-        localStorage.setItem('token', data);
-      },
-      LOGOUT(state, data) {
-        localStorage.setItem('token', null);
-      },
       INDEXDATA(state, data) {
         state.articleList = data.articleList.data.result
         state.number = data.articleList.data.number

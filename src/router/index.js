@@ -52,7 +52,7 @@ export function createRouter() {
       },
       component: Admin('admin')
     }, {
-      path:'/adminpublish',
+      path:'/adminpublish/:id?',
       name:'adminpublish',
       meta:{
         Auth:true,

@@ -30,9 +30,9 @@
 </template>
 <script>
 import SimpleMDE from 'simplemde'
+import AdminAside from '../../components/admin/AdminAside.vue'
 import marked from 'marked'
 import highlight from 'highlight.js'
-import AdminAside from '../../components/admin/AdminAside.vue'
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -42,7 +42,7 @@ marked.setOptions({
   sanitize: false,
   smartLists: true,
   smartypants: false,
-  highlight: function (code) {
+  highlight: function(code) {
     return require('highlight.js').highlightAuto(code).value;
   }
 })
@@ -51,9 +51,12 @@ export default {
       return {
         title: '',
         content: '',
-        tag: ''
+        tag: '',
+        date: '',
+        articleID:this.$route.params.id
       }
     },
+
     mounted() {
       var that = this;
       var smde = new SimpleMDE({
@@ -64,16 +67,35 @@ export default {
         }
       });
       smde.codemirror.on("change", function() {
-        that.content = marked(smde.value());
+        // that.content = marked(smde.value());
+        that.content = smde.value();
       });
+      if (this.articleID) {
+        this.axios.get(`/article?id=${this.articleID}`).then((data) => {
+          var data = data.data.result[0];
+          this.title = data.title;
+          smde.value(data.content);
+          var tag = data.tag;
+          this.tag = tag.join(',') + ',';
+          this.date = data.date;
+        })
+      }
     },
     methods: {
       publish() {
+        console.log(this.content)
         this.axios.post('/publish', {
           "title": this.title,
           "content": this.content,
           "tag": this.trim(this.tag),
-          "state":"publish"
+          "state": "publish",
+          "date": +this.date || Date.now()
+        }).then((data) => {
+          console.log(22)
+          localStorage.setItem('articleID', '')
+          this.$router.push({
+            name: 'admin'
+          })
         })
       },
       draft() {
@@ -81,7 +103,13 @@ export default {
           "title": this.title,
           "content": this.content,
           "tag": this.trim(this.tag),
-          "state":"draft"
+          "state": "draft",
+          "date": +this.date || Date.now()
+        }).then((data) => {
+          localStorage.setItem('articleID', '')
+          this.$router.push({
+            name: 'admin'
+          })
         })
       },
       trim(str) {
@@ -95,11 +123,14 @@ export default {
       AdminAside
     },
     computed: {
-      tags(){
+      tags() {
         return this.$store.state.tags
       }
     },
-    asyncData({store,route}) {
+    asyncData({
+      store,
+      route
+    }) {
       return store.dispatch('GETTAGS')
     }
 }

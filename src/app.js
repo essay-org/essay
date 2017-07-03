@@ -23,50 +23,7 @@ axios.defaults.baseURL = 'http://localhost:8080/api'
   // http response 拦截器
 axios.interceptors.response.use(
   response => {
-    // console.log(localStorage.getItem('token'))
-    switch (response.data) {
-      case 1:
-        store.commit('INFOMATIONS', '登陆成功')
-        break;
-      case 2:
-        store.commit('INFOMATIONS', '草稿保存成功')
-        break;
-      case 3:
-        store.commit('INFOMATIONS', '文章发布成功')
-        break;
-      case 4:
-        store.commit('INFOMATIONS', '文章删除成功')
-        break;
-      case 5:
-        store.commit('INFOMATIONS', '信息修改成功')
-        break;
-      case -1:
-        store.commit('INFOMATIONS', '内部服务器错误')
-        break;
-      case -2:
-        store.commit('INFOMATIONS', '用户名不存在')
-        break;
-      case -3:
-        store.commit('INFOMATIONS', '密码错误')
-        break;
-      case -4:
-        store.commit('INFOMATIONS', '请登陆后操作')
-        break;
-      case -5:
-        store.commit('INFOMATIONS', '发布或保存文章失败')
-        break;
-      case -6:
-        store.commit('INFOMATIONS', '信息修改失败')
-        break;
-      case -7:
-        store.commit('INFOMATIONS', '图片应该小于1M')
-        break;
-      case -8:
-        store.commit('INFOMATIONS', '头像修改失败')
-        break;
-
-    }
-
+    // store.commit('INFOMATIONS', response.data)
     return response;
   },
   error => {

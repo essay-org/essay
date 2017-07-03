@@ -90,3 +90,25 @@ export function status(str) {
     return '草稿'
   }
 }
+
+// markdown 解析
+import SimpleMDE from 'simplemde'
+import marked from 'marked'
+import highlight from 'highlight.js'
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  highlight: function (code) {
+    return require('highlight.js').highlightAuto(code).value;
+  }
+})
+
+export function markdownParse(str) {
+  return marked(str);
+}

@@ -18,7 +18,7 @@
               <td><router-link :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link></td>
               <td>{{item.date | formatDate('yyyy-MM-dd')}}</td>
               <td :class="{'draft':item.state === 'draft'}">{{item.state | status}}</td>
-              <td><a>编辑</a></td>
+              <td><a @click="edit(item)">编辑</a></td>
               <td><a @click="del(item)">删除</a></td>
             </tr>
           </tbody>
@@ -78,9 +78,12 @@ export default {
   	del(item){
   		var id = item.date;
   		this.axios.post(`/delete?id=${id}`).then((data) => {
-  			console.log(data.data)
+  			this.allarticle()
   		})
-  	}
+  	},
+    edit(item) {
+      this.$router.push({name:'adminpublish',params:{id:item.date}})
+    }
   }
 }
 </script>

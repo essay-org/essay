@@ -1,8 +1,8 @@
-var MongoClient = require('mongodb').MongoClient;
-var settings = require('./settings');
+let MongoClient = require('mongodb').MongoClient;
+let settings = require('./settings');
 // 链接数据库 如果没有自动创建
 function _connectDB(callback) {
-  var url = settings.dbUrl;
+  let url = settings.dbUrl;
   MongoClient.connect(url, function(err, db) {
     if (err) {
       callback(err, null);
@@ -12,25 +12,25 @@ function _connectDB(callback) {
     callback(err, db);
   })
 }
-init();
-
-function init() {
-  var user = settings.user,
+(function init() {
+  let user = settings.user,
     pass = settings.pass,
     nickname = settings.nickname || '暂无昵称'
     avatar = settings.avatar || '',
     intro = settings.intro || '暂无介绍';
-  var json = { "user": user, "pass": pass, "avatar": avatar, "intro": intro, "nickname": nickname }
+  let json = { "user": user, "pass": pass, "avatar": avatar, "intro": intro, "nickname": nickname }
   _connectDB(function(err, db) {
-    var usersCollection = db.collection('users');
+    let usersCollection = db.collection('users');
     usersCollection.find({ "user": user }).toArray(function(err, result) {
       if (err) {
         console.log('查询管理员失败');
         db.close;
         return;
       }
-      if (result) {
-        usersCollection.deleteMany({ "user": user });
+      if (result.length !== 0) {
+        db.close();
+        return;
+        // usersCollection.deleteMany({ "user": user });
       }
       usersCollection.insertOne(json, function(err, res) {
         if (err) {
@@ -47,7 +47,7 @@ function init() {
   })
 
 
-}
+})()
 // 插入数据
 exports.insertOne = function(collectionName, json, callback) {
 
@@ -69,7 +69,7 @@ exports.insertOne = function(collectionName, json, callback) {
 // 查找数据
 exports.find = function(collectionName, queryJson, callback) {
     _connectDB(function(err, db) {
-      var json = queryJson.query || {},
+      let json = queryJson.query || {},
         limit = Number(queryJson.limit) || 0,
         count = Number(queryJson.page) - 1,
         sort = queryJson.sort || {};
@@ -80,7 +80,7 @@ exports.find = function(collectionName, queryJson, callback) {
         count = count * limit;
       }
 
-      var cursor = db.collection(collectionName).find(json).limit(limit).skip(count).sort(sort);
+      let cursor = db.collection(collectionName).find(json).limit(limit).skip(count).sort(sort);
       cursor.toArray(function(err, results) {
         if (err) {
           callback(err, null)
@@ -117,7 +117,7 @@ exports.updateMany = function(collectionName, jsonOld, jsonNew, callback) {
     db.collection(collectionName).updateMany(
       jsonOld, {
         $set: jsonNew,
-        $currentDate: { "lastModified": true }
+        $currentDate: { "lastModified": false }
       },
       function(err, results) {
         if (err) {

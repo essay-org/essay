@@ -1,12 +1,12 @@
 /**
  * Created by dell on 2017/5/14.
  */
-var md5 = require('./md5.js');
-var user = 'q';
-var pass = md5('q');
-var avatar = 'avatar.jpg';//头像
-var intro ='Never too old to learn';
-var nickname = 'VueBlog';
+let md5 = require('./md5.js');
+let user = 'q';
+let pass = md5('q');
+let avatar = 'avatar.jpg';//头像
+let intro ='Never too old to learn';
+let nickname = 'VueBlog';
 module.exports = {
     dbUrl:'mongodb://localhost:27017/vueblog',
     user:user,

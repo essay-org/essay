@@ -8,7 +8,7 @@ let avatar = 'avatar.jpg';//头像
 let intro ='Never too old to learn';
 let nickname = 'VueBlog';
 module.exports = {
-    dbUrl:'mongodb://47.90.123.249:27017/vueblog',
+    dbUrl:'mongodb://localhost:27017/vueblog',
     user:user,
     pass:pass,
     avatar:avatar,

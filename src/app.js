@@ -20,7 +20,6 @@ const router = createRouter()
 sync(store, router)
 axios.defaults.timeout = 5000
 axios.defaults.baseURL = 'http://localhost:8088/api'
-console.log(isProd)
   // http response 拦截器
 axios.interceptors.response.use(
   response => {

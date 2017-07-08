@@ -10,7 +10,6 @@ if (typeof localStorage === "undefined" || localStorage === null) {
 }
 
 const router = require('./server/router.js')
-const proxy = require('http-proxy-middleware')
 const cors = require('cors')
 
 const fs = require('fs')
@@ -74,8 +73,7 @@ const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 })
 
-// app.use(cors());允许跨域
-// app.use(proxy('/api', {target: 'http://127.0.0.1:8080'}));代理设置
+app.use(cors());//允许跨域
 app.use(compression({ threshold: 0 }));
 app.use(favicon('./public/logo-48.png'));
 app.use('/dist', serve('./dist', true));

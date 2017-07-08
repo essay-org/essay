@@ -19,7 +19,14 @@ const router = createRouter()
   // 使用方式 `store.state.route`
 sync(store, router)
 axios.defaults.timeout = 5000
-axios.defaults.baseURL = 'http://localhost:8080/api'
+
+// 线上
+axios.defaults.baseURL = '//vueblog.86886.wang/api'
+
+var url = window.location.href
+if(url.slice('localhost') !== -1 || url.slice('127.0.0.1') !== -1){
+  axios.defaults.baseURL = 'http://localhost:8080/api'
+}
   // http response 拦截器
 axios.interceptors.response.use(
   response => {

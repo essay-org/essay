@@ -1,0 +1,25 @@
+{
+  "apps": [{
+    "name": "vueblog",
+    "script": "server.js",
+    "env": {
+      "COMMON_VARIABLE": "true"
+    },
+    "env_production": {
+      "NODE_ENV": "production"
+    }
+  }],
+  "deploy": {
+    "production": {
+      "user": "wxq",
+      "host": ["47.90.123.249"],
+      "ref": "origin/master",
+      "repo": "git@github.com:wmui/vueblog.git",
+      "path": "/www/vueblog",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

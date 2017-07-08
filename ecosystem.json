@@ -17,6 +17,7 @@
       "repo": "git@github.com:wmui/vueblog.git",
       "path": "/www/vueblog",
       "ssh_options": "StrictHostKeyChecking=no",
+      "post-deploy": "npm install --registry=https://registry.npm.taobao.org && npm run build && pm2 startOrRestart ecosystem.json --env production",
       "env": {
         "NODE_ENV": "production"
       }

@@ -1,5 +1,5 @@
 const { JSDOM } = require('jsdom')
-const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url: 'http://localhost' })
+const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url: 'http://localhost:8088' })
 global.window = dom.window
 global.document = window.document
 global.navigator = window.navigator
@@ -74,7 +74,7 @@ const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 })
 
-// app.use(cors());允许跨域
+app.use(cors());// 允许跨域
 // app.use(proxy('/api', {target: 'http://127.0.0.1:8080'}));代理设置
 app.use(compression({ threshold: 0 }));
 app.use(favicon('./public/logo-48.png'));
@@ -188,7 +188,7 @@ app.post('/api/logout',router.logout);
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8088
 app.listen(port, () => {
   console.log(`server started at localhost:${port}`)
 })

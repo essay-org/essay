@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { indexdata, articledata, bytagdata, searchdata, byarchivedata, getTags,allarticle,getIntro} from '../api'
+import { indexdata, articledata, bytagdata, searchdata, byarchivedata, getTags, allarticle, getIntro } from '../api'
 
 Vue.use(Vuex)
 
@@ -15,7 +15,7 @@ export function createStore() {
       number: '',
       tags: [],
       archives: [],
-      allArticle:null
+      allArticle: null
     },
     // 通过异步请求的逻辑在这里
     actions: {
@@ -34,6 +34,7 @@ export function createStore() {
 
       LISTDATA({ commit, state }) {
         var name = state.route.name;
+
         switch (name) {
           case 'index':
             var id = state.route.params.page;
@@ -49,6 +50,10 @@ export function createStore() {
             break;
           case 'category':
             var tag = state.route.params.change || '';
+            var reg = new RegExp("[\u4E00-\u9FFF]+", "g");
+            if (reg.test(tag)) {
+              tag = encodeURI(tag)
+            }
             var id = state.route.params.page || '';
             return bytagdata(tag, id)
               .then(axios.spread(function(byTag, intro, tags, archives) {
@@ -94,16 +99,16 @@ export function createStore() {
           commit('GETTAGS', data)
         })
       },
-      GETINTRO({commit,state}) {
+      GETINTRO({ commit, state }) {
         return getIntro().then((data) => {
-          commit('GETINTRO',data)
+          commit('GETINTRO', data)
         })
       },
       // 后台数据
-      ALLARTICLE({commit,state}) {
+      ALLARTICLE({ commit, state }) {
         var id = state.route.params.page;
         return allarticle(id).then((data) => {
-          commit('ALLARTICLE',data)
+          commit('ALLARTICLE', data)
         })
       },
     },
@@ -150,10 +155,10 @@ export function createStore() {
       GETTAGS(state, data) {
         state.tags = data.data.result
       },
-      GETINTRO(state,data) {
+      GETINTRO(state, data) {
         state.intro = data.data.result[0]
       },
-      ALLARTICLE(state,data) {
+      ALLARTICLE(state, data) {
         state.allArticle = data.data
       },
       INFOMATIONS(state, data) {

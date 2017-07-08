@@ -13,8 +13,9 @@ const Publish = () =>
 const Edit = () =>
   import ('../views/admin/Edit.vue')
 
-const EditArticle = () =>
-  import ('../views/admin/EditArticle.vue')
+/*const UpdateInfo = () =>
+  import ('../views/admin/UpdateInfo.vue')*/
+import UpdateInfo from '../views/admin/UpdateInfo.vue'
 export function createRouter() {
   return new Router({
     mode: 'history',
@@ -66,12 +67,12 @@ export function createRouter() {
       },
       component: Edit
     },{
-      path:'/editarticle',
-      name:'editarticle',
+      path:'/updateinfo',
+      name:'updateinfo',
       meta:{
         Auth:true,
       },
-      component: EditArticle
+      compontent: UpdateInfo
     },{
       path: '/',
       name: '404',

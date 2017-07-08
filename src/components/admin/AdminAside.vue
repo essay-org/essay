@@ -24,6 +24,9 @@
                 },{
                     name:'编辑个人信息',
                     path:'/adminedit'
+                },{
+                    name: '修改用户名密码',
+                    path:'/updateinfo'
                 }]
             }
         },

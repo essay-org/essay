@@ -254,9 +254,10 @@ exports.tag = function(req, res, next) {
 
 // 根据标签获取文章
 exports.bytag = function(req, res, next) {
+
   let tag = [];
   if (req.query.tag) {
-    tag.push(req.query.tag)
+    tag.push(decodeURI(req.query.tag))
   }
   let limit = Number(req.query.limit);
   let page = Number(req.query.page);

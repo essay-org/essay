@@ -21,12 +21,7 @@ sync(store, router)
 axios.defaults.timeout = 5000
 
 // 线上
-axios.defaults.baseURL = '//vueblog.86886.wang/api'
-
-var url = window.location.href
-if(url.slice('localhost') !== -1 || url.slice('127.0.0.1') !== -1){
-  axios.defaults.baseURL = 'http://localhost:8080/api'
-}
+axios.defaults.baseURL = 'http://localhost:8080/api'
   // http response 拦截器
 axios.interceptors.response.use(
   response => {

@@ -12,11 +12,11 @@
             <input type="file" name="avatar" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="avatarInput">
           </form>
         </div>
-        <div class="nickname">
+        <div class="my-input">
           <label for="nickname">昵称：</label>
           <input type="text" v-model="nickname" id="nickname">
         </div>
-        <div class="intro">
+        <div class="my-input">
           <label for="intro">简介：</label>
           <input type="text" v-model="intro" id="intro">
         </div>

@@ -464,6 +464,7 @@ body {
   width: 100%;
   height: 100%;
   text-align: center;
+  padding-top: 50px;
   .avatar {
     padding: 30px;
     text-align: center;
@@ -477,10 +478,9 @@ body {
       border-radius: 50%;
     }
   }
-  .nickname,
-  .intro {
+  .my-input {
     padding-bottom: 30px;
-    input[type="text"] {
+    input {
       display: inline-block;
       height: 40px;
       width: 400px;

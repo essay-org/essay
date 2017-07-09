@@ -39,6 +39,7 @@ axios.interceptors.response.use(
 // http request 拦截器
 axios.interceptors.request.use(function(config) {
   // 发送请求前
+  Object.assign(config.headers,{Authorization:localStorage.getItem('token')})
   return config;
 }, function(error) {
   // 请求发生错误

@@ -42,7 +42,26 @@ exports.logout = function(req, res, next) {
   res.send('退出成功');
   return;
 }
-
+exports.updateInfo = function(req, res, next) {
+  let form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files) {
+    let username = fields.user;
+    let password = fields.pass;
+    // let oldUserName = localStorage.getItem('token');
+    let oldUserName = 'q'
+    password = md5(password);
+    // 更新用户名密码
+    let newData = { "user": username, "pass": password }
+    db.updateMany('users', { "user": oldUserName }, newData, function(err, result2) {
+      if (err) {
+        res.send('修改失败')
+        return;
+      }
+      res.send('修改成功')
+      return;
+    })
+  })
+}
 exports.publish = function(req, res, next) {
   if (localStorage.getItem('token') === '') {
     res.send('请登陆后操作'); 

@@ -8,10 +8,14 @@ const isDev = process.env.NODE_ENV !== 'production'
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
 export default context => {
+  
   return new Promise((resolve, reject) => {
     const s = isDev && Date.now()
     const { app, router, store } = createApp()
-
+    if (context.cookies) {
+    console.log(context.cookies)
+        store.state.cookies = context.cookies
+    }
     // set router's location
     router.push(context.url)
 

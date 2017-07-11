@@ -35,11 +35,13 @@ axios.interceptors.response.use(
     return Promise.reject(error.response.data)
   });
 
-
+var Authorization = {};
 // http request 拦截器
 axios.interceptors.request.use(function(config) {
   // 发送请求前
-  Object.assign(config.headers,{Authorization:localStorage.getItem('token')})
+  // Object.assign(config.headers,{Authorization:localStorage.getItem('token')})
+  // console.log(config.headers)
+
   return config;
 }, function(error) {
   // 请求发生错误
@@ -47,9 +49,10 @@ axios.interceptors.request.use(function(config) {
 });
 
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
+  console.log(store.state.cookies)
   if (to.meta.Auth) {
-    if (localStorage.getItem('token') !== 'null') {
+    if (store.state.cookies !== null) {
       next();
     } else {
       next({
@@ -60,7 +63,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-})
+})*/
 
 
 export function createApp() {

@@ -3,11 +3,15 @@ const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url: 'http:
 global.window = dom.window
 global.document = window.document
 global.navigator = window.navigator
-
-if (typeof localStorage === "undefined" || localStorage === null) {
+const cookieParser = require('cookie-parser')
+/*if (typeof localStorage === "undefined" || localStorage === null) {
     var LocalStorage = require('node-localstorage').LocalStorage;
     localStorage = new LocalStorage('./scratch');
 }
+*/
+
+const  session = require("express-session");
+
 
 const router = require('./server/router.js')
 const cors = require('cors')
@@ -29,7 +33,12 @@ const serverInfo =
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
 const app = express()
-
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}));
+app.use(cookieParser());
 const template = fs.readFileSync(resolve('./src/index.template.html'), 'utf-8')
 
 
@@ -95,7 +104,6 @@ const isCacheable = req => useMicroCache
 
 function render (req, res) {
   const s = Date.now()
-
   res.setHeader("Content-Type", "text/html")
   res.setHeader("Server", serverInfo)
   const handleError = err => {
@@ -122,7 +130,8 @@ function render (req, res) {
 
   const context = {
     title: 'vueblog', // 默认标题
-    url: req.url
+    url: req.url,
+    cookies: req.cookies
   }
   renderer.renderToString(context, (err, html) => {
     if (err) {
@@ -139,6 +148,21 @@ function render (req, res) {
 }
 
 
+
+app.get('/admin',function(req,res,next){
+  if(req.session.login == '1'){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+})
+app.get('/adminPublish',function(req,res,next){
+  if(req.session.login == '1'){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+})
 // 获取某用户的文章 http://localhost:8080/api/people
 app.get('/api/people',router.people);
 

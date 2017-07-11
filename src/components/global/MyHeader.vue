@@ -9,9 +9,18 @@
         <div class="v"></div>
       </div>
       <ul>
-        <li v-for="(item,index) in links" :key="index">
-          <router-link :to="item.path">{{ item.name }}</router-link>
+         <li v-for="(item,index) in links" :key="index">
+         <router-link :to="item.path">{{ item.name }}</router-link>
+                </li>
+        <!-- <li>
+          <a @click="index">首页</a>
         </li>
+        <li>
+          <a @click="adminpublish">新随笔</a>
+        </li>
+        <li>
+          <a @click="admin">管理</a>
+        </li> -->
       </ul>
       <div class="search">
         <input type="text" name="search" placeholder="search" v-model="searchInfo" autofocus @keyup.enter="search">
@@ -20,6 +29,7 @@
   </header>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: 'header',
   data() {
@@ -34,7 +44,7 @@ export default {
         name: '管理',
         path: '/admin'
       }],
-      searchInfo:''
+      searchInfo: ''
     }
   },
   computed: {
@@ -43,9 +53,27 @@ export default {
     }
   },
   methods: {
-    search(){
-      this.$router.push({name:'search',params:{change:this.searchInfo}})
-    }
+    search() {
+      this.$router.push({
+        name: 'search',
+        params: {
+          change: this.searchInfo
+        }
+      })
+    },
+    /*index() {
+      this.$router.push({
+        name: 'index'
+      })
+    },
+    adminpublish() {
+      var instance = axios.create();
+      instance.get('http://localhost:8080/adminpublish')
+    },
+    admin() {
+      var instance = axios.create();
+      instance.get('http://localhost:8080/admin')
+    }*/
   }
 }
 </script>

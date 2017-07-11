@@ -26,7 +26,9 @@ exports.login = function(req, res, next) {
       // console.log(result);
       let dbPassword = result[0].pass;
       if (dbPassword === password) {
-        localStorage.setItem('token', username);
+        // localStorage.setItem('token', username);
+        req.session.login = '1';
+        req.session.user = username;
         res.send('登录成功');
         return;
       } else {
@@ -38,7 +40,9 @@ exports.login = function(req, res, next) {
 }
 
 exports.logout = function(req, res, next) {
-  localStorage.setItem('token', 'null');
+  // localStorage.setItem('token', 'null');
+  req.session.login = '';
+  req.session.user = '';
   res.send('退出成功');
   return;
 }
@@ -63,11 +67,16 @@ exports.updateInfo = function(req, res, next) {
   })
 }
 exports.publish = function(req, res, next) {
-  if (localStorage.getItem('token') === '') {
+  /*if (localStorage.getItem('token') === '') {
     res.send('请登陆后操作'); 
     return;
+  }*/
+  if(req.session.login != '1'){
+    res.send('请登录');
+    return;
   }
-  let username = localStorage.getItem('token');
+  // let username = localStorage.getItem('token');
+  let username = req.session.user;
   // 获取内容
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
@@ -413,7 +422,8 @@ exports.setavatar = function(req, res, next) {
     let extname = path.extname(files.avatar.name);
     let oldpath = files.avatar.path;
     let newpath = './public/avatar' + extname;
-    let userName = localStorage.getItem('token');
+    // let userName = localStorage.getItem('token');
+    let userName = req.session.user;
     let avatarName = 'avatar' + extname;
     // 更改名字和路径
     fs.rename(oldpath, newpath, function(err) {

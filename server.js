@@ -4,14 +4,6 @@ global.window = dom.window
 global.document = window.document
 global.navigator = window.navigator
 const cookieParser = require('cookie-parser')
-/*if (typeof localStorage === "undefined" || localStorage === null) {
-    var LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch');
-}
-*/
-
-const  session = require("express-session");
-
 
 const router = require('./server/router.js')
 const cors = require('cors')
@@ -33,11 +25,6 @@ const serverInfo =
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
 const app = express()
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-}));
 app.use(cookieParser());
 const template = fs.readFileSync(resolve('./src/index.template.html'), 'utf-8')
 
@@ -146,23 +133,24 @@ function render (req, res) {
     }
   })
 }
+// 前端路由拦截
+app.get('/login',function(req,res,next){
+  if(req.cookies.token){
+    res.redirect('/index')
+  }else{
+    next()
+  }
+})
 
-
-
-app.get('/admin',function(req,res,next){
-  if(req.session.login == '1'){
+// 服务端路由拦截
+app.get(['/admin','/admin/*','/adminpublish','/adminpublish/*','/adminedit','/updateinfo'],function(req,res,next){
+  if(req.cookies.token){
     next()
   }else{
     res.redirect('/login')
   }
 })
-app.get('/adminPublish',function(req,res,next){
-  if(req.session.login == '1'){
-    next()
-  }else{
-    res.redirect('/login')
-  }
-})
+
 // 获取某用户的文章 http://localhost:8080/api/people
 app.get('/api/people',router.people);
 

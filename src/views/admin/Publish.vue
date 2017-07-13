@@ -83,7 +83,6 @@ export default {
     },
     methods: {
       publish() {
-        console.log(this.content)
         this.axios.post('/publish', {
           "title": this.title,
           "content": this.content,
@@ -91,8 +90,6 @@ export default {
           "state": "publish",
           "date": +this.date || Date.now()
         }).then((data) => {
-          console.log(22)
-          localStorage.setItem('articleID', '')
           this.$router.push({
             name: 'admin'
           })
@@ -106,7 +103,6 @@ export default {
           "state": "draft",
           "date": +this.date || Date.now()
         }).then((data) => {
-          localStorage.setItem('articleID', '')
           this.$router.push({
             name: 'admin'
           })

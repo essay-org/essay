@@ -1,9 +1,10 @@
-let md5 = require('./md5.js');
-let db = require('./db.js');
-let formidable = require('formidable');
-let fs = require('fs');
-let path = require('path');
-// 登陆逻辑
+const md5 = require('./md5.js');
+const db = require('./db.js');
+const formidable = require('formidable');
+const fs = require('fs');
+const path = require('path');
+const jwt = require('jsonwebtoken')
+  // 登陆逻辑
 exports.login = function(req, res, next) {
 
   let form = new formidable.IncomingForm();
@@ -26,13 +27,13 @@ exports.login = function(req, res, next) {
       // console.log(result);
       let dbPassword = result[0].pass;
       if (dbPassword === password) {
-        // localStorage.setItem('token', username);
-        req.session.login = '1';
-        req.session.user = username;
+        let token = jwt.sign({ username }, 'vueblog', { expiresIn: 60 * 60 * 24 * 30 })
+        res.cookie('token', token, { maxAge: 60 * 60 * 24 * 30 * 1000 })
+        res.cookie('username', username, { maxAge: 60 * 60 * 24 * 30 * 1000 })
         res.send('登录成功');
         return;
       } else {
-        res.send('密码错误'); 
+        res.send('密码错误');
         return;
       }
     })
@@ -41,18 +42,22 @@ exports.login = function(req, res, next) {
 
 exports.logout = function(req, res, next) {
   // localStorage.setItem('token', 'null');
-  req.session.login = '';
-  req.session.user = '';
   res.send('退出成功');
   return;
 }
+
+
 exports.updateInfo = function(req, res, next) {
+  if(!req.cookies.username){
+    res.send('请登录后操作')
+    return
+  }
+
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     let username = fields.user;
     let password = fields.pass;
-    // let oldUserName = localStorage.getItem('token');
-    let oldUserName = 'q'
+    let oldUserName = req.cookies.username;
     password = md5(password);
     // 更新用户名密码
     let newData = { "user": username, "pass": password }
@@ -66,17 +71,13 @@ exports.updateInfo = function(req, res, next) {
     })
   })
 }
+
 exports.publish = function(req, res, next) {
-  /*if (localStorage.getItem('token') === '') {
-    res.send('请登陆后操作'); 
-    return;
-  }*/
-  if(req.session.login != '1'){
-    res.send('请登录');
-    return;
+  if(!req.cookies.username){
+    res.send('请登录后操作')
+    return
   }
-  // let username = localStorage.getItem('token');
-  let username = req.session.user;
+  let username = req.cookies.username
   // 获取内容
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
@@ -101,20 +102,20 @@ exports.publish = function(req, res, next) {
       "date": date
     };
     db.find('infos', { "query": { "date": date } }, function(err, result) {
-      if(err){
+      if (err) {
         res.send('内部服务器错误');
         return;
       }
       if (result.length === 1) {
-        db.updateMany('infos', { "date": date }, newData,function(err,result2){
-          if(err){
+        db.updateMany('infos', { "date": date }, newData, function(err, result2) {
+          if (err) {
             res.send('文章更新失败')
             return;
           }
           res.send('文章更新成功')
           return;
         })
-      } else{
+      } else {
         // 插入到数据库
         db.insertOne('infos', newData, function(err, result3) {
           if (err) {
@@ -123,14 +124,14 @@ exports.publish = function(req, res, next) {
           }
 
           if (state === 'draft') {
-            res.send('草稿保存成功'); 
+            res.send('草稿保存成功');
             return;
           }
           res.send('文章发布成功');
           return;
         })
       }
-        
+
     })
   })
 }
@@ -207,10 +208,10 @@ exports.people = function(req, res, next) {
     }
   }*/
 
-  let limit = Number(req.query.limit); 
-  let page = Number(req.query.page); 
-  let sortInfo = Number(req.query.sort) || -1; 
-  let sort = { "date": sortInfo }; 
+  let limit = Number(req.query.limit);
+  let page = Number(req.query.page);
+  let sortInfo = Number(req.query.sort) || -1;
+  let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish" }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
       res.json({ "result": [] });
@@ -355,10 +356,10 @@ exports.article = function(req, res, next) {
 
 // 后台数据
 exports.allarticle = function(req, res, next) {
-  let limit = Number(req.query.limit); 
-  let page = Number(req.query.page); 
-  let sortInfo = Number(req.query.sort) || -1; 
-  let sort = { "date": sortInfo }; 
+  let limit = Number(req.query.limit);
+  let page = Number(req.query.page);
+  let sortInfo = Number(req.query.sort) || -1;
+  let sort = { "date": sortInfo };
   db.find('infos', { "query": {}, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
       res.json({ "result": [] });
@@ -405,6 +406,12 @@ exports.updateadmin = function(req, res, next) {
 
 // 用户头像修改
 exports.setavatar = function(req, res, next) {
+  if(!req.cookies.username){
+    res.send('请登录后操作')
+    return
+  }
+  let username = req.cookies.username
+
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     if (err) {
@@ -422,8 +429,6 @@ exports.setavatar = function(req, res, next) {
     let extname = path.extname(files.avatar.name);
     let oldpath = files.avatar.path;
     let newpath = './public/avatar' + extname;
-    // let userName = localStorage.getItem('token');
-    let userName = req.session.user;
     let avatarName = 'avatar' + extname;
     // 更改名字和路径
     fs.rename(oldpath, newpath, function(err) {
@@ -433,13 +438,13 @@ exports.setavatar = function(req, res, next) {
       }
     })
 
-    db.updateMany('users', { "user": userName }, { "avatar": avatarName },
+    db.updateMany('users', { "user": username }, { "avatar": avatarName },
       function(err, result) {
         if (err) {
-          res.send('头像修改失败'); 
+          res.send('头像修改失败');
           return;
         }
-        res.redirect('/adminedit');
+        res.redirect('/admin');
       })
   });
 }

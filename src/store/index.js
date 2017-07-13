@@ -16,7 +16,7 @@ export function createStore() {
       tags: [],
       archives: [],
       allArticle: null,
-      cookies:null
+      cookies:{}
     },
     // 通过异步请求的逻辑在这里
     actions: {

@@ -6,6 +6,7 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 import axios from 'axios'
+import cookies from 'js-cookie'
 Vue.prototype.axios = axios
   // minxin 处理动态标题
 Vue.mixin(titleMixin)
@@ -19,10 +20,11 @@ const router = createRouter()
   // 使用方式 `store.state.route`
 sync(store, router)
 axios.defaults.timeout = 5000
+const token = cookies.get('token') || ''
 
-// 线上
 axios.defaults.baseURL = 'http://localhost:8080/api'
-  // http response 拦截器
+
+// http response 拦截器
 axios.interceptors.response.use(
   response => {
     // store.commit('INFOMATIONS', response.data)
@@ -35,35 +37,28 @@ axios.interceptors.response.use(
     return Promise.reject(error.response.data)
   });
 
-var Authorization = {};
+
 // http request 拦截器
 axios.interceptors.request.use(function(config) {
   // 发送请求前
-  // Object.assign(config.headers,{Authorization:localStorage.getItem('token')})
-  // console.log(config.headers)
-
   return config;
 }, function(error) {
   // 请求发生错误
   return Promise.reject(error);
 });
 
-
-/*router.beforeEach((to, from, next) => {
-  console.log(store.state.cookies)
+// 登陆拦截
+router.beforeEach((to, from, next) => {
   if (to.meta.Auth) {
-    if (store.state.cookies !== null) {
+    if (cookies.get('token') || store.state.cookies.token) {
       next();
     } else {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
+      router.push({ name: 'login' })
     }
   } else {
     next();
   }
-})*/
+})
 
 
 export function createApp() {

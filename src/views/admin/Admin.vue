@@ -42,7 +42,17 @@ export default {
   components: {
     AdminAside
   },
-
+  beforeRouteEnter (to, from, next) {
+    console.log(2222)
+    next(vm => {
+    console.log(vm.store.state.cookies)
+      if(Object.keys(vm.store.state.cookies) !== undefined){
+        vm.$router.push({name:'admin'})
+      }else{
+        vm.$router.push({name:'login'})
+      }
+    })
+  },
   beforeMount() {
     if (this.$root._isMounted) {
       this.allarticle()

@@ -5,7 +5,6 @@
       <input type="text" placeholder="请输入用户名" name="user" v-model="user">
       <input type="password" placeholder="请输入密码" name="pass" v-model="pass">
       <button type="button" @click="login">登录</button>
-      <div class="tips">用户名：admin 密码：vueblog</div>
     </div>
   </div>
 </template>
@@ -23,7 +22,9 @@ export default {
           "user": this.user,
           "pass": this.pass
         }).then((data) => {
-          this.$router.push({ name: 'adminpublish' })
+          this.$router.push({
+            name: 'adminpublish'
+          })
         })
       }
     }

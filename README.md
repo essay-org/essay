@@ -27,11 +27,11 @@
 #### 添加到主屏
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-01.png)
 #### 启动效果
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-03.png)
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-02.png)
 #### 首页效果
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-04.png)
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-03.png)
 #### 文章页效果
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-05.png)
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-04.png)
 更多效果大家可通过线上演示地址查看
 ### 本地运行项目
 项目地址：https://github.com/wmui/vueblog

@@ -16,7 +16,7 @@ export function createStore() {
       tags: [],
       archives: [],
       allArticle: null,
-      cookies:{}
+      cookies: {}
     },
     // 通过异步请求的逻辑在这里
     actions: {
@@ -100,11 +100,13 @@ export function createStore() {
           commit('GETTAGS', data)
         })
       },
+
       GETINTRO({ commit, state }) {
         return getIntro().then((data) => {
           commit('GETINTRO', data)
         })
       },
+
       // 后台数据
       ALLARTICLE({ commit, state }) {
         var id = state.route.params.page;
@@ -113,6 +115,7 @@ export function createStore() {
         })
       },
     },
+    
     // 同步更新数据的逻辑
     mutations: {
       INDEXDATA(state, data) {
@@ -122,6 +125,7 @@ export function createStore() {
         state.tags = data.tags.data.result
         state.archives = data.archives.data.result
       },
+
       ARTICLEDATA(state, data) {
         state.articleDetail = data.article.data.result[0]
         state.intro = data.intro.data.result[0]
@@ -137,8 +141,8 @@ export function createStore() {
         state.tags = data.tags.data.result
         state.archives = data.archives.data.result
       },
-      SEARCHDATA(state, data) {
 
+      SEARCHDATA(state, data) {
         state.articleList = data.searchlist.data.result
         state.number = data.searchlist.data.number
         state.intro = data.intro.data.result[0]
@@ -153,15 +157,19 @@ export function createStore() {
         state.tags = data.tags.data.result
         state.archives = data.archives.data.result
       },
+
       GETTAGS(state, data) {
         state.tags = data.data.result
       },
+
       GETINTRO(state, data) {
         state.intro = data.data.result[0]
       },
+
       ALLARTICLE(state, data) {
         state.allArticle = data.data
       },
+
       INFOMATIONS(state, data) {
         console.log(data)
       }

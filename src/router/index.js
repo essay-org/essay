@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-  // 需要渲染数据的组件
-import {Article, List, Admin } from '../views/CreateListView'
+// 需要渲染数据的组件
+import { Article, List, Admin } from '../views/CreateListView'
 // 不需要渲染数据的组件
 const Login = () =>
   import ('../views/Login.vue')
@@ -53,27 +53,27 @@ export function createRouter() {
       },
       component: Admin('admin')
     }, {
-      path:'/adminpublish/:id?',
-      name:'adminpublish',
-      meta:{
-        Auth:true,
+      path: '/adminpublish/:id?',
+      name: 'adminpublish',
+      meta: {
+        Auth: true,
       },
       component: Publish
-    },{
-      path:'/adminedit',
-      name:'adminedit',
-      meta:{
-        Auth:true,
+    }, {
+      path: '/adminedit',
+      name: 'adminedit',
+      meta: {
+        Auth: true,
       },
       component: Edit
-    },{
-      path:'/updateinfo',
-      name:'updateinfo',
-      meta:{
-        Auth:true,
+    }, {
+      path: '/updateinfo',
+      name: 'updateinfo',
+      meta: {
+        Auth: true,
       },
       component: Update
-    },{
+    }, {
       path: '/',
       name: '404',
       redirect: '/index'

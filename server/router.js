@@ -4,7 +4,7 @@ const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken')
-  // 登陆逻辑
+// 登陆逻辑
 exports.login = function(req, res, next) {
 
   let form = new formidable.IncomingForm();
@@ -17,67 +17,107 @@ exports.login = function(req, res, next) {
     // 根据用户名查询数据库
     db.find('users', { "query": { "user": username } }, function(err, result) {
       if (err) {
-        res.send('内部服务器错误');
+        res.json({
+          "code": 500,
+          "message": "内部服务器错误"
+        });
         return;
       }
+
       if (result.length === 0) {
-        res.send('找不到用户名');
+        res.json({
+          "code": 401,
+          "message": "找不到用户名"
+        });
         return;
       }
+
       // console.log(result);
       let dbPassword = result[0].pass;
       if (dbPassword === password) {
         let token = jwt.sign({ username }, 'vueblog', { expiresIn: 60 * 60 * 24 * 30 })
         res.cookie('token', token, { maxAge: 60 * 60 * 24 * 30 * 1000 })
         res.cookie('username', username, { maxAge: 60 * 60 * 24 * 30 * 1000 })
-        res.send('登录成功');
+        res.json({
+          "code": 200,
+          "message": "登录成功"
+        });
         return;
       } else {
-        res.send('密码错误');
+        res.json({
+          "code": 401,
+          "message": "密码错误"
+        });
         return;
       }
     })
-  });
+  })
 }
 
 exports.logout = function(req, res, next) {
   res.cookie('token', '', { maxAge: 0 })
   res.cookie('username', '', { maxAge: 0 })
-  res.send('退出成功');
+  res.json({
+    "code": 200,
+    "message": "退出成功"
+  });
   return;
 }
 
 
-exports.updateInfo = function(req, res, next) {
-  if(!req.cookies.username){
-    res.send('请登录后操作')
+exports.updateinfo = function(req, res, next) {
+  if (!req.cookies.username) {
+    res.json({
+      "code": 401,
+      "message": "请登录后操作"
+    })
     return
   }
+  let username = req.cookies.username;
 
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
-    let username = fields.user;
-    let password = fields.pass;
-    let oldUserName = req.cookies.username;
-    password = md5(password);
-    // 更新用户名密码
-    let newData = { "user": username, "pass": password }
-    db.updateMany('users', { "user": oldUserName }, newData, function(err, result2) {
-      if (err) {
-        res.send('修改失败')
+    let oldPass = md5(fields.oldPass);
+    let newPass = md5(fields.pass);
+    db.find('users', { "query": { "user": username } }, function(err, result) {
+      if (oldPass !== result[0].pass) {
+        res.json({
+          "code": 403,
+          "message": "密码输入有误"
+        })
         return;
       }
-      res.send('修改成功')
-      return;
+
+      db.updateMany('users', { "user": username }, { "pass": newPass }, function(err, result2) {
+        if (err) {
+          res.json({
+            "code": 401,
+            "message": "密码修改失败"
+          })
+          return;
+        }
+
+        res.json({
+          "code": 200,
+          "message": "密码修改成功"
+        })
+        return;
+      })
     })
+
+
   })
 }
 
 exports.publish = function(req, res, next) {
-  if(!req.cookies.username){
-    res.send('请登录后操作')
-    return
+  if (!req.cookies.username) {
+    res.json({
+      "code": 401,
+      "message": "请登录后操作"
+    })
+    return;
   }
+
   let username = req.cookies.username
   // 获取内容
   let form = new formidable.IncomingForm();
@@ -102,37 +142,57 @@ exports.publish = function(req, res, next) {
       "state": state,
       "date": date
     };
+
     db.find('infos', { "query": { "date": date } }, function(err, result) {
       if (err) {
-        res.send('内部服务器错误');
+        res.json({
+          "code": 500,
+          "message": "内部服务器错误"
+        });
         return;
       }
+
       if (result.length === 1) {
         db.updateMany('infos', { "date": date }, newData, function(err, result2) {
           if (err) {
-            res.send('文章更新失败')
+            res.json({
+              "code": 401,
+              "message": "文章更新失败"
+            });
             return;
           }
-          res.send('文章更新成功')
+
+          res.json({
+            "code": 200,
+            "message": "文章更新成功"
+          });
           return;
         })
       } else {
         // 插入到数据库
         db.insertOne('infos', newData, function(err, result3) {
           if (err) {
-            res.send('文章发布失败')
+            res.json({
+              "code": 401,
+              "message": "文章发布失败"
+            });
             return;
           }
 
           if (state === 'draft') {
-            res.send('草稿保存成功');
+            res.json({
+              "code": 200,
+              "message": "草稿保存草稿"
+            });
             return;
           }
-          res.send('文章发布成功');
+          res.json({
+            "code": 200,
+            "message": "文章发布成功"
+          });
           return;
         })
       }
-
     })
   })
 }
@@ -141,9 +201,14 @@ exports.archive = function(req, res, next) {
   // 归档信息
   db.find('infos', { "query": { "state": "publish" } }, function(err, result) {
     if (err) {
-      res.json({ "result": [] })
+      res.json({
+        "code": 404,
+        "message": "数据获取失败",
+        "result": []
+      });
       return;
     }
+
     let arr = [],
       arr2 = [];
 
@@ -170,30 +235,44 @@ exports.archive = function(req, res, next) {
     }
 
     arr2.reverse()
-    res.json({ "result": arr2 })
+    res.json({
+      "code": 200,
+      "message": "数据获取成功",
+      "result": arr2
+    })
   })
 
 }
 
 exports.byarchive = function(req, res, next) {
   // 归档文章
-  let limit = Number(req.query.limit); // 每页多少条
-  let page = Number(req.query.page); // 分页
-  let sortInfo = Number(req.query.sort) || -1; // 按最新发布
-  let sort = { "date": sortInfo }; // 按最新发布排序
+  let limit = Number(req.query.limit);
+  let page = Number(req.query.page);
+  let sortInfo = Number(req.query.sort) || -1;
+  let sort = { "date": sortInfo };
 
   let year = req.query.date.slice(0, 4);
   let samllMonth = req.query.date.slice(4) - 1;
   let bigMonth = req.query.date.slice(4);
-  let smallDate = new Date(+year, +samllMonth).getTime() //6月1号
-  let bigDate = new Date(+year, +bigMonth).getTime() // 7月1号
+  let smallDate = new Date(+year, +samllMonth).getTime();
+  let bigDate = new Date(+year, +bigMonth).getTime();
   db.find('infos', { "query": { "state": "publish", "date": { $lt: bigDate, $gte: smallDate } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
-      res.json({ "result": [] })
+
+      res.json({
+        "code": 404,
+        "message": "数据获取失败",
+        "result": []
+      });
       return;
     }
     db.find('infos', { "query": { "state": "publish", "date": { $lt: bigDate, $gte: smallDate } } }, function(err, result2) {
-      result2 = { "result": result, "number": result2.length }
+      result2 = {
+        "code": 200,
+        "message": "数据获取成功",
+        "result": result,
+        "number": result2.length
+      }
       res.json(result2)
     })
   })
@@ -201,13 +280,6 @@ exports.byarchive = function(req, res, next) {
 
 // 获取某个用户的发布 默认显示所有发布
 exports.people = function(req, res, next) {
-  /*let username = req.query.username || false;
-  let query = { "user": username };
-  for (let key in query) {
-    if (!query[key]) {
-      delete query[key]
-    }
-  }*/
 
   let limit = Number(req.query.limit);
   let page = Number(req.query.page);
@@ -215,15 +287,29 @@ exports.people = function(req, res, next) {
   let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish" }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
-      res.json({ "result": [] });
+      res.json({
+        "code": 404,
+        "message": "数据查询失败",
+        "result": []
+      });
       return;
     }
     db.find('infos', { "query": { "state": "publish" } }, function(err, result2) {
       if (err) {
-        res.json({ "result": [] });
+        res.json({
+          "code": 404,
+          "message": "数据获取失败",
+          "result": []
+        });
         return;
       }
-      result2 = { "result": result, "number": result2.length }
+
+      result2 = {
+        "code": 200,
+        "message": "数据获取成功",
+        "result": result,
+        "number": result2.length
+      }
       res.json(result2)
     })
   })
@@ -234,7 +320,11 @@ exports.userinfo = function(req, res, next) {
   let path = req.protocol + '://' + req.headers.host + '/public/'
   db.find('users', { "query": {} }, function(err, result) {
     if (err) {
-      res.json({ "result": [] });
+      res.json({
+        "code": 404,
+        "message": "数据获取失败",
+        "result": []
+      });
       return;
     }
     for (let i = 0; i < result.length; i++) {
@@ -242,7 +332,11 @@ exports.userinfo = function(req, res, next) {
       result[i].avatar = path + result[i].avatar
     }
 
-    res.json({ "result": result })
+    res.json({
+      "code": 200,
+      "message": "数据获取成功",
+      "result": result
+    })
   })
 }
 
@@ -250,16 +344,20 @@ exports.userinfo = function(req, res, next) {
 exports.tag = function(req, res, next) {
   db.find('infos', { "query": { "state": "publish" } }, function(err, result) {
     if (err) {
-      res.json({ "result": [] })
+      res.json({
+        "code": 404,
+        "message": "数据获取失败",
+        "result": []
+      });
       return;
     }
+
     let arr = [],
       arr2 = [];
     for (let i = 0; i < result.length; i++) {
       for (let j = 0; j < result[i].tag.length; j++) {
         arr.push(result[i].tag[j])
       }
-
     }
 
     arr.sort()
@@ -278,13 +376,16 @@ exports.tag = function(req, res, next) {
     }
 
     arr2.reverse()
-    res.json({ "result": arr2 })
+    res.json({
+      "code": 200,
+      "message": "数据获取成功",
+      "result": arr2
+    })
   })
 }
 
 // 根据标签获取文章
 exports.bytag = function(req, res, next) {
-
   let tag = [];
   if (req.query.tag) {
     tag.push(decodeURI(req.query.tag))
@@ -295,21 +396,36 @@ exports.bytag = function(req, res, next) {
   let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish", "tag": { $all: tag } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
-      res.json({ "result": [] });
+      res.json({
+        "code": 404,
+        "message": "数据查询失败",
+        "result": []
+      });
       return;
     }
+
     db.find('infos', { "query": { "state": "publish", "tag": { $all: tag } } }, function(err, result2) {
       if (err) {
-        res.json({ "result": [] });
+        res.json({
+          "code": 404,
+          "message": "数据获取失败",
+          "result": []
+        });
         return;
       }
-      result2 = { "result": result, "number": result2.length }
+
+      result2 = {
+        "code": 200,
+        "message": "数据获取成功",
+        "result": result,
+        "number": result2.length
+      }
       res.json(result2)
     })
   })
 }
 
-// 模糊搜索
+// 模糊搜索 只搜索标题
 exports.search = function(req, res, next) {
   let info;
   if (req.query.info) {
@@ -323,15 +439,30 @@ exports.search = function(req, res, next) {
   let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish", "title": { $regex: ".*" + info + ".*" } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
-      res.json({ "result": [] });
+      res.json({
+        "code": 404,
+        "message": "数据查询失败",
+        "result": []
+      });
       return;
     }
+
     db.find('infos', { "query": { "state": "publish", "title": { $regex: ".*" + info + ".*" } } }, function(err, result2) {
       if (err) {
-        res.json({ "result": [] });
+        res.json({
+          "code": 404,
+          "message": "数据获取失败",
+          "result": []
+        });
         return;
       }
-      result2 = { "result": result, "number": result2.length }
+
+      result2 = {
+        "code": 200,
+        "message": "数据获取成功",
+        "result": result,
+        "number": result2.length
+      }
       res.json(result2)
     })
   })
@@ -346,12 +477,22 @@ exports.article = function(req, res, next) {
       delete query[key]
     }
   }
+
   db.find('infos', { "query": query }, function(err, result) {
     if (err) {
-      res.json({ "result": [] });
+      res.json({
+        "code": 404,
+        "message": "数据获取失败",
+        "result": []
+      });
       return;
     }
-    res.json({ "result": result })
+
+    res.json({
+      "code": 200,
+      "message": "数据获取成功",
+      "result": result
+    })
   })
 }
 
@@ -363,15 +504,30 @@ exports.allarticle = function(req, res, next) {
   let sort = { "date": sortInfo };
   db.find('infos', { "query": {}, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
-      res.json({ "result": [] });
+      res.json({
+        "code": 404,
+        "message": "数据查询失败",
+        "result": []
+      });
       return;
     }
+
     db.find('infos', { "query": {} }, function(err, result2) {
       if (err) {
-        res.json({ "result": [] });
+        res.json({
+          "code": 404,
+          "message": "数据获取失败",
+          "result": []
+        });
         return;
       }
-      result2 = { "result": result, "number": result2.length }
+
+      result2 = {
+        "code": 200,
+        "message": "数据获取成功",
+        "result": result,
+        "number": result2.length
+      }
       res.json(result2)
     })
   })
@@ -382,10 +538,17 @@ exports.delete = function(req, res, next) {
   let id = Number(req.query.id) || '';
   db.deleteMany('infos', { date: id }, function(err, result) {
     if (err) {
-      res.send('删除失败')
+      res.json({
+        "code": 401,
+        "message": "文章删除失败"
+      })
       return;
     }
-    res.send('删除成功')
+
+    res.json({
+      "code": 200,
+      "message": "文章删除成功"
+    })
   })
 }
 
@@ -397,34 +560,51 @@ exports.updateadmin = function(req, res, next) {
     let oldJson = fields.old;
     db.updateMany('users', oldJson, newJson, function(err, result) {
       if (err) {
-        res.send('信息修改失败');
+        res.json({
+          "code": 401,
+          "message": "信息修改失败"
+        })
         return;
       }
-      res.send('信息修改成功');
+
+      res.json({
+        "code": 200,
+        "message": "信息修改成功"
+      })
     })
   })
 }
 
 // 用户头像修改
 exports.setavatar = function(req, res, next) {
-  if(!req.cookies.username){
-    res.send('请登录后操作')
+  if (!req.cookies.username) {
+    res.json({
+      "code": 401,
+      "message": "请登录后操作"
+    })
     return
   }
-  let username = req.cookies.username
+
+  let username = req.cookies.username;
 
   let form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     if (err) {
-      res.send('内部服务器错误');
-      return;
+      res.json({
+        "code": 500,
+        "message": "内部服务器错误"
+      })
+      return
     }
 
     // 限制文件大小 单位默认字节 这里限制大小为1m
     if (files.avatar.size / 1024 > 1024) {
-      res.send('图片应小于1M');
-      fs.unlink(files.avatar.path);
-      return;
+      res.json({
+        "code": 401,
+        "message": "图片应小于1M"
+      })
+      fs.unlink(files.avatar.path)
+      return
     }
     // 获取后缀名
     let extname = path.extname(files.avatar.name);
@@ -434,18 +614,24 @@ exports.setavatar = function(req, res, next) {
     // 更改名字和路径
     fs.rename(oldpath, newpath, function(err) {
       if (err) {
-        res.send('图片上传失败');
-        return;
+        res.json({
+          "code": 401,
+          "message": "图片上传失败"
+        })
+        return
       }
     })
 
     db.updateMany('users', { "user": username }, { "avatar": avatarName },
       function(err, result) {
         if (err) {
-          res.send('头像修改失败');
-          return;
+          res.json({
+            "code": 401,
+            "message": "头像更新失败"
+          })
+          return
         }
-        res.redirect('/admin');
+        res.redirect('/adminedit')
       })
-  });
+  })
 }

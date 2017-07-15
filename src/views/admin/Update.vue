@@ -4,7 +4,7 @@
     <div class="content">
       <div class="edit">
         <div class="my-input">
-          <input type="text" v-model="user" placeholder="请输入新用户名">
+          <input type="text" v-model="oldPass" placeholder="请输入旧密码">
         </div>
         <div class="my-input">
           <input type="password" v-model="pass" placeholder="请输入新密码">
@@ -22,7 +22,7 @@ import AdminAside from '../../components/admin/AdminAside.vue'
   export default {
     data(){
       return {
-        user:'',
+        oldPass:'',
         pass:'',
         verifyPass:''
       }
@@ -30,14 +30,19 @@ import AdminAside from '../../components/admin/AdminAside.vue'
     methods:{
       updateInfo(){
         if(this.pass !== this.verifyPass){
-          console.log('密码不一致');
+          alert('两次密码不一致')
           return
         }
         this.axios.post('/updateinfo',{
-          user:this.user,
+
+          oldPass:this.oldPass,
           pass:this.pass
-        },(data) => {
-          console.log(data.data)
+        }).then((data) => {
+          if(data.data.code === 200){
+            this.$router.push({name:'login'})
+          }else{
+            alert(data.data.message)
+          }
         })
       }
     },

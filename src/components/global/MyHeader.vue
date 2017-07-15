@@ -9,18 +9,9 @@
         <div class="v"></div>
       </div>
       <ul>
-         <li v-for="(item,index) in links" :key="index">
-         <router-link :to="item.path">{{ item.name }}</router-link>
-                </li>
-        <!-- <li>
-          <a @click="index">首页</a>
+        <li v-for="(item,index) in links" :key="index">
+          <router-link :to="item.path">{{ item.name }}</router-link>
         </li>
-        <li>
-          <a @click="adminpublish">新随笔</a>
-        </li>
-        <li>
-          <a @click="admin">管理</a>
-        </li> -->
       </ul>
       <div class="search">
         <input type="text" name="search" placeholder="search" v-model="searchInfo" autofocus @keyup.enter="search">
@@ -60,20 +51,7 @@ export default {
           change: this.searchInfo
         }
       })
-    },
-    /*index() {
-      this.$router.push({
-        name: 'index'
-      })
-    },
-    adminpublish() {
-      var instance = axios.create();
-      instance.get('http://localhost:8080/adminpublish')
-    },
-    admin() {
-      var instance = axios.create();
-      instance.get('http://localhost:8080/admin')
-    }*/
+    }
   }
 }
 </script>

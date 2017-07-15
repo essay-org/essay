@@ -27,7 +27,6 @@ axios.defaults.baseURL = baseURL
 // http response 拦截器
 axios.interceptors.response.use(
   response => {
-    // store.commit('INFOMATIONS', response.data)
     return response;
   },
   error => {

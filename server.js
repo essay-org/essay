@@ -29,7 +29,7 @@ app.use(cookieParser());
 const template = fs.readFileSync(resolve('./src/index.template.html'), 'utf-8')
 
 
-function createRenderer (bundle, options) {
+function createRenderer(bundle, options) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return createBundleRenderer(bundle, Object.assign(options, {
     template,
@@ -49,7 +49,7 @@ let renderer
 let readyPromise
 if (isProd) {
   //在生产中：使用内置的服务器包创建服务器渲染器。
-  //服务器包由vue-ssr-webpack-plugin生成。
+     //服务器包由vue-ssr-webpack-plugin生成。
   const bundle = require('./dist/vue-ssr-server-bundle.json')
   //客户端清单是可选的，但它允许渲染器自动推断 preload/prefetch 链接，并直接
   //添加<script>标签在渲染过程中使用的任何异步块，避免瀑布请求。
@@ -59,7 +59,7 @@ if (isProd) {
   })
 } else {
   //在开发中：使用watch和hot-reload设置dev服务器，
-  //并在bundle / index模板更新上创建一个新的渲染器。
+     //并在bundle / index模板更新上创建一个新的渲染器。
   readyPromise = require('./build/setup-dev-server')(app, (bundle, options) => {
     renderer = createRenderer(bundle, options)
   })
@@ -69,7 +69,7 @@ const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
 })
 
-app.use(cors());//允许跨域
+app.use(cors()); //允许跨域
 app.use(compression({ threshold: 0 }));
 app.use(favicon('./public/logo-48.png'));
 app.use('/dist', serve('./dist', true));
@@ -89,7 +89,7 @@ const microCache = LRU({
 //请求是否可缓存基于其URL和标题
 const isCacheable = req => useMicroCache
 
-function render (req, res) {
+function render(req, res) {
   const s = Date.now()
   res.setHeader("Content-Type", "text/html")
   res.setHeader("Server", serverInfo)
@@ -134,67 +134,69 @@ function render (req, res) {
   })
 }
 // 前端路由拦截
-app.get('/login',function(req,res,next){
-  if(req.cookies.token){
+app.get('/login', function(req, res, next) {
+  if (req.cookies.token) {
     res.redirect('/index')
-  }else{
+  } else {
     next()
   }
 })
 
 // 服务端路由拦截
-app.get(['/admin','/admin/*','/adminpublish','/adminpublish/*','/adminedit','/updateinfo'],function(req,res,next){
-  if(req.cookies.token){
+app.get(['/admin', '/admin/*', '/adminpublish', '/adminpublish/*', '/adminedit', '/updateinfo'], function(req, res, next) {
+  if (req.cookies.token) {
     next()
-  }else{
+  } else {
     res.redirect('/login')
   }
 })
 
 // 获取某用户的文章 http://localhost:8080/api/people
-app.get('/api/people',router.people);
+app.get('/api/people', router.people);
 
 // 获取用户信息 http://localhost:8080/api/userinfo
-app.get('/api/userinfo',router.userinfo);
+app.get('/api/userinfo', router.userinfo);
 
 // 获取文章详情 http://localhost:8080/api/article?id=1496841740682
-app.get('/api/article',router.article);
+app.get('/api/article', router.article);
 
 // 获取标签 
-app.get('/api/tag',router.tag);
+app.get('/api/tag', router.tag);
 
 // 按照标签查询 http://localhost:8080/api/bytag?tag=js
-app.get('/api/bytag',router.bytag);
+app.get('/api/bytag', router.bytag);
 
 // 模糊搜索 http://localhost:8080/api/search?info=js
-app.get('/api/search',router.search);
+app.get('/api/search', router.search);
 
 // 归档统计 
-app.get('/api/archive',router.archive);
+app.get('/api/archive', router.archive);
 
 // 通过归档日期获取文章 http://localhost:8080/api/archive?date=201706
-app.get('/api/byarchive',router.byarchive);
+app.get('/api/byarchive', router.byarchive);
 
 // 后台管理数据
-app.get('/api/allarticle',router.allarticle);
+app.get('/api/allarticle', router.allarticle);
 
 // 删除文章  http://localhost:8080/api/delete?id=1496841740682
-app.post('/api/delete',router.delete);
+app.post('/api/delete', router.delete);
 
 // 发表文章
-app.post('/api/publish',router.publish);
+app.post('/api/publish', router.publish);
 
 // 用户登录
-app.post('/api/login',router.login);
+app.post('/api/login', router.login);
 
 // 更新管理员信息
-app.post('/api/updateadmin',router.updateadmin);
+app.post('/api/updateadmin', router.updateadmin);
 
 // 修改头像
-app.post('/api/setavatar',router.setavatar);
+app.post('/api/setavatar', router.setavatar);
+
+app.post('/api/updateinfo', router.updateinfo);
 
 // 退出登录
-app.post('/api/logout',router.logout);
+app.post('/api/logout', router.logout);
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })

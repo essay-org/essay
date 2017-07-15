@@ -11,22 +11,24 @@
 <script>
 export default {
   data() {
-      return {
-        user: '',
-        pass: ''
-      }
-    },
-    methods: {
-      login() {
-        this.axios.post('/login', {
-          "user": this.user,
-          "pass": this.pass
-        }).then((data) => {
+    return {
+      user: '',
+      pass: ''
+    }
+  },
+  methods: {
+    login() {
+      this.axios.post('/login', {
+        "user": this.user,
+        "pass": this.pass
+      }).then((data) => {
+        if (data.data.code === 200) {
           this.$router.push({
             name: 'adminpublish'
           })
-        })
-      }
+        }
+      })
     }
+  }
 }
 </script>

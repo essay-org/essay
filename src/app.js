@@ -20,10 +20,10 @@ const router = createRouter()
   // 使用方式 `store.state.route`
 sync(store, router)
 axios.defaults.timeout = 5000
-const token = cookies.get('token') || ''
 
-axios.defaults.baseURL = 'http://localhost:8080/api'
+const baseURL = 'http://localhost:8080/api'
 
+axios.defaults.baseURL = baseURL
 // http response 拦截器
 axios.interceptors.response.use(
   response => {

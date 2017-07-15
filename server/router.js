@@ -41,7 +41,8 @@ exports.login = function(req, res, next) {
 }
 
 exports.logout = function(req, res, next) {
-  // localStorage.setItem('token', 'null');
+  res.cookie('token', '', { maxAge: 0 })
+  res.cookie('username', '', { maxAge: 0 })
   res.send('退出成功');
   return;
 }

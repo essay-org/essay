@@ -9,7 +9,7 @@
 - 支持服务端渲染   
 - 支持标题动态切换   
 - 支持PWA   
-- 支持maekdown语法，样式采用github风格，代码高亮   
+- 支持markdown语法，样式采用github风格，代码高亮   
 - 支持文章保存为草稿   
 - 支持标签和归档功能  
 ### 目录结构
@@ -78,15 +78,15 @@
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-04.png)  
 更多效果大家可通过线上演示地址查看  
 ### 本地运行项目
-项目地址：https://github.com/wmui/vueblog  
-1. 安装mongod并启动  
-2. 安装git工具  
-3. 克隆项目到你的本地   
-4. 修改配置项信息，/server/  settings.js，你也可以默认不修改，默认用户名:q，默认密码：q  
+1. 安装[mongodb](https://www.mongodb.com/download-center?jmp=nav#community)并启动  
+2. 安装[nodejs](https://nodejs.org/en/)环境
+3. 下载项目到你的本地   
+4. 修改配置项信息，/server/settings.js，你也可以默认不修改，默认用户名:q，默认密码：q  
+
 ```
     let user = 'q';
     let pass = md5('q');
-    let avatar = 'avatar.jpg';//头像
+    let avatar = 'avatar.jpg';
     let intro ='Never too old to learn';
     let nickname = 'VueBlog';
     module.exports = {
@@ -99,8 +99,13 @@
     }
 ```
 5. 打开本地终端，执行`npm run dev `,访问http://localhost:8080  
-#### 结语
-关于如何部署到线上和部署https，如果有需要后面会更新相关教程。此项目长期更新，希望能和大家一起学习，共同进步
+### 结语
+此项目长期更新，由于是个人项目，不建议直接用于线上，遇到问题欢迎issue，知无不答，也欢迎大家贡献代码，一起学习，共同进步，做一个完美的博客系统
+### 教程更新
+[nodejs服务器部署教程一](https://segmentfault.com/a/1190000010098126)
+[nodejs服务器部署教程二，把vue项目部署到线上](https://segmentfault.com/a/1190000010205995)
+[nodejs服务器部署教程三，部署基于node+vue+mongodb的项目](https://segmentfault.com/a/1190000010213434)
+
 
 
 

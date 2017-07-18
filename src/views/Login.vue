@@ -26,6 +26,8 @@ export default {
           this.$router.push({
             name: 'adminpublish'
           })
+        } else {
+          this.$toasted.show(data.data.message)
         }
       })
     }

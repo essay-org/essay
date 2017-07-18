@@ -14,7 +14,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item,index) in data">
+            <tr v-for="(item,index) in data" :key="index">
               <td><router-link :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link></td>
               <td>{{item.date | formatDate('yyyy-MM-dd')}}</td>
               <td :class="{'draft':item.state === 'draft'}">{{item.state | status}}</td>
@@ -88,7 +88,8 @@ export default {
   	del(item){
   		var id = item.date;
   		this.axios.post(`/delete?id=${id}`).then((data) => {
-  			this.allarticle()
+        this.$toasted.show(data.data.message)
+  			if (data.data.code === 200) this.allarticle()
   		})
   	},
     edit(item) {

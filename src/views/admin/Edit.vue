@@ -55,6 +55,7 @@ export default {
           }
 
         }).then((result) => {
+          this.$toasted.show(result.data.message)
           if(this.$refs.avatarInput.files.length !== 0){
           this.$refs.avatarForm.submit()
           }

@@ -30,7 +30,7 @@ import AdminAside from '../../components/admin/AdminAside.vue'
     methods:{
       updateInfo(){
         if(this.pass !== this.verifyPass){
-          alert('两次密码不一致')
+          this.$toasted.show('两次密码不一致')
           return
         }
         this.axios.post('/updateinfo',{
@@ -41,7 +41,7 @@ import AdminAside from '../../components/admin/AdminAside.vue'
           if(data.data.code === 200){
             this.$router.push({name:'login'})
           }else{
-            alert(data.data.message)
+            this.$toasted.show(data.data.message)
           }
         })
       }

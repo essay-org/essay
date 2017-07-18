@@ -89,7 +89,7 @@ export default {
         }
 
         if (!this.content) {
-          this.$toasted.show('文章标题不能为空！')
+          this.$toasted.show('文章正文不能为空！')
           return
         }
 

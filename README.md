@@ -2,7 +2,7 @@
 历时两个多月，终于利用工作之余完成了这个项目的1.0版本，为什么要写这个项目？其实基于vuejs+nodejs构建的开源博客系统有很多，但是大多数不支持服务端渲染，也不支持动态标题，只是做到了前后端分离，对于博客类系统seo肯定很重要，索性就自己动手写了这个项目，其中也遇到了不少问题， 因为基于服务端渲染的项目不多，自己能力也有限，所以用了好长时间。这里特别感谢[@lincenying](https://github.com/lincenying)，提供了登录功能的解决思路，也是我在开发过程中遇到最难解决的问题，本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，支持PWA(需升级为https)，演示地址：https://vueblog.86886.wang
 ### 开发环境和技术栈
 - 操作系统：windows 10 64位  
-- 开发工具 ：webstrom sublime   
+- 开发工具 ：webstorm sublime   
 - 前端：vue.js + vue-router + vuex   
 - 后端：node.js + mongodb (采用express框架)   
 ###  特色功能

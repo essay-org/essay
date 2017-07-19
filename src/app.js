@@ -6,6 +6,7 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 import axios from 'axios'
+import Toasted from 'vue-toasted'
 import cookies from 'js-cookie'
 Vue.prototype.axios = axios
   // minxin 处理动态标题
@@ -59,6 +60,10 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+Vue.use(Toasted, {
+  position: 'top-center',
+  duration: 2000
+})
 
 export function createApp() {
 

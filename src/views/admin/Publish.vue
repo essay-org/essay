@@ -83,6 +83,16 @@ export default {
     },
     methods: {
       publish() {
+        if (!this.title) {
+          this.$toasted.show('文章标题不能为空！')
+          return
+        }
+
+        if (!this.content) {
+          this.$toasted.show('文章正文不能为空！')
+          return
+        }
+
         this.axios.post('/publish', {
           "title": this.title,
           "content": this.content,

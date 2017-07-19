@@ -98,7 +98,7 @@
         nickname:nickname
     }
 ```
-5. 打开本地终端，执行`npm run dev `,访问http://localhost:8080  
+5. 打开本地终端，执行`npm install`,`npm run dev `,访问http://localhost:8080  
 ### 结语
 此项目长期更新，由于是个人项目，不建议直接用于线上，遇到问题欢迎issue，知无不答，也欢迎大家贡献代码，一起学习，共同进步，做一个完美的博客系统
 ### 教程更新

@@ -102,9 +102,9 @@
 ### 结语
 此项目长期更新，由于是个人项目，不建议直接用于线上，遇到问题欢迎issue，知无不答，也欢迎大家贡献代码，一起学习，共同进步，做一个完美的博客系统
 ### 教程更新
-[nodejs服务器部署教程一](https://segmentfault.com/a/1190000010098126)
-[nodejs服务器部署教程二，把vue项目部署到线上](https://segmentfault.com/a/1190000010205995)
-[nodejs服务器部署教程三，部署基于node+vue+mongodb的项目](https://segmentfault.com/a/1190000010213434)
+- [nodejs服务器部署教程一](https://segmentfault.com/a/1190000010098126)
+- [nodejs服务器部署教程二，把vue项目部署到线上](https://segmentfault.com/a/1190000010205995)
+- [nodejs服务器部署教程三，部署基于node+vue+mongodb的项目](https://segmentfault.com/a/1190000010213434)
 
 
 

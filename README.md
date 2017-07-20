@@ -56,9 +56,13 @@
     └─ yarn.lock                      // yarn配置
 ```
 
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fwmui%2Fvueblog.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fwmui%2Fvueblog?ref=badge_large)
+
 ### pc端效果图 
 #### 首页效果图
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/01.png)  
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/01.png) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fwmui%2Fvueblog.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fwmui%2Fvueblog?ref=badge_shield)
+ 
 #### 代码高亮效果图
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/02.png)  
 #### 后台发布页面
@@ -105,8 +109,3 @@
 - [nodejs服务器部署教程一](https://segmentfault.com/a/1190000010098126)
 - [nodejs服务器部署教程二，把vue项目部署到线上](https://segmentfault.com/a/1190000010205995)
 - [nodejs服务器部署教程三，部署基于node+vue+mongodb的项目](https://segmentfault.com/a/1190000010213434)
-
-
-
-
-

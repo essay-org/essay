@@ -15,7 +15,9 @@
           </thead>
           <tbody>
             <tr v-for="(item,index) in data" :key="index">
-              <td><router-link :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link></td>
+              <td>
+                <router-link :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link>
+              </td>
               <td>{{item.date | formatDate('yyyy-MM-dd')}}</td>
               <td :class="{'draft':item.state === 'draft'}">{{item.state | status}}</td>
               <td><a @click="edit(item)">编辑</a></td>
@@ -36,28 +38,17 @@
 <script>
 import AdminAside from '../../components/admin/AdminAside.vue'
 export default {
-  title(){
+  title() {
     return '管理后台|vueblog'
   },
   components: {
     AdminAside
   },
-  beforeRouteEnter (to, from, next) {
-    console.log(2222)
-    next(vm => {
-    console.log(vm.store.state.cookies)
-      if(Object.keys(vm.store.state.cookies) !== undefined){
-        vm.$router.push({name:'admin'})
-      }else{
-        vm.$router.push({name:'login'})
-      }
-    })
-  },
+
   beforeMount() {
     if (this.$root._isMounted) {
       this.allarticle()
     }
-
   },
   computed: {
     data() {
@@ -81,19 +72,19 @@ export default {
       this.allarticle()
     }
   },
-  methods:{
-  	allarticle(){
-  		this.$store.dispatch('ALLARTICLE')
-  	},
-  	del(item){
-  		var id = item.date;
-  		this.axios.post(`/delete?id=${id}`).then((data) => {
+  methods: {
+    allarticle() {
+      this.$store.dispatch('ALLARTICLE')
+    },
+    del(item) {
+      var id = item.date;
+      this.axios.post(`/delete?id=${id}`).then((data) => {
         this.$toasted.show(data.data.message)
-  			if (data.data.code === 200) this.allarticle()
-  		})
-  	},
+        if (data.data.code === 200) this.allarticle()
+      })
+    },
     edit(item) {
-      this.$router.push({name:'adminpublish',params:{id:item.date}})
+      this.$router.push({ name: 'adminpublish', params: { id: item.date } })
     }
   }
 }

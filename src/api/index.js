@@ -79,4 +79,4 @@ function byarchivedata(date,id) {
   return axios.all([byarchive(date,id), intro(),tags(),archives()])
 }
 
-export { indexdata, articledata, bytagdata, searchdata, byarchivedata, allarticle, tags,intro }
+export default{ indexdata, articledata, bytagdata, searchdata, byarchivedata, allarticle, tags,intro }

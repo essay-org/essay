@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import axios from 'axios'
-import { indexdata, articledata, bytagdata, searchdata, byarchivedata, allarticle, tags,intro } from '../api'
+import api from '../api'
 export default {
   ARTICLEDATA({ commit, state }, id) {
-    return articledata(id)
+    return api.articledata(id)
       .then(axios.spread(function(article, intro, tags, archives) {
         commit('ARTICLEDATA', {
           article: article,
@@ -19,7 +19,7 @@ export default {
     switch (name) {
       case 'index':
         var id = state.route.params.page;
-        return indexdata(id)
+        return api.indexdata(id)
           .then(axios.spread(function(articleList, intro, tags, archives) {
             commit('INDEXDATA', {
               articleList: articleList,
@@ -36,7 +36,7 @@ export default {
           tag = encodeURI(tag)
         }
         var id = state.route.params.page || '';
-        return bytagdata(tag, id)
+        return api.bytagdata(tag, id)
           .then(axios.spread(function(byTag, intro, tags, archives) {
             commit('BYTAG', {
               byTag: byTag,
@@ -49,7 +49,7 @@ export default {
       case 'archive':
         var date = state.route.params.change || '';
         var id = state.route.params.page || '';
-        return byarchivedata(date, id)
+        return api.byarchivedata(date, id)
           .then(axios.spread(function(byArchive, intro, tags, archives) {
             commit('ARCHIVEDATA', {
               byArchive: byArchive,
@@ -62,7 +62,7 @@ export default {
       case 'search':
         var info = state.route.params.change
         var id = state.route.params.page
-        return searchdata(info, id)
+        return api.searchdata(info, id)
           .then(axios.spread(function(searchlist, intro, tags, archives) {
             commit('SEARCHDATA', {
               searchlist: searchlist,
@@ -76,13 +76,13 @@ export default {
   },
 
   GETTAGS({ commit, state }) {
-    return tags().then((data) => {
+    return api.tags().then((data) => {
       commit('GETTAGS', data)
     })
   },
 
   GETINTRO({ commit, state }) {
-    return intro().then((data) => {
+    return api.intro().then((data) => {
       commit('GETINTRO', data)
     })
   },
@@ -90,7 +90,7 @@ export default {
   // 后台数据
   ALLARTICLE({ commit, state }) {
     var id = state.route.params.page;
-    return allarticle(id).then((data) => {
+    return api.allarticle(id).then((data) => {
       commit('ALLARTICLE', data)
     })
   },

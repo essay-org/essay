@@ -52,7 +52,7 @@ module.exports = function setupDevServer (app, cb) {
   })
 
   // 热加载中间件
-  app.use(require('webpack-hot-middleware')(clientCompiler))
+  app.use(require('webpack-hot-middleware')(clientCompiler, { heartbeat: 5000 }))
 
   // 监控和更新服务端渲染
   const serverCompiler = webpack(serverConfig)

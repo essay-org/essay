@@ -66,7 +66,7 @@ if (isProd) {
 }
 
 const serve = (path, cache) => express.static(resolve(path), {
-  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+  maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
 })
 
 app.use(cors()); //允许跨域
@@ -94,7 +94,9 @@ function render(req, res) {
   res.setHeader("Content-Type", "text/html")
   res.setHeader("Server", serverInfo)
   const handleError = err => {
-    if (err && err.code === 404) {
+    if (err.url) {
+      res.redirect(err.url)
+    } else if (err.code === 404) {
       res.status(404).end('404 | Page Not Found')
     } else {
       // 渲染错误页面或重定向

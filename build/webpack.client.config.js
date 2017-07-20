@@ -41,8 +41,9 @@ if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
     // 自动生成 service worker
     new SWPrecachePlugin({
-      cacheId: 'vue-hn',
+      cacheId: 'VueBlog',
       filename: 'service-worker.js',
+      minify: true,
       dontCacheBustUrlsMatching: /./,
       staticFileGlobsIgnorePatterns: [/\.map$/, /\.json$/],
       runtimeCaching: [

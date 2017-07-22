@@ -1,92 +1,91 @@
-### æ„Ÿæ‚Ÿ
-å†æ—¶ä¸¤ä¸ªå¤šæœˆï¼Œç»ˆäºåˆ©ç”¨å·¥ä½œä¹‹ä½™å®Œæˆäº†è¿™ä¸ªé¡¹ç›®çš„1.0ç‰ˆæœ¬ï¼Œä¸ºä»€ä¹ˆè¦å†™è¿™ä¸ªé¡¹ç›®ï¼Ÿå…¶å®åŸºäºvuejs+nodejsæ„å»ºçš„å¼€æºåšå®¢ç³»ç»Ÿæœ‰å¾ˆå¤šï¼Œä½†æ˜¯å¤§å¤šæ•°ä¸æ”¯æŒæœåŠ¡ç«¯æ¸²æŸ“ï¼Œä¹Ÿä¸æ”¯æŒåŠ¨æ€æ ‡é¢˜ï¼Œæ›´ä¸æ”¯æŒPWAï¼Œåªæ˜¯åšåˆ°äº†å‰åç«¯åˆ†ç¦»ï¼Œå¯¹äºåšå®¢ç±»ç³»ç»Ÿseoè‚¯å®šå¾ˆé‡è¦ï¼Œç´¢æ€§å°±è‡ªå·±åŠ¨æ‰‹å†™äº†è¿™ä¸ªé¡¹ç›®ï¼Œå…¶ä¸­ä¹Ÿé‡åˆ°äº†ä¸å°‘é—®é¢˜ï¼Œå› ä¸ºåŸºäºæœåŠ¡ç«¯æ¸²æŸ“çš„é¡¹ç›®ä¸å¤šï¼Œè‡ªå·±èƒ½åŠ›ä¹Ÿæœ‰é™ï¼Œæ‰€ä»¥ç”¨äº†å¥½é•¿æ—¶é—´ã€‚æœ¬é¡¹ç›®åŸºäº[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)å¼€å‘ï¼Œæ”¯æŒPWA(éœ€å‡çº§ä¸ºhttps)ï¼Œæ¼”ç¤ºåœ°å€ï¼šhttps://vueblog.86886.wang
+### Ô¤ÀÀ
+- [ÔÚÏßÑİÊ¾](https://vueblog.86886.wang)
 
-### å¼€å‘ç¯å¢ƒå’ŒæŠ€æœ¯æ ˆ
-- æ“ä½œç³»ç»Ÿï¼šwindows 10 64ä½  
-- å¼€å‘å·¥å…· ï¼šwebstorm sublime   
-- å‰ç«¯ï¼švue.js + vue-router + vuex   
-- åç«¯ï¼šnode.js + mongodb (é‡‡ç”¨expressæ¡†æ¶)   
+### ¿ª·¢»·¾³ºÍ¼¼ÊõÕ»
+- ²Ù×÷ÏµÍ³£ºwindows10 64Î»
+- ¿ª·¢¹¤¾ß £ºwebstorm sublime
+- Ç°¶Ë£ºVue + vue-router + vuex 
+- ºó¶Ë£ºNode.js(²ÉÓÃexpress¿ò¼Ü) + mongodb
 
-###  ç‰¹è‰²åŠŸèƒ½
-- æ”¯æŒæœåŠ¡ç«¯æ¸²æŸ“   
-- æ”¯æŒæ ‡é¢˜åŠ¨æ€åˆ‡æ¢   
-- æ”¯æŒPWA   
-- æ”¯æŒmarkdownè¯­æ³•ï¼Œæ ·å¼é‡‡ç”¨githubé£æ ¼ï¼Œä»£ç é«˜äº®   
-- æ”¯æŒæ–‡ç« ä¿å­˜ä¸ºè‰ç¨¿   
-- æ”¯æŒæ ‡ç­¾å’Œå½’æ¡£åŠŸèƒ½  
+###  ÌØÉ«¹¦ÄÜ
+- Ö§³Ö·şÎñ¶ËäÖÈ¾
+- Ö§³Ö±êÌâ¶¯Ì¬ÇĞ»»
+- Ö§³ÖPWA
+- Ö§³ÖmarkdownÓï·¨£¬ÑùÊ½²ÉÓÃgithub·ç¸ñ£¬´úÂë¸ßÁÁ
+- Ö§³ÖÎÄÕÂ±£´æÎª²İ¸å
+- Ö§³Ö±êÇ©ºÍ¹éµµ¹¦ÄÜ
 
-### ç›®å½•ç»“æ„
+### Ä¿Â¼½á¹¹
 ```
-    â”Œâ”€ build                          // é…ç½®æ–‡ä»¶
-    â”œâ”€ example                        // æ¼”ç¤º
-    â”œâ”€ public                         // å…¬å…±èµ„æº
-    â”œâ”€ server                         // æœåŠ¡ç«¯
-    â”‚      â”œâ”€ db.js                   // æ•°æ®åº“daoå±‚å°è£…
-    â”‚      â”œâ”€ md5.js                  // å¯†ç åŠ å¯†
-    â”‚      â”œâ”€ router.js               // æœåŠ¡ç«¯è·¯ç”±
-    â”‚      â””â”€ settings.js             // æ•°æ®åº“åˆå§‹åŒ–é…ç½®
-    â”œâ”€src                             // å‰ç«¯
-    â”‚   â”œâ”€ api                        // æ‰€æœ‰çš„apiè¯·æ±‚
-    â”‚   â”œâ”€ assets                     // å‰ç«¯æ¨¡æ¿
-    â”‚   â”œâ”€ components                 // vueç»„ä»¶
-    â”‚   â”‚          â”œâ”€ admin           // åå°å¯å¤ç”¨ç»„ä»¶
-    â”‚   â”‚          â””â”€ global          // å‰ç«¯å¯å¤ç”¨ç»„ä»¶
-    â”‚   â”œâ”€ router                     // å‰ç«¯è·¯ç”±
-    â”‚   â”œâ”€ store                      // vuexæ–‡ä»¶
-    â”‚   â”œâ”€ util                       // å…¬å…±å‡½æ•°åº“
-    â”‚   â”‚    â”œâ”€ filters.js            // è¿‡æ»¤å™¨å‡½æ•°
-    â”‚   â”‚    â””â”€ title.js              // æ ‡é¢˜å‡½æ•°
-    â”‚   â”œâ”€ views                      // å…¬å…±å‡½æ•°åº“
-    â”‚   â”‚    â”œâ”€ admin                 // åå°ç»„ä»¶
-    â”‚   â”‚    â”œâ”€ Article.vue           // æ–‡ç« è¯¦æƒ…é¡µ
-    â”‚   â”‚    â”œâ”€ CreateListView.js     // é¢„æ¸²æŸ“
-    â”‚   â”‚    â”œâ”€ List.Vue              // æ–‡ç« åˆ—è¡¨
-    â”‚   â”‚    â””â”€ Login.Vue             // ç™»é™†
-    â”‚   â”œâ”€ app.js                     // é¡¹ç›®å…¥å£æ–‡ä»¶
-    â”‚   â”œâ”€ App.vue                    // å…¨å±€ç»„ä»¶
-    â”‚   â”œâ”€ entry-client.js            // å®¢æˆ·ç«¯æ¸²æŸ“
-    â”‚   â”œâ”€ entry-server.js            // æœåŠ¡ç«¯æ¸²æŸ“
-    â”‚   â””â”€ index.template.html        // æ¨¡æ¿
-    â”œâ”€ static                         // é™æ€æ–‡ä»¶
-    â”œâ”€ .babelrc                       // babelé…ç½®
-    â”œâ”€ .gitignore                     // gitä¸Šä¼ å¿½ç•¥
-    â”œâ”€ ecosystem.json                 // pm2é…ç½®
-    â”œâ”€ manifest.json                  // PWAé…ç½®
-    â”œâ”€ LICENSE                        // å¼€æºåè®®
-    â”œâ”€ package.json                   // npmåŒ…ç®¡ç†
-    â”œâ”€ README.md                      // é¡¹ç›®è¯´æ˜
-    â”œâ”€ server.js                      // é¡¹ç›®å¯åŠ¨æ–‡ä»¶
-    â””â”€ yarn.lock                      // yarné…ç½®
+    ©°©¤ build                          // ÅäÖÃÎÄ¼ş
+    ©À©¤ example                        // ÑİÊ¾
+    ©À©¤ public                         // ¹«¹²×ÊÔ´
+    ©À©¤ server                         // ·şÎñ¶Ë
+    ©¦      ©À©¤ db.js                   // Êı¾İ¿âdao²ã·â×°
+    ©¦      ©À©¤ md5.js                  // ÃÜÂë¼ÓÃÜ
+    ©¦      ©À©¤ router.js               // ·şÎñ¶ËÂ·ÓÉ
+    ©¦      ©¸©¤ settings.js             // Êı¾İ¿â³õÊ¼»¯ÅäÖÃ
+    ©À©¤src                             // Ç°¶Ë
+    ©¦   ©À©¤ api                        // ËùÓĞµÄapiÇëÇó
+    ©¦   ©À©¤ assets                     // Ç°¶ËÄ£°å
+    ©¦   ©À©¤ components                 // vue×é¼ş
+    ©¦   ©¦          ©À©¤ admin           // ºóÌ¨¿É¸´ÓÃ×é¼ş
+    ©¦   ©¦          ©¸©¤ global          // Ç°¶Ë¿É¸´ÓÃ×é¼ş
+    ©¦   ©À©¤ router                     // Ç°¶ËÂ·ÓÉ
+    ©¦   ©À©¤ store                      // vuexÎÄ¼ş
+    ©¦   ©À©¤ util                       // ¹«¹²º¯Êı¿â
+    ©¦   ©¦    ©À©¤ filters.js            // ¹ıÂËÆ÷º¯Êı
+    ©¦   ©¦    ©¸©¤ title.js              // ±êÌâº¯Êı
+    ©¦   ©À©¤ views                      // ×é¼ş¿â
+    ©¦   ©¦    ©À©¤ admin                 // ºóÌ¨×é¼ş
+    ©¦   ©¦    ©À©¤ Article.vue           // ÎÄÕÂÏêÇéÒ³
+    ©¦   ©¦    ©À©¤ CreateListView.js     // Ô¤äÖÈ¾
+    ©¦   ©¦    ©À©¤ List.Vue              // ÎÄÕÂÁĞ±í
+    ©¦   ©¦    ©¸©¤ Login.Vue             // µÇÂ½
+    ©¦   ©À©¤ app.js                     // ÏîÄ¿Èë¿ÚÎÄ¼ş
+    ©¦   ©À©¤ App.vue                    // È«¾Ö×é¼ş
+    ©¦   ©À©¤ entry-client.js            // ¿Í»§¶ËäÖÈ¾
+    ©¦   ©À©¤ entry-server.js            // ·şÎñ¶ËäÖÈ¾
+    ©¦   ©¸©¤ index.template.html        // Ä£°å
+    ©À©¤ static                         // ¾²Ì¬ÎÄ¼ş
+    ©À©¤ .babelrc                       // babelÅäÖÃ
+    ©À©¤ .gitignore                     // gitÉÏ´«ºöÂÔ
+    ©À©¤ ecosystem.json                 // pm2ÅäÖÃ
+    ©À©¤ manifest.json                  // PWAÅäÖÃ
+    ©À©¤ LICENSE                        // ¿ªÔ´Ğ­Òé
+    ©À©¤ package.json                   // npm°ü¹ÜÀí
+    ©À©¤ README.md                      // ÏîÄ¿ËµÃ÷
+    ©À©¤ server.js                      // ÏîÄ¿Æô¶¯ÎÄ¼ş
+    ©¸©¤ yarn.lock                      // yarnÅäÖÃ
 ```
 
-### pcç«¯æ•ˆæœå›¾ 
-#### é¦–é¡µæ•ˆæœå›¾
+### pc¶ËĞ§¹ûÍ¼ 
+#### Ê×Ò³Ğ§¹ûÍ¼
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/01.png)  
-#### ä»£ç é«˜äº®æ•ˆæœå›¾
+#### ´úÂë¸ßÁÁĞ§¹ûÍ¼
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/02.png)  
-#### åå°å‘å¸ƒé¡µé¢
+#### ºóÌ¨·¢²¼Ò³Ãæ
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/03.png)  
-#### åå°æ–‡ç« åˆ—è¡¨
+#### ºóÌ¨ÎÄÕÂÁĞ±í
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/04.png)  
-#### ä¿®æ”¹ä¸ªäººä¿¡æ¯
+#### ĞŞ¸Ä¸öÈËĞÅÏ¢
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/05.png)  
 
-### æ‰‹æœºç«¯æ•ˆæœå›¾ï¼Œä»¥chromeæµè§ˆå™¨æ¼”ç¤º
-#### æ·»åŠ åˆ°ä¸»å±
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-01.png)  
-#### å¯åŠ¨æ•ˆæœ
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-02.png)  
-#### é¦–é¡µæ•ˆæœ
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-03.png)  
-#### æ–‡ç« é¡µæ•ˆæœ
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-04.png)  
-æ›´å¤šæ•ˆæœå¤§å®¶å¯é€šè¿‡çº¿ä¸Šæ¼”ç¤ºåœ°å€æŸ¥çœ‹  
+### ÊÖ»ú¶ËĞ§¹ûÍ¼£¬ÒÔchromeä¯ÀÀÆ÷ÑİÊ¾
+#### Ìí¼Óµ½Ö÷ÆÁ
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-01.png)
+#### Æô¶¯Ğ§¹û
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-02.png)
+#### Ê×Ò³Ğ§¹û
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-03.png)
+#### ÎÄÕÂÒ³Ğ§¹û
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-04.png)
 
-### æœ¬åœ°è¿è¡Œé¡¹ç›®
-1. å®‰è£…[mongodb](https://www.mongodb.com/download-center?jmp=nav#community)å¹¶å¯åŠ¨  
-2. å®‰è£…[nodejs](https://nodejs.org/en/)ç¯å¢ƒ
-3. ä¸‹è½½é¡¹ç›®åˆ°ä½ çš„æœ¬åœ°   
-4. ä¿®æ”¹é…ç½®é¡¹ä¿¡æ¯ï¼Œ/server/settings.jsï¼Œä½ ä¹Ÿå¯ä»¥é»˜è®¤ä¸ä¿®æ”¹ï¼Œé»˜è®¤ç”¨æˆ·å:qï¼Œé»˜è®¤å¯†ç ï¼šq  
+### ±¾µØÔËĞĞÏîÄ¿
+**×¢Òâ**£ºNode.js°æ±¾ÒªÇó7ÒÔÉÏ  
+1. °²×°[mongodb](https://www.mongodb.com/download-center?jmp=nav#community)²¢Æô¶¯
+2. °²×°[nodejs](https://nodejs.org/en/)»·¾³
+3. ĞŞ¸Ä`/server/settings.js`ÏÂµÄÅäÖÃÏîĞÅÏ¢£¬ÄãÒ²¿ÉÒÔÄ¬ÈÏ²»ĞŞ¸Ä£¬Ä¬ÈÏÓÃ»§Ãû:q£¬Ä¬ÈÏÃÜÂë£ºq
 
 ```
     let user = 'q';
@@ -103,16 +102,19 @@
         nickname:nickname
     }
 ```
-5. æ‰“å¼€æœ¬åœ°ç»ˆç«¯ï¼Œæ‰§è¡Œ`npm install`,`npm run dev `,è®¿é—®http://localhost:8080  
+4. ´ò¿ª±¾µØÖÕ¶Ë£¬Ö´ĞĞ`npm install`,`npm run dev `,·ÃÎÊhttp://localhost:8080  
 
-### ç»“è¯­
-æ­¤é¡¹ç›®é•¿æœŸæ›´æ–°ï¼Œç”±äºæ˜¯ä¸ªäººé¡¹ç›®ï¼Œä¸å»ºè®®ç›´æ¥ç”¨äºçº¿ä¸Šï¼Œé‡åˆ°é—®é¢˜æ¬¢è¿issueï¼Œä¹Ÿæ¬¢è¿å¤§å®¶PRï¼Œä¸€èµ·å­¦ä¹ ï¼Œå…±åŒè¿›æ­¥ã€‚å¦‚æœä½ æ˜¯vueç²‰ï¼Œæˆ–æ˜¯å¼€æºçˆ±å¥½è€…ï¼ŒæœŸå¾…ä½ åŠ å…¥[vue-blog](https://github.com/vue-blog)å¼€æºç»„ç»‡ï¼Œè®©æˆ‘ä»¬ä¸€èµ·åšä¸€ä¸ªå®Œç¾çš„åšå®¢ç³»ç»Ÿã€‚
+### ½Ì³Ì¸üĞÂ
+- [nodejs·şÎñÆ÷²¿Êğ½Ì³ÌÒ»](https://segmentfault.com/a/1190000010098126)
+- [nodejs·şÎñÆ÷²¿Êğ½Ì³Ì¶ş£¬°ÑvueÏîÄ¿²¿Êğµ½ÏßÉÏ](https://segmentfault.com/a/1190000010205995)
+- [nodejs·şÎñÆ÷²¿Êğ½Ì³ÌÈı£¬²¿Êğ»ùÓÚnode+vue+mongodbµÄÏîÄ¿](https://segmentfault.com/a/1190000010213434)
+- [nodejs·şÎñÆ÷²¿Êğ½Ì³ÌËÄ£¬²¿ÊğsslÖ¤Êé£¬Éı¼¶Îªhttps](https://segmentfault.com/a/1190000010281512)
 
-### æ•™ç¨‹æ›´æ–°
-- [nodejsæœåŠ¡å™¨éƒ¨ç½²æ•™ç¨‹ä¸€](https://segmentfault.com/a/1190000010098126)
-- [nodejsæœåŠ¡å™¨éƒ¨ç½²æ•™ç¨‹äºŒï¼ŒæŠŠvueé¡¹ç›®éƒ¨ç½²åˆ°çº¿ä¸Š](https://segmentfault.com/a/1190000010205995)
-- [nodejsæœåŠ¡å™¨éƒ¨ç½²æ•™ç¨‹ä¸‰ï¼Œéƒ¨ç½²åŸºäºnode+vue+mongodbçš„é¡¹ç›®](https://segmentfault.com/a/1190000010213434)
-- [nodejsæœåŠ¡å™¨éƒ¨ç½²æ•™ç¨‹å››ï¼Œéƒ¨ç½²sslè¯ä¹¦ï¼Œå‡çº§ä¸ºhttps](https://segmentfault.com/a/1190000010281512)
+### ½áÓï
+±¾ÏîÄ¿»ùÓÚ[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)¿ª·¢£¬³¤ÆÚ¸üĞÂ£¬ÓÉÓÚÊÇ¸öÈËÏîÄ¿£¬²»½¨ÒéÖ±½ÓÓÃÓÚÏßÉÏ£¬»¶Ó­issue£¬»¶Ó­PR¡£
+
+### ¿ªÔ´Ğ­Òé
+[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)
 
 
 

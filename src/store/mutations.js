@@ -1,59 +1,55 @@
 import Vue from 'vue'
 export default {
 
-  INDEXDATA(state, data) {
-    state.articleList = data.articleList.data.result
-    state.number = data.articleList.data.number
-    state.intro = data.intro.data.result[0]
+  INDEXPAGE(state, data) {
+    state.articleList = data.posts.data.result
+    state.total = data.posts.data.total
+    state.administrator = data.administrator.data.result[0]
     state.tags = data.tags.data.result
     state.archives = data.archives.data.result
   },
 
-  ARTICLEDATA(state, data) {
+  DETAILPAGE(state, data) {
     state.articleDetail = data.article.data.result[0]
-    state.intro = data.intro.data.result[0]
+    state.administrator = data.administrator.data.result[0]
     state.tags = data.tags.data.result
     state.archives = data.archives.data.result
   },
 
 
-  BYTAG(state, data) {
-    state.articleList = data.byTag.data.result
-    state.number = data.byTag.data.number
-    state.intro = data.intro.data.result[0]
+  ARTICLESBYTAG(state, data) {
+    state.articleList = data.articlesByTag.data.result
+    state.total = data.articlesByTag.data.total
+    state.administrator = data.administrator.data.result[0]
     state.tags = data.tags.data.result
     state.archives = data.archives.data.result
   },
 
-  SEARCHDATA(state, data) {
-    state.articleList = data.searchlist.data.result
-    state.number = data.searchlist.data.number
-    state.intro = data.intro.data.result[0]
+  ARTICLESBYSEARCH(state, data) {
+    state.articleList = data.articlesBySearch.data.result
+    state.total = data.articlesBySearch.data.total
+    state.administrator = data.administrator.data.result[0]
     state.tags = data.tags.data.result
     state.archives = data.archives.data.result
   },
 
-  ARCHIVEDATA(state, data) {
-    state.articleList = data.byArchive.data.result
-    state.number = data.byArchive.data.number
-    state.intro = data.intro.data.result[0]
+  ARTICLESBYARCHIVE(state, data) {
+    state.articleList = data.articlesByArchive.data.result
+    state.total = data.articlesByArchive.data.total
+    state.administrator = data.administrator.data.result[0]
     state.tags = data.tags.data.result
     state.archives = data.archives.data.result
   },
 
-  GETTAGS(state, data) {
+  TAGS(state, data) {
     state.tags = data.data.result
   },
 
-  GETINTRO(state, data) {
-    state.intro = data.data.result[0]
+  ADMINISTRATOR(state, data) {
+    state.administrator = data.data.result[0]
   },
 
-  ALLARTICLE(state, data) {
-    state.allArticle = data.data
+  ARTICLES(state, data) {
+    state.articles = data.data
   },
-
-  INFOMATIONS(state, data) {
-    console.log(data)
-  }
 }

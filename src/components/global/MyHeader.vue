@@ -1,8 +1,8 @@
 <template>
   <header class="header">
     <div class="intro">
-      <div class="myNickname">{{ intro.nickname }}</div>
-      <div class="myIntro">{{ intro.intro }}</div>
+      <div class="myNickname">{{ administrator.nickname }}</div>
+      <div class="myIntro">{{ administrator.intro }}</div>
     </div>
     <nav class="nav clearfix">
       <div class="logo">
@@ -22,7 +22,7 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'header',
+  name: 'MyHeader',
   data() {
     return {
       links: [{
@@ -30,7 +30,7 @@ export default {
         path: '/'
       }, {
         name: '新随笔',
-        path: '/adminpublish',
+        path: '/publish',
       }, {
         name: '管理',
         path: '/admin'
@@ -39,8 +39,8 @@ export default {
     }
   },
   computed: {
-    intro() {
-      return this.$store.state.intro
+    administrator() {
+      return this.$store.state.administrator
     }
   },
   methods: {

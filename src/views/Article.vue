@@ -14,7 +14,7 @@ import MyAside from '../components/global/MyAside.vue';
 import ArticleDetail from '../components/global/ArticleDetail.vue';
 import MyFooter from '../components/global/MyFooter.vue';
 export default {
-  name: 'article',
+  name: 'Article',
   components: {
     MyHeader,
     MyAside,

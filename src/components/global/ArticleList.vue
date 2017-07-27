@@ -25,13 +25,13 @@
 </template>
 <script>
 export default {
-  name: 'articleList',
+  name: 'ArticleList',
   title(){
     return 'vueblog'
   },
   beforeMount() {
     if (this.$root._isMounted) {
-      this.listdata()
+      this.listPage()
     }
   },
   props:['type'],
@@ -40,7 +40,7 @@ export default {
       return this.$store.state.articleList
     },
     maxPage() {
-      return Math.ceil(Number(this.$store.state.number) / 15)
+      return Math.ceil(Number(this.$store.state.total) / 15)
     },
     change(){
       return this.$route.params.change;
@@ -54,12 +54,12 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.listdata()
+      this.listPage()
     }
   },
   methods: {
-    listdata() {
-      this.$store.dispatch('LISTDATA')
+    listPage() {
+      this.$store.dispatch('LISTPAGE')
     }
   }
 }

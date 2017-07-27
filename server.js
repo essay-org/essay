@@ -145,7 +145,7 @@ app.get('/login', function(req, res, next) {
 })
 
 // 服务端路由拦截
-app.get(['/admin', '/admin/*', '/adminpublish', '/adminpublish/*', '/adminedit', '/updateinfo'], function(req, res, next) {
+app.get(['/admin', '/admin/*', '/publish', '/publish/*', '/updateAdminPassword', '/updateAdminInfo'], function(req, res, next) {
   if (req.cookies.token) {
     next()
   } else {
@@ -153,55 +153,58 @@ app.get(['/admin', '/admin/*', '/adminpublish', '/adminpublish/*', '/adminedit',
   }
 })
 
-// 获取某用户的文章 http://localhost:8080/api/people
-app.get('/api/people', router.people);
+// 获取已发布的文章
+app.get('/api/posts', router.posts);
 
-// 获取用户信息 http://localhost:8080/api/userinfo
-app.get('/api/userinfo', router.userinfo);
+// 获取管理员信息 
+app.get('/api/administrator', router.admin);
 
-// 获取文章详情 http://localhost:8080/api/article?id=1496841740682
-app.get('/api/article', router.article);
+// 获取文章 http://localhost:8080/api/article?id=1496841740682
+app.get('/api/article', router.getArticle);
 
 // 获取标签 
+app.get('/api/tags', router.tags);
+
+// 按照标签查询 http://localhost:8080/api/tag?tag=javascript
 app.get('/api/tag', router.tag);
 
-// 按照标签查询 http://localhost:8080/api/bytag?tag=js
-app.get('/api/bytag', router.bytag);
-
-// 模糊搜索 http://localhost:8080/api/search?info=js
+// 模糊搜索 http://localhost:8080/api/search?q=js
 app.get('/api/search', router.search);
 
 // 归档统计 
-app.get('/api/archive', router.archive);
+app.get('/api/archives', router.archives);
 
 // 通过归档日期获取文章 http://localhost:8080/api/archive?date=201706
-app.get('/api/byarchive', router.byarchive);
+app.get('/api/archive', router.archive);
 
-// 后台管理数据
-app.get('/api/allarticle', router.allarticle);
+// 获取所有文章
+app.get('/api/articles', router.articles);
 
-// 删除文章  http://localhost:8080/api/delete?id=1496841740682
-app.post('/api/delete', router.delete);
+// 发表或修改文章
+app.post('/api/article', router.article);
 
-// 发表文章
-app.post('/api/publish', router.publish);
-
-// 用户登录
+// 登录
 app.post('/api/login', router.login);
-
-// 更新管理员信息
-app.post('/api/updateadmin', router.updateadmin);
-
-// 修改头像
-app.post('/api/setavatar', router.setavatar);
-
-app.post('/api/updateinfo', router.updateinfo);
 
 // 退出登录
 app.post('/api/logout', router.logout);
+
+// 更新管理员信息
+app.put('/api/administrator', router.updateAdminInfo);
+
+// 更新头像
+app.post('/api/avatar', router.avatar);
+
+// 更新密码
+app.put('/api/password', router.updateAdminPassword);
+
+// 删除文章  http://localhost:8080/api/article?id=1496841740682
+app.delete('/api/article', router.deleteArticle);
+
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })
+
 const port = process.env.PORT || 8080
 app.listen(port, () => {
   console.log(`server started at localhost:${port}`)

@@ -2,71 +2,68 @@ import Vue from 'vue'
 import axios from 'axios'
 import api from '../api'
 export default {
-  ARTICLEDATA({ commit, state }, id) {
-    return api.articledata(id)
-      .then(axios.spread(function(article, intro, tags, archives) {
-        commit('ARTICLEDATA', {
+  DETAILPAGE({ commit, state }, id) {
+    return api.detailPage(id)
+      .then(axios.spread(function(article, administrator, tags, archives) {
+        commit('DETAILPAGE', {
           article: article,
-          intro: intro,
+          administrator: administrator,
           tags: tags,
           archives: archives
         })
       }))
   },
 
-  LISTDATA({ commit, state }) {
-    var name = state.route.name;
+  LISTPAGE({ commit, state }) {
+    const name = state.route.name || '';
+    const id = state.route.params.page || '';
     switch (name) {
       case 'index':
-        var id = state.route.params.page;
-        return api.indexdata(id)
-          .then(axios.spread(function(articleList, intro, tags, archives) {
-            commit('INDEXDATA', {
-              articleList: articleList,
-              intro: intro,
+        return api.indexPage(id)
+          .then(axios.spread(function(posts, administrator, tags, archives) {
+            commit('INDEXPAGE', {
+              posts: posts,
+              administrator: administrator,
               tags: tags,
               archives: archives
             })
           }))
         break;
       case 'category':
-        var tag = state.route.params.change || '';
-        var reg = new RegExp("[\u4E00-\u9FFF]+", "g");
+        let tag = state.route.params.change || '';
+        let reg = new RegExp("[\u4E00-\u9FFF]+", "g");
         if (reg.test(tag)) {
           tag = encodeURI(tag)
         }
-        var id = state.route.params.page || '';
-        return api.bytagdata(tag, id)
-          .then(axios.spread(function(byTag, intro, tags, archives) {
-            commit('BYTAG', {
-              byTag: byTag,
-              intro: intro,
+        return api.articlesByTag(tag, id)
+          .then(axios.spread(function(articlesByTag, administrator, tags, archives) {
+            commit('ARTICLESBYTAG', {
+              articlesByTag: articlesByTag,
+              administrator: administrator,
               tags: tags,
               archives: archives
             })
           }))
         break;
       case 'archive':
-        var date = state.route.params.change || '';
-        var id = state.route.params.page || '';
-        return api.byarchivedata(date, id)
-          .then(axios.spread(function(byArchive, intro, tags, archives) {
-            commit('ARCHIVEDATA', {
-              byArchive: byArchive,
-              intro: intro,
+        let date = state.route.params.change || '';
+        return api.articlesByArchive(date, id)
+          .then(axios.spread(function(articlesByArchive, administrator, tags, archives) {
+            commit('ARTICLESBYARCHIVE', {
+              articlesByArchive: articlesByArchive,
+              administrator: administrator,
               tags: tags,
               archives: archives
             })
           }))
         break;
       case 'search':
-        var info = state.route.params.change
-        var id = state.route.params.page
-        return api.searchdata(info, id)
-          .then(axios.spread(function(searchlist, intro, tags, archives) {
-            commit('SEARCHDATA', {
-              searchlist: searchlist,
-              intro: intro,
+        let q = state.route.params.change || '';
+        return api.articlesBySearch(q, id)
+          .then(axios.spread(function(articlesBySearch, administrator, tags, archives) {
+            commit('ARTICLESBYSEARCH', {
+              articlesBySearch: articlesBySearch,
+              administrator: administrator,
               tags: tags,
               archives: archives
             })
@@ -75,23 +72,22 @@ export default {
     }
   },
 
-  GETTAGS({ commit, state }) {
+  TAGS({ commit, state }) {
     return api.tags().then((data) => {
-      commit('GETTAGS', data)
+      commit('TAGS', data)
     })
   },
 
-  GETINTRO({ commit, state }) {
-    return api.intro().then((data) => {
-      commit('GETINTRO', data)
+  ADMINISTRATOR({ commit, state }) {
+    return api.administrator().then((data) => {
+      commit('ADMINISTRATOR', data)
     })
   },
 
-  // 后台数据
-  ALLARTICLE({ commit, state }) {
-    var id = state.route.params.page;
-    return api.allarticle(id).then((data) => {
-      commit('ALLARTICLE', data)
+  ARTICLES({ commit, state }) {
+    const id = state.route.params.page;
+    return api.articles(id).then((data) => {
+      commit('ARTICLES', data)
     })
   },
 }

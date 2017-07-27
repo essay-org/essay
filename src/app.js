@@ -25,6 +25,7 @@ axios.defaults.timeout = 5000
 const baseURL = 'http://localhost:8080/api'
 
 axios.defaults.baseURL = baseURL
+
 // http response 拦截器
 axios.interceptors.response.use(
   response => {
@@ -40,10 +41,8 @@ axios.interceptors.response.use(
 
 // http request 拦截器
 axios.interceptors.request.use(function(config) {
-  // 发送请求前
   return config;
 }, function(error) {
-  // 请求发生错误
   return Promise.reject(error);
 });
 
@@ -67,18 +66,11 @@ Vue.use(Toasted, {
 
 export function createApp() {
 
-  //创建应用程序实例。
-     //这里我们将路由器，存储和ssr上下文注入到所有子组件，
-     //让它们随处可见，通过使用`this.$router` 和 `this.$store`。
   const app = new Vue({
     router,
     store,
     render: h => h(App)
   })
 
-
-  //公开app，router和store。
-     //注意，我们没有在这里挂载应用程序，因为引导将是
-     //根据我们是在浏览器还是在服务器上而不同。
   return { app, router, store }
 }

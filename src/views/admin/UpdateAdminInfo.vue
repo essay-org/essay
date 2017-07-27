@@ -5,7 +5,7 @@
       <div class="edit">
         <div class="avatar">
           <!-- 后期改为使用ajax提交 -->
-          <form action="/api/setavatar" method="post" enctype="multipart/form-data" ref="avatarForm">
+          <form action="/api/avatar" method="post" enctype="multipart/form-data" ref="avatarForm">
             <div class="img"> 
             <img :src="avatar" @click="setAvatar">
             </div>
@@ -28,15 +28,16 @@
 <script>
 import AdminAside from '../../components/admin/AdminAside.vue'
 export default {
+  name:'UpdateAdminInfo',
   title() {
       return '管理后台|vueblog'
     },
     data() {
       return {
-        user: this.$store.state.intro.user,
-        avatar: this.$store.state.intro.avatar+'?'+Math.random(),
-        intro: this.$store.state.intro.intro,
-        nickname: this.$store.state.intro.nickname,
+        user: this.$store.state.administrator.user,
+        avatar: this.$store.state.administrator.avatar+'?'+Math.random(),
+        intro: this.$store.state.administrator.intro,
+        nickname: this.$store.state.administrator.nickname,
         newAvatar: ''
       }
     },
@@ -45,7 +46,7 @@ export default {
     },
     methods: {
       edit() {
-        this.axios.post('/updateadmin', {
+        this.axios.put('/administrator', {
           old: {
             user: this.user
           },
@@ -87,7 +88,7 @@ export default {
       store,
       route
     }) {
-      return store.dispatch('GETINTRO')
+      return store.dispatch('ADMINISTRATOR')
     }
 }
 </script>

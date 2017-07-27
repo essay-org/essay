@@ -5,7 +5,7 @@
       <div class="list">
         <ul>
           <li v-for="(item,index) in tags" :key="index">
-            <a @click="byTag(item.tag)">{{item.tag}} ({{item.count}})</a>
+            <a @click="articleByTag(item.tag)">{{item.tag}} ({{item.count}})</a>
           </li>
         </ul>
       </div>
@@ -15,7 +15,7 @@
       <div class="list">
         <ul>
           <li v-for="(item,index) in archives" :key="index">
-            <a @click="byArchive(item.date)">{{item.date}} ({{item.count}})</a>
+            <a @click="articleByArchive(item.date)">{{item.date}} ({{item.count}})</a>
           </li>
         </ul>
       </div>
@@ -24,7 +24,7 @@
 </template>
 <script>
 export default {
-  name: 'aside',
+  name: 'MyAside',
   computed: {
     tags() {
       return this.$store.state.tags
@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    byTag(item) {
+    articleByTag(item) {
       this.$router.push({
         name: 'category',
         params: {
@@ -42,7 +42,7 @@ export default {
         }
       })
     },
-    byArchive(date) {
+    articleByArchive(date) {
       // 处理日期
       var year = parseInt(date);
       var month =date.slice(5,-1); 

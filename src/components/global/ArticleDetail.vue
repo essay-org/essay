@@ -22,7 +22,7 @@ marked.setOptions({
   }
 })
 export default {
-  name: 'articleDetail',
+  name: 'ArticleDetail',
   data(){
     return {
       article:this.$store.state.articleDetail
@@ -37,11 +37,6 @@ export default {
     },
     content() {
       return marked(this.article.content)
-    }
-  },
-  methods: {
-    articleData() {
-      this.$store.dispatch('ARTICLEDATA')
     }
   }
 }

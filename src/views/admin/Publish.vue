@@ -47,97 +47,98 @@ marked.setOptions({
   }
 })
 export default {
+  name: 'Publish',
   data() {
-      return {
-        title: '',
-        content: '',
-        tag: '',
-        date: '',
-        articleID:this.$route.params.id
-      }
-    },
-
-    mounted() {
-      var that = this;
-      var smde = new SimpleMDE({
-        element: document.getElementById('editor'),
-        autosave: true,
-        previewRender: function(plainText) {
-          return marked(plainText);
-        }
-      });
-      smde.codemirror.on("change", function() {
-        // that.content = marked(smde.value());
-        that.content = smde.value();
-      });
-      if (this.articleID) {
-        this.axios.get(`/article?id=${this.articleID}`).then((data) => {
-          var data = data.data.result[0];
-          this.title = data.title;
-          smde.value(data.content);
-          var tag = data.tag;
-          this.tag = tag.join(',') + ',';
-          this.date = data.date;
-        })
-      }
-    },
-    methods: {
-      publish() {
-        if (!this.title) {
-          this.$toasted.show('文章标题不能为空！')
-          return
-        }
-
-        if (!this.content) {
-          this.$toasted.show('文章正文不能为空！')
-          return
-        }
-
-        this.axios.post('/publish', {
-          "title": this.title,
-          "content": this.content,
-          "tag": this.trim(this.tag),
-          "state": "publish",
-          "date": +this.date || Date.now()
-        }).then((data) => {
-          this.$router.push({
-            name: 'admin'
-          })
-        })
-      },
-      draft() {
-        this.axios.post('/publish', {
-          "title": this.title,
-          "content": this.content,
-          "tag": this.trim(this.tag),
-          "state": "draft",
-          "date": +this.date || Date.now()
-        }).then((data) => {
-          this.$router.push({
-            name: 'admin'
-          })
-        })
-      },
-      trim(str) {
-        return str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',');
-      },
-      chooseTag(item) {
-        this.tag = this.tag + item.tag + ',';
-      }
-    },
-    components: {
-      AdminAside
-    },
-    computed: {
-      tags() {
-        return this.$store.state.tags
-      }
-    },
-    asyncData({
-      store,
-      route
-    }) {
-      return store.dispatch('GETTAGS')
+    return {
+      title: '',
+      content: '',
+      tag: '',
+      date: '',
+      articleID: this.$route.params.id
     }
+  },
+
+  mounted() {
+    var that = this;
+    var smde = new SimpleMDE({
+      element: document.getElementById('editor'),
+      autosave: true,
+      previewRender: function(plainText) {
+        return marked(plainText);
+      }
+    });
+    smde.codemirror.on("change", function() {
+      // that.content = marked(smde.value());
+      that.content = smde.value();
+    });
+    if (this.articleID) {
+      this.axios.get(`/article?id=${this.articleID}`).then((data) => {
+        var data = data.data.result[0];
+        this.title = data.title;
+        smde.value(data.content);
+        var tag = data.tag;
+        this.tag = tag.join(',') + ',';
+        this.date = data.date;
+      })
+    }
+  },
+  methods: {
+    publish() {
+      if (!this.title) {
+        this.$toasted.show('文章标题不能为空！')
+        return
+      }
+
+      if (!this.content) {
+        this.$toasted.show('文章正文不能为空！')
+        return
+      }
+
+      this.axios.post('/article', {
+        "title": this.title,
+        "content": this.content,
+        "tag": this.trim(this.tag),
+        "state": "publish",
+        "date": +this.date || Date.now()
+      }).then((data) => {
+        this.$router.push({
+          name: 'admin'
+        })
+      })
+    },
+    draft() {
+      this.axios.post('/article', {
+        "title": this.title,
+        "content": this.content,
+        "tag": this.trim(this.tag),
+        "state": "draft",
+        "date": +this.date || Date.now()
+      }).then((data) => {
+        this.$router.push({
+          name: 'admin'
+        })
+      })
+    },
+    trim(str) {
+      return str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',');
+    },
+    chooseTag(item) {
+      this.tag = this.tag + item.tag + ',';
+    }
+  },
+  components: {
+    AdminAside
+  },
+  computed: {
+    tags() {
+      return this.$store.state.tags
+    }
+  },
+  asyncData({
+    store,
+    route
+  }) {
+    return store.dispatch('TAGS')
+  }
 }
 </script>

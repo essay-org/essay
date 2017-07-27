@@ -12,6 +12,7 @@
 </template>
 <script>
 export default {
+  name:'AdminAside',
   data() {
     return {
       menu: [{
@@ -22,13 +23,13 @@ export default {
         path: '/admin'
       }, {
         name: '发布文章',
-        path: '/adminpublish'
+        path: '/publish'
       }, {
-        name: '编辑个人信息',
-        path: '/adminedit'
+        name: '修改信息',
+        path: '/updateAdminInfo'
       }, {
         name: '修改密码',
-        path: '/updateinfo'
+        path: '/updateAdminPassword'
       }]
     }
   },

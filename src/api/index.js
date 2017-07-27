@@ -1,50 +1,50 @@
 import axios from 'axios'
 
 // 首页文章列表
-function index(id) {
-	var id = id ? id : 1;
-  return axios.get(`/people?limit=15&page=${id}`)
+function posts(id) {
+  var id = id ? id : 1;
+  return axios.get(`/posts?limit=15&page=${id}`)
 }
 
 // 通过标签获取文章列表
-function bytag(params,id) {
+function tag(params, id) {
   var params = params ? params : '';
   var id = id ? id : 1;
-  return axios.get(`/bytag?tag=${params}&limit=15&page=${id}`)
+  return axios.get(`/tag?tag=${params}&limit=15&page=${id}`)
 }
 
 // 通过检索标题获取文章列表
-function search(info) {
-  var info = info ? info : '';
+function search(q) {
+  var q = q ? q : '';
   var id = id ? id : 1;
-  return axios.get(`/search?info=${info}&limit=15&page=${id}`)
+  return axios.get(`/search?q=${q}&limit=15&page=${id}`)
 }
 
 // 通过归档日期获取文章列表
-function byarchive(date,id) {
+function archive(date, id) {
   var date = date ? date : '';
   var id = id ? id : 1;
-  return axios.get(`/byarchive?date=${date}&limit=15&page=${id}`)
+  return axios.get(`/archive?date=${date}&limit=15&page=${id}`)
 }
 
 // 草稿和已发布文章列表
-function allarticle(id) {
-  return axios.get(`/allarticle?limit=15&page=${id}`)
+function articles(id) {
+  return axios.get(`/articles?limit=15&page=${id}`)
 }
 
 // 管理员信息
-function intro() {
-  return axios.get('/userinfo')
+function administrator() {
+  return axios.get('/administrator')
 }
 
 // 标签列表信息
 function tags() {
-  return axios.get('/tag')
+  return axios.get('/tags')
 }
 
 // 归档信息
 function archives() {
-  return axios.get('/archive')
+  return axios.get('/archives')
 }
 
 // 文章详情
@@ -55,28 +55,28 @@ function article(id) {
 /* ============================= */
 
 // 首页 
-function indexdata(id) {
-  return axios.all([index(id), intro(),tags(),archives()])
+function indexPage(id) {
+  return axios.all([posts(id), administrator(), tags(), archives()])
 }
 
 // 文章详情页
-function articledata(id) {
-  return axios.all([article(id), intro(),tags(),archives()])
+function detailPage(id) {
+  return axios.all([article(id), administrator(), tags(), archives()])
 }
 
-// 标签列表页
-function bytagdata(params,id) {
-  return axios.all([bytag(params,id), intro(),tags(),archives()])
+// 通过标签获取文章列表
+function articlesByTag(params, id) {
+  return axios.all([tag(params, id), administrator(), tags(), archives()])
 }
 
-// 搜索
-function searchdata(info,id) {
-  return axios.all([search(info,id), intro(),tags(),archives()])
+// 通过搜索获取文章列表
+function articlesBySearch(q, id) {
+  return axios.all([search(q, id), administrator(), tags(), archives()])
 }
 
-// 归档列表页
-function byarchivedata(date,id) {
-  return axios.all([byarchive(date,id), intro(),tags(),archives()])
+// 通过归档获取文章列表
+function articlesByArchive(date, id) {
+  return axios.all([archive(date, id), administrator(), tags(), archives()])
 }
 
-export default{ indexdata, articledata, bytagdata, searchdata, byarchivedata, allarticle, tags,intro }
+export default { indexPage, detailPage, articlesByTag, articlesBySearch, articlesByArchive, articles, tags, administrator }

@@ -8,12 +8,12 @@ export function createStore() {
   return new Vuex.Store({
     state: {
       articleList: [],
-      intro: [],
+      administrator: [],
       articleDetail: '',
-      number: '',
+      total: '',
       tags: [],
       archives: [],
-      allArticle: {},
+      articles: {},
       cookies: {}
     },
     actions,

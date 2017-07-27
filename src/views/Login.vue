@@ -10,6 +10,7 @@
 </template>
 <script>
 export default {
+  name:'Login',
   data() {
     return {
       user: '',
@@ -24,7 +25,7 @@ export default {
       }).then((data) => {
         if (data.data.code === 200) {
           this.$router.push({
-            name: 'adminpublish'
+            name: 'publish'
           })
         } else {
           this.$toasted.show(data.data.message)

@@ -51,42 +51,42 @@ function padLeftZero(str) {
 
 // 字符串截取  
 export function cutString(str, len) {
-  if(str !== null){
+  if (str !== null) {
     // length属性读出来的汉字长度为1
-    if(str.length*2 <= len) {
-        return str;
+    if (str.length * 2 <= len) {
+      return str;
     }
     var strlen = 0;
     var s = "";
-    for(var i = 0;i < str.length; i++) {
-        s = s + str.charAt(i);
-        if (str.charCodeAt(i) > 128) {
-            strlen = strlen + 2;
-            if(strlen >= len){
-                return s.substring(0,s.length-1) + "...";
-            }
-        } else {
-            strlen = strlen + 1;
-            if(strlen >= len){
-                return s.substring(0,s.length-2) + "...";
-            }
+    for (var i = 0; i < str.length; i++) {
+      s = s + str.charAt(i);
+      if (str.charCodeAt(i) > 128) {
+        strlen = strlen + 2;
+        if (strlen >= len) {
+          return s.substring(0, s.length - 1) + "...";
         }
+      } else {
+        strlen = strlen + 1;
+        if (strlen >= len) {
+          return s.substring(0, s.length - 2) + "...";
+        }
+      }
     }
     return s;
   }
-    
+
 }
 
 // html格式化
-export function formatHtml(str){
-  return str.replace(/<.*?>/g,'')
+export function formatHtml(str) {
+  return str.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
 }
 
 export function status(str) {
-  if (str === 'publish'){
+  if (str === 'publish') {
     return '发布'
   }
-  if(str === 'draft') {
+  if (str === 'draft') {
     return '草稿'
   }
 }
@@ -104,7 +104,7 @@ marked.setOptions({
   sanitize: false,
   smartLists: true,
   smartypants: false,
-  highlight: function (code) {
+  highlight: function(code) {
     return require('highlight.js').highlightAuto(code).value;
   }
 })

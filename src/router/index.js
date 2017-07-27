@@ -10,11 +10,11 @@ const Login = () =>
 const Publish = () =>
   import ('../views/admin/Publish.vue')
 
-const Edit = () =>
-  import ('../views/admin/Edit.vue')
+const UpdateAdminInfo = () =>
+  import ('../views/admin/UpdateAdminInfo.vue')
 
-const Update = () =>
-  import ('../views/admin/Update.vue')
+const UpdateAdminPassword = () =>
+  import ('../views/admin/UpdateAdminPassword.vue')
 
 export function createRouter() {
   return new Router({
@@ -53,26 +53,26 @@ export function createRouter() {
       },
       component: Admin('admin')
     }, {
-      path: '/adminpublish/:id?',
-      name: 'adminpublish',
+      path: '/publish/:id?',
+      name: 'publish',
       meta: {
         Auth: true,
       },
       component: Publish
     }, {
-      path: '/adminedit',
-      name: 'adminedit',
+      path: '/updateAdminInfo',
+      name: 'updateAdminInfo',
       meta: {
         Auth: true,
       },
-      component: Edit
+      component: UpdateAdminInfo
     }, {
-      path: '/updateinfo',
-      name: 'updateinfo',
+      path: '/updateAdminPassword',
+      name: 'updateAdminPassword',
       meta: {
         Auth: true,
       },
-      component: Update
+      component: UpdateAdminPassword
     }, {
       path: '/',
       name: '404',

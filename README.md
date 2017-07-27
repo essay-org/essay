@@ -1,3 +1,4 @@
+![](https://travis-ci.org/wmui/vueblog.svg?branch=master)
 ### ‘§¿¿
 - [‘⁄œﬂ—› æ](https://vueblog.86886.wang)
 

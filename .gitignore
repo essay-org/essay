@@ -1,8 +1,0 @@
-.DS_Store
-node_modules/
-dist/
-.idea
-scratch/
-note.md
-npm-debug.log
-*.iml

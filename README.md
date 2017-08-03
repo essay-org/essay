@@ -2,6 +2,7 @@
 
 ### 预览
 - [在线演示](https://vueblog.86886.wang)
+- [API说明](https://github.com/wmui/vueblog/wiki)
 
 ### 开发环境和技术栈
 - 操作系统：windows10 64位

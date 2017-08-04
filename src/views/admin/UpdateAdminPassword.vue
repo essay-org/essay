@@ -1,7 +1,7 @@
 <template>
   <div class="admin">
     <admin-aside></admin-aside>
-    <div class="content">
+    <div class="admin-content">
       <div class="edit">
         <div class="my-input">
           <input type="text" v-model="oldPass" placeholder="请输入旧密码">

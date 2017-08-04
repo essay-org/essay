@@ -1,0 +1,8 @@
+@font-face {
+  font-family: vueblog;
+  src: url("./vueblog.ttf");
+}
+
+.vueblog-font {
+  font-family: vueblog;
+}

@@ -4,11 +4,11 @@
       <li v-for="(item,index) in data" class="item" :key="index">
         <router-link class="title" :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link>
         <article class="content">{{item.content | markdownParse | formatHtml | cutString(200)}}</article>
-        <!-- <span class="date"> {{item.date | formatDate('yyyy-MM-dd hh:mm')}}</span> -->
       </li>
     </ul>
+
     <div class="tips" v-if="data.length === 0 && this.$route.name === 'search'">
-      <p>没有搜索到和<strong>{{ change }}</strong>相关的信息！</p>
+      <p>没有搜索到和<strong>{{ change }}</strong>相关的文章！</p>
     </div>
     <div class="tips" v-if="data.length === 0 && this.$route.name !== 'search'">
       <p>哇哦，一篇文章都没有!</p>
@@ -20,7 +20,6 @@
       <router-link v-if="hasMore" :to="{name:type,params:{change:change,page:page + 1}}" class="next">下一页》</router-link>
       <a v-else class="disabled next">下一页》</a>
     </div>
-
   </div>
 </template>
 <script>

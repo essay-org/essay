@@ -1,16 +1,16 @@
 <template>
   <div class="admin">
     <admin-aside></admin-aside>
-    <div class="content">
+    <div class="admin-content">
       <div class="essay">
-        <div class="form clearfix">
+        <div class="form">
           <div class="title">
             <input type="text" v-model="title" placeholder="文章标题" autofocus>
           </div>
-          <div>
+          <div class="content">
             <textarea id="editor" placeholder="文章内容" class="markdown-body"></textarea>
           </div>
-          <div class="bottom clearfix">
+          <div class="bottom">
             <div class="tag">
               <input type="text" v-model="tag" placeholder="多个标签以英文逗号分隔">
             </div>

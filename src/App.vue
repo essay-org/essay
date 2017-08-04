@@ -11,6 +11,6 @@
 @import '../static/simplemde/simplemde.css';
 @import '../static/github-markdown/github-markdown.css';
 @import '../static/github-markdown/atom-one-light.css';
-@import './assets/styles/global.scss';
+@import '../static/vueblog-font/vueblog-font.css';
 @import './assets/styles/blog.scss';
 </style>

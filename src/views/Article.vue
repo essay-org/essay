@@ -1,9 +1,9 @@
 <template>
   <div class="article">
     <my-header></my-header>
-    <div class="container clearfix">
-      <my-aside></my-aside>
+    <div class="container wrap">
       <article-detail></article-detail>
+      <my-aside></my-aside>
     </div>
     <my-footer></my-footer>
   </div>

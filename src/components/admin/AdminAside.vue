@@ -1,8 +1,9 @@
 <template>
-  <aside class="left">
+  <aside class="admin-aside">
     <ul class="menu">
       <li>
-        <h3>VueBlog</h3></li>
+        <h3>VueBlog</h3>
+      </li>
       <li v-for="item in menu">
         <router-link :to="{path:item.path}">{{item.name}}</router-link>
       </li>

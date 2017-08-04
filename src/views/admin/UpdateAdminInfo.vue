@@ -1,13 +1,14 @@
 <template>
   <div class="admin">
     <admin-aside></admin-aside>
-    <div class="content">
+    <div class="admin-content">
       <div class="edit">
         <div class="avatar">
           <!-- 后期改为使用ajax提交 -->
           <form action="/api/avatar" method="post" enctype="multipart/form-data" ref="avatarForm">
             <div class="img"> 
             <img :src="avatar" @click="setAvatar">
+            <span>更改</span>
             </div>
             <input type="file" name="avatar" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="avatarInput">
           </form>

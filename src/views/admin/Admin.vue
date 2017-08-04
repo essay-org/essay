@@ -1,7 +1,7 @@
 <template>
   <div class="admin">
     <admin-aside></admin-aside>
-    <div class="content">
+    <div class="admin-content">
       <div class="article">
         <table>
           <thead>

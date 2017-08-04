@@ -1,20 +1,20 @@
 <template>
   <header class="header">
-    <div class="intro">
-      <div class="myNickname">{{ administrator.nickname }}</div>
-      <div class="myIntro">{{ administrator.intro }}</div>
+    <div class="container info">
+      <div class="nickname vueblog-font">{{ administrator.nickname }}</div>
+      <div class="intro vueblog-font">{{ administrator.intro }}</div>
     </div>
-    <nav class="nav clearfix">
-      <div class="logo">
+    <nav class="container nav">
+      <!-- <div class="logo">
         <div class="v"></div>
-      </div>
+      </div> -->
       <ul>
         <li v-for="(item,index) in links" :key="index">
           <router-link :to="item.path">{{ item.name }}</router-link>
         </li>
       </ul>
       <div class="search">
-        <input type="text" name="search" placeholder="search" v-model="searchInfo" autofocus @keyup.enter="search">
+        <input type="search" name="search" placeholder="search" v-model="searchInfo" autofocus @keyup.enter="search">
       </div>
     </nav>
   </header>

@@ -23,7 +23,7 @@ function pluralize(time, label) {
   return time + label + 's'
 }
 
-// 时间格式化
+// time format
 export function formatDate(date, fmt) {
   var date = new Date(date);
   if (/(y+)/.test(fmt)) {
@@ -49,10 +49,9 @@ function padLeftZero(str) {
   return ('00' + str).substr(str.length);
 };
 
-// 字符串截取  
+// cut str
 export function cutString(str, len) {
   if (str !== null) {
-    // length属性读出来的汉字长度为1
     if (str.length * 2 <= len) {
       return str;
     }
@@ -74,10 +73,9 @@ export function cutString(str, len) {
     }
     return s;
   }
-
 }
 
-// html格式化
+// html format
 export function formatHtml(str) {
   return str.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
 }
@@ -91,7 +89,7 @@ export function status(str) {
   }
 }
 
-// markdown 解析
+// markdown parse
 import SimpleMDE from 'simplemde'
 import marked from 'marked'
 import highlight from 'highlight.js'

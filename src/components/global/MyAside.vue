@@ -43,7 +43,6 @@ export default {
       })
     },
     articleByArchive(date) {
-      // 处理日期
       var year = parseInt(date);
       var month =date.slice(5,-1); 
       if(month.length === 1) {

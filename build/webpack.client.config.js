@@ -9,27 +9,32 @@ const config = merge(base, {
   entry: {
     app: './src/entry-client.js'
   },
+  resolve: {
+    alias: {
+      'create-api': './create-api-client.js'
+    }
+  },
   plugins: [
-    // 在Vue源中剥离dev-only代码
+    // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"client"'
     }),
-    // 提取vendor chunk，以便更好的缓存
+    // extract vendor chunks for better caching
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module) {
-        // 一个模块被提取到vendor chunk
+        // a module is extracted into the vendor chunk if...
         return (
-          // 内部 node_modules
+          // it's inside node_modules
           /node_modules/.test(module.context) &&
-          // 非 CSS 文件 (由于 extract-text-webpack-plugin 限制)
+          // and not a CSS file (due to extract-text-webpack-plugin limitation)
           !/\.css$/.test(module.request)
         )
       }
     }),
-
-    // 提取webpack runtime 和 manifest，以避免vendor chunk hash变化在每个构建
+    // extract webpack runtime & manifest to avoid vendor chunk hash changing
+    // on every build.
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
@@ -39,9 +44,9 @@ const config = merge(base, {
 
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
-    // 自动生成 service worker
+    // auto generate service worker
     new SWPrecachePlugin({
-      cacheId: 'VueBlog',
+      cacheId: 'vue-hn',
       filename: 'service-worker.js',
       minify: true,
       dontCacheBustUrlsMatching: /./,
@@ -49,6 +54,14 @@ if (process.env.NODE_ENV === 'production') {
       runtimeCaching: [
         {
           urlPattern: '/',
+          handler: 'networkFirst'
+        },
+        {
+          urlPattern: /\/(index|login)/,
+          handler: 'networkFirst'
+        },
+        {
+          urlPattern: '/article/:id',
           handler: 'networkFirst'
         }
       ]

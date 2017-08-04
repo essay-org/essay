@@ -354,6 +354,9 @@ button {
       span {
         display: inline-block;
         margin-left: 10px;
+        a {
+          cursor: pointer !important;
+        }
       }
       span:nth-child(1) {
         margin-left: 0;
@@ -436,7 +439,7 @@ button {
       color: #fff;
       background-color: $BlackSecondary;
       &:hover {
-        cursor: pointer;
+        cursor: pointer !important;
         background-color: $BlackPrimary;
       }
     }

@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-// 需要渲染数据的组件
 import { Article, List, Admin } from '../views/CreateListView'
-// 不需要渲染数据的组件
 const Login = () =>
   import ('../views/Login.vue')
 
@@ -49,7 +47,7 @@ export function createRouter() {
       path: '/admin/:page?',
       name: 'admin',
       meta: {
-        Auth: true, // 需要登录
+        Auth: true,
       },
       component: Admin('admin')
     }, {

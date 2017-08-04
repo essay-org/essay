@@ -12,10 +12,15 @@ module.exports = merge(base, {
     filename: 'server-bundle.js',
     libraryTarget: 'commonjs2'
   },
+  resolve: {
+    alias: {
+      'create-api': './create-api-server.js'
+    }
+  },
   // https://webpack.js.org/configuration/externals/#externals
   // https://github.com/liady/webpack-node-externals
   externals: nodeExternals({
-    // 不要外部化CSS文件，以防我们需要从dep导入它
+    // do not externalize CSS files in case we need to import it from a dep
     whitelist: /\.css$/
   }),
   plugins: [

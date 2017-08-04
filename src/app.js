@@ -9,16 +9,15 @@ import axios from 'axios'
 import Toasted from 'vue-toasted'
 import cookies from 'js-cookie'
 Vue.prototype.axios = axios
-  // minxin 处理动态标题
 Vue.mixin(titleMixin)
-  // 注册全局过滤器
+
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
 const store = createStore()
 const router = createRouter()
-  // 同步 router 和 the vuex store.
-  // 使用方式 `store.state.route`
+
 sync(store, router)
 axios.defaults.timeout = 5000
 
@@ -26,7 +25,7 @@ const baseURL = 'http://localhost:8080/api'
 
 axios.defaults.baseURL = baseURL
 
-// http response 拦截器
+// http response interceptors
 axios.interceptors.response.use(
   response => {
     return response;
@@ -39,14 +38,14 @@ axios.interceptors.response.use(
   });
 
 
-// http request 拦截器
+// http request interceptors
 axios.interceptors.request.use(function(config) {
   return config;
 }, function(error) {
   return Promise.reject(error);
 });
 
-// 登陆拦截
+// login router intercept
 router.beforeEach((to, from, next) => {
   if (to.meta.Auth) {
     if (cookies.get('token') || store.state.cookies.token) {
@@ -65,12 +64,10 @@ Vue.use(Toasted, {
 })
 
 export function createApp() {
-
   const app = new Vue({
     router,
     store,
     render: h => h(App)
   })
-
   return { app, router, store }
 }

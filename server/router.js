@@ -6,7 +6,6 @@ const path = require('path');
 const jwt = require('jsonwebtoken')
 
 exports.posts = function(req, res, next) {
-
   let limit = Number(req.query.limit);
   let page = Number(req.query.page);
   let sortInfo = Number(req.query.sort) || -1;

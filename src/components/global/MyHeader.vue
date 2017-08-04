@@ -5,9 +5,6 @@
       <div class="intro vueblog-font">{{ administrator.intro }}</div>
     </div>
     <nav class="container nav">
-      <!-- <div class="logo">
-        <div class="v"></div>
-      </div> -->
       <ul>
         <li v-for="(item,index) in links" :key="index">
           <router-link :to="item.path">{{ item.name }}</router-link>

@@ -2,10 +2,10 @@
   <aside class="admin-aside">
     <ul class="menu">
       <li>
-        <h3>VueBlog</h3>
+        <h3 @click="goIndex">VueBlog</h3>
       </li>
       <li v-for="item in menu">
-        <router-link :to="{path:item.path}">{{item.name}}</router-link>
+        <router-link :to="{path:item.path}" :title="item.name">{{item.name}}</router-link>
       </li>
       <li><a @click="logout">退出登录</a></li>
     </ul>
@@ -17,9 +17,6 @@ export default {
   data() {
     return {
       menu: [{
-        name: '网站首页',
-        path: '/index'
-      }, {
         name: '后台首页',
         path: '/admin'
       }, {
@@ -42,6 +39,9 @@ export default {
           this.$router.go(0)
         }
       })
+    },
+    goIndex() {
+      this.$router.push({name:'index'})
     }
   }
 }

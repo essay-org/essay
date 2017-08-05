@@ -20,10 +20,6 @@ export function createRouter() {
     linkActiveClass: 'current',
     scrollBehavior: () => ({ y: 0 }),
     routes: [{
-      path: '/index/:page?',
-      name: 'index',
-      component: List('index'),
-    }, {
       path: '/login',
       name: 'login',
       component: Login
@@ -72,9 +68,13 @@ export function createRouter() {
       },
       component: UpdateAdminPassword
     }, {
-      path: '/',
+      path: '/:page?',
+      name: 'index',
+      component: List('index'),
+    }, {
+      path: '*',
       name: '404',
-      redirect: '/index'
+      redirect: '/'
     }]
   })
 }

@@ -35,26 +35,28 @@ axios.interceptors.response.use(
       // console.log(error.response.status)
     }
     return Promise.reject(error.response.data)
-  });
+  })
 
 
 // http request interceptors
-axios.interceptors.request.use(function(config) {
-  return config;
-}, function(error) {
-  return Promise.reject(error);
-});
+axios.interceptors.request.use(
+  config => {
+    return config;
+  },
+  error => {
+    return Promise.reject(error)
+  })
 
 // login router intercept
 router.beforeEach((to, from, next) => {
   if (to.meta.Auth) {
     if (cookies.get('token') || store.state.cookies.token) {
-      next();
+      next()
     } else {
       router.push({ name: 'login' })
     }
   } else {
-    next();
+    next()
   }
 })
 

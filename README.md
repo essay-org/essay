@@ -3,6 +3,10 @@
 ### 预览
 - [在线演示](https://vueblog.86886.wang)
 - [API说明](https://github.com/wmui/vueblog/wiki)
+- 
+### 版本更新
+v1.0.1 前端模板使用css3 flexbox进行了重构，类的命名规范化，后台样式微调整     
+v1.1.0 添加管理员在前台可编辑和删除文章功能，token验证进行深度加密  
 
 ### 开发环境和技术栈
 - 操作系统：windows10 64位
@@ -77,12 +81,11 @@
 ### 手机端效果图，以chrome浏览器演示
 #### 添加到主屏
 ![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-01.png)
-#### 启动效果
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-02.png)
-#### 首页效果
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-03.png)
 #### 文章页效果
-![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-04.png)
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/wap-02.png)
+
+### Lighthouse测试
+![image](https://github.com/wmui/vueblog/blob/master/example/demo/g-01.png)
 
 ### 本地运行项目
 **注意**：Node.js版本要求7以上  

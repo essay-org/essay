@@ -6,6 +6,7 @@ global.navigator = window.navigator
 const cookieParser = require('cookie-parser')
 const router = require('./server/router.js')
 const cors = require('cors')
+const hasToken = require('./server/has-token.js')
 
 const fs = require('fs')
 const path = require('path')
@@ -184,25 +185,25 @@ app.get('/api/archive', router.archive);
 app.get('/api/articles', router.articles);
 
 // publish or edit article
-app.post('/api/article', router.article);
+app.post('/api/article', hasToken, router.article);
 
 // administrator login
-app.post('/api/login', router.login);
+app.post('/api/login',router.login);
 
 // administrator logout
 app.post('/api/logout', router.logout);
 
 // update administrator infomation
-app.put('/api/administrator', router.updateAdminInfo);
+app.put('/api/administrator', hasToken, router.updateAdminInfo);
 
 // update administrator avatar
-app.post('/api/avatar', router.avatar);
+app.post('/api/avatar', hasToken, router.avatar);
 
 // update administrator password
-app.put('/api/password', router.updateAdminPassword);
+app.put('/api/password', hasToken, router.updateAdminPassword);
 
 // delete article  http://localhost:8080/api/article?id=1496841740682
-app.delete('/api/article', router.deleteArticle);
+app.delete('/api/article', hasToken, router.deleteArticle);
 
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))

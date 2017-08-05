@@ -1,19 +1,27 @@
 const jwt = require('jsonwebtoken')
-module.exports = (req,res,next){
+module.exports = (req, res, next) => {
   let token = req.cookies.token;
   let username = req.cookies.username;
-  if(token){
-    jwt.verify(token, 'vueblog', function(err, decoded){
-      if(!err && decoded.username === username ){
+  let id = req.cookies.id;
+  if (token) {
+    jwt.verify(token, 'secret', function(err, decoded) {
+      if (!err && decoded.username === username && decoded.id === id) {
         req.decoded = decoded
         next()
-      }else{
-        req.cookie('token','',{maxAge:0})
-        req.cookie('username','',{maxAge:0})
+      } else {
+        req.cookie('token', '', { maxAge: 0 })
+        req.cookie('username', '', { maxAge: 0 })
+        req.cookie('id', '', { maxAge: 0 })
+        return res.json({
+          "code": 401,
+          "message": "登录失败"
+        })
       }
     })
-  }else{
-    res.send('请登录后操作');
-    return;
+  } else {
+    return res.json({
+      "code": 401,
+      "message": "请登录后操作"
+    })
   }
 }

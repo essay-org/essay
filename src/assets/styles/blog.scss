@@ -183,6 +183,20 @@ button {
   .content {
     margin-bottom: 20px;
   }
+  .manage {
+    text-align: right;
+    &::before {
+      content: '';
+      display: block;
+      margin-top: 20px;
+      border-bottom: 1px dashed $Border;
+    }
+    span {
+      display: inline-block;
+      padding:10px 15px;
+      cursor: pointer;
+    }
+  }
 }
 
 .aside {

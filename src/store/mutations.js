@@ -16,7 +16,6 @@ export default {
     state.archives = data.archives.data.result
   },
 
-
   ARTICLESBYTAG(state, data) {
     state.articleList = data.articlesByTag.data.result
     state.total = data.articlesByTag.data.total

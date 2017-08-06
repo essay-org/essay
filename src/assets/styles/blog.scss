@@ -89,7 +89,9 @@ button {
   border: 1px solid transparent;
 }
 
-
+pre {
+  overflow-x:scroll !important;
+}
 /* golbal header */
 
 .header {
@@ -171,6 +173,7 @@ button {
   flex: 1;
   background-color: #FFF;
   padding: 15px 18px;
+  overflow: auto;
   .title {
     margin: 20px 0;
     &::after {

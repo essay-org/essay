@@ -53,6 +53,7 @@ export default {
   },
   watch: {
     $route(to, from) {
+      // console.log(to)
       this.listPage()
     }
   },

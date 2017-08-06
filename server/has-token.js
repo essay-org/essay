@@ -9,9 +9,9 @@ module.exports = (req, res, next) => {
         req.decoded = decoded
         next()
       } else {
-        req.cookie('token', '', { maxAge: 0 })
-        req.cookie('username', '', { maxAge: 0 })
-        req.cookie('id', '', { maxAge: 0 })
+        res.cookie('token', '', { maxAge: 0 })
+        res.cookie('username', '', { maxAge: 0 })
+        res.cookie('id', '', { maxAge: 0 })
         return res.json({
           "code": 401,
           "message": "登录失败"

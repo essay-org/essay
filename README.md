@@ -3,7 +3,7 @@
 ### 预览
 - [在线演示](https://vueblog.86886.wang)
 - [API说明](https://github.com/wmui/vueblog/wiki)
-- 
+
 ### 版本更新
 v1.0.1 前端模板使用css3 flexbox进行了重构，类的命名规范化，后台样式微调整     
 v1.1.0 添加管理员在前台可编辑和删除文章功能，token验证进行深度加密  

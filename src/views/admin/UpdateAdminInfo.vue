@@ -4,14 +4,11 @@
     <div class="admin-content">
       <div class="edit">
         <div class="avatar">
-          <!-- 后期改为使用ajax提交 -->
-          <form action="/api/avatar" method="post" enctype="multipart/form-data" ref="avatarForm">
-            <div class="img"> 
+          <div class="img">
             <img :src="avatar" @click="setAvatar">
             <span>更改</span>
-            </div>
-            <input type="file" name="avatar" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="avatarInput">
-          </form>
+          </div>
+          <input type="file" name="avatar" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="avatarInput">
         </div>
         <div class="my-input">
           <label for="nickname">昵称：</label>
@@ -29,67 +26,65 @@
 <script>
 import AdminAside from '../../components/admin/AdminAside.vue'
 export default {
-  name:'UpdateAdminInfo',
+  name: 'UpdateAdminInfo',
   title() {
-      return '管理后台|vueblog'
-    },
-    data() {
-      return {
-        user: this.$store.state.administrator.user,
-        avatar: this.$store.state.administrator.avatar+'?'+Math.random(),
-        intro: this.$store.state.administrator.intro,
-        nickname: this.$store.state.administrator.nickname,
-        newAvatar: ''
-      }
-    },
-    components: {
-      AdminAside
-    },
-    methods: {
-      edit() {
-        this.axios.put('/administrator', {
-          old: {
-            user: this.user
-          },
-          new: {
-            intro: this.intro,
-            nickname: this.nickname
-          }
-
-        }).then((result) => {
-          this.$toasted.show(result.data.message)
-          if(this.$refs.avatarInput.files.length !== 0){
-          this.$refs.avatarForm.submit()
-          }
-
-          /*var image = new FormData()
-          image.append('avatar', this.$refs.avatarInput.files[0] || this.avatar)
-          this.axios.post('/setavatar', {
-            newAvatar: image,
+    return '管理后台|vueblog'
+  },
+  data() {
+    return {
+      user: this.$store.state.administrator.user,
+      avatar: this.$store.state.administrator.avatar + '?' + Math.random(),
+      intro: this.$store.state.administrator.intro,
+      nickname: this.$store.state.administrator.nickname,
+      newAvatar: ''
+    }
+  },
+  components: {
+    AdminAside
+  },
+  methods: {
+    edit() {
+      this.axios.put('/administrator', {
+        old: {
+          user: this.user
+        },
+        new: {
+          intro: this.intro,
+          nickname: this.nickname
+        }
+      }).then((result) => {
+        // 修改了头像
+        if (this.$refs.avatarInput.files.length !== 0) {
+          // this.$refs.avatarForm.submit()
+          var image = new FormData()
+          image.append('avatar', this.$refs.avatarInput.files[0])
+          this.axios.post('/avatar', image, {
             headers: {
               "Content-Type": "multipart/form-data"
             }
-          })*/
-        })
-      },
-      setAvatar() {
-        this.$refs.avatarInput.click()
-      },
-      changeImage(e) {
-        var file = e.target.files[0]
-        var reader = new FileReader()
-        var that = this
-        reader.readAsDataURL(file)
-        reader.onload = function(e) {
-          that.avatar = this.result
+          })
         }
-      }
+        this.$toasted.show(result.data.message)
+      })
     },
-    asyncData({
-      store,
-      route
-    }) {
-      return store.dispatch('ADMINISTRATOR')
+    setAvatar() {
+      this.$refs.avatarInput.click()
+    },
+    changeImage(e) {
+      var file = e.target.files[0]
+      var reader = new FileReader()
+      var that = this
+      reader.readAsDataURL(file)
+      reader.onload = function(e) {
+        that.avatar = this.result
+      }
     }
+  },
+  asyncData({
+    store,
+    route
+  }) {
+    return store.dispatch('ADMINISTRATOR')
+  }
 }
 </script>

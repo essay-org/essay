@@ -470,6 +470,7 @@ exports.avatar = function(req, res, next) {
 
   let form = new formidable.IncomingForm()
   form.parse(req, function(err, fields, files) {
+    // console.log(files.avatar)
     if (err) {
       return res.json({
         "code": 500,
@@ -508,7 +509,10 @@ exports.avatar = function(req, res, next) {
             "message": "头像更新失败"
           })
         }
-        res.redirect('/updateAdminInfo')
+        return res.json({
+          "code":200,
+          "message": "头像上传成功"
+        })
       })
   })
 }

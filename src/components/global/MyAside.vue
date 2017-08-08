@@ -5,7 +5,7 @@
       <div class="list">
         <ul>
           <li v-for="(item,index) in tags" :key="index">
-            <a @click="articleByTag(item.tag)">{{item.tag}} ({{item.count}})</a>
+            <router-link :to="{name:'category',params:{change:item.tag}}">{{item.tag}} ({{item.count}})</router-link>
           </li>
         </ul>
       </div>
@@ -15,7 +15,7 @@
       <div class="list">
         <ul>
           <li v-for="(item,index) in archives" :key="index">
-            <a @click="articleByArchive(item.date)">{{item.date}} ({{item.count}})</a>
+            <router-link :to="{name:'archive',params:{change:item.date}}">{{item.date | formatArchive }} ({{item.count}})</router-link>
           </li>
         </ul>
       </div>
@@ -31,30 +31,6 @@ export default {
     },
     archives() {
       return this.$store.state.archives
-    }
-  },
-  methods: {
-    articleByTag(item) {
-      this.$router.push({
-        name: 'category',
-        params: {
-          change: item
-        }
-      })
-    },
-    articleByArchive(date) {
-      var year = parseInt(date);
-      var month =date.slice(5,-1); 
-      if(month.length === 1) {
-        month = '0'+month;
-      }
-      var date = year + month
-      this.$router.push({
-        name:'archive',
-        params: {
-          change:date
-        }
-      })
     }
   }
 }

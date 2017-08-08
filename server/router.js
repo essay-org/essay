@@ -220,9 +220,13 @@ exports.archives = function(req, res, next) {
       arr2 = [];
 
     for (let i = 0; i < result.length; i++) {
-      let year = new Date(result[i].date).getFullYear()
-      let month = new Date(result[i].date).getMonth() + 1
-      let date = `${year}年${month}月`;
+      let year = new Date(result[i].date).getFullYear()+ ''
+      let month = new Date(result[i].date).getMonth() + 1+''
+      if (month.length === 1) {
+          month = '0' + month;
+        }
+      // let date = `${year}年${month}月`;
+      let date = `${year}${month}`;
       arr.push(date)
     }
 

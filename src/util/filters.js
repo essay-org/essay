@@ -25,53 +25,53 @@ function pluralize(time, label) {
 
 // time format
 export function formatDate(date, fmt) {
-  var date = new Date(date);
+  let newDate = new Date(date)
   if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+    fmt = fmt.replace(RegExp.$1, (newDate.getFullYear() + '').substr(4 - RegExp.$1.length))
   }
   let o = {
-    'M+': date.getMonth() + 1,
-    'd+': date.getDate(),
-    'h+': date.getHours(),
-    'm+': date.getMinutes(),
-    's+': date.getSeconds()
-  };
+    'M+': newDate.getMonth() + 1,
+    'd+': newDate.getDate(),
+    'h+': newDate.getHours(),
+    'm+': newDate.getMinutes(),
+    's+': newDate.getSeconds()
+  }
   for (let k in o) {
     if (new RegExp(`(${k})`).test(fmt)) {
-      let str = o[k] + '';
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+      let str = o[k] + ''
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str))
     }
   }
-  return fmt;
-};
+  return fmt
+}
 
 function padLeftZero(str) {
-  return ('00' + str).substr(str.length);
-};
+  return ('00' + str).substr(str.length)
+}
 
 // cut str
 export function cutString(str, len) {
   if (str !== null) {
     if (str.length * 2 <= len) {
-      return str;
+      return str
     }
-    var strlen = 0;
-    var s = "";
-    for (var i = 0; i < str.length; i++) {
-      s = s + str.charAt(i);
+    let strlen = 0
+    let s = ""
+    for (let i = 0; i < str.length; i++) {
+      s = s + str.charAt(i)
       if (str.charCodeAt(i) > 128) {
-        strlen = strlen + 2;
+        strlen = strlen + 2
         if (strlen >= len) {
-          return s.substring(0, s.length - 1) + "...";
+          return s.substring(0, s.length - 1) + "..."
         }
       } else {
-        strlen = strlen + 1;
+        strlen = strlen + 1
         if (strlen >= len) {
-          return s.substring(0, s.length - 2) + "...";
+          return s.substring(0, s.length - 2) + "..."
         }
       }
     }
-    return s;
+    return s
   }
 }
 
@@ -103,10 +103,19 @@ marked.setOptions({
   smartLists: true,
   smartypants: false,
   highlight: function(code) {
-    return require('highlight.js').highlightAuto(code).value;
+    return require('highlight.js').highlightAuto(code).value
   }
 })
 
 export function markdownParse(str) {
-  return marked(str);
+  return marked(str)
 }
+
+export function formatArchive(date) {
+  let year = date.slice(0,4)
+  let month = date.slice(4)
+  if(date.slice(4,5) === '0'){
+    month = date.slice(5)
+  }
+  return `${year}年${month}月`
+} 

@@ -15,8 +15,8 @@ export default {
   },
 
   LISTPAGE({ commit, state }) {
-    const name = state.route.name || '';
-    const id = state.route.params.page || '';
+    const name = state.route.name;
+    const id = state.route.params.page;
     switch (name) {
       case 'index':
         return api.indexPage(id)
@@ -30,7 +30,7 @@ export default {
           }))
         break;
       case 'category':
-        let tag = state.route.params.change || '';
+        let tag = state.route.params.change;
         let reg = new RegExp("[\u4E00-\u9FFF]+", "g");
         if (reg.test(tag)) {
           tag = encodeURI(tag)
@@ -46,7 +46,7 @@ export default {
           }))
         break;
       case 'archive':
-        let date = state.route.params.change || '';
+        let date = state.route.params.change;
         return api.articlesByArchive(date, id)
           .then(axios.spread(function(articlesByArchive, administrator, tags, archives) {
             commit('ARTICLESBYARCHIVE', {
@@ -58,7 +58,7 @@ export default {
           }))
         break;
       case 'search':
-        let q = state.route.params.change || '';
+        let q = state.route.params.change;
         return api.articlesBySearch(q, id)
           .then(axios.spread(function(articlesBySearch, administrator, tags, archives) {
             commit('ARTICLESBYSEARCH', {

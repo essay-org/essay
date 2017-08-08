@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="container info">
-      <div class="nickname vueblog-font">{{ administrator.nickname }}</div>
+      <div class="nickname vueblog-font" @click="goIndex">{{ administrator.nickname }}</div>
       <div class="intro vueblog-font">{{ administrator.intro }}</div>
     </div>
     <nav class="container nav">
@@ -48,6 +48,9 @@ export default {
           change: this.searchInfo
         }
       })
+    },
+    goIndex() {
+      this.$router.push({name:'index'})
     }
   }
 }

@@ -1,33 +1,26 @@
 import axios from 'axios'
 // 首页文章列表
-function posts(id) {
-  var id = id ? id : 1;
+function posts(id = 1) {
   return axios.get(`/posts?limit=15&page=${id}`)
 }
 
 // 通过标签获取文章列表
-function tag(params, id) {
-  var params = params ? params : '';
-  var id = id ? id : 1;
+function tag(params = '', id = 1) {
   return axios.get(`/tag?tag=${params}&limit=15&page=${id}`)
 }
 
 // 通过检索标题获取文章列表
-function search(q) {
-  var q = q ? q : '';
-  var id = id ? id : 1;
+function search(q = '',id = 1) {
   return axios.get(`/search?q=${q}&limit=15&page=${id}`)
 }
 
 // 通过归档日期获取文章列表
-function archive(date, id) {
-  var date = date ? date : '';
-  var id = id ? id : 1;
+function archive(date = '', id = 1) {
   return axios.get(`/archive?date=${date}&limit=15&page=${id}`)
 }
 
 // 草稿和已发布文章列表
-function articles(id) {
+function articles(id = 1) {
   return axios.get(`/articles?limit=15&page=${id}`)
 }
 

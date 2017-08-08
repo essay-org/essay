@@ -78,7 +78,7 @@ export default {
       this.$store.dispatch('ARTICLES')
     },
     del(item) {
-      var id = item.date;
+      const id = item.date;
       this.axios.delete(`/article?id=${id}`).then((data) => {
         this.$toasted.show(data.data.message)
         if (data.data.code === 200) this.articles()

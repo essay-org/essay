@@ -59,8 +59,8 @@ export default {
   },
 
   mounted() {
-    var that = this;
-    var smde = new SimpleMDE({
+    let that = this;
+    let smde = new SimpleMDE({
       element: document.getElementById('editor'),
       autosave: true,
       previewRender: function(plainText) {
@@ -73,12 +73,12 @@ export default {
     });
     if (this.articleID) {
       this.axios.get(`/article?id=${this.articleID}`).then((data) => {
-        var data = data.data.result[0];
-        this.title = data.title;
-        smde.value(data.content);
-        var tag = data.tag;
+        let result = data.data.result[0];
+        this.title = result.title;
+        smde.value(result.content);
+        let tag = result.tag;
         this.tag = tag.join(',') + ',';
-        this.date = data.date;
+        this.date = result.date;
       })
     }
   },

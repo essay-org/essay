@@ -56,7 +56,7 @@ export default {
         // 修改了头像
         if (this.$refs.avatarInput.files.length !== 0) {
           // this.$refs.avatarForm.submit()
-          var image = new FormData()
+          let image = new FormData()
           image.append('avatar', this.$refs.avatarInput.files[0])
           this.axios.post('/avatar', image, {
             headers: {
@@ -71,9 +71,9 @@ export default {
       this.$refs.avatarInput.click()
     },
     changeImage(e) {
-      var file = e.target.files[0]
-      var reader = new FileReader()
-      var that = this
+      let file = e.target.files[0]
+      let reader = new FileReader()
+      let that = this
       reader.readAsDataURL(file)
       reader.onload = function(e) {
         that.avatar = this.result

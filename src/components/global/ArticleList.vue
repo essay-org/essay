@@ -3,7 +3,7 @@
     <ul class="items">
       <li v-for="(item,index) in data" class="item" :key="index">
         <router-link class="title" :to="{name:'article',params:{id:item.date}}">{{item.title}}</router-link>
-        <article class="content">{{item.content | markdownParse | formatHtml | cutString(200)}}</article>
+        <article class="content">{{item.content | markdownParse | cutString(200)}}</article>
       </li>
     </ul>
 
@@ -53,13 +53,15 @@ export default {
   },
   watch: {
     $route(to, from) {
-      // console.log(to)
       this.listPage()
     }
   },
   methods: {
     listPage() {
-      this.$store.dispatch('LISTPAGE')
+      this.$bar.start()
+      this.$store.dispatch('LISTPAGE').then(() => {
+        this.$bar.finish()
+      })
     }
   }
 }

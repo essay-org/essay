@@ -40,7 +40,7 @@ function createRenderer (bundle, options) {
     // this is only needed when vue-server-renderer is npm-linked
     basedir: resolve('./dist'),
     // recommended for performance
-    runInNewContext: false
+    runInNewContext: true
   }))
 }
 

@@ -1,28 +1,3 @@
-export function host(url) {
-  const host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
-  const parts = host.split('.').slice(-3)
-  if (parts[0] === 'www') parts.shift()
-  return parts.join('.')
-}
-
-export function timeAgo(time) {
-  const between = Date.now() / 1000 - Number(time)
-  if (between < 3600) {
-    return pluralize(~~(between / 60), ' minute')
-  } else if (between < 86400) {
-    return pluralize(~~(between / 3600), ' hour')
-  } else {
-    return pluralize(~~(between / 86400), ' day')
-  }
-}
-
-function pluralize(time, label) {
-  if (time === 1) {
-    return time + label
-  }
-  return time + label + 's'
-}
-
 // time format
 export function formatDate(date, fmt) {
   let newDate = new Date(date)
@@ -75,11 +50,6 @@ export function cutString(str, len) {
   }
 }
 
-// html format
-export function formatHtml(str) {
-  return str.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
-}
-
 export function status(str) {
   if (str === 'publish') {
     return '发布'
@@ -108,7 +78,9 @@ marked.setOptions({
 })
 
 export function markdownParse(str) {
-  return marked(str)
+  // 转义html中字符并解析
+  let markdownParse = marked(str)
+  return markdownParse.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
 }
 
 export function formatArchive(date) {

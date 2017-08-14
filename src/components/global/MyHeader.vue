@@ -1,8 +1,8 @@
 <template>
   <header class="header">
     <div class="container info">
-      <div class="nickname vueblog-font" @click="goIndex">{{ administrator.nickname }}</div>
-      <div class="intro vueblog-font">{{ administrator.intro }}</div>
+      <div class="nickname" @click="goIndex">{{ administrator.nickname }}</div>
+      <div class="intro">{{ administrator.intro }}</div>
     </div>
     <nav class="container nav">
       <ul>

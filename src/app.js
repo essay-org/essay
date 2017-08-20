@@ -28,7 +28,7 @@ axios.defaults.baseURL = baseURL
 // http response interceptors
 axios.interceptors.response.use(
   response => {
-    return response;
+    return response
   },
   error => {
     if (error.response) {
@@ -41,7 +41,7 @@ axios.interceptors.response.use(
 // http request interceptors
 axios.interceptors.request.use(
   config => {
-    return config;
+    return config
   },
   error => {
     return Promise.reject(error)

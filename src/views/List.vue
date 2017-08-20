@@ -9,10 +9,10 @@
   </div>
 </template>
 <script>
-import MyHeader from '../components/global/MyHeader.vue';
-import MyAside from '../components/global/MyAside.vue';
-import ArticleList from '../components/global/ArticleList.vue';
-import MyFooter from '../components/global/MyFooter.vue';
+import MyHeader from '../components/global/MyHeader.vue'
+import MyAside from '../components/global/MyAside.vue'
+import ArticleList from '../components/global/ArticleList.vue'
+import MyFooter from '../components/global/MyFooter.vue'
 export default {
   name: 'List',
   components: {

@@ -1,8 +1,14 @@
 const { JSDOM } = require('jsdom')
 const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url: 'http://localhost:8080' })
+if(typeof window === 'undefined') {
 global.window = dom.window
 global.document = window.document
 global.navigator = window.navigator
+}
+
+/*require('jsdom-global')(html, {
+  url: `http://${process.env.HOST}:${process.env.PORT}`
+})*/
 const cookieParser = require('cookie-parser')
 const router = require('./server/router.js')
 const cors = require('cors')
@@ -142,7 +148,7 @@ function render (req, res) {
 // client http intercept
 app.get('/login', function(req, res, next) {
   if (req.cookies.token) {
-    res.redirect('/index')
+    res.redirect('/')
   } else {
     next()
   }
@@ -158,52 +164,52 @@ app.get(['/admin', '/admin/*', '/publish', '/publish/*', '/updateAdminPassword',
 })
 
 // published articles
-app.get('/api/posts', router.posts);
+app.get('/api/posts', router.posts)
 
 // administrator infomation
-app.get('/api/administrator', router.admin);
+app.get('/api/administrator', router.admin)
 
 // article detail content http://localhost:8080/api/article?id=1496841740682
-app.get('/api/article', router.getArticle);
+app.get('/api/article', router.getArticle)
 
 // tags infomation
-app.get('/api/tags', router.tags);
+app.get('/api/tags', router.tags)
 
 // get articles by tag http://localhost:8080/api/tag?tag=javascript
-app.get('/api/tag', router.tag);
+app.get('/api/tag', router.tag)
 
 // search articles http://localhost:8080/api/search?q=js
-app.get('/api/search', router.search);
+app.get('/api/search', router.search)
 
 // archives infomation
-app.get('/api/archives', router.archives);
+app.get('/api/archives', router.archives)
 
 // get articles by archive http://localhost:8080/api/archive?date=201706
-app.get('/api/archive', router.archive);
+app.get('/api/archive', router.archive)
 
 // all articles
-app.get('/api/articles', router.articles);
+app.get('/api/articles', router.articles)
 
 // publish or edit article
-app.post('/api/article', hasToken, router.article);
+app.post('/api/article', hasToken, router.article)
 
 // administrator login
-app.post('/api/login',router.login);
+app.post('/api/login',router.login)
 
 // administrator logout
-app.post('/api/logout', router.logout);
+app.post('/api/logout', router.logout)
 
 // update administrator infomation
-app.put('/api/administrator', hasToken, router.updateAdminInfo);
+app.put('/api/administrator', hasToken, router.updateAdminInfo)
 
 // update administrator avatar
-app.post('/api/avatar', hasToken, router.avatar);
+app.post('/api/avatar', hasToken, router.avatar)
 
 // update administrator password
-app.put('/api/password', hasToken, router.updateAdminPassword);
+app.put('/api/password', hasToken, router.updateAdminPassword)
 
 // delete article  http://localhost:8080/api/article?id=1496841740682
-app.delete('/api/article', hasToken, router.deleteArticle);
+app.delete('/api/article', hasToken, router.deleteArticle)
 
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))

@@ -42,13 +42,13 @@ export default {
       return Math.ceil(Number(this.$store.state.total) / 15)
     },
     change(){
-      return this.$route.params.change;
+      return this.$route.params.change
     },
     page() {
       return Number(this.$route.params.page) || 1
     },
     hasMore() {
-      return this.page < this.maxPage;
+      return this.page < this.maxPage
     }
   },
   watch: {

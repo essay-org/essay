@@ -53,10 +53,10 @@ export default {
   },
   computed: {
     data() {
-      return this.$store.state.articles.result;
+      return this.$store.state.articles.result
     },
     number() {
-      return this.$store.state.articles.total;
+      return this.$store.state.articles.total
     },
     maxPage() {
       return Math.ceil(Number(this.number) / 15)
@@ -65,7 +65,7 @@ export default {
       return Number(this.$route.params.page) || 1
     },
     hasMore() {
-      return this.page < this.maxPage;
+      return this.page < this.maxPage
     }
   },
   watch: {
@@ -78,7 +78,7 @@ export default {
       this.$store.dispatch('ARTICLES')
     },
     del(item) {
-      const id = item.date;
+      const id = item.date
       this.axios.delete(`/article?id=${id}`).then((data) => {
         this.$toasted.show(data.data.message)
         if (data.data.code === 200) this.articles()

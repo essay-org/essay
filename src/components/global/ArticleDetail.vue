@@ -25,7 +25,7 @@ marked.setOptions({
   smartLists: true,
   smartypants: false,
   highlight: function(code) {
-    return require('highlight.js').highlightAuto(code).value;
+    return require('highlight.js').highlightAuto(code).value
   }
 })
 export default {
@@ -51,14 +51,14 @@ export default {
   },
   methods: {
     del() {
-      let id = this.$route.params.id;
+      let id = this.$route.params.id
       this.axios.delete(`/article?id=${id}`).then((data) => {
         this.$toasted.show(data.data.message)
         if (data.data.code === 200) this.$router.push({ name: 'index' })
       })
     },
     edit() {
-      let id = this.$route.params.id;
+      let id = this.$route.params.id
       this.$router.push({ name: 'publish', params: { id: id } })
     }
   },

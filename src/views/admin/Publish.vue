@@ -43,7 +43,7 @@ marked.setOptions({
   smartLists: true,
   smartypants: false,
   highlight: function(code) {
-    return require('highlight.js').highlightAuto(code).value;
+    return require('highlight.js').highlightAuto(code).value
   }
 })
 export default {
@@ -59,26 +59,26 @@ export default {
   },
 
   mounted() {
-    let that = this;
+    let that = this
     let smde = new SimpleMDE({
       element: document.getElementById('editor'),
       autosave: true,
       previewRender: function(plainText) {
-        return marked(plainText);
+        return marked(plainText)
       }
-    });
+    })
     smde.codemirror.on("change", function() {
-      // that.content = marked(smde.value());
-      that.content = smde.value();
-    });
+      // that.content = marked(smde.value())
+      that.content = smde.value()
+    })
     if (this.articleID) {
       this.axios.get(`/article?id=${this.articleID}`).then((data) => {
-        let result = data.data.result[0];
-        this.title = result.title;
-        smde.value(result.content);
-        let tag = result.tag;
-        this.tag = tag.join(',') + ',';
-        this.date = result.date;
+        let result = data.data.result[0]
+        this.title = result.title
+        smde.value(result.content)
+        let tag = result.tag
+        this.tag = tag.join(',') + ','
+        this.date = result.date
       })
     }
   },
@@ -112,7 +112,7 @@ export default {
         "content": this.content,
         "tag": this.trim(this.tag),
         "state": "draft",
-        "date": +this.date || Date.now()
+        "date": Number(this.date) || Date.now()
       }).then((data) => {
         this.$router.push({
           name: 'admin'
@@ -120,10 +120,10 @@ export default {
       })
     },
     trim(str) {
-      return str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',');
+      return str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',')
     },
     chooseTag(item) {
-      this.tag = this.tag + item.tag + ',';
+      this.tag = this.tag + item.tag + ','
     }
   },
   components: {

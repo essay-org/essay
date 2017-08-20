@@ -1,15 +1,15 @@
-const MongoClient = require('mongodb').MongoClient;
-const settings = require('./settings');
+const MongoClient = require('mongodb').MongoClient
+const settings = require('./settings')
 // 链接数据库 如果没有自动创建
 function _connectDB(callback) {
-  let url = settings.dbUrl;
+  let url = settings.dbUrl
   MongoClient.connect(url, function(err, db) {
     if (err) {
-      callback(err, null);
-      return;
+      callback(err, null)
+      return
     }
     // 数据库链接成功执行回掉
-    callback(err, db);
+    callback(err, db)
   })
 }
 
@@ -18,29 +18,29 @@ function _connectDB(callback) {
     pass = settings.pass,
     nickname = settings.nickname || '暂无昵称'
   avatar = settings.avatar || '',
-    intro = settings.intro || '暂无介绍';
+    intro = settings.intro || '暂无介绍'
   let json = { "user": user, "pass": pass, "avatar": avatar, "intro": intro, "nickname": nickname }
   _connectDB(function(err, db) {
-    let usersCollection = db.collection('users');
+    let usersCollection = db.collection('users')
     usersCollection.find({ "user": user }).toArray(function(err, result) {
       if (err) {
-        console.log('查询管理员失败');
-        db.close;
-        return;
+        console.log('查询管理员失败')
+        db.close
+        return
       }
       if (result.length !== 0) {
-        db.close();
-        return;
-        // usersCollection.deleteMany({ "user": user });
+        db.close()
+        return
+        // usersCollection.deleteMany({ "user": user })
       }
       usersCollection.insertOne(json, function(err, res) {
         if (err) {
           console.log('管理员信息初始化失败')
-          db.close();
-          return;
+          db.close()
+          return
         }
         console.log('管理员信息初始化成功')
-        db.close();
+        db.close()
       })
     })
   })
@@ -52,11 +52,11 @@ exports.insertOne = function(collectionName, json, callback) {
     db.collection(collectionName).insertOne(json, function(err, result) {
       if (err) {
         callback(err, null)
-        db.close();
-        return;
+        db.close()
+        return
       }
-      callback(err, result);
-      db.close();
+      callback(err, result)
+      db.close()
     })
   })
 }
@@ -67,23 +67,23 @@ exports.find = function(collectionName, queryJson, callback) {
     let json = queryJson.query || {},
       limit = Number(queryJson.limit) || 0,
       count = Number(queryJson.page) - 1,
-      sort = queryJson.sort || {};
+      sort = queryJson.sort || {}
     // 页数为0或者1都显示前limit条数据
     if (count <= 0) {
       count = 0
     } else {
-      count = count * limit;
+      count = count * limit
     }
 
-    let cursor = db.collection(collectionName).find(json).limit(limit).skip(count).sort(sort);
+    let cursor = db.collection(collectionName).find(json).limit(limit).skip(count).sort(sort)
     cursor.toArray(function(err, results) {
       if (err) {
         callback(err, null)
-        db.close();
-        return;
+        db.close()
+        return
       }
-      callback(err, results);
-      db.close();
+      callback(err, results)
+      db.close()
     })
   })
 }
@@ -94,12 +94,12 @@ exports.deleteMany = function(collectionName, json, callback) {
     db.collection(collectionName).deleteMany(json, function(err, results) {
       if (err) {
         callback(err, null)
-        db.close();
-        return;
+        db.close()
+        return
       }
-      callback(err, results);
-      db.close();
-    });
+      callback(err, results)
+      db.close()
+    })
   })
 }
 
@@ -114,11 +114,11 @@ exports.updateMany = function(collectionName, jsonOld, jsonNew, callback) {
       function(err, results) {
         if (err) {
           callback(err, null)
-          db.close();
-          return;
+          db.close()
+          return
         }
-        callback(err, results);
-        db.close();
-      });
+        callback(err, results)
+        db.close()
+      })
   })
 }

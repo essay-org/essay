@@ -1,5 +1,7 @@
+import marked from 'marked'
+
 // time format
-export function formatDate(date, fmt) {
+export function formatDate (date, fmt) {
   let newDate = new Date(date)
   if (/(y+)/.test(fmt)) {
     fmt = fmt.replace(RegExp.$1, (newDate.getFullYear() + '').substr(4 - RegExp.$1.length))
@@ -20,29 +22,29 @@ export function formatDate(date, fmt) {
   return fmt
 }
 
-function padLeftZero(str) {
+function padLeftZero (str) {
   return ('00' + str).substr(str.length)
 }
 
 // cut str
-export function cutString(str, len) {
+export function cutString (str, len) {
   if (str !== null) {
     if (str.length * 2 <= len) {
       return str
     }
     let strlen = 0
-    let s = ""
+    let s = ''
     for (let i = 0; i < str.length; i++) {
       s = s + str.charAt(i)
       if (str.charCodeAt(i) > 128) {
         strlen = strlen + 2
         if (strlen >= len) {
-          return s.substring(0, s.length - 1) + "..."
+          return s.substring(0, s.length - 1) + '...'
         }
       } else {
         strlen = strlen + 1
         if (strlen >= len) {
-          return s.substring(0, s.length - 2) + "..."
+          return s.substring(0, s.length - 2) + '...'
         }
       }
     }
@@ -50,7 +52,7 @@ export function cutString(str, len) {
   }
 }
 
-export function status(str) {
+export function status (str) {
   if (str === 'publish') {
     return '发布'
   }
@@ -60,9 +62,6 @@ export function status(str) {
 }
 
 // markdown parse
-import SimpleMDE from 'simplemde'
-import marked from 'marked'
-import highlight from 'highlight.js'
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -72,22 +71,22 @@ marked.setOptions({
   sanitize: false,
   smartLists: true,
   smartypants: false,
-  highlight: function(code) {
+  highlight: function (code) {
     return require('highlight.js').highlightAuto(code).value
   }
 })
 
-export function markdownParse(str) {
+export function markdownParse (str) {
   // 转义html中字符并解析
   let markdownParse = marked(str)
   return markdownParse.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
 }
 
-export function formatArchive(date) {
-  let year = date.slice(0,4)
+export function formatArchive (date) {
+  let year = date.slice(0, 4)
   let month = date.slice(4)
-  if(date.slice(4,5) === '0'){
+  if (date.slice(4, 5) === '0') {
     month = date.slice(5)
   }
   return `${year}年${month}月`
-} 
+}

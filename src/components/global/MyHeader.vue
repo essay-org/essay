@@ -17,17 +17,16 @@
   </header>
 </template>
 <script>
-import axios from 'axios'
 export default {
   name: 'MyHeader',
-  data() {
+  data () {
     return {
       links: [{
         name: '首页',
         path: '/'
       }, {
         name: '新随笔',
-        path: '/publish',
+        path: '/publish'
       }, {
         name: '管理',
         path: '/admin'
@@ -36,12 +35,12 @@ export default {
     }
   },
   computed: {
-    administrator() {
+    administrator () {
       return this.$store.state.administrator
     }
   },
   methods: {
-    search() {
+    search () {
       this.$router.push({
         name: 'search',
         params: {
@@ -49,8 +48,8 @@ export default {
         }
       })
     },
-    goIndex() {
-      this.$router.push({name:'index'})
+    goIndex () {
+      this.$router.push({name: 'index'})
     }
   }
 }

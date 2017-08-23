@@ -20,8 +20,8 @@
 <script>
 import AdminAside from '../../components/admin/AdminAside.vue'
 export default {
-  name:'UpdateAdminPassword',
-  data() {
+  name: 'UpdateAdminPassword',
+  data () {
     return {
       oldPass: '',
       pass: '',
@@ -29,7 +29,7 @@ export default {
     }
   },
   methods: {
-    updateAdminPassword() {
+    updateAdminPassword () {
       if (this.pass !== this.verifyPass) {
         this.$toasted.show('两次密码不一致')
         return

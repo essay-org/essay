@@ -20,7 +20,7 @@ const router = createRouter()
 
 sync(store, router)
 axios.defaults.timeout = 5000
-
+// console.log(`${location.protocol}//${location.host}/api` )
 const baseURL = 'http://localhost:8080/api'
 
 axios.defaults.baseURL = baseURL
@@ -36,7 +36,6 @@ axios.interceptors.response.use(
     }
     return Promise.reject(error.response.data)
   })
-
 
 // http request interceptors
 axios.interceptors.request.use(
@@ -65,7 +64,7 @@ Vue.use(Toasted, {
   duration: 2000
 })
 
-export function createApp() {
+export function createApp () {
   const app = new Vue({
     router,
     store,

@@ -12,13 +12,14 @@ export default context => {
     const s = isDev && Date.now()
     const { app, router, store } = createApp()
     if (context.cookies) {
-        store.state.cookies = context.cookies
+      store.state.cookies = context.cookies
     }
     const { url } = context
     const fullPath = router.resolve(url).route.fullPath
 
     if (fullPath !== url) {
-      reject({ url: fullPath })
+      // reject({ url: fullPath })
+      Promise.reject(new Error({ url: fullPath }))
     }
 
     // set router's location
@@ -29,7 +30,8 @@ export default context => {
       const matchedComponents = router.getMatchedComponents()
       // no matched routes
       if (!matchedComponents.length) {
-        reject({ code: 404 })
+        // reject({ code: 404 })
+        Promise.reject(new Error({ code: 404 }))
       }
       // Call fetchData hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,

@@ -1,14 +1,9 @@
 const { JSDOM } = require('jsdom')
-const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url: 'http://localhost:8080' })
-if(typeof window === 'undefined') {
+const dom = new JSDOM('<!DOCTYPE html></html>', { url: 'http://localhost:8080' })
 global.window = dom.window
 global.document = window.document
 global.navigator = window.navigator
-}
 
-/*require('jsdom-global')(html, {
-  url: `http://${process.env.HOST}:${process.env.PORT}`
-})*/
 const cookieParser = require('cookie-parser')
 const router = require('./server/router.js')
 const cors = require('cors')

@@ -38,53 +38,53 @@
 <script>
 import AdminAside from '../../components/admin/AdminAside.vue'
 export default {
-  name:'Admin',
-  title() {
+  name: 'Admin',
+  title () {
     return '管理后台|vueblog'
   },
   components: {
     AdminAside
   },
 
-  beforeMount() {
+  beforeMount () {
     if (this.$root._isMounted) {
       this.articles()
     }
   },
   computed: {
-    data() {
+    data () {
       return this.$store.state.articles.result
     },
-    number() {
+    number () {
       return this.$store.state.articles.total
     },
-    maxPage() {
+    maxPage () {
       return Math.ceil(Number(this.number) / 15)
     },
-    page() {
+    page () {
       return Number(this.$route.params.page) || 1
     },
-    hasMore() {
+    hasMore () {
       return this.page < this.maxPage
     }
   },
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       this.articles()
     }
   },
   methods: {
-    articles() {
+    articles () {
       this.$store.dispatch('ARTICLES')
     },
-    del(item) {
+    del (item) {
       const id = item.date
       this.axios.delete(`/article?id=${id}`).then((data) => {
         this.$toasted.show(data.data.message)
         if (data.data.code === 200) this.articles()
       })
     },
-    edit(item) {
+    edit (item) {
       this.$router.push({ name: 'publish', params: { id: item.date } })
     }
   }

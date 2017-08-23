@@ -12,7 +12,6 @@
 </template>
 <script>
 import marked from 'marked'
-import highlight from 'highlight.js'
 import cookies from 'js-cookie'
 import MyComment from '../global/MyComment.vue'
 marked.setOptions({
@@ -24,40 +23,40 @@ marked.setOptions({
   sanitize: false,
   smartLists: true,
   smartypants: false,
-  highlight: function(code) {
+  highlight: function (code) {
     return require('highlight.js').highlightAuto(code).value
   }
 })
 export default {
   name: 'ArticleDetail',
-  data() {
+  data () {
     return {
       article: this.$store.state.articleDetail
     }
   },
-  title() {
+  title () {
     return this.article.title + ' | vueblog'
   },
   computed: {
-    title() {
+    title () {
       return this.article.title
     },
-    content() {
+    content () {
       return marked(this.article.content)
     },
-    isAdmin() {
-      return (cookies.get('token') || this.$store.state.cookies.token) ? true : false
+    isAdmin () {
+      return !!((cookies.get('token') || this.$store.state.cookies.token))
     }
   },
   methods: {
-    del() {
+    del () {
       let id = this.$route.params.id
       this.axios.delete(`/article?id=${id}`).then((data) => {
         this.$toasted.show(data.data.message)
         if (data.data.code === 200) this.$router.push({ name: 'index' })
       })
     },
-    edit() {
+    edit () {
       let id = this.$route.params.id
       this.$router.push({ name: 'publish', params: { id: id } })
     }

@@ -6,10 +6,13 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 module.exports = {
   devtool: isProd ?
-    false :
-    '#cheap-module-source-map',
+    false : '#cheap-module-source-map',
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist/',
@@ -22,7 +25,17 @@ module.exports = {
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
-    rules: [{
+    rules: [
+      {
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [resolve('src'), resolve('test')],
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
+      }, 
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueConfig
@@ -31,14 +44,14 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
-      }, 
+      },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           name: '[name].[hash:7].[ext]'
         }
-      }, 
+      },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
@@ -52,8 +65,7 @@ module.exports = {
           ExtractTextPlugin.extract({
             use: 'css-loader?minimize',
             fallback: 'vue-style-loader'
-          }) :
-          ['vue-style-loader', 'css-loader']
+          }) : ['vue-style-loader', 'css-loader']
       }
     ]
   },
@@ -61,16 +73,14 @@ module.exports = {
     maxEntrypointSize: 300000,
     hints: isProd ? 'warning' : false
   },
-  plugins: isProd ?
-    [
-      new webpack.optimize.UglifyJsPlugin({
-        compress: { warnings: false }
-      }),
-      new ExtractTextPlugin({
-        filename: 'common.[chunkhash].css'
-      })
-    ] :
-    [
-      new FriendlyErrorsPlugin()
-    ]
+  plugins: isProd ? [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false }
+    }),
+    new ExtractTextPlugin({
+      filename: 'common.[chunkhash].css'
+    })
+  ] : [
+    new FriendlyErrorsPlugin()
+  ]
 }

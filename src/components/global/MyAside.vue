@@ -26,10 +26,10 @@
 export default {
   name: 'MyAside',
   computed: {
-    tags() {
+    tags () {
       return this.$store.state.tags
     },
-    archives() {
+    archives () {
       return this.$store.state.archives
     }
   }

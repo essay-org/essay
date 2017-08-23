@@ -10,18 +10,18 @@
 </template>
 <script>
 export default {
-  name:'Login',
-  data() {
+  name: 'Login',
+  data () {
     return {
       user: '',
       pass: ''
     }
   },
   methods: {
-    login() {
+    login () {
       this.axios.post('/login', {
-        "user": this.user,
-        "pass": this.pass
+        'user': this.user,
+        'pass': this.pass
       }).then((data) => {
         if (data.data.code === 200) {
           this.$router.push({

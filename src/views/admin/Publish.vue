@@ -30,9 +30,9 @@
 </template>
 <script>
 import SimpleMDE from 'simplemde'
+import 'simplemde/dist/simplemde.min.css'
 import AdminAside from '../../components/admin/AdminAside.vue'
 import marked from 'marked'
-import highlight from 'highlight.js'
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -42,13 +42,13 @@ marked.setOptions({
   sanitize: false,
   smartLists: true,
   smartypants: false,
-  highlight: function(code) {
+  highlight: function (code) {
     return require('highlight.js').highlightAuto(code).value
   }
 })
 export default {
   name: 'Publish',
-  data() {
+  data () {
     return {
       title: '',
       content: '',
@@ -58,16 +58,16 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     let that = this
     let smde = new SimpleMDE({
       element: document.getElementById('editor'),
       autosave: true,
-      previewRender: function(plainText) {
+      previewRender: function (plainText) {
         return marked(plainText)
       }
     })
-    smde.codemirror.on("change", function() {
+    smde.codemirror.on('change', function () {
       // that.content = marked(smde.value())
       that.content = smde.value()
     })
@@ -83,7 +83,7 @@ export default {
     }
   },
   methods: {
-    publish() {
+    publish () {
       if (!this.title) {
         this.$toasted.show('文章标题不能为空！')
         return
@@ -95,34 +95,34 @@ export default {
       }
 
       this.axios.post('/article', {
-        "title": this.title,
-        "content": this.content,
-        "tag": this.trim(this.tag),
-        "state": "publish",
-        "date": +this.date || Date.now()
+        'title': this.title,
+        'content': this.content,
+        'tag': this.trim(this.tag),
+        'state': 'publish',
+        'date': +this.date || Date.now()
       }).then((data) => {
         this.$router.push({
           name: 'admin'
         })
       })
     },
-    draft() {
+    draft () {
       this.axios.post('/article', {
-        "title": this.title,
-        "content": this.content,
-        "tag": this.trim(this.tag),
-        "state": "draft",
-        "date": Number(this.date) || Date.now()
+        'title': this.title,
+        'content': this.content,
+        'tag': this.trim(this.tag),
+        'state': 'draft',
+        'date': Number(this.date) || Date.now()
       }).then((data) => {
         this.$router.push({
           name: 'admin'
         })
       })
     },
-    trim(str) {
+    trim (str) {
       return str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',')
     },
-    chooseTag(item) {
+    chooseTag (item) {
       this.tag = this.tag + item.tag + ','
     }
   },
@@ -130,11 +130,11 @@ export default {
     AdminAside
   },
   computed: {
-    tags() {
+    tags () {
       return this.$store.state.tags
     }
   },
-  asyncData({
+  asyncData ({
     store,
     route
   }) {

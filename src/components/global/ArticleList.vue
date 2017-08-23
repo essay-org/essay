@@ -25,39 +25,39 @@
 <script>
 export default {
   name: 'ArticleList',
-  title(){
+  title () {
     return 'vueblog'
   },
-  beforeMount() {
+  beforeMount () {
     if (this.$root._isMounted) {
       this.listPage()
     }
   },
-  props:['type'],
+  props: ['type'],
   computed: {
-    data() {
+    data () {
       return this.$store.state.articleList
     },
-    maxPage() {
+    maxPage () {
       return Math.ceil(Number(this.$store.state.total) / 15)
     },
-    change(){
+    change () {
       return this.$route.params.change
     },
-    page() {
+    page () {
       return Number(this.$route.params.page) || 1
     },
-    hasMore() {
+    hasMore () {
       return this.page < this.maxPage
     }
   },
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       this.listPage()
     }
   },
   methods: {
-    listPage() {
+    listPage () {
       this.$bar.start()
       this.$store.dispatch('LISTPAGE').then(() => {
         this.$bar.finish()

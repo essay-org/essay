@@ -8,6 +8,14 @@
 v1.0.1 前端模板使用css3 flexbox进行了重构，类的命名规范化，后台样式微调整     
 v1.1.0 添加管理员在前台可编辑和删除文章功能，token验证进行深度加密  
 v1.1.1 添加[评论组件](https://github.com/vue-blog/vb-comment)  
+v1.1.2 添加eslint语法检测工具   
+关闭eslint方法: 打开`build/webpack.base.config.js`，注销掉29-37行的代码即可 
+
+### 最新计划
+- [X] 添加eslint语法检测工具
+- [ ] 增加单元测试
+- [ ] 文章上传图片功能
+- [ ] 手机端模板调整(APP标准)
 
 ### 开发环境和技术栈
 - 操作系统：windows10 64位
@@ -118,7 +126,7 @@ v1.1.1 添加[评论组件](https://github.com/vue-blog/vb-comment)
 - [nodejs服务器部署教程四，部署ssl证书，升级为https](https://segmentfault.com/a/1190000010281512)
 
 ### 结语
-本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR。
+本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR，感谢所有star该项目的朋友。
 
 ### 开源协议
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)

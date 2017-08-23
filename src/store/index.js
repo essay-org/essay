@@ -4,7 +4,7 @@ import actions from './actions.js'
 import mutations from './mutations.js'
 Vue.use(Vuex)
 
-export function createStore() {
+export function createStore () {
   return new Vuex.Store({
     state: {
       articleList: [],
@@ -17,6 +17,6 @@ export function createStore() {
       cookies: {}
     },
     actions,
-    mutations,
+    mutations
   })
 }

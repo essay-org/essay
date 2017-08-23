@@ -27,10 +27,10 @@
 import AdminAside from '../../components/admin/AdminAside.vue'
 export default {
   name: 'UpdateAdminInfo',
-  title() {
+  title () {
     return '管理后台|vueblog'
   },
-  data() {
+  data () {
     return {
       user: this.$store.state.administrator.user,
       avatar: this.$store.state.administrator.avatar + '?' + Math.random(),
@@ -43,7 +43,7 @@ export default {
     AdminAside
   },
   methods: {
-    edit() {
+    edit () {
       this.axios.put('/administrator', {
         old: {
           user: this.user
@@ -60,27 +60,27 @@ export default {
           image.append('avatar', this.$refs.avatarInput.files[0])
           this.axios.post('/avatar', image, {
             headers: {
-              "Content-Type": "multipart/form-data"
+              'Content-Type': 'multipart/form-data'
             }
           })
         }
         this.$toasted.show(result.data.message)
       })
     },
-    setAvatar() {
+    setAvatar () {
       this.$refs.avatarInput.click()
     },
-    changeImage(e) {
+    changeImage (e) {
       let file = e.target.files[0]
       let reader = new FileReader()
       let that = this
       reader.readAsDataURL(file)
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         that.avatar = this.result
       }
     }
   },
-  asyncData({
+  asyncData ({
     store,
     route
   }) {

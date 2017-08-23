@@ -13,8 +13,8 @@
 </template>
 <script>
 export default {
-  name:'AdminAside',
-  data() {
+  name: 'AdminAside',
+  data () {
     return {
       menu: [{
         name: '后台首页',
@@ -32,7 +32,7 @@ export default {
     }
   },
   methods: {
-    logout() {
+    logout () {
       this.axios.post('/logout').then((data) => {
         if (data.data.code === 200) {
           this.$router.push({ name: 'index' })
@@ -40,8 +40,8 @@ export default {
         }
       })
     },
-    goIndex() {
-      this.$router.push({name:'index'})
+    goIndex () {
+      this.$router.push({name: 'index'})
     }
   }
 }

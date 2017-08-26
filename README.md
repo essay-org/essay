@@ -2,9 +2,10 @@
 <a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/node-%3E%3D7.0.0-orange.svg" alt="Version"></a>
 <a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 ### 预览
-- [在线演示](https://vueblog.86886.wang)
-- [API说明](https://github.com/wmui/vueblog/wiki)
-**注意：** 如果演示网址无法访问，请大家不要惊慌，不要害怕。阿里云的香港区服务器坑爹啊，三天两头搞事情，我的科学上网也不能用了，明年必须换！！！  
+- [在线演示](https://vueblog.86886.wang)  
+- [API说明](https://github.com/wmui/vueblog/wiki)  
+
+> 如果演示网址无法访问，应该是阿里云的香港区服务器在搞事情，实在抱歉。 
 
 ### 版本更新
 v1.0.1 前端模板使用css3 flexbox进行了重构，类的命名规范化，后台样式微调整     
@@ -120,14 +121,8 @@ v1.1.2 添加eslint语法检测工具
 ```
 4. 打开本地终端，执行`npm install`,`npm run dev `,访问http://localhost:8080  
 
-### 教程更新
-- [nodejs服务器部署教程一](https://segmentfault.com/a/1190000010098126)
-- [nodejs服务器部署教程二，把vue项目部署到线上](https://segmentfault.com/a/1190000010205995)
-- [nodejs服务器部署教程三，部署基于node+vue+mongodb的项目](https://segmentfault.com/a/1190000010213434)
-- [nodejs服务器部署教程四，部署ssl证书，升级为https](https://segmentfault.com/a/1190000010281512)
-
 ### 结语
-本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR，为了易于理解，该项目不会添加过多复杂功能，追求轻量，以原生APP的体验作为目标。最后，感谢所有star该项目的朋友，感谢所有star该项目的朋友，感谢所有star该项目的朋友，反正我说了三遍，你看着办。
+本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR，该项目不会添加过多复杂功能，追求轻量，以原生APP的体验作为目标。
 
 ### 开源协议
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)

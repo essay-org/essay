@@ -1,10 +1,10 @@
 import axios from 'axios'
 import api from '../api'
 export default {
-  DETAILPAGE ({ commit, state }, id) {
+  DETAIL_PAGE ({ commit, state }, id) {
     return api.detailPage(id)
       .then(axios.spread(function (article, administrator, tags, archives) {
-        commit('DETAILPAGE', {
+        commit('DETAIL_PAGE', {
           article: article,
           administrator: administrator,
           tags: tags,
@@ -13,7 +13,7 @@ export default {
       }))
   },
 
-  LISTPAGE ({ commit, state }) {
+  LIST_PAGE ({ commit, state }) {
     const name = state.route.name
     const id = state.route.params.page
     switch (name) {
@@ -21,7 +21,7 @@ export default {
       case 'index':
         return api.indexPage(id)
           .then(axios.spread(function (posts, administrator, tags, archives) {
-            commit('INDEXPAGE', {
+            commit('INDEX_PAGE', {
               posts: posts,
               administrator: administrator,
               tags: tags,
@@ -37,7 +37,7 @@ export default {
         }
         return api.articlesByTag(tag, id)
           .then(axios.spread(function (articlesByTag, administrator, tags, archives) {
-            commit('ARTICLESBYTAG', {
+            commit('ARTICLES_BY_TAG', {
               articlesByTag: articlesByTag,
               administrator: administrator,
               tags: tags,
@@ -49,7 +49,7 @@ export default {
         let date = state.route.params.change
         return api.articlesByArchive(date, id)
           .then(axios.spread(function (articlesByArchive, administrator, tags, archives) {
-            commit('ARTICLESBYARCHIVE', {
+            commit('ARTICLES_BY_ARCHIVE', {
               articlesByArchive: articlesByArchive,
               administrator: administrator,
               tags: tags,
@@ -61,7 +61,7 @@ export default {
         let q = state.route.params.change
         return api.articlesBySearch(q, id)
           .then(axios.spread(function (articlesBySearch, administrator, tags, archives) {
-            commit('ARTICLESBYSEARCH', {
+            commit('ARTICLES_BY_SEARCH', {
               articlesBySearch: articlesBySearch,
               administrator: administrator,
               tags: tags,

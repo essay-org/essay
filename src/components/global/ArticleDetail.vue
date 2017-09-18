@@ -11,6 +11,7 @@
   </div>
 </template>
 <script>
+// 解析markdown
 import marked from 'marked'
 import cookies from 'js-cookie'
 import MyComment from '../global/MyComment.vue'
@@ -49,6 +50,7 @@ export default {
     }
   },
   methods: {
+    // 前台删除文章
     del () {
       let id = this.$route.params.id
       this.axios.delete(`/article?id=${id}`).then((data) => {
@@ -56,6 +58,8 @@ export default {
         if (data.data.code === 200) this.$router.push({ name: 'index' })
       })
     },
+
+    // 前台编辑文章
     edit () {
       let id = this.$route.params.id
       this.$router.push({ name: 'publish', params: { id: id } })

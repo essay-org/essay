@@ -1,6 +1,6 @@
 import marked from 'marked'
 
-// time format
+// 时间格式化
 export function formatDate (date, fmt) {
   let newDate = new Date(date)
   if (/(y+)/.test(fmt)) {
@@ -26,7 +26,7 @@ function padLeftZero (str) {
   return ('00' + str).substr(str.length)
 }
 
-// cut str
+// 截取指定个数的字符串
 export function cutString (str, len) {
   if (str !== null) {
     if (str.length * 2 <= len) {
@@ -76,12 +76,13 @@ marked.setOptions({
   }
 })
 
+// 转义html中字符并解析
 export function markdownParse (str) {
-  // 转义html中字符并解析
   let markdownParse = marked(str)
   return markdownParse.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
 }
 
+// 归档格式转换
 export function formatArchive (date) {
   let year = date.slice(0, 4)
   let month = date.slice(4)

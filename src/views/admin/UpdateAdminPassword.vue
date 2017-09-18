@@ -29,6 +29,7 @@ export default {
     }
   },
   methods: {
+    // 修改密码
     updateAdminPassword () {
       if (this.pass !== this.verifyPass) {
         this.$toasted.show('两次密码不一致')

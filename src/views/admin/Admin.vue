@@ -69,14 +69,17 @@ export default {
     }
   },
   watch: {
+    // 路由变化，重新获取文章列表，如分页操作
     $route (to, from) {
       this.articles()
     }
   },
   methods: {
+    // 获取所有文章，包括草稿和已发布
     articles () {
       this.$store.dispatch('ARTICLES')
     },
+    // 传入文章的id,删除文章
     del (item) {
       const id = item.date
       this.axios.delete(`/article?id=${id}`).then((data) => {
@@ -84,6 +87,7 @@ export default {
         if (data.data.code === 200) this.articles()
       })
     },
+    // 编辑文章
     edit (item) {
       this.$router.push({ name: 'publish', params: { id: item.date } })
     }

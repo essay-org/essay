@@ -17,7 +17,7 @@ function _connectDB(callback) {
   let user = settings.user,
     pass = settings.pass,
     nickname = settings.nickname || '暂无昵称'
-  avatar = settings.avatar || '',
+    avatar = settings.avatar || '',
     intro = settings.intro || '暂无介绍'
   let json = { "user": user, "pass": pass, "avatar": avatar, "intro": intro, "nickname": nickname }
   _connectDB(function(err, db) {

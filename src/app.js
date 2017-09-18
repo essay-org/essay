@@ -32,7 +32,7 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response) {
-      // console.log(error.response.status)
+      console.log(error.response.status)
     }
     return Promise.reject(error.response.data)
   })

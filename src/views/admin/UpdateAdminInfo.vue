@@ -43,6 +43,7 @@ export default {
     AdminAside
   },
   methods: {
+    // 修改了管理员信息
     edit () {
       this.axios.put('/administrator', {
         old: {
@@ -55,7 +56,6 @@ export default {
       }).then((result) => {
         // 修改了头像
         if (this.$refs.avatarInput.files.length !== 0) {
-          // this.$refs.avatarForm.submit()
           let image = new FormData()
           image.append('avatar', this.$refs.avatarInput.files[0])
           this.axios.post('/avatar', image, {
@@ -63,13 +63,18 @@ export default {
               'Content-Type': 'multipart/form-data'
             }
           })
+        } else {
+          this.$toasted.show(result.data.message)
         }
-        this.$toasted.show(result.data.message)
       })
     },
+
+    // 模拟触发click事件
     setAvatar () {
       this.$refs.avatarInput.click()
     },
+
+    // 选择新的头像后，可以预览
     changeImage (e) {
       let file = e.target.files[0]
       let reader = new FileReader()

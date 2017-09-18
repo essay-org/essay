@@ -5,7 +5,7 @@ export function Article (type) {
   return {
     name: `${type}-stories-view`,
     asyncData ({ store, route }) {
-      return store.dispatch('DETAILPAGE', route.params.id)
+      return store.dispatch('DETAIL_PAGE', route.params.id)
     },
     render (h) {
       return h(article)
@@ -17,7 +17,7 @@ export function List (type) {
   return {
     name: `${type}-stories-view`,
     asyncData ({ store }) {
-      return store.dispatch('LISTPAGE')
+      return store.dispatch('LIST_PAGE')
     },
     render (h) {
       return h(list, { props: { type } })

@@ -200,6 +200,8 @@ app.put('/api/administrator', hasToken, router.updateAdminInfo)
 // update administrator avatar
 app.post('/api/avatar', hasToken, router.avatar)
 
+app.post('/api/upload', hasToken, router.upload)
+
 // update administrator password
 app.put('/api/password', hasToken, router.updateAdminPassword)
 

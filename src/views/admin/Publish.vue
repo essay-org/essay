@@ -8,7 +8,7 @@
             <input type="text" v-model="title" placeholder="文章标题" autofocus>
           </div>
           <div class="content">
-            <textarea id="editor" placeholder="文章内容" class="markdown-body"></textarea>
+            <mavon-editor @imgAdd="imgAdd" v-model="content" ref="editor" :subfield="false"></mavon-editor>
           </div>
           <div class="bottom">
             <div class="tag">
@@ -29,23 +29,9 @@
   </div>
 </template>
 <script>
-import SimpleMDE from 'simplemde'
-import 'simplemde/dist/simplemde.min.css'
 import AdminAside from '../../components/admin/AdminAside.vue'
-import marked from 'marked'
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  highlight: function (code) {
-    return require('highlight.js').highlightAuto(code).value
-  }
-})
+import { mavonEditor } from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 export default {
   name: 'Publish',
   data () {
@@ -54,28 +40,18 @@ export default {
       content: '',
       tag: '',
       date: '',
-      articleID: this.$route.params.id
+      articleID: this.$route.params.id,
+      imgFile: {},
+      relativeUrl: ''
     }
   },
 
   mounted () {
-    let that = this
-    let smde = new SimpleMDE({
-      element: document.getElementById('editor'),
-      autosave: true,
-      previewRender: function (plainText) {
-        return marked(plainText)
-      }
-    })
-    smde.codemirror.on('change', function () {
-      // that.content = marked(smde.value())
-      that.content = smde.value()
-    })
     if (this.articleID) {
       this.axios.get(`/article?id=${this.articleID}`).then((data) => {
         let result = data.data.result[0]
         this.title = result.title
-        smde.value(result.content)
+        this.content = result.content
         let tag = result.tag
         this.tag = tag.join(',') + ','
         this.date = result.date
@@ -83,6 +59,7 @@ export default {
     }
   },
   methods: {
+    // 发布文章
     publish () {
       if (!this.title) {
         this.$toasted.show('文章标题不能为空！')
@@ -99,13 +76,15 @@ export default {
         'content': this.content,
         'tag': this.trim(this.tag),
         'state': 'publish',
-        'date': +this.date || Date.now()
+        'date': Number(this.date) || Date.now()
       }).then((data) => {
         this.$router.push({
           name: 'admin'
         })
       })
     },
+
+    // 保存为草稿
     draft () {
       this.axios.post('/article', {
         'title': this.title,
@@ -119,15 +98,45 @@ export default {
         })
       })
     },
+
+    // 把多个标签分割成数组
     trim (str) {
       return str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',')
     },
+
+    // 选择已有标签
     chooseTag (item) {
       this.tag = this.tag + item.tag + ','
+    },
+
+    // 上传图片时会触发该函数
+    imgAdd (pos, file) {
+      this.imgFile[pos] = file
+      this.relativeUrl = pos
+      this.uploadimg()
+      // this.$refs.editor.$imgDelByFilename(pos)
+    },
+
+    // 把图片数据提交到后台，返回图片的url
+    uploadimg () {
+      let formdata = new FormData()
+      for (let _img in this.imgFile) {
+        formdata.append(_img, this.imgFile[_img])
+      }
+      this.axios.post('/upload', formdata, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((result) => {
+        let actualUrl = result.data.result
+        this.$refs.editor.$img2Url(this.relativeUrl, actualUrl)
+        this.$toasted.show(result.data.message)
+      })
     }
   },
   components: {
-    AdminAside
+    AdminAside,
+    mavonEditor
   },
   computed: {
     tags () {
@@ -142,3 +151,11 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  .content {
+    margin-bottom: 20px;
+  }
+  .v-note-wrapper {
+    min-height: 450px !important;
+  }
+</style>

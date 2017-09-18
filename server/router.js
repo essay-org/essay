@@ -1,7 +1,8 @@
 const md5 = require('./md5.js')
 const db = require('./db.js')
 const formidable = require('formidable')
-const fs = require('fs')
+const fs = require('fs'),
+  util = require('util')
 const path = require('path')
 const jwt = require('jsonwebtoken')
 
@@ -12,6 +13,7 @@ exports.posts = function(req, res, next) {
   let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish" }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据查询失败",
@@ -20,6 +22,7 @@ exports.posts = function(req, res, next) {
     }
     db.find('infos', { "query": { "state": "publish" } }, function(err, result2) {
       if (err) {
+        console.log(err)
         return res.json({
           "code": 404,
           "message": "数据获取失败",
@@ -39,9 +42,10 @@ exports.posts = function(req, res, next) {
 }
 
 exports.admin = function(req, res, next) {
-  let path = req.protocol + '://' + req.headers.host + '/public/'
+  let path = req.protocol + '://' + req.headers.host + '/public/avatars/'
   db.find('users', {}, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据获取失败",
@@ -71,6 +75,7 @@ exports.getArticle = function(req, res, next) {
 
   db.find('infos', { "query": query }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据获取失败",
@@ -89,6 +94,7 @@ exports.getArticle = function(req, res, next) {
 exports.tags = function(req, res, next) {
   db.find('infos', { "query": { "state": "publish" } }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据获取失败",
@@ -139,6 +145,7 @@ exports.tag = function(req, res, next) {
   let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish", "tag": { $all: tag } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据查询失败",
@@ -148,6 +155,7 @@ exports.tag = function(req, res, next) {
 
     db.find('infos', { "query": { "state": "publish", "tag": { $all: tag } } }, function(err, result2) {
       if (err) {
+        console.log(err)
         return res.json({
           "code": 404,
           "message": "数据获取失败",
@@ -179,6 +187,7 @@ exports.search = function(req, res, next) {
   let sort = { "date": sortInfo };
   db.find('infos', { "query": { "state": "publish", "title": { $regex: ".*" + q + ".*" } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据查询失败",
@@ -188,6 +197,7 @@ exports.search = function(req, res, next) {
 
     db.find('infos', { "query": { "state": "publish", "title": { $regex: ".*" + q + ".*" } } }, function(err, result2) {
       if (err) {
+        console.log(err)
         return res.json({
           "code": 404,
           "message": "数据获取失败",
@@ -209,6 +219,7 @@ exports.search = function(req, res, next) {
 exports.archives = function(req, res, next) {
   db.find('infos', { "query": { "state": "publish" } }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据获取失败",
@@ -220,11 +231,11 @@ exports.archives = function(req, res, next) {
       arr2 = [];
 
     for (let i = 0; i < result.length; i++) {
-      let year = new Date(result[i].date).getFullYear()+ ''
-      let month = new Date(result[i].date).getMonth() + 1+''
+      let year = new Date(result[i].date).getFullYear() + ''
+      let month = new Date(result[i].date).getMonth() + 1 + ''
       if (month.length === 1) {
-          month = '0' + month;
-        }
+        month = '0' + month;
+      }
       // let date = `${year}年${month}月`;
       let date = `${year}${month}`;
       arr.push(date)
@@ -267,6 +278,7 @@ exports.archive = function(req, res, next) {
   let bigDate = new Date(+year, +bigMonth).getTime()
   db.find('infos', { "query": { "state": "publish", "date": { $lt: bigDate, $gte: smallDate } }, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据获取失败",
@@ -292,6 +304,7 @@ exports.articles = function(req, res, next) {
   let sort = { "date": sortInfo };
   db.find('infos', { "query": {}, "limit": limit, "page": page, "sort": sort }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 404,
         "message": "数据查询失败",
@@ -301,6 +314,7 @@ exports.articles = function(req, res, next) {
 
     db.find('infos', { "query": {} }, function(err, result2) {
       if (err) {
+        console.log(err)
         return res.json({
           "code": 404,
           "message": "数据获取失败",
@@ -346,6 +360,7 @@ exports.article = function(req, res, next) {
 
     db.find('infos', { "query": { "date": date } }, function(err, result) {
       if (err) {
+        console.log(err)
         return res.json({
           "code": 500,
           "message": "内部服务器错误"
@@ -355,6 +370,7 @@ exports.article = function(req, res, next) {
       if (result.length === 1) {
         db.updateMany('infos', { "date": date }, newData, function(err, result2) {
           if (err) {
+            console.log(err)
             return res.json({
               "code": 401,
               "message": "文章更新失败"
@@ -370,6 +386,7 @@ exports.article = function(req, res, next) {
         // 插入到数据库
         db.insertOne('infos', newData, function(err, result3) {
           if (err) {
+            console.log(err)
             return res.json({
               "code": 401,
               "message": "文章发布失败"
@@ -402,6 +419,7 @@ exports.login = function(req, res, next) {
     // 根据用户名查询数据库
     db.find('users', {}, function(err, result) {
       if (err) {
+        console.log(err)
         return res.json({
           "code": 500,
           "message": "内部服务器错误"
@@ -455,6 +473,7 @@ exports.updateAdminInfo = function(req, res, next) {
     let oldJson = fields.old;
     db.updateMany('users', oldJson, newJson, function(err, result) {
       if (err) {
+        console.log(err)
         return res.json({
           "code": 401,
           "message": "信息修改失败"
@@ -474,15 +493,15 @@ exports.avatar = function(req, res, next) {
 
   let form = new formidable.IncomingForm()
   form.parse(req, function(err, fields, files) {
-    // console.log(files.avatar)
     if (err) {
+      console.log(err)
       return res.json({
         "code": 500,
         "message": "内部服务器错误"
       })
     }
 
-    // 限制文件大小 单位默认字节 这里限制大小为1m
+    // 限制头像大小 单位默认字节 这里限制大小为1m
     if (files.avatar.size / 1024 > 1024) {
       fs.unlink(files.avatar.path)
       return res.json({
@@ -492,32 +511,66 @@ exports.avatar = function(req, res, next) {
     }
     // 获取后缀名
     let extname = path.extname(files.avatar.name)
-    let oldpath = files.avatar.path;
-    let newpath = './public/avatar' + extname;
+    let oldUrl = files.avatar.path;
+    let newUrl = './public/avatars/avatar' + extname;
     let avatarName = 'avatar' + extname;
-    // 更改名字和路径
-    fs.rename(oldpath, newpath, function(err) {
-      if (err) {
-        return res.json({
-          "code": 401,
-          "message": "图片上传失败"
-        })
-      }
-    })
 
-    db.updateMany('users', { "user": username }, { "avatar": avatarName },
-      function(err, result) {
-        if (err) {
-          return res.json({
-            "code": 401,
-            "message": "头像更新失败"
+    // 头像上传到服务器
+    let readStream = fs.createReadStream(oldUrl)
+    let writeStream = fs.createWriteStream(newUrl)
+    readStream.pipe(writeStream)
+    readStream.on('end', function() {
+      // 更新数据库中头像的链接信息
+        db.updateMany('users', { "user": username }, { "avatar": avatarName },
+          function(err, result) {
+            if (err) {
+              console.log(err)
+              return res.json({
+                "code": 401,
+                "message": "头像更新失败"
+              })
+            }
+            return res.json({
+              "code": 200,
+              "message": "头像上传成功"
+            })
           })
-        }
-        return res.json({
-          "code":200,
-          "message": "头像上传成功"
-        })
       })
+    })
+}
+
+exports.upload = function(req, res, next) {
+  let username = req.cookies.username
+  let form = new formidable.IncomingForm()
+  form.parse(req, function(err, fields, files) {
+    if (err) {
+      console.log(err)
+      return res.json({
+        "code": 401,
+        "message": "表单解析错误"
+      })
+    }
+
+    // 获取对象的最后一项
+    let lastItem = files[Object.keys(files)[Object.keys(files).length - 1]]
+
+    // 获取后缀名
+    let extname = Date.now() + path.extname(lastItem.name)
+    let oldUrl = lastItem.path
+    let newUrl = './public/pictures/' + extname
+    let imgUrl = req.protocol + '://' + req.headers.host + '/public/pictures/' + extname
+
+    // 更改名字和路径,实现上传
+    let readStream = fs.createReadStream(oldUrl)
+    let writeStream = fs.createWriteStream(newUrl)
+    readStream.pipe(writeStream)
+    readStream.on('end', function() {
+      return res.json({
+        "code": 200,
+        "message": "图片上传成功",
+        "result": imgUrl
+      })
+    })
   })
 }
 
@@ -538,6 +591,7 @@ exports.updateAdminPassword = function(req, res, next) {
 
       db.updateMany('users', { "user": username }, { "pass": newPass }, function(err, result2) {
         if (err) {
+          console.log(err)
           return res.json({
             "code": 401,
             "message": "密码修改失败"
@@ -559,6 +613,7 @@ exports.deleteArticle = function(req, res, next) {
   let id = Number(req.query.id) || ''
   db.deleteMany('infos', { date: id }, function(err, result) {
     if (err) {
+      console.log(err)
       return res.json({
         "code": 401,
         "message": "文章删除失败"

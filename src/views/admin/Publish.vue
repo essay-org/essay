@@ -62,12 +62,12 @@ export default {
     // 发布文章
     publish () {
       if (!this.title) {
-        this.$toasted.show('文章标题不能为空！')
+        this.$msg.showMsg('文章标题不能为空！')
         return
       }
 
       if (!this.content) {
-        this.$toasted.show('文章正文不能为空！')
+        this.$msg.showMsg('文章正文不能为空！')
         return
       }
 
@@ -77,7 +77,7 @@ export default {
         'tag': this.trim(this.tag),
         'state': 'publish',
         'date': Number(this.date) || Date.now()
-      }).then((data) => {
+      }).then((result) => {
         this.$router.push({
           name: 'admin'
         })
@@ -92,7 +92,7 @@ export default {
         'tag': this.trim(this.tag),
         'state': 'draft',
         'date': Number(this.date) || Date.now()
-      }).then((data) => {
+      }).then((result) => {
         this.$router.push({
           name: 'admin'
         })
@@ -130,7 +130,7 @@ export default {
       }).then((result) => {
         let actualUrl = result.data.result
         this.$refs.editor.$img2Url(this.relativeUrl, actualUrl)
-        this.$toasted.show(result.data.message)
+        this.$msg.showMsg(result.data.message)
       })
     }
   },
@@ -151,11 +151,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-  .content {
-    margin-bottom: 20px;
-  }
-  .v-note-wrapper {
-    min-height: 450px !important;
-  }
-</style>

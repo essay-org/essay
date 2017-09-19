@@ -53,9 +53,9 @@ export default {
     // 前台删除文章
     del () {
       let id = this.$route.params.id
-      this.axios.delete(`/article?id=${id}`).then((data) => {
-        this.$toasted.show(data.data.message)
-        if (data.data.code === 200) this.$router.push({ name: 'index' })
+      this.axios.delete(`/article?id=${id}`).then((result) => {
+        this.$msg.showMsg(result.data.message)
+        if (result.data.code === 200) this.$router.push({ name: 'index' })
       })
     },
 

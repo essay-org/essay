@@ -64,7 +64,7 @@ export default {
             }
           })
         } else {
-          this.$toasted.show(result.data.message)
+          this.$msg.showMsg(result.data.message)
         }
       })
     },

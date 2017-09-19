@@ -313,6 +313,9 @@ button {
     min-height: 100%;
     margin-left: 180px;
     background-color: #fff;
+    .content {
+      margin-bottom: 20px;
+    }
   }
 }
 
@@ -493,4 +496,9 @@ button {
       }
     }
   }
+}
+
+// 编辑器
+.v-note-wrapper {
+  min-height: 400px !important;
 }

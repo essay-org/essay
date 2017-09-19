@@ -6,8 +6,10 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 import axios from 'axios'
-import Toasted from 'vue-toasted'
 import cookies from 'js-cookie'
+
+// var msg = Vue.prototype.$msg = new Vue(ShowMsg).$mount()
+// Vue.prototype.$showMsg = ShowMsg
 Vue.prototype.axios = axios
 Vue.mixin(titleMixin)
 
@@ -57,11 +59,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-})
-
-Vue.use(Toasted, {
-  position: 'top-center',
-  duration: 2000
 })
 
 export function createApp () {

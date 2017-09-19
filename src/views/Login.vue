@@ -22,13 +22,13 @@ export default {
       this.axios.post('/login', {
         'user': this.user,
         'pass': this.pass
-      }).then((data) => {
-        if (data.data.code === 200) {
+      }).then((result) => {
+        if (result.data.code === 200) {
           this.$router.push({
             name: 'publish'
           })
         } else {
-          this.$toasted.show(data.data.message)
+          this.$msg.showMsg(result.data.message)
         }
       })
     }

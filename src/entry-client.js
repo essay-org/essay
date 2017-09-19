@@ -2,11 +2,12 @@ import Vue from 'vue'
 import 'es6-promise/auto'
 import { createApp } from './app'
 import ProgressBar from './components/global/ProgressBar.vue'
-
+import ShowMsg from './components/global/ShowMsg.vue'
 // global progress bar
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
 document.body.appendChild(bar.$el)
-
+const msg = Vue.prototype.$msg = new Vue(ShowMsg).$mount()
+document.body.appendChild(msg.$el)
 // a global mixin that calls `asyncData` when a route component's params change
 Vue.mixin({
   beforeRouteUpdate (to, from, next) {

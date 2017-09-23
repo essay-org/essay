@@ -7,14 +7,14 @@
       <span><a @click="edit">编辑</a></span>
       <span><a @click="del">删除</a></span>
     </div>
-    <!-- <my-comment :id="article.date"></my-comment> -->
+    <!-- <vue-gitment :options="options"></vue-gitment> -->
   </div>
 </template>
 <script>
 // 解析markdown
 import marked from 'marked'
 import cookies from 'js-cookie'
-import MyComment from '../global/MyComment.vue'
+// import VueGitment from 'vue-gitment'
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -32,6 +32,15 @@ export default {
   name: 'ArticleDetail',
   data () {
     return {
+      /* options: {
+        id: article.date,
+        owner: 'Your GitHub ID',
+        repo: 'The repo to store comments',
+        oauth: {
+          client_id: 'Your client ID',
+          client_secret: 'Your client secret'
+        }
+      }, */
       article: this.$store.state.articleDetail
     }
   },
@@ -54,7 +63,7 @@ export default {
     del () {
       let id = this.$route.params.id
       this.axios.delete(`/article?id=${id}`).then((result) => {
-        this.$msg.showMsg(result.data.message)
+        this.$toast(result.data.message)
         if (result.data.code === 200) this.$router.push({ name: 'index' })
       })
     },
@@ -66,7 +75,7 @@ export default {
     }
   },
   components: {
-    MyComment
+    // VueGitment
   }
 }
 </script>

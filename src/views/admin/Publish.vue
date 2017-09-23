@@ -62,12 +62,12 @@ export default {
     // 发布文章
     publish () {
       if (!this.title) {
-        this.$msg.showMsg('文章标题不能为空！')
+        this.$toast('文章标题不能为空！')
         return
       }
 
       if (!this.content) {
-        this.$msg.showMsg('文章正文不能为空！')
+        this.$toast('文章正文不能为空！')
         return
       }
 
@@ -130,7 +130,7 @@ export default {
       }).then((result) => {
         let actualUrl = result.data.result
         this.$refs.editor.$img2Url(this.relativeUrl, actualUrl)
-        this.$msg.showMsg(result.data.message)
+        this.$toast(result.data.message)
       })
     }
   },

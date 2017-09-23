@@ -32,7 +32,7 @@ export default {
     // 修改密码
     updateAdminPassword () {
       if (this.pass !== this.verifyPass) {
-        this.$msg.showMsg('两次密码不一致')
+        this.$toast('两次密码不一致')
         return
       }
       this.axios.put('/password', {
@@ -42,7 +42,7 @@ export default {
         if (result.data.code === 200) {
           this.$router.push({ name: 'login' })
         } else {
-          this.$msg.showMsg(result.data.message)
+          this.$toast(result.data.message)
         }
       })
     }

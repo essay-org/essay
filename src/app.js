@@ -8,8 +8,14 @@ import * as filters from './util/filters'
 import axios from 'axios'
 import cookies from 'js-cookie'
 
-// var msg = Vue.prototype.$msg = new Vue(ShowMsg).$mount()
-// Vue.prototype.$showMsg = ShowMsg
+// vue-vb-toast plugin https://github.com/vue-blog/vue-vb-toast
+import VueToast from 'vue-vb-toast'
+import 'vue-vb-toast/lib/vue-vb-toast.css'
+Vue.use(VueToast, {
+  position: 'top',
+  durition: 1500
+})
+
 Vue.prototype.axios = axios
 Vue.mixin(titleMixin)
 

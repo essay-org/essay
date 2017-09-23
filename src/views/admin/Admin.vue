@@ -83,7 +83,7 @@ export default {
     del (item) {
       const id = item.date
       this.axios.delete(`/article?id=${id}`).then((data) => {
-        this.$msg.showMsg(data.data.message)
+        this.$toast(data.data.message)
         if (data.data.code === 200) this.articles()
       })
     },

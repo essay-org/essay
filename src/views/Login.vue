@@ -28,7 +28,7 @@ export default {
             name: 'publish'
           })
         } else {
-          this.$msg.showMsg(result.data.message)
+          this.$toast(result.data.message)
         }
       })
     }

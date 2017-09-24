@@ -17,6 +17,7 @@
 ### 最新计划
 - [X] 添加eslint语法检测工具
 - [X] 文章上传图片功能
+- [ ] 支持图片上传的markdown编辑器插件
 - [ ] 手机端模板调整(APP标准)
 - [ ] 增加单元测试
 
@@ -102,24 +103,7 @@
 ### 本地运行项目
 1. 安装[mongodb](https://www.mongodb.com/download-center?jmp=nav#community)并启动
 2. 安装[nodejs](https://nodejs.org/en/)环境
-3. 修改`/server/settings.js`下的配置项信息，你也可以默认不修改，默认用户名:q，默认密码：q
-
-```
-    let user = 'q';
-    let pass = md5('q');
-    let avatar = 'avatar.jpg';
-    let intro ='Never too old to learn';
-    let nickname = 'VueBlog';
-    module.exports = {
-        dbUrl:'mongodb://localhost:27017/vueblog',
-        user:user,
-        pass:pass,
-        avatar:avatar,
-        intro:intro,
-        nickname:nickname
-    }
-```
-4. 打开本地终端，执行`npm install`,`npm run dev `,访问http://localhost:8080  
+3. 打开本地终端，执行`npm install`,`npm run dev `,访问http://localhost:8080  
 
 ### 结语
 本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR，该项目不会添加过多复杂功能，追求轻量，以原生APP的体验作为目标。 

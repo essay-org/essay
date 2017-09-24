@@ -7,14 +7,14 @@
       <span><a @click="edit">编辑</a></span>
       <span><a @click="del">删除</a></span>
     </div>
-    <!-- <vue-gitment :options="options"></vue-gitment> -->
+    <!-- 评论插件，在options中配置下即可使用 -->
+    <!-- <vue-comment :options="options"></vue-comment> -->
   </div>
 </template>
 <script>
 // 解析markdown
 import marked from 'marked'
 import cookies from 'js-cookie'
-// import VueGitment from 'vue-gitment'
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -32,16 +32,16 @@ export default {
   name: 'ArticleDetail',
   data () {
     return {
-      /* options: {
-        id: article.date,
+      article: this.$store.state.articleDetail,
+      options: {
+        id: this.$route.params.id,
         owner: 'Your GitHub ID',
         repo: 'The repo to store comments',
         oauth: {
           client_id: 'Your client ID',
           client_secret: 'Your client secret'
         }
-      }, */
-      article: this.$store.state.articleDetail
+      }
     }
   },
   title () {
@@ -73,9 +73,9 @@ export default {
       let id = this.$route.params.id
       this.$router.push({ name: 'publish', params: { id: id } })
     }
-  },
-  components: {
-    // VueGitment
   }
 }
 </script>
+<style>
+  @import '~gitment/style/default.css';
+</style>

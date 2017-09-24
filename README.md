@@ -104,6 +104,7 @@
 1. 安装[mongodb](https://www.mongodb.com/download-center?jmp=nav#community)并启动
 2. 安装[nodejs](https://nodejs.org/en/)环境
 3. 打开本地终端，执行`npm install`,`npm run dev `,访问http://localhost:8080  
+4. 后台的默认用户名：q，默认密码：q
 
 ### 结语
 本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR，该项目不会添加过多复杂功能，追求轻量，以原生APP的体验作为目标。 

@@ -1,7 +1,7 @@
 <template>
   <aside class="aside">
     <div class="tags">
-      <div class="title"><i class="iconfont icon-iconfontyouhuiquan"></i>标签</div>
+      <div class="title">标签</div>
       <div class="list">
         <ul>
           <li v-for="(item,index) in tags" :key="index">
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="archives">
-      <div class="title"><i class="iconfont icon-wodedangan"></i>归档</div>
+      <div class="title">归档</div>
       <div class="list">
         <ul>
           <li v-for="(item,index) in archives" :key="index">

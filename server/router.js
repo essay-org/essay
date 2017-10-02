@@ -565,11 +565,7 @@ exports.upload = function(req, res, next) {
     let writeStream = fs.createWriteStream(newUrl)
     readStream.pipe(writeStream)
     readStream.on('end', function() {
-      return res.json({
-        "code": 200,
-        "message": "图片上传成功",
-        "result": imgUrl
-      })
+      return res.send(imgUrl)
     })
   })
 }

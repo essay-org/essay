@@ -1,45 +1,31 @@
 <template>
   <div class="article-detail">
     <h3 class="title">{{title}}</h3>
-    <article class="content markdown-body" v-html="content">
-    </article>
+    <top-preview :content="content" :options="options"></top-preview>
     <div class="manage" v-show="isAdmin">
       <span><a @click="edit">编辑</a></span>
       <span><a @click="del">删除</a></span>
     </div>
-    <!-- 评论插件，在options中配置下即可使用 -->
-    <!-- <vue-comment :options="options"></vue-comment> -->
   </div>
 </template>
 <script>
-// 解析markdown
-import marked from 'marked'
 import cookies from 'js-cookie'
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  highlight: function (code) {
-    return require('highlight.js').highlightAuto(code).value
-  }
-})
+import hljs from 'highlight.js'
 export default {
   name: 'ArticleDetail',
   data () {
     return {
       article: this.$store.state.articleDetail,
       options: {
-        id: this.$route.params.id,
-        owner: 'Your GitHub ID',
-        repo: 'The repo to store comments',
-        oauth: {
-          client_id: 'Your client ID',
-          client_secret: 'Your client secret'
+        linkify: true,
+        highlight(str, lang) {
+          lang = lang || 'javascript'
+          if (hljs.getLanguage(lang)) {
+            try {
+              return hljs.highlight(lang, str).value
+            } catch (__) {}
+          }
+          return ''
         }
       }
     }
@@ -52,7 +38,7 @@ export default {
       return this.article.title
     },
     content () {
-      return marked(this.article.content)
+      return this.article.content
     },
     isAdmin () {
       return !!((cookies.get('token') || this.$store.state.cookies.token))
@@ -77,5 +63,6 @@ export default {
 }
 </script>
 <style>
-  @import '~gitment/style/default.css';
+@import '~highlight.js/styles/github.css';
+  /*@import '~gitment/style/default.css';*/
 </style>

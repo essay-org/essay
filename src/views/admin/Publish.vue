@@ -8,7 +8,7 @@
             <input type="text" v-model="title" placeholder="文章标题" autofocus>
           </div>
           <div class="content">
-            <mavon-editor @imgAdd="imgAdd" v-model="content" ref="editor" :subfield="false"></mavon-editor>
+            <top-editor v-model="content" :upload="upload" :options="options"></top-editor>
           </div>
           <div class="bottom">
             <div class="tag">
@@ -30,8 +30,7 @@
 </template>
 <script>
 import AdminAside from '../../components/admin/AdminAside.vue'
-import { mavonEditor } from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+import hljs from 'highlight.js'
 export default {
   name: 'Publish',
   data () {
@@ -41,8 +40,21 @@ export default {
       tag: '',
       date: '',
       articleID: this.$route.params.id,
-      imgFile: {},
-      relativeUrl: ''
+      upload: {
+        url: 'http://localhost:8080/api/upload'
+      },
+      options: {
+        linkify: true,
+        highlight(str, lang) {
+          lang = lang || 'javascript'
+          if (hljs.getLanguage(lang)) {
+            try {
+              return hljs.highlight(lang, str).value
+            } catch (__) {}
+          }
+          return ''
+        }
+      }
     }
   },
 
@@ -65,7 +77,6 @@ export default {
         this.$toast('文章标题不能为空！')
         return
       }
-
       if (!this.content) {
         this.$toast('文章正文不能为空！')
         return
@@ -107,36 +118,10 @@ export default {
     // 选择已有标签
     chooseTag (item) {
       this.tag = this.tag + item.tag + ','
-    },
-
-    // 上传图片时会触发该函数
-    imgAdd (pos, file) {
-      this.imgFile[pos] = file
-      this.relativeUrl = pos
-      this.uploadimg()
-      // this.$refs.editor.$imgDelByFilename(pos)
-    },
-
-    // 把图片数据提交到后台，返回图片的url
-    uploadimg () {
-      let formdata = new FormData()
-      for (let _img in this.imgFile) {
-        formdata.append(_img, this.imgFile[_img])
-      }
-      this.axios.post('/upload', formdata, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((result) => {
-        let actualUrl = result.data.result
-        this.$refs.editor.$img2Url(this.relativeUrl, actualUrl)
-        this.$toast(result.data.message)
-      })
     }
   },
   components: {
-    AdminAside,
-    mavonEditor
+    AdminAside
   },
   computed: {
     tags () {
@@ -151,3 +136,6 @@ export default {
   }
 }
 </script>
+<style>
+@import '~highlight.js/styles/github.css';
+</style>

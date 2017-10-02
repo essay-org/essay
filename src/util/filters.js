@@ -70,10 +70,7 @@ marked.setOptions({
   pedantic: false,
   sanitize: false,
   smartLists: true,
-  smartypants: false,
-  highlight: function (code) {
-    return require('highlight.js').highlightAuto(code).value
-  }
+  smartypants: false
 })
 
 // 转义html中字符并解析

@@ -7,16 +7,12 @@ import titleMixin from './util/title'
 import * as filters from './util/filters'
 import axios from 'axios'
 import cookies from 'js-cookie'
-// comment plugin https://github.com/vue-blog/vue-gitment
-import VueGitment from 'vue-gitment'
-// vue-vb-toast plugin https://github.com/vue-blog/vue-vb-toast
-import VueToast from 'vue-vb-toast'
-import 'vue-vb-toast/lib/toast.css'
-Vue.use(VueToast, {
-  position: 'top',
-  durition: 1500
-})
-Vue.use(VueGitment)
+// https://github.com/vuetop/top-toast
+// https://github.com/vuetop/top-editor
+import TopEditor from 'top-editor'
+import TopToast from 'top-toast'
+Vue.use(TopEditor)
+Vue.use(TopToast)
 
 Vue.prototype.axios = axios
 Vue.mixin(titleMixin)

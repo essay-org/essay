@@ -12,12 +12,13 @@
 - v1.1.0 添加管理员在前台可编辑和删除文章功能  
 - v1.1.1 添加[评论组件](https://github.com/vue-blog)  
 - v1.1.2 添加eslint语法检测工具  
-- v1.2.0 增加文章上传图片功能  
+- v1.2.0 增加文章上传图片功能
+- v1.2.1 编辑器改用[top-editor](https://github.com/vuetop/top-editor)
 
 ### 最新计划
 - [X] 添加eslint语法检测工具
 - [X] 文章上传图片功能
-- [ ] 支持图片上传的markdown编辑器插件
+- [X] 支持图片上传的markdown编辑器插件[top-editor](https://github.com/vuetop/top-editor)
 - [ ] 手机端模板调整(APP标准)
 - [ ] 增加单元测试
 
@@ -107,9 +108,7 @@
 4. 后台的默认用户名：q，默认密码：q
 
 ### 结语
-本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR，该项目不会添加过多复杂功能，追求轻量，以原生APP的体验作为目标。 
-
-后期会把部分功能插件化，之所以自己开发[vue插件](https://github.com/orgs/vue-blog)，并不是我喜欢造轮子，真的是找不到满意的轮子，比如说markdown编辑器，要么不支持图片上传，要么体积特别大，所以我决定全部自己开发。时间如果充足的话，我会更新所有的开发教程。  
+本项目基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)开发，长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR，该项目不会添加过多复杂功能，追求轻量，以原生APP的体验作为目标。  
 
 ### 开源协议
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)

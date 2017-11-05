@@ -15,12 +15,8 @@
 - v1.2.0 增加文章上传图片功能
 - v1.2.1 编辑器改用[top-editor](https://github.com/vuetop/top-editor)
 
-### 最新计划
-- [X] 添加eslint语法检测工具
-- [X] 文章上传图片功能
-- [X] 支持图片上传的markdown编辑器插件[top-editor](https://github.com/vuetop/top-editor)
-- [ ] 手机端模板调整(APP标准)
-- [ ] 增加单元测试
+> v1已完成目标功能
+> v2将会使用Nuxt.js重构，服务端采用koa框架，数据库将会用mongoose代替原生mongodb写法，采用GraphQl查询语言代替RESTful api，实现自动化部署。
 
 ### 开发环境和技术栈
 - 操作系统：windows10 64位

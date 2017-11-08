@@ -1,0 +1,401 @@
+@import './var.scss';
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  font-family: "Microsoft Yahei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, tahoma, arial, Verdana, sans-serif, "WenQuanYi Micro Hei", "\5B8B\4F53";
+  font-size: 15px;
+  color: #333;
+  background-color: $Bg;
+}
+
+ul,
+ol,
+dl {
+  list-style-type: none;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+iframe,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+button,
+input,
+textarea,
+th,
+td,
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: $Link;
+  text-decoration: none;
+  display: inline-block;
+  &:hover {
+    text-decoration: underline;
+    outline: none;
+  }
+  &:focus,
+  &:hover,
+  &:active {
+    outline: none;
+  }
+}
+
+.container {
+  max-width: 1120px;
+}
+.white {
+  background-color: #fff;
+}
+input {
+  height: 35px;
+  text-indent: 1em;
+  border-radius: 5px;
+  border: 1px solid $Border;
+  display: inline-block;
+  &:focus {
+    outline: none;
+  }
+}
+
+button {
+  padding: 8px 15px !important;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity .5s
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0
+}
+
+
+
+
+
+
+/* article list layout */
+
+.wrap {
+  display: flex;
+  margin: 0 auto 30px;
+}
+
+
+
+.article-detail {
+  flex: 1;
+  background-color: #FFF;
+  padding: 15px 18px;
+  overflow: auto;
+  .title {
+    margin: 20px 0;
+    &::after {
+      content: '';
+      display: block;
+      margin-top: 20px;
+      border-bottom: 1px dashed $Border;
+    }
+  }
+  .content {
+    margin-bottom: 20px;
+  }
+  .manage {
+    text-align: right;
+    &::before {
+      content: '';
+      display: block;
+      margin-top: 20px;
+      border-bottom: 1px dashed $Border;
+    }
+    span {
+      display: inline-block;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+  }
+}
+
+
+
+.page {
+  position: relative;
+  width: 100%;
+  .prev,
+  .next {
+    width: 50%;
+    display: inline-block;
+    padding: 20px 0;
+  }
+  .next {
+    text-align: right;
+  }
+  .prev {
+    text-align: left;
+  }
+  .disabled {
+    cursor: not-allowed;
+    color: $DisabledLink;
+    text-decoration: none;
+  }
+}
+
+
+/* admin template layout */
+
+.admin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .admin-aside {
+    width: 180px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: $BlackSecondary;
+    h3 {
+      color: #FFF;
+      text-align: center;
+      padding: 10px 0;
+    }
+    li {
+      cursor: pointer;
+      a {
+        display: block;
+        padding: 10px 20px;
+        color: #FFF;
+        text-decoration: none;
+        &:hover {
+          background-color: rgba(0, 0, 0, .1);
+        }
+        &.current {
+          color: $Link;
+          background-color: rgba(0, 0, 0, .1);
+        }
+      }
+    }
+  }
+  .admin-content {
+    position: relative;
+    min-height: 100%;
+    margin-left: 180px;
+    background-color: #fff;
+    .content {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.article {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    td,
+    th {
+      padding: 10px 15px;
+      text-align: left;
+    }
+    thead tr {
+      background-color: $Border;
+    }
+    tbody tr {
+      border-bottom: 1px solid $Border;
+      a {
+        cursor: pointer;
+      }
+    }
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 70%;
+    }
+    .draft {
+      color: red;
+    }
+  }
+}
+
+.essay {
+  .form {
+    padding: 30px 15px;
+    .title {
+      input[type="text"] {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      input[type="text"] {
+        width: 400px;
+      }
+      button:nth-child(1) {
+        background-color: #24292E;
+        margin-right: 20px;
+        color: #fff;
+      }
+    }
+    .tags {
+      color: gray;
+      padding: 10px 0;
+      span {
+        display: inline-block;
+        margin-left: 10px;
+        a {
+          cursor: pointer !important;
+        }
+      }
+      span:nth-child(1) {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.edit {
+  text-align: center;
+  padding-top: 50px;
+  .avatar {
+    padding: 30px;
+    cursor: pointer;
+    .img {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 50%;
+      img {
+        width: 100px;
+        height: 100px;
+        display: block;
+      }
+      span {
+        width: 100px;
+        background-color: rgba(0, 0, 0, .3);
+        display: block;
+        position: absolute;
+        bottom: 0;
+        font-size: 12px;
+        color: #FFF;
+        padding: 8px 0;
+      }
+    }
+  }
+  .my-input {
+    padding-bottom: 30px;
+    input {
+      width: 400px;
+    }
+  }
+  button[type="button"] {
+    color: #FFF;
+    background-color: $BlackPrimary;
+  }
+}
+
+.login {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $BlackPrimary;
+  .title {
+    text-align: center;
+    font-size: 30px;
+    color: #fff;
+    letter-spacing: 8px;
+    margin-top: 100px;
+  }
+  .form {
+    position: relative;
+    background-color: #fff;
+    width: 400px;
+    margin: 50px auto;
+    border-radius: 5px;
+    padding: 40px 0;
+    input[type="text"],
+    input[type="password"],
+    button[type="button"] {
+      display: block;
+      width: 80%;
+      margin: 0 auto 20px;
+    }
+    button[type="button"] {
+      color: #fff;
+      background-color: $BlackSecondary;
+      &:hover {
+        cursor: pointer !important;
+        background-color: $BlackPrimary;
+      }
+    }
+  }
+}
+
+
+
+
+/* @media screen*/
+
+@media only screen and(max-width: 768px) {
+  .search {
+    display: none;
+  }
+  .aside {
+    display: none;
+  }
+  .footer {
+    border-top: 1px solid $Border;
+    color: #C8C9CA;
+    margin: auto;
+    .copy {
+      text-align: center;
+      height: 70px;
+      display: block;
+      font-size: 12px;
+      padding: 18px;
+      .licensed {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+// 编辑器
+.v-note-wrapper {
+  min-height: 400px !important;
+}

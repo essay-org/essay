@@ -1,8 +1,11 @@
-.DS_Store
-node_modules/
-dist/
-.idea
-scratch/
-note.md
+# dependencies
+node_modules
+
+# logs
 npm-debug.log
-*.iml
+
+# Nuxt build
+.nuxt
+
+# Nuxt generate
+dist

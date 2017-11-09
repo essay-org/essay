@@ -13,6 +13,8 @@ export default () => {
       tags: [],
       archives: [],
       articles: {},
+      category: '',
+      page: '',
       cookies: {}
     },
     actions,

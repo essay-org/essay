@@ -65,9 +65,7 @@ a {
 .container {
   max-width: 1120px;
 }
-.white {
-  background-color: #fff;
-}
+
 input {
   height: 35px;
   text-indent: 1em;
@@ -95,78 +93,6 @@ button {
 .page-leave-active {
   opacity: 0
 }
-
-
-
-
-
-
-/* article list layout */
-
-.wrap {
-  display: flex;
-  margin: 0 auto 30px;
-}
-
-
-
-.article-detail {
-  flex: 1;
-  background-color: #FFF;
-  padding: 15px 18px;
-  overflow: auto;
-  .title {
-    margin: 20px 0;
-    &::after {
-      content: '';
-      display: block;
-      margin-top: 20px;
-      border-bottom: 1px dashed $Border;
-    }
-  }
-  .content {
-    margin-bottom: 20px;
-  }
-  .manage {
-    text-align: right;
-    &::before {
-      content: '';
-      display: block;
-      margin-top: 20px;
-      border-bottom: 1px dashed $Border;
-    }
-    span {
-      display: inline-block;
-      padding: 10px 15px;
-      cursor: pointer;
-    }
-  }
-}
-
-
-
-.page {
-  position: relative;
-  width: 100%;
-  .prev,
-  .next {
-    width: 50%;
-    display: inline-block;
-    padding: 20px 0;
-  }
-  .next {
-    text-align: right;
-  }
-  .prev {
-    text-align: left;
-  }
-  .disabled {
-    cursor: not-allowed;
-    color: $DisabledLink;
-    text-decoration: none;
-  }
-}
-
 
 /* admin template layout */
 

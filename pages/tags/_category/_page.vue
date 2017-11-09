@@ -1,7 +1,5 @@
 <template>
-  <div class="white">
-    <my-items :articleList="articleList" :routerName="routerName"></my-items>
-  </div>
+  <my-items :articleList="articleList" :routerName="routerName"></my-items>
 </template>
 <script>
 import MyItems from '~/components/items.vue'
@@ -15,7 +13,11 @@ import MyItems from '~/components/items.vue'
         page: params.page
       })
     },
-
+    head() {
+      return {
+        title: `${this.$store.state.category} | 第${this.$store.state.page}页`
+      }
+    },
     computed: {
       articleList(){
         return this.$store.state.articleList

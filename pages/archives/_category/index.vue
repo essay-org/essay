@@ -1,7 +1,5 @@
 <template>
-  <div class="white">
-    <my-items :articleList="articleList" :routerName="routerName"></my-items>
-  </div>
+  <my-items :articleList="articleList" :routerName="routerName"></my-items>
 </template>
 <script>
 import MyItems from '~/components/items.vue'

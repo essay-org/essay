@@ -3,7 +3,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'starter',
+    title: 'vueblog',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -13,7 +13,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  build: { vendor: ['axios'] },
+  build: { vendor: ['axios', 'highlight.js', 'top-editor'] },
   /*
   ** Global CSS
   */
@@ -21,7 +21,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#337AB7' },
 
   axios: {
     baseURL: 'http://127.0.0.1:8080/api',
@@ -29,6 +29,7 @@ module.exports = {
     proxyHeaders: false
   },
   plugins: [
-    '~plugins/filters.js'
+    '~plugins/filters.js',
+    '~plugins/top-editor.js'
   ]
 }

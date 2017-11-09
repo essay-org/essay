@@ -2,7 +2,7 @@
   <div class="article-list">
     <ul class="items">
       <li v-for="(item,index) in articleList" class="item" :key="index">
-        <nuxt-link class="title" :to="{name:'article',params:{id:item.date}}">{{item.title}}</nuxt-link>
+        <nuxt-link class="title" :to="{name:'article-id',params:{id:item.date}}">{{item.title}}</nuxt-link>
         <article class="content">{{item.content | markdownParse | cutString(200)}}</article>
       </li>
     </ul>
@@ -72,7 +72,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~assets/css/var.scss';
 .article-list {
   flex: 1;
@@ -94,6 +94,27 @@ export default {
     font-size: 18px;
     strong {
       color: red;
+    }
+  }
+  .page {
+    position: relative;
+    width: 100%;
+    .prev,
+    .next {
+      width: 50%;
+      display: inline-block;
+      padding: 20px 0;
+    }
+    .next {
+      text-align: right;
+    }
+    .prev {
+      text-align: left;
+    }
+    .disabled {
+      cursor: not-allowed;
+      color: $DisabledLink;
+      text-decoration: none;
     }
   }
 }

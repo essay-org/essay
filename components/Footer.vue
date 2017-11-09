@@ -6,8 +6,11 @@
     </div>
   </footer>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~assets/css/var.scss';
+.container {
+  background-color: $Bg;
+}
 .footer {
   border-top: 1px solid $Border;
   color: #C8C9CA;

@@ -3,7 +3,7 @@
     <my-header/>
     <div class="container wrap">
       <nuxt/>
-      <my-aside></my-aside>
+      <my-aside/>
     </div>
     <my-footer/>
   </div>
@@ -21,3 +21,12 @@ export default {
   }
 }
 </script>
+<style scoped>
+.container {
+  background-color: #fff;
+}
+.wrap {
+  display: flex;
+  margin: 0 auto 30px;
+}
+</style>

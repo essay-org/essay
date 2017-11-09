@@ -26,7 +26,7 @@ function listByAll (page = 1) {
 }
 
 // 文章详情
-function articleDetial (id) {
+function articleDetail (id) {
   return axios.get(`/article?id=${id}`)
 }
 
@@ -51,7 +51,7 @@ export default {
   listBySearch,
   listByArchive,
   listByAll,
-  articleDetial,
+  articleDetail,
   adminInfo,
   tags,
   archives

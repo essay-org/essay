@@ -24,7 +24,7 @@
 </template>
 <script>
 export default {
-  name: 'MyAside',
+  name: 'Aside',
 
   computed: {
     tags () {
@@ -36,10 +36,10 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~assets/css/var.scss';
 .aside {
-  width: 300px;
+  width: 230px;
   background-color: #F8F8F8;
   padding: 15px;
   .tags,

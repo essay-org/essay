@@ -1,8 +1,13 @@
 export default {
 
-  LIST_PAGE (state, data) {
-    state.articleList = data.data.result
-    state.total = data.data.total
+  LIST_PAGE (state, result) {
+    if(typeof result == 'object'){
+      let { category, page, data} = result
+      state.articleList = result.data.data.result
+      state.total = result.data.data.total
+      state.category = category
+      state.page = page || 1
+    }
   },
 
   ARTICLE_DETAIL (state, data) {

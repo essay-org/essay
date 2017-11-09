@@ -21,27 +21,47 @@ export default {
     switch(typeName) {
       case 'archives':
       return api.listByArchive(category,page).then((data) => {
-        commit('LIST_PAGE', data)
+        commit('LIST_PAGE', {
+          data: data,
+          category: category,
+          page: page
+        })
       })
       break;
       case 'tags':
       return api.listByTag(category,page).then((data) => {
-        commit('LIST_PAGE', data)
+        commit('LIST_PAGE', {
+          data: data,
+          category: category,
+          page: page
+        })
       })
       break;
       case 'search':
       return api.listBySearch(page).then((data) => {
-        commit('LIST_PAGE', data)
+        commit('LIST_PAGE', {
+          data: data,
+          category: category,
+          page: page
+        })
       })
       break;
       case 'top':
       return api.listByTop(page).then((data) => {
-        commit('LIST_PAGE', data)
+        commit('LIST_PAGE', {
+          data: data,
+          category: category,
+          page: page
+        })
       })
       break;
       default :
       return api.listByTop(page).then((data) => {
-        commit('LIST_PAGE', data)
+        commit('LIST_PAGE', {
+          data: data,
+          category: category,
+          page: page
+        })
       })
     }
   },

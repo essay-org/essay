@@ -29,7 +29,7 @@ export default {
         commit('LIST_PAGE', data)
       })
       break;
-      case 'index':
+      case 'top':
       return api.postsData(page).then((data) => {
         commit('LIST_PAGE', data)
       })

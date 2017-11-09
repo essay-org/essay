@@ -1,16 +1,16 @@
 <template>
   <div class="white">
-    <my-items :articleList="articleList" :routerName="routerName" :pageName="pageName"></my-items>
+    <my-items :articleList="articleList" :routerName="routerName"></my-items>
   </div>
 </template>
 <script>
 import MyItems from '~/components/items.vue'
   export default {
-    name: 'Index',
+    name: 'top',
     async fetch({store,params}) {
       // 填充状态树
       await store.dispatch('LIST_PAGE', {
-        typeName: 'index',
+        typeName: 'top',
         category: params.category,
         page:params.page
       })
@@ -21,10 +21,7 @@ import MyItems from '~/components/items.vue'
         return this.$store.state.articleList
       },
       routerName(){
-        return 'index-page'
-      },
-      pageName(){
-        return 'index'
+        return 'top-page'
       }
     },
     components: {

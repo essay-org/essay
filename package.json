@@ -17,10 +17,12 @@
     "@nuxtjs/pwa": "^1.0.2",
     "axios": "^0.17.0",
     "cross-env": "^5.0.1",
+    "highlight.js": "^9.12.0",
     "koa": "^2.3.0",
     "marked": "^0.3.6",
     "nuxt": "^1.0.0-rc3",
-    "source-map-support": "^0.4.15"
+    "source-map-support": "^0.4.15",
+    "top-editor": "^0.0.3"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

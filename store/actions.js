@@ -3,14 +3,14 @@ import api from '../api'
 export default {
   // 渲染组件内的数据
   async nuxtServerInit ({ dispatch }, { req }) {
-    await dispatch('ADMINISTRATOR')
+    await dispatch('ADMIN_INFO')
     await dispatch('TAGS')
     await dispatch('ARCHIVES')
   },
 
-  DETAIL_PAGE ({ commit, state }, id) {
-    return api.articleData(id).then((data) => {
-      commit('DETAIL_PAGE', data)
+  ARTICLE_DETAIL ({ commit, state }, id) {
+    return api.articleDetail(id).then((data) => {
+      commit('ARTICLE_DETAIL', data)
     })
   },
 
@@ -20,49 +20,54 @@ export default {
     // console.log(params)
     switch(typeName) {
       case 'archives':
-      return api.archiveData(category,page).then((data) => {
+      return api.listByArchive(category,page).then((data) => {
         commit('LIST_PAGE', data)
       })
       break;
       case 'tags':
-      return api.tagData(category,page).then((data) => {
+      return api.listByTag(category,page).then((data) => {
+        commit('LIST_PAGE', data)
+      })
+      break;
+      case 'search':
+      return api.listBySearch(page).then((data) => {
         commit('LIST_PAGE', data)
       })
       break;
       case 'top':
-      return api.postsData(page).then((data) => {
+      return api.listByTop(page).then((data) => {
         commit('LIST_PAGE', data)
       })
       break;
       default :
-      return api.postsData(page).then((data) => {
+      return api.listByTop(page).then((data) => {
         commit('LIST_PAGE', data)
       })
     }
   },
 
   TAGS ({ commit, state }) {
-    return api.tagsData().then((data) => {
+    return api.tags().then((data) => {
       commit('TAGS', data)
     })
   },
 
   ARCHIVES ({ commit, state }) {
-    return api.archivesData().then((data) => {
+    return api.archives().then((data) => {
       commit('ARCHIVES', data)
     })
   },
 
-  ADMINISTRATOR ({ commit, state }) {
-    return api.administratorData().then((data) => {
-      commit('ADMINISTRATOR', data)
+  ADMIN_INFO ({ commit, state }) {
+    return api.adminInfo().then((data) => {
+      commit('ADMIN_INFO', data)
     })
   },
 
-  ARTICLES ({ commit, state }) {
+  LIST_BY_ALL ({ commit, state }) {
     const id = state.route.params.page
-    return api.articlesData(id).then((data) => {
-      commit('ARTICLES', data)
+    return api.listByAll(id).then((data) => {
+      commit('LIST_BY_ALL', data)
     })
   }
 }

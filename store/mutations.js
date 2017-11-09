@@ -5,21 +5,23 @@ export default {
     state.total = data.data.total
   },
 
-  DETAIL_PAGE (state, data) {
+  ARTICLE_DETAIL (state, data) {
     state.articleDetail = data.data.result[0]
   },
 
   TAGS (state, data) {
     state.tags = data.data.result
   },
+
   ARCHIVES (state, data) {
     state.archives = data.data.result
   },
-  ADMINISTRATOR (state, data) {
+
+  ADMIN_INFO (state, data) {
     state.administrator = data.data.result[0]
   },
 
-  ARTICLES (state, data) {
+  LIST_BY_ALL(state, data) {
     state.articles = data.data
   }
 }

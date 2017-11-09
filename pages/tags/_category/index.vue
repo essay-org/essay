@@ -21,7 +21,7 @@ import MyItems from '~/components/items.vue'
         return this.$store.state.articleList
       },
       routerName(){
-        return 'tags-category'
+        return 'tags-category-page'
       }
     },
     components: {

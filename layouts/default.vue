@@ -2,8 +2,8 @@
   <div>
     <my-header/>
     <div class="container wrap">
-      <my-aside></my-aside>
       <nuxt/>
+      <my-aside></my-aside>
     </div>
     <my-footer/>
   </div>

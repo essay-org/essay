@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <my-items :articleList="articleList" :routerName="routerName"></my-items>
+    <my-items :articleList="articleList" :routerName="routerName" :pageName="pageName"></my-items>
   </div>
 </template>
 <script>
@@ -22,6 +22,9 @@ import MyItems from '~/components/items.vue'
       },
       routerName(){
         return 'index-page'
+      },
+      pageName(){
+        return 'index'
       }
     },
     components: {

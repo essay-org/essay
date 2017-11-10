@@ -85,7 +85,7 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [{ src: '~assets/css/main.scss', lang: 'scss' }],
+  css: [{ src: '~assets/css/main.scss', lang: 'scss' }, 'highlight.js/styles/github.css'],
   /*
   ** Customize the progress-bar color
   */
@@ -126,7 +126,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_koa___default.a();
 var host = process.env.HOST || '127.0.0.1';
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3005;
 
 // Import and Set Nuxt.js options
 var config = __webpack_require__(0);

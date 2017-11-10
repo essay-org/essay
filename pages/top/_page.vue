@@ -1,5 +1,5 @@
 <template>
-  <my-items :articleList="articleList" :routerName="routerName"></my-items>
+  <my-items :articleList="articleList"></my-items>
 </template>
 <script>
 import MyItems from '~/components/items.vue'
@@ -17,9 +17,6 @@ import MyItems from '~/components/items.vue'
     computed: {
       articleList(){
         return this.$store.state.articleList
-      },
-      routerName(){
-        return 'top-page'
       }
     },
     components: {

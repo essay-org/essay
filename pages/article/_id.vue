@@ -10,30 +10,36 @@
 </template>
 <script>
 // import cookies from 'js-cookie'
-import hljs from 'highlight.js'
+// import hljs from 'highlight.js'
+
+const hljs = (process.browser) ? require('highlight.js') : ''
 export default {
   name: 'article-detail',
-  async fetch({store,params}){
-    await store.dispatch('ARTICLE_DETAIL',params.id)
+  async fetch({ store, params }) {
+    await store.dispatch('ARTICLE_DETAIL', params.id)
   },
   head() {
     return {
       title: this.article.title + ' | vueblog'
     }
   },
-  data () {
+  data() {
     return {
-      options: {
-        linkify: true,
-        highlight(str, lang) {
-          lang = lang || 'javascript'
-          if (hljs.getLanguage(lang)) {
-            try {
-              return hljs.highlight(lang, str).value
-            } catch (__) {}
-          }
-          return ''
+      options: {}
+    }
+  },
+  // 一定要在mounted后配置
+  mounted() {
+    this.options = {
+      linkify: true,
+      highlight(str, lang) {
+        lang = lang || 'javascript'
+        if (hljs.getLanguage(lang)) {
+          try {
+            return hljs.highlight(lang, str).value
+          } catch (__) {}
         }
+        return ''
       }
     }
   },
@@ -41,13 +47,13 @@ export default {
     article() {
       return this.$store.state.articleDetail
     },
-    isAdmin () {
+    isAdmin() {
       return true
       // return !!((cookies.get('token') || this.$store.state.cookies.token))
     }
   },
   methods: {
-    del () {
+    del() {
       let id = this.$route.params.id
       this.axios.delete(`/article?id=${id}`).then((result) => {
         this.$toast(result.data.message)
@@ -55,7 +61,7 @@ export default {
       })
     },
 
-    edit () {
+    edit() {
       let id = this.$route.params.id
       this.$router.push({ name: 'publish', params: { id: id } })
     }
@@ -63,7 +69,6 @@ export default {
 }
 </script>
 <style lang="scss">
-/*@import '~highlight.js/styles/github.css';*/
 @import '~assets/css/var.scss';
 .article-detail {
   flex: 1;

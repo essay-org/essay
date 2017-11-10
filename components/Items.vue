@@ -28,16 +28,11 @@ export default {
     articleList: {
       type: Array,
       default: []
-    },
-    routerName: {
-      type: String,
-      default: ''
     }
   },
   methods: {
     prevPage () {
       this.$router.push({
-        name: this.routerName,
         params: {
           category: this.category,
           page: this.page - 1
@@ -47,7 +42,6 @@ export default {
     nextPage () {
       // console.log(this.routerName)
       this.$router.push({
-        name: this.routerName,
         params: {
           category: this.category,
           page: this.page + 1
@@ -115,6 +109,9 @@ export default {
       cursor: not-allowed;
       color: $DisabledLink;
       text-decoration: none;
+    }
+    a {
+      cursor: pointer;
     }
   }
 }

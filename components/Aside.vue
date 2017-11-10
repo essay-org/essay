@@ -5,7 +5,7 @@
       <div class="list">
         <ul>
           <li v-for="(item,index) in tags" :key="index">
-            <nuxt-link :to="{name:'tags-category',params:{category:item.tag}}">{{item.tag}} ({{item.count}})</nuxt-link>
+            <nuxt-link :to="{name:'tags-category-page',params:{category:item.tag}}">{{item.tag}} ({{item.count}})</nuxt-link>
           </li>
         </ul>
       </div>
@@ -15,7 +15,7 @@
       <div class="list">
         <ul>
           <li v-for="(item,index) in archives" :key="index">
-            <nuxt-link :to="{name:'archives-category',params:{category:item.date}}">{{item.date | formatArchive }} ({{item.count}})</nuxt-link>
+            <nuxt-link :to="{name:'archives-category-page',params:{category:item.date}}">{{item.date | formatArchive }} ({{item.count}})</nuxt-link>
           </li>
         </ul>
       </div>

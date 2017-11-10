@@ -1,4 +1,6 @@
-import marked from 'marked'
+// import marked from 'marked'
+// var MarkdownIt = require('markdown-it'),
+import MarkdownIt from 'markdown-it'
 import Vue from 'vue'
 // 时间格式化
 export function formatDate (date, fmt) {
@@ -61,22 +63,11 @@ export function status (str) {
   }
 }
 
-// markdown parse
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false
-})
-
 // 转义html中字符并解析
 export function markdownParse (str) {
-  let markdownParse = marked(str)
-  return markdownParse.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
+  let md = new MarkdownIt()
+  let result = md.render(str)
+  return result.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
 }
 
 // 归档格式转换

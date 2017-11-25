@@ -13,7 +13,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  build: { vendor: ['axios', 'highlight.js', 'top-editor'] },
+  build: { vendor: ['axios', 'highlight.js', 'top-editor', 'top-toast'] },
   /*
   ** Global CSS
   */
@@ -23,14 +23,12 @@ module.exports = {
   ** Customize the progress-bar color
   */
   loading: { color: '#337AB7' },
-
-  axios: {
-    baseURL: 'http://127.0.0.1:8080/api',
-    credentials: false,
-    proxyHeaders: false
-  },
   plugins: [
     '~plugins/filters.js',
-    '~plugins/top-editor.js'
+    '~plugins/top-editor.js',
+    {
+      src: '~plugins/top-toast.js',
+      ssr: false
+    }
   ]
 }

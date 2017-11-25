@@ -1,8 +1,12 @@
 import axios from 'axios'
 import api from '../api'
 export default {
-  // 渲染组件内的数据
-  async nuxtServerInit ({ dispatch }, { req }) {
+  async nuxtServerInit ({ dispatch,commit }, { req }) {
+     if (req.session && req.session.authUser) {
+      // 存储token
+      commit('SET_USER', req.session.authUser)
+    }
+    // 初始化组件内的数据
     await dispatch('ADMIN_INFO')
     await dispatch('TAGS')
     await dispatch('ARCHIVES')
@@ -89,5 +93,41 @@ export default {
     return api.listByAll(id).then((data) => {
       commit('LIST_BY_ALL', data)
     })
+  },
+
+  async LOGIN ({ commit }, {username, password}) {
+    try {
+      // 登陆成功后,存储token
+      const { data } = await axios.post('/api/login', { username, password })
+      commit('SET_USER', data.token)
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        throw new Error('Bad credentials')
+      }
+      throw error
+    }
+  },
+  async LOGOUT ({ commit }) {
+    try {
+      const { data } = await axios.post('/api/logout')
+      // commit('SET_USER', data.token)
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        throw new Error('Bad credentials')
+      }
+      throw error
+    }
+  },
+
+  async PUBLISH_ARTICLE({commit},content) {
+    try {
+      const { data } = await axios.post('/api/publish',content)
+      // commit('SET_USER', data.token)
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        throw new Error('Bad credentials')
+      }
+      throw error
+    }
   }
 }

@@ -28,5 +28,9 @@ export default {
 
   LIST_BY_ALL(state, data) {
     state.articles = data.data
+  },
+
+  SET_USER(state, token) {
+    state.authUser = token
   }
 }

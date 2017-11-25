@@ -15,7 +15,7 @@ export default () => {
       articles: {},
       category: '',
       page: '',
-      cookies: {}
+      authUser: ''
     },
     actions,
     mutations,

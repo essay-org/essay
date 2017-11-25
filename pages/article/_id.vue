@@ -1,18 +1,16 @@
 <template>
   <div class="article-detail">
     <h3 class="title">{{article.title}}</h3>
-    <top-preview :content="article.content" :options="options"></top-preview>
-    <!-- <div class="manage" v-show="isAdmin">
+    <!-- 为浏览器环境时显示 -->
+    <top-preview :content="article.content" :options="options" v-show="isBrowser"></top-preview>
+    <div class="manage" v-show="isAdmin">
       <span><a @click="edit">编辑</a></span>
       <span><a @click="del">删除</a></span>
-    </div> -->
+    </div>
   </div>
 </template>
 <script>
-// import cookies from 'js-cookie'
-// import hljs from 'highlight.js'
-
-const hljs = (process.browser) ? require('highlight.js') : ''
+const hljs = process.browser ? require('highlight.js') : ''
 export default {
   name: 'article-detail',
   async fetch({ store, params }) {
@@ -25,6 +23,7 @@ export default {
   },
   data() {
     return {
+      isBrowser: process.browser,
       options: {}
     }
   },
@@ -48,22 +47,21 @@ export default {
       return this.$store.state.articleDetail
     },
     isAdmin() {
-      return true
-      // return !!((cookies.get('token') || this.$store.state.cookies.token))
+      return this.$store.state.authUser ? true : false
     }
   },
   methods: {
     del() {
       let id = this.$route.params.id
       this.axios.delete(`/article?id=${id}`).then((result) => {
-        this.$toast(result.data.message)
-        if (result.data.code === 200) this.$router.push({ name: 'index' })
+        /*this.$toast(result.data.message)
+        if (result.data.code === 200) this.$router.push({ name: 'index' })*/
       })
     },
 
     edit() {
-      let id = this.$route.params.id
-      this.$router.push({ name: 'publish', params: { id: id } })
+      const id = this.$route.params.id
+      this.$router.push({ name: 'publish-id', params: { id: id } })
     }
   }
 }

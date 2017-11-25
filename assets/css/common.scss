@@ -96,50 +96,7 @@ button {
 
 /* admin template layout */
 
-.admin {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  .admin-aside {
-    width: 180px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    background-color: $BlackSecondary;
-    h3 {
-      color: #FFF;
-      text-align: center;
-      padding: 10px 0;
-    }
-    li {
-      cursor: pointer;
-      a {
-        display: block;
-        padding: 10px 20px;
-        color: #FFF;
-        text-decoration: none;
-        &:hover {
-          background-color: rgba(0, 0, 0, .1);
-        }
-        &.current {
-          color: $Link;
-          background-color: rgba(0, 0, 0, .1);
-        }
-      }
-    }
-  }
-  .admin-content {
-    position: relative;
-    min-height: 100%;
-    margin-left: 180px;
-    background-color: #fff;
-    .content {
-      margin-bottom: 20px;
-    }
-  }
-}
+
 
 .article {
   table {
@@ -171,45 +128,7 @@ button {
   }
 }
 
-.essay {
-  .form {
-    padding: 30px 15px;
-    .title {
-      input[type="text"] {
-        display: block;
-        width: 100%;
-        margin-bottom: 20px;
-      }
-    }
-    .bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      input[type="text"] {
-        width: 400px;
-      }
-      button:nth-child(1) {
-        background-color: #24292E;
-        margin-right: 20px;
-        color: #fff;
-      }
-    }
-    .tags {
-      color: gray;
-      padding: 10px 0;
-      span {
-        display: inline-block;
-        margin-left: 10px;
-        a {
-          cursor: pointer !important;
-        }
-      }
-      span:nth-child(1) {
-        margin-left: 0;
-      }
-    }
-  }
-}
+
 
 .edit {
   text-align: center;
@@ -253,44 +172,7 @@ button {
   }
 }
 
-.login {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: $BlackPrimary;
-  .title {
-    text-align: center;
-    font-size: 30px;
-    color: #fff;
-    letter-spacing: 8px;
-    margin-top: 100px;
-  }
-  .form {
-    position: relative;
-    background-color: #fff;
-    width: 400px;
-    margin: 50px auto;
-    border-radius: 5px;
-    padding: 40px 0;
-    input[type="text"],
-    input[type="password"],
-    button[type="button"] {
-      display: block;
-      width: 80%;
-      margin: 0 auto 20px;
-    }
-    button[type="button"] {
-      color: #fff;
-      background-color: $BlackSecondary;
-      &:hover {
-        cursor: pointer !important;
-        background-color: $BlackPrimary;
-      }
-    }
-  }
-}
+
 
 
 

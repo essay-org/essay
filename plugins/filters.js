@@ -1,7 +1,5 @@
-// import marked from 'marked'
-// var MarkdownIt = require('markdown-it'),
-import MarkdownIt from 'markdown-it'
 import Vue from 'vue'
+import MarkdownIt from 'markdown-it'
 // 时间格式化
 export function formatDate (date, fmt) {
   let newDate = new Date(date)
@@ -87,8 +85,8 @@ let filters = {
   markdownParse,
   formatArchive
 }
-export default filters
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+export default filters

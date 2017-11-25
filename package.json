@@ -1,8 +1,8 @@
 {
-  "name": "vueblog-v2",
+  "name": "express-nuxt-demo",
   "version": "1.0.0",
   "description": "Nuxt.js project",
-  "author": "wmui",
+  "author": "wangxinqin <wangxinqin@17huo.com>",
   "private": true,
   "scripts": {
     "dev": "backpack dev",
@@ -12,31 +12,30 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@nuxtjs/axios": "^4.4.0",
-    "@nuxtjs/component-cache": "^1.1.0",
-    "@nuxtjs/pwa": "^1.0.2",
-    "axios": "^0.17.0",
+    "axios": "^0.16.2",
     "cross-env": "^5.0.1",
+    "express": "^4.15.3",
+    "express-session": "^1.15.6",
+    "formidable": "^1.1.1",
     "highlight.js": "^9.12.0",
-    "koa": "^2.3.0",
     "markdown-it": "^8.4.0",
     "nuxt": "^1.0.0-rc3",
     "source-map-support": "^0.4.15",
-    "top-editor": "^0.0.3"
+    "top-editor": "^0.0.3",
+    "top-toast": "^0.0.3"
   },
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "backpack-core": "^0.3.0",
-    "eslint": "^3.13.1",
+    "babel-eslint": "^7.2.3",
+    "backpack-core": "^0.4.1",
+    "eslint": "^4.3.0",
     "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-html": "^2.0.3",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-node": "^4.2.2",
-    "eslint-plugin-promise": "^3.4.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-html": "^3.1.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "node-sass": "^4.5.3",
-    "nodemon": "^1.11.0",
-    "sass-loader": "^6.0.5",
-    "scmp": "^2.0.0"
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6"
   }
 }

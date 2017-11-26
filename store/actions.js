@@ -90,7 +90,7 @@ export default {
     const { data } = await serverAxios.get(`/articles?limit=15&page=${page}`)
     commit('LIST_BY_ALL', data)
   },
-
+  /* 需要进行验证才能操作的请求 */
   async PUBLISH_ARTICLE ({ commit, state }, content) {
     try {
       const { data } = await serverAxios.post('/article', content, {
@@ -103,11 +103,19 @@ export default {
       throw error
     }
   },
+  async UPDATE_PASSWORD ({ commit, state }, password) {
+    const { data } = await serverAxios.put('/password', password, {
+      headers: {
+        token: state.token
+      }
+    })
+    commit('STATUS', data)
+  },
   /* 向node服务发送请求 */
-  async LOGIN ({ commit }, {username, password}) {
+  async LOGIN ({ commit }, userInfo) {
     try {
       // 登陆成功后,会得到token
-      const { data } = await axios.post('/api/login', { username, password })
+      const { data } = await axios.post('/api/login', userInfo)
       commit('STATUS', data)
     } catch (error) {
       throw error

@@ -29,10 +29,10 @@ export default {
         path: '/publish'
       }, {
         name: '修改信息',
-        path: '/updateAdminInfo'
+        path: '/update-info'
       }, {
         name: '修改密码',
-        path: '/updateAdminPassword'
+        path: '/update-password'
       }]
     }
   },

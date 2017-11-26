@@ -21,12 +21,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.container {
-  background-color: #fff;
-}
-.wrap {
-  display: flex;
-  margin: 0 auto 30px;
-}
-</style>

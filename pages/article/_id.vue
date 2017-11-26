@@ -10,94 +10,56 @@
   </div>
 </template>
 <script>
-const hljs = process.browser ? require('highlight.js') : ''
+const hljs = process.browser ? require("highlight.js") : "";
 export default {
-  name: 'article-detail',
+  name: "article-detail",
   async fetch({ store, params }) {
-    await store.dispatch('ARTICLE_DETAIL', params.id)
+    await store.dispatch("ARTICLE_DETAIL", params.id);
   },
   head() {
     return {
-      title: this.article.title + ' | vueblog'
-    }
+      title: this.article.title + " | vueblog"
+    };
   },
   data() {
     return {
       isBrowser: process.browser,
       options: {}
-    }
+    };
   },
   // 一定要在mounted后配置
   mounted() {
     this.options = {
       linkify: true,
       highlight(str, lang) {
-        lang = lang || 'javascript'
+        lang = lang || "javascript";
         if (hljs.getLanguage(lang)) {
           try {
-            return hljs.highlight(lang, str).value
+            return hljs.highlight(lang, str).value;
           } catch (__) {}
         }
-        return ''
+        return "";
       }
-    }
+    };
   },
   computed: {
     article() {
-      return this.$store.state.articleDetail
+      return this.$store.state.articleDetail;
     },
     isAdmin() {
-      return this.$store.state.authUser ? true : false
+      return this.$store.state.token ? true : false;
     }
   },
   methods: {
-    del() {
+    async del() {
       let id = this.$route.params.id
-      this.axios.delete(`/article?id=${id}`).then((result) => {
-        /*this.$toast(result.data.message)
-        if (result.data.code === 200) this.$router.push({ name: 'index' })*/
-      })
+      await this.$store.dispatch("DEL_ARTICLE", id);
+      console.log(this.$store.state.status);
     },
-
     edit() {
-      const id = this.$route.params.id
-      this.$router.push({ name: 'publish-id', params: { id: id } })
+      const id = this.$route.params.id;
+      this.$router.push({ name: "publish-id", params: { id: id } });
     }
   }
-}
+};
 </script>
-<style lang="scss">
-@import '~assets/css/var.scss';
-.article-detail {
-  flex: 1;
-  background-color: #FFF;
-  padding: 15px 18px;
-  overflow: auto;
-  .title {
-    margin: 20px 0;
-    &::after {
-      content: '';
-      display: block;
-      margin-top: 20px;
-      border-bottom: 1px dashed $Border;
-    }
-  }
-  .content {
-    margin-bottom: 20px;
-  }
-  .manage {
-    text-align: right;
-    &::before {
-      content: '';
-      display: block;
-      margin-top: 20px;
-      border-bottom: 1px dashed $Border;
-    }
-    span {
-      display: inline-block;
-      padding: 10px 15px;
-      cursor: pointer;
-    }
-  }
-}
-</style>

@@ -7,15 +7,16 @@ export default () => {
   return new Vuex.Store({
     state: {
       articleList: [],
-      administrator: {},
-      articleDetail: '',
-      total: '',
       tags: [],
       archives: [],
-      articles: {},
+      articles: [],
+      administrator: {},
+      articleDetail: {},
+      status: {},
+      total: '',
       category: '',
       page: '',
-      authUser: ''
+      token: ''
     },
     actions,
     mutations,

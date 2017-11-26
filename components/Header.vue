@@ -42,63 +42,15 @@ export default {
   methods: {
     search () {
       this.$router.push({
-        name: 'search',
+        name: 'search-category-page',
         params: {
-          change: this.searchInfo
+          category: this.searchInfo
         }
       })
     },
     goIndex () {
-      this.$router.push({name: 'index-page'})
+      this.$router.push('/top')
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '~assets/css/var.scss';
-.header {
-  height: 240px;
-  background-color: $BlackPrimary;
-  .info {
-    margin: 0 auto;
-    color: #FFF;
-    height: 184px;
-    .nickname {
-      font-size: 35px;
-      font-weight: bold;
-      padding: 50px 0 30px 18px;
-      cursor: pointer;
-    }
-    .intro {
-      font-size: 20px;
-      padding: 0 0 30px 150px;
-    }
-  }
-  .nav {
-    display: flex;
-    margin: 0 auto;
-    background-color: $BlackSecondary;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #3D4045;
-    border-bottom: none;
-    ul {
-      display: flex;
-      a {
-        padding: 19px 18px;
-        color: #C8C9CA;
-        &:hover {
-          text-decoration: none;
-        }
-      }
-    }
-    input[type="search"] {
-      width: 280px;
-      margin-right: 18px;
-      border: none;
-      background-color: #404448;
-      color: #C8C9CA;
-    }
-  }
-}
-</style>

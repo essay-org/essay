@@ -1,36 +1,39 @@
 export default {
-
   LIST_PAGE (state, result) {
-    if(typeof result == 'object'){
-      let { category, page, data} = result
+    if (typeof result === 'object') {
       state.articleList = result.data.data.result
       state.total = result.data.data.total
-      state.category = category
-      state.page = page || 1
+      state.category = result.category
+      state.page = result.page
     }
   },
 
   ARTICLE_DETAIL (state, data) {
-    state.articleDetail = data.data.result[0]
+    state.articleDetail = data.result
   },
 
   TAGS (state, data) {
-    state.tags = data.data.result
+    state.tags = data.result
   },
 
   ARCHIVES (state, data) {
-    state.archives = data.data.result
+    state.archives = data.result
   },
 
   ADMIN_INFO (state, data) {
-    state.administrator = data.data.result[0]
+    state.administrator = data.result
   },
 
-  LIST_BY_ALL(state, data) {
-    state.articles = data.data
+  LIST_BY_ALL (state, data) {
+    state.articles = data.result
+    state.total = data.total
   },
 
-  SET_USER(state, token) {
-    state.authUser = token
+  SET_USER (state, token) {
+    state.token = token
+  },
+
+  STATUS (state, data) {
+    state.status = data
   }
 }

@@ -1,7 +1,4 @@
 module.exports = {
-  /*
-  ** Headers of the page
-  */
   head: {
     title: 'vueblog',
     meta: [
@@ -14,14 +11,9 @@ module.exports = {
     ]
   },
   build: { vendor: ['axios', 'highlight.js', 'top-editor', 'top-toast'] },
-  /*
-  ** Global CSS
-  */
-  css: [{ src: '~assets/css/main.scss', lang: 'scss'},
-  'highlight.js/styles/github.css'],
-  /*
-  ** Customize the progress-bar color
-  */
+  css: ['normalize.css/normalize.css',
+    {src: '~assets/css/main.scss', lang: 'scss'},
+    'highlight.js/styles/github.css'],
   loading: { color: '#337AB7' },
   plugins: [
     '~plugins/filters.js',

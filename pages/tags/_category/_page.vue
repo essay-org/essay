@@ -28,6 +28,3 @@ import MyItems from '~/components/items.vue'
     }
   }
 </script>
-<style scoped>
-
-</style>

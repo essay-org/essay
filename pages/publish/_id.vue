@@ -27,22 +27,20 @@
 const hljs = process.browser ? require('highlight.js') : ''
 export default {
   name: 'Publish',
-  /* 中间层进行认证验证 */
-  middleware: 'auth',
   layout: 'admin',
-  /* 无认证重定向 */
-  fetch({ redirect, store }) {
-    if (!store.state.authUser) {
+  middleware: 'auth',
+  fetch ({redirect, store}) {
+    if (!store.state.token) {
       redirect('/login')
-      return
     }
   },
   data() {
     return {
       title: '',
       content: '',
-      tag: '',
+      tag: [],
       date: '',
+      articleID: this.$route.params.id ||　'',
       upload: {
         url: 'http://localhost:8080/api/upload'
       },
@@ -64,36 +62,39 @@ export default {
         return ''
       }
     }
-    const articleID = this.$route.params.id 
+
     // 有id就获取文章内容
-    if (articleID) {
-      await this.$store.dispatch('ARTICLE_DETAIL',articleID)
-      this.title = this.$store.state.articleDetail.title
-      this.content = this.$store.state.articleDetail.content
-      let tag = this.$store.state.articleDetail.tag
+    if (this.articleID) {
+      await this.$store.dispatch('ARTICLE_DETAIL',this.articleID)
+      let articleDetail  = this.$store.state.articleDetail
+      this.title = articleDetail.title
+      this.content = articleDetail.content
+      let tag = articleDetail.tag
       this.tag = tag.join(',') + ','
-      this.date = this.$store.state.articleDetail.date
+      this.date = articleDetail.date
     }
   },
   methods: {
     async publish(state) {
       if (!this.title) {
-        this.$toast('文章标题不能为空！')
+        // this.$toast('文章标题不能为空！')
         return
       }
       if (!this.content) {
-        this.$toast('文章正文不能为空！')
+        // this.$toast('文章正文不能为空！')
         return
       }
-      await this.$store.dispatch('PUBLISH_ARTICLE',{
+      await this.$store.dispatch('PUBLISH_ARTICLE', {
         title: this.title,
         content: this.content,
         tag: this.trim(this.tag),
         state: state,
         date: Number(this.date) || Date.now()
       })
-      
-     // this.$router.push('/admin')
+    //  发布成功
+     this.title = ''
+     this.content = ''
+     this.tag = []
     },
 
     // 把多个标签分割成数组
@@ -108,45 +109,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-@import '~assets/css/var.scss';
-.essay {
-  .form {
-    padding: 30px 15px;
-    .title {
-      input[type="text"] {
-        display: block;
-        width: 100%;
-        margin-bottom: 20px;
-      }
-    }
-    .bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      input[type="text"] {
-        width: 400px;
-      }
-      button:nth-child(1) {
-        background-color: #24292E;
-        margin-right: 20px;
-        color: #fff;
-      }
-    }
-    .tags {
-      color: gray;
-      padding: 10px 0;
-      span {
-        display: inline-block;
-        margin-left: 10px;
-        a {
-          cursor: pointer !important;
-        }
-      }
-      span:nth-child(1) {
-        margin-left: 0;
-      }
-    }
-  }
-}
-</style>

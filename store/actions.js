@@ -1,10 +1,13 @@
 import axios from 'axios'
-import api from '../api'
+const serverAxios = axios.create({
+  baseURL: 'http://127.0.0.1:8080/api'
+})
+
 export default {
-  async nuxtServerInit ({ dispatch,commit }, { req }) {
-     if (req.session && req.session.authUser) {
+  async nuxtServerInit ({ dispatch, commit }, { req, res }) {
+    if (req.cookies && req.cookies.token) {
       // 存储token
-      commit('SET_USER', req.session.authUser)
+      commit('SET_USER', req.cookies.token)
     }
     // 初始化组件内的数据
     await dispatch('ADMIN_INFO')
@@ -12,121 +15,109 @@ export default {
     await dispatch('ARCHIVES')
   },
 
-  ARTICLE_DETAIL ({ commit, state }, id) {
-    return api.articleDetail(id).then((data) => {
-      commit('ARTICLE_DETAIL', data)
-    })
+  async ARTICLE_DETAIL ({ commit, state }, id) {
+    const { data } = await serverAxios.get(`/article?id=${id}`)
+    commit('ARTICLE_DETAIL', data)
   },
 
-  LIST_PAGE ({commit, state}, params) {
+  async DEL_ARTICLE ({commit, state}, id) {
+    const { data } = await serverAxios.delete(`/article?id=${id}`)
+    commit('STATUS', data)
+  },
+
+  async LIST_PAGE ({ commit, state }, params) {
     // 根据路由获得分类和页数
-    let {typeName, category, page} = params
-    // console.log(params)
-    switch(typeName) {
+    let {typeName = '', category = '', page = 1} = params
+    // 对中文进行编码
+    let reg = new RegExp('[\u4E00-\u9FFF]+', 'g')
+    if (reg.test(category)) {
+      category = encodeURI(category)
+    }
+    switch (typeName) {
       case 'archives':
-      return api.listByArchive(category,page).then((data) => {
+        const archiveData = await serverAxios.get(`/archive?date=${category}&limit=15&page=${page}`)
         commit('LIST_PAGE', {
-          data: data,
-          category: category,
-          page: page
+          data: archiveData,
+          category: decodeURI(category),
+          page
         })
-      })
-      break;
+        break
       case 'tags':
-      return api.listByTag(category,page).then((data) => {
+        const tagData = await serverAxios.get(`/tag?tag=${category}&limit=15&page=${page}`)
         commit('LIST_PAGE', {
-          data: data,
-          category: category,
-          page: page
+          data: tagData,
+          category: decodeURI(category),
+          page
         })
-      })
-      break;
+        break
       case 'search':
-      return api.listBySearch(page).then((data) => {
+        /* 对于搜索来说，category相当于关键字 */
+        const searchData = await serverAxios.get(`/search?q=${category}&limit=15&page=${page}`)
         commit('LIST_PAGE', {
-          data: data,
-          category: category,
-          page: page
+          data: searchData,
+          category: decodeURI(category),
+          page
         })
-      })
-      break;
+        break
       case 'top':
-      return api.listByTop(page).then((data) => {
+        const postData = await serverAxios.get(`/posts?limit=15&page=${page}`)
         commit('LIST_PAGE', {
-          data: data,
-          category: category,
-          page: page
+          data: postData,
+          category: decodeURI(category),
+          page
         })
-      })
-      break;
-      default :
-      return api.listByTop(page).then((data) => {
-        commit('LIST_PAGE', {
-          data: data,
-          category: category,
-          page: page
-        })
-      })
+        break
+      default:
+        break
     }
   },
-
-  TAGS ({ commit, state }) {
-    return api.tags().then((data) => {
-      commit('TAGS', data)
-    })
+  async TAGS ({ commit, state }) {
+    const { data } = await serverAxios.get('/tags')
+    commit('TAGS', data)
   },
 
-  ARCHIVES ({ commit, state }) {
-    return api.archives().then((data) => {
-      commit('ARCHIVES', data)
-    })
+  async ARCHIVES ({ commit, state }) {
+    const { data } = await serverAxios.get('/archives')
+    commit('ARCHIVES', data)
   },
 
-  ADMIN_INFO ({ commit, state }) {
-    return api.adminInfo().then((data) => {
-      commit('ADMIN_INFO', data)
-    })
+  async ADMIN_INFO ({ commit, state }) {
+    const { data } = await serverAxios.get('/administrator')
+    commit('ADMIN_INFO', data)
   },
 
-  LIST_BY_ALL ({ commit, state }) {
-    const id = state.route.params.page
-    return api.listByAll(id).then((data) => {
-      commit('LIST_BY_ALL', data)
-    })
+  async LIST_BY_ALL ({ commit, state }, page) {
+    const { data } = await serverAxios.get(`/articles?limit=15&page=${page}`)
+    commit('LIST_BY_ALL', data)
   },
 
+  async PUBLISH_ARTICLE ({ commit, state }, content) {
+    try {
+      const { data } = await serverAxios.post('/article', content, {
+        headers: {
+          token: state.token
+        }
+      })
+      commit('STATUS', data)
+    } catch (error) {
+      throw error
+    }
+  },
+  /* 向node服务发送请求 */
   async LOGIN ({ commit }, {username, password}) {
     try {
-      // 登陆成功后,存储token
+      // 登陆成功后,会得到token
       const { data } = await axios.post('/api/login', { username, password })
-      commit('SET_USER', data.token)
+      commit('STATUS', data)
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        throw new Error('Bad credentials')
-      }
       throw error
     }
   },
   async LOGOUT ({ commit }) {
     try {
       const { data } = await axios.post('/api/logout')
-      // commit('SET_USER', data.token)
+      commit('STATUS', data)
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        throw new Error('Bad credentials')
-      }
-      throw error
-    }
-  },
-
-  async PUBLISH_ARTICLE({commit},content) {
-    try {
-      const { data } = await axios.post('/api/publish',content)
-      // commit('SET_USER', data.token)
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        throw new Error('Bad credentials')
-      }
       throw error
     }
   }

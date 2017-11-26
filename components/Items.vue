@@ -40,7 +40,6 @@ export default {
       })
     },
     nextPage () {
-      // console.log(this.routerName)
       this.$router.push({
         params: {
           category: this.category,
@@ -66,53 +65,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '~assets/css/var.scss';
-.article-list {
-  flex: 1;
-  background-color: #FFF;
-  padding: 15px 18px;
-  .item+.item {
-    border-top: 1px dashed #F1F1F1;
-  }
-  .title {
-    font-size: 18px;
-    margin: 15px auto;
-  }
-  .content {
-    margin-bottom: 20px;
-  }
-  .tips {
-    text-align: center;
-    padding-top: 30px;
-    font-size: 18px;
-    strong {
-      color: red;
-    }
-  }
-  .page {
-    position: relative;
-    width: 100%;
-    .prev,
-    .next {
-      width: 50%;
-      display: inline-block;
-      padding: 20px 0;
-    }
-    .next {
-      text-align: right;
-    }
-    .prev {
-      text-align: left;
-    }
-    .disabled {
-      cursor: not-allowed;
-      color: $DisabledLink;
-      text-decoration: none;
-    }
-    a {
-      cursor: pointer;
-    }
-  }
-}
-</style>

@@ -1,8 +1,8 @@
 {
-  "name": "express-nuxt-demo",
-  "version": "1.0.0",
-  "description": "Nuxt.js project",
-  "author": "wangxinqin <wangxinqin@17huo.com>",
+  "name": "vueblog-v2",
+  "version": "2.0.0",
+  "description": "A blog system",
+  "author": "wmui",
   "private": true,
   "scripts": {
     "dev": "backpack dev",
@@ -13,16 +13,16 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "cookie-parser": "^1.4.3",
     "cross-env": "^5.0.1",
     "express": "^4.15.3",
-    "express-session": "^1.15.6",
-    "formidable": "^1.1.1",
     "highlight.js": "^9.12.0",
     "markdown-it": "^8.4.0",
+    "normalize.css": "^7.0.0",
     "nuxt": "^1.0.0-rc3",
     "source-map-support": "^0.4.15",
-    "top-editor": "^0.0.3",
-    "top-toast": "^0.0.3"
+    "top-editor": "^0.0.4",
+    "top-toast": "^0.0.4"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

@@ -36,35 +36,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import '~assets/css/var.scss';
-.aside {
-  width: 230px;
-  background-color: #F8F8F8;
-  padding: 15px;
-  .tags,
-  .archives {
-    .icon-iconfontyouhuiquan,
-    .icon-wodedangan,
-    .title {
-      font-size: 20px;
-      font-style: bold;
-      padding: 10px 0;
-    }
-    .title {
-      border-bottom: 1px solid $Border; // padding-left: 10px;
-    }
-    .list {
-      li+li {
-        border-top: 1px dashed $Border;
-      }
-      a {
-        padding: 15px 0;
-        display: block;
-        font-size: 18px;
-        cursor: pointer;
-      }
-    }
-  }
-}
-</style>

@@ -6,23 +6,3 @@
     </div>
   </footer>
 </template>
-<style lang="scss" scoped>
-@import '~assets/css/var.scss';
-.container {
-  background-color: $Bg;
-}
-.footer {
-  border-top: 1px solid $Border;
-  color: #C8C9CA;
-  margin: auto;
-  .copy {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 12px;
-    padding: 0 18px;
-  }
-}
-
-</style>

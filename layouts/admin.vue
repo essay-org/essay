@@ -5,7 +5,7 @@
         <li>
           <h3 @click="goIndex">VueBlog</h3>
         </li>
-        <li v-for="item in menu">
+        <li v-for="(item, index) in menu" :key="index">
           <nuxt-link :to="{path:item.path}" :title="item.name">{{item.name}}</nuxt-link>
         </li>
         <li><a @click="logout">退出登录</a></li>
@@ -38,58 +38,20 @@ export default {
   },
   methods: {
     async logout () {
+      // 该请求会删除cookie
       await this.$store.dispatch('LOGOUT')
+      if (this.$store.state.status.code === 200) {
+        // 退出成功, 跳转
+        this.$router.push('/top')
+        // 清除token
+        this.$store.commit('SET_USER', '')
+      } else {
+        console.log(this.$store.state.status.message)
+      }
     },
     goIndex () {
-      this.$router.push('/')
+      this.$router.push('/top')
     }
   }
 }
 </script>
-<style lang="scss">
-@import '~assets/css/var.scss';
-.admin {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  .admin-aside {
-    width: 180px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    background-color: $BlackSecondary;
-    h3 {
-      color: #FFF;
-      text-align: center;
-      padding: 10px 0;
-    }
-    li {
-      cursor: pointer;
-      a {
-        display: block;
-        padding: 10px 20px;
-        color: #FFF;
-        text-decoration: none;
-        &:hover {
-          background-color: rgba(0, 0, 0, .1);
-        }
-        &.current {
-          color: $Link;
-          background-color: rgba(0, 0, 0, .1);
-        }
-      }
-    }
-  }
-  .admin-content {
-    position: relative;
-    min-height: 100%;
-    margin-left: 180px;
-    background-color: #fff;
-    .content {
-      margin-bottom: 20px;
-    }
-  }
-}
-</style>

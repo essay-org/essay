@@ -1,7 +1,6 @@
 const { Nuxt, Builder } = require('nuxt')
-// const bodyParser = require('body-parser')
-const formidable = require('formidable')
-const session = require('express-session')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const app = require('express')()
 const axios = require('axios')
 const host = process.env.HOST || '127.0.0.1'
@@ -12,61 +11,31 @@ const axiosServer = axios.create({
 })
 
 app.set('port', port)
-// app.use(bodyParser.json())
+app.use(bodyParser.json())
+app.use(cookieParser())
 
-// Sessions 来创建 req.session
-app.use(session({
-  secret: 'vueblog-secret-key',
-  name: 'token',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 60000 * 10 }
-}))
+app.post('/api/login', function (req, res) {
+  // 后台验证用户信息，并返回token
+  async function login () {
+    const { data } = await axiosServer.post('/login', req.body)
+    return data
+  }
 
-// 需要鉴权的路由
-app.post('/api/login', function(req, res) {
-  const loginForm = new formidable.IncomingForm()
-  loginForm.parse(req, function(err, fields, files) {
-    // 后台验证用户信息，并返回token
-    async function login() {
-      const { data } = await axiosServer.post('/login', fields)
-      return data
-    }
-
-    login().then(function(data) {
-      // 把token存储到session中,用户唯一id
-      const { token } = data
-      req.session.authUser = token
-      // 原封不动返回
-      return res.json(data)
+  login().then(function (data) {
+    // 把token存储到cookie中
+    const { token } = data
+    res.cookie('token', token, {
+      maxAge: 60000 * 60 * 24
     })
+    // 原封不动返回
+    return res.json(data)
   })
 })
-
-
-app.post('/api/publish', function(req, res) {
-  // 拿到token
-  const token = req.session.authUser
-  const publishForm = new formidable.IncomingForm()
-  // 解析提交的数据，进行过滤操作
-  publishForm.parse(req, function(err, fields, files) {
-    if (token) {
-      // 向后台提交数据,后台会验证token
-      async function publish() {
-        const { data } = await axiosServer.post('/article', fields, {
-          headers: {
-            token: token
-          }
-        })
-        return data
-      }
-
-      publish().then(function(result) {
-        return res.json(result)
-      })
-    } else {
-      return res.json({ msg: '登录后操作' })
-    }
+app.post('/api/logout', function (req, res) {
+  res.clearCookie('token')
+  res.json({
+    code: 200,
+    msg: '退出登录'
   })
 })
 // Import and Set Nuxt.js options

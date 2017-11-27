@@ -26,13 +26,9 @@ export default {
   },
 
   async LIST_PAGE ({ commit, state }, params) {
-    // 根据路由获得分类和页数
     let {typeName = '', category = '', page = 1} = params
-    // 对中文进行编码
-    let reg = new RegExp('[\u4E00-\u9FFF]+', 'g')
-    if (reg.test(category)) {
-      category = encodeURI(category)
-    }
+    // category可能有中文，所以编码
+    category = encodeURI(category)
     switch (typeName) {
       case 'archives':
         const archiveData = await serverAxios.get(`/archive?date=${category}&limit=15&page=${page}`)
@@ -111,6 +107,24 @@ export default {
     })
     commit('STATUS', data)
   },
+  async ADMIN ({commit, state},info) {
+    const { data } = await serverAxios.put('/administrator', info, {
+      headers: {
+        token: state.token
+      }
+    })
+    commit('STATUS', data)
+  },
+  async SET_AVATAR ({commit, state},image) {
+    const { data } = await serverAxios.post('/avatar', image, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        token: state.token
+      }
+    })
+    commit('STATUS', data)
+  },
+
   /* 向node服务发送请求 */
   async LOGIN ({ commit }, userInfo) {
     try {

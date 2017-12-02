@@ -204,7 +204,32 @@ button {
     }
   }
 }
-
+.category-list {
+	flex: 1;
+  background-color: #fff;
+  padding: 15px 0;
+	.list li {
+		display: inline-block;
+		a {
+			font-size: 18px;
+			padding: 10px 20px;
+		}
+  }
+  .search-box {
+    text-align: center;
+    h3 {
+    margin-top: 40px;
+    }
+    input[type="search"] {
+      display: inline-block;
+      width: 60%;
+      height: 40px;
+      margin-top: 30px;
+      margin-left: 20%;
+      margin-right: 20%;
+    }
+  }
+}
 .aside {
   width: 230px;
   background-color: #F8F8F8;

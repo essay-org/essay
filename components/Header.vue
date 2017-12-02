@@ -41,6 +41,10 @@ export default {
   },
   methods: {
     search () {
+      if(this.searchInfo === '') {
+        this.$router.push('/search')
+        return
+      }
       this.$router.push({
         name: 'search-category-page',
         params: {

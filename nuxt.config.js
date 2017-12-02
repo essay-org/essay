@@ -11,9 +11,7 @@ module.exports = {
     ]
   },
   build: { vendor: ['axios', 'highlight.js'] },
-  css: ['normalize.css/normalize.css',
-    {src: '~assets/css/main.scss', lang: 'scss'},
-    'highlight.js/styles/github.css'],
+  css: ['normalize.css/normalize.css', 'highlight.js/styles/github.css', {src: '~assets/css/main.scss', lang: 'scss'}],
   loading: { color: '#337AB7' },
   manifest: {
     name: 'VueBlog',

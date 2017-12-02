@@ -2,7 +2,7 @@
   <my-items :articleList="articleList"></my-items>
 </template>
 <script>
-import MyItems from '~/components/items.vue'
+import MyItems from '~/components/Items.vue'
 export default {
   name: 'archives-category-page',
   async fetch({store,params}) {

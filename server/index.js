@@ -6,8 +6,15 @@ const axios = require('axios')
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3010
 // 服务端api地址
+let baseURL
+if (process.env.NODE_ENV === 'production') {
+  // 生产环境，这里配置你的线上api地址
+  baseURL = 'http://198.13.32.165:8080/v1'
+} else {
+  baseURL = 'http://127.0.0.1:8080/v1'
+}
 const axiosServer = axios.create({
-  baseURL: 'http://127.0.0.1:8080/v1'
+  baseURL: baseURL
 })
 
 app.set('port', port)

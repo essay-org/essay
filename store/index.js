@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
-import actions from './actions'
-import mutations from './mutations'
 import getters from './getters'
+import mutations from './mutations'
+import actions from './actions'
 
 export default () => {
   return new Vuex.Store({
@@ -18,8 +18,8 @@ export default () => {
       page: '',
       token: ''
     },
-    actions,
+    getters,
     mutations,
-    getters
+    actions
   })
 }

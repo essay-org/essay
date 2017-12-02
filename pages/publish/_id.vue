@@ -46,7 +46,7 @@ export default {
       publishTip: '',
       articleID: this.$route.params.id || '',
       upload: {
-        url: 'http://localhost:8080/v1/upload',
+        url: `${this.$store.getters.baseURL}/upload`,
         headers: {
           token: this.$store.state.token
         }

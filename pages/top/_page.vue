@@ -13,7 +13,6 @@ import MyItems from '~/components/items.vue'
         page:params.page
       })
     },
-
     computed: {
       articleList(){
         return this.$store.state.articleList

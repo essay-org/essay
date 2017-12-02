@@ -88,8 +88,14 @@ var axios = __webpack_require__(7);
 var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3010;
 // 服务端api地址
+var baseURL = void 0;
+if (true) {
+  baseURL = 'http://198.13.32.165:8080/v1';
+} else {
+  baseURL = 'http://127.0.0.1:8080/v1';
+}
 var axiosServer = axios.create({
-  baseURL: 'http://127.0.0.1:8080/v1'
+  baseURL: baseURL
 });
 
 app.set('port', port);
@@ -149,7 +155,7 @@ app.post('/api/logout', function (req, res) {
 });
 // Import and Set Nuxt.js options
 var config = __webpack_require__(8);
-config.dev = !("development" === 'production');
+config.dev = !("production" === 'production');
 
 // Init Nuxt.js
 var nuxt = new Nuxt(config);

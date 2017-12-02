@@ -89,7 +89,8 @@ var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3010;
 // 服务端api地址
 var baseURL = void 0;
-if (true) {
+if (false) {
+  // 生产环境，这里配置你的线上api地址
   baseURL = 'http://198.13.32.165:8080/v1';
 } else {
   baseURL = 'http://127.0.0.1:8080/v1';
@@ -155,7 +156,7 @@ app.post('/api/logout', function (req, res) {
 });
 // Import and Set Nuxt.js options
 var config = __webpack_require__(8);
-config.dev = !("production" === 'production');
+config.dev = !("development" === 'production');
 
 // Init Nuxt.js
 var nuxt = new Nuxt(config);

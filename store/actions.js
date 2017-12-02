@@ -1,6 +1,6 @@
 import axios from 'axios'
 const serverAxios = axios.create({
-  baseURL: 'http://127.0.0.1:8080/api'
+  baseURL: 'http://127.0.0.1:8080/v1'
 })
 
 export default {
@@ -82,11 +82,15 @@ export default {
     commit('ADMIN_INFO', data)
   },
 
+  /* 需要进行验证才能操作的请求 */
   async LIST_BY_ALL ({ commit, state }, page) {
-    const { data } = await serverAxios.get(`/articles?limit=15&page=${page}`)
+    const { data } = await serverAxios.get(`/articles?limit=15&page=${page}`, {
+      headers: {
+        token: state.token
+      }
+    })
     commit('LIST_BY_ALL', data)
   },
-  /* 需要进行验证才能操作的请求 */
   async PUBLISH_ARTICLE ({ commit, state }, content) {
     try {
       const { data } = await serverAxios.post('/article', content, {

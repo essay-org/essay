@@ -5,7 +5,9 @@
         <input type="text" v-model="title" placeholder="文章标题" autofocus>
       </div>
       <div class="content">
-        <top-editor v-model="content" :upload="upload" :options="options" v-show="isBrowser"></top-editor>
+        <no-ssr>
+          <top-editor v-model="content" :upload="upload" :options="options"></top-editor>
+        </no-ssr>
       </div>
       <div class="bottom">
         <div class="tag">
@@ -24,7 +26,7 @@
   </div>
 </template>
 <script>
-const hljs = process.browser ? require('highlight.js') : ''
+import TopEditor from 'top-editor/src/lib/TopEditor.vue'
 export default {
   name: 'Publish',
   layout: 'admin',
@@ -38,34 +40,38 @@ export default {
     return {
       title: '',
       content: '',
-      tag: [],
+      tag: '',
       date: '',
-      articleID: this.$route.params.id ||　'',
+      articleID: this.$route.params.id || '',
       upload: {
-        url: 'http://localhost:8080/api/upload'
+        url: 'http://localhost:8080/v1/upload',
+        headers: {
+          token: this.$store.state.token
+        }
       },
-      isBrowser: process.browser,
       options: {}
     }
   },
 
-  async mounted() {
+  mounted() {
+    if(process.browser){
     this.options = {
       linkify: true,
       highlight(str, lang) {
         lang = lang || 'javascript'
-        if (hljs.getLanguage(lang)) {
+        if (require('highlight.js').getLanguage(lang)) {
           try {
-            return hljs.highlight(lang, str).value
+            return require('highlight.js').highlight(lang, str).value
           } catch (__) {}
         }
         return ''
       }
     }
+  }
 
     // 有id就获取文章内容
     if (this.articleID) {
-      await this.$store.dispatch('ARTICLE_DETAIL',this.articleID)
+      this.$store.dispatch('ARTICLE_DETAIL',this.articleID)
       let articleDetail  = this.$store.state.articleDetail
       this.title = articleDetail.title
       this.content = articleDetail.content
@@ -91,10 +97,10 @@ export default {
         state: state,
         date: Number(this.date) || Date.now()
       })
-    //  发布成功
-     this.title = ''
-     this.content = ''
-     this.tag = []
+      //  发布成功
+       this.title = ''
+       this.content = ''
+       this.tag = ''
     },
 
     // 把多个标签分割成数组
@@ -106,6 +112,9 @@ export default {
     chooseTag(item) {
       this.tag = this.tag + item.tag + ','
     }
+  },
+  components: {
+    TopEditor
   }
 }
 </script>

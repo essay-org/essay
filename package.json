@@ -21,8 +21,7 @@
     "normalize.css": "^7.0.0",
     "nuxt": "^1.0.0-rc3",
     "source-map-support": "^0.4.15",
-    "top-editor": "^0.0.4",
-    "top-toast": "^0.0.4"
+    "top-editor": "^0.0.5"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

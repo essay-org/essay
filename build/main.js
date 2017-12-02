@@ -89,7 +89,7 @@ var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3010;
 // 服务端api地址
 var axiosServer = axios.create({
-  baseURL: 'http://127.0.0.1:8080/api'
+  baseURL: 'http://127.0.0.1:8080/v1'
 });
 
 app.set('port', port);
@@ -147,7 +147,7 @@ app.post('/api/logout', function (req, res) {
 });
 // Import and Set Nuxt.js options
 var config = __webpack_require__(8);
-config.dev = !("development" === 'production');
+config.dev = !("production" === 'production');
 
 // Init Nuxt.js
 var nuxt = new Nuxt(config);
@@ -218,13 +218,10 @@ module.exports = {
     meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: 'Nuxt.js project' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
-  build: { vendor: ['axios', 'highlight.js', 'top-editor', 'top-toast'] },
+  build: { vendor: ['axios', 'highlight.js'] },
   css: ['normalize.css/normalize.css', { src: '~assets/css/main.scss', lang: 'scss' }, 'highlight.js/styles/github.css'],
   loading: { color: '#337AB7' },
-  plugins: ['~plugins/filters.js', '~plugins/top-editor.js', {
-    src: '~plugins/top-toast.js',
-    ssr: false
-  }]
+  plugins: ['~plugins/filters.js']
 };
 
 /***/ })

@@ -10,17 +10,12 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  build: { vendor: ['axios', 'highlight.js', 'top-editor', 'top-toast'] },
+  build: { vendor: ['axios', 'highlight.js'] },
   css: ['normalize.css/normalize.css',
     {src: '~assets/css/main.scss', lang: 'scss'},
     'highlight.js/styles/github.css'],
   loading: { color: '#337AB7' },
   plugins: [
-    '~plugins/filters.js',
-    '~plugins/top-editor.js',
-    {
-      src: '~plugins/top-toast.js',
-      ssr: false
-    }
+    '~plugins/filters.js'
   ]
 }

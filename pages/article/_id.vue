@@ -1,8 +1,7 @@
 <template>
   <div class="article-detail">
     <h3 class="title">{{article.title}}</h3>
-    <!-- 为浏览器环境时显示 -->
-    <top-preview :content="article.content" :options="options" v-show="isBrowser"></top-preview>
+    <top-preview :content="article.content" :options="options"></top-preview>
     <div class="manage" v-show="isAdmin">
       <span><a @click="edit">编辑</a></span>
       <span><a @click="del">删除</a></span>
@@ -10,7 +9,7 @@
   </div>
 </template>
 <script>
-const hljs = process.browser ? require("highlight.js") : "";
+import TopPreview from 'top-editor/src/lib/TopPreview.vue'
 export default {
   name: "article-detail",
   async fetch({ store, params }) {
@@ -23,24 +22,25 @@ export default {
   },
   data() {
     return {
-      isBrowser: process.browser,
       options: {}
     };
   },
   // 一定要在mounted后配置
   mounted() {
-    this.options = {
-      linkify: true,
-      highlight(str, lang) {
-        lang = lang || "javascript";
-        if (hljs.getLanguage(lang)) {
-          try {
-            return hljs.highlight(lang, str).value;
-          } catch (__) {}
+    if (process.browser) {
+      this.options = {
+        linkify: true,
+        highlight(str, lang) {
+          lang = lang || "javascript";
+          if (require('highlight.js').getLanguage(lang)) {
+            try {
+              return require('highlight.js').highlight(lang, str).value;
+            } catch (__) {}
+          }
+          return "";
         }
-        return "";
-      }
-    };
+      };
+    }
   },
   computed: {
     article() {
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     async del() {
-      let id = this.$route.params.id
+      let id = this.$route.params.id;
       await this.$store.dispatch("DEL_ARTICLE", id);
       console.log(this.$store.state.status);
     },
@@ -60,6 +60,9 @@ export default {
       const id = this.$route.params.id;
       this.$router.push({ name: "publish-id", params: { id: id } });
     }
+  },
+  components: {
+    TopPreview
   }
 };
 </script>

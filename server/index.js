@@ -7,7 +7,7 @@ const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3010
 // 服务端api地址
 const axiosServer = axios.create({
-  baseURL: 'http://127.0.0.1:8080/api'
+  baseURL: 'http://127.0.0.1:8080/v1'
 })
 
 app.set('port', port)

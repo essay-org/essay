@@ -20,11 +20,6 @@ export default {
     commit('ARTICLE_DETAIL', data)
   },
 
-  async DEL_ARTICLE ({commit, state}, id) {
-    const { data } = await serverAxios.delete(`/article?id=${id}`)
-    commit('STATUS', data)
-  },
-
   async LIST_PAGE ({ commit, state }, params) {
     let {typeName = '', category = '', page = 1} = params
     // category可能有中文，所以编码
@@ -91,6 +86,14 @@ export default {
     })
     commit('LIST_BY_ALL', data)
   },
+  async DEL_ARTICLE ({ commit, state }, id) {
+    const { data } = await serverAxios.delete(`/article?id=${id}`, {
+      headers: {
+        token: state.token
+      }
+    })
+    commit('STATUS', data)
+  },
   async PUBLISH_ARTICLE ({ commit, state }, content) {
     try {
       const { data } = await serverAxios.post('/article', content, {
@@ -111,7 +114,7 @@ export default {
     })
     commit('STATUS', data)
   },
-  async ADMIN ({commit, state},info) {
+  async ADMIN ({commit, state}, info) {
     const { data } = await serverAxios.put('/administrator', info, {
       headers: {
         token: state.token

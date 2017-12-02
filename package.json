@@ -12,6 +12,8 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@nuxtjs/pwa": "^2.0.3",
+    "@nuxtjs/component-cache": "^1.1.0",
     "axios": "^0.16.2",
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.0.1",

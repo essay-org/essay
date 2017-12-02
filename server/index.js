@@ -24,9 +24,11 @@ app.post('/api/login', function (req, res) {
   login().then(function (data) {
     // 把token存储到cookie中
     const { token } = data
-    res.cookie('token', token, {
-      maxAge: 60000 * 60 * 24
-    })
+    if (token) {
+      res.cookie('token', token, {
+        maxAge: 60000 * 60 * 24
+      })
+    }
     // 原封不动返回
     return res.json(data)
   })

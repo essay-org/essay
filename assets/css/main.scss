@@ -8,6 +8,7 @@ html,
 body,
 #app {
   height: 100%;
+  overflow: auto;
 }
 
 body {
@@ -357,8 +358,11 @@ button {
       input[type="text"] {
         display: block;
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
       }
+    }
+    .publish-tip {
+      margin-bottom: 15px;
     }
     .bottom {
       display: flex;
@@ -445,6 +449,10 @@ button {
     color: #fff;
     letter-spacing: 8px;
     margin-top: 100px;
+  }
+  .login-tip {
+    width: 80%;
+    margin: 0 auto 15px;
   }
   .form {
     position: relative;

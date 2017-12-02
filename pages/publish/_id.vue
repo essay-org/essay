@@ -4,6 +4,7 @@
       <div class="title">
         <input type="text" v-model="title" placeholder="文章标题" autofocus>
       </div>
+      <p class="publish-tip">{{ publishTip }}</p>
       <div class="content">
         <no-ssr>
           <top-editor v-model="content" :upload="upload" :options="options"></top-editor>
@@ -42,6 +43,7 @@ export default {
       content: '',
       tag: '',
       date: '',
+      publishTip: '',
       articleID: this.$route.params.id || '',
       upload: {
         url: 'http://localhost:8080/v1/upload',
@@ -83,11 +85,11 @@ export default {
   methods: {
     async publish(state) {
       if (!this.title) {
-        // this.$toast('文章标题不能为空！')
+       this.publishTip = '文章标题不能为空！'
         return
       }
       if (!this.content) {
-        // this.$toast('文章正文不能为空！')
+        this.publishTip = '文章正文不能为空！'
         return
       }
       await this.$store.dispatch('PUBLISH_ARTICLE', {
@@ -97,6 +99,7 @@ export default {
         state: state,
         date: Number(this.date) || Date.now()
       })
+      this.publishTip = this.$store.state.status.message
       //  发布成功
        this.title = ''
        this.content = ''

@@ -11,19 +11,19 @@
 <script>
 import TopPreview from 'top-editor/src/lib/TopPreview.vue'
 export default {
-  name: "article-detail",
+  name: 'article-detail',
   async fetch({ store, params }) {
-    await store.dispatch("ARTICLE_DETAIL", params.id);
+    await store.dispatch('ARTICLE_DETAIL', params.id)
   },
   head() {
     return {
-      title: this.article.title + " | vueblog"
-    };
+      title: this.article.title + ' | vueblog'
+    }
   },
   data() {
     return {
       options: {}
-    };
+    }
   },
   // 一定要在mounted后配置
   mounted() {
@@ -31,34 +31,35 @@ export default {
       this.options = {
         linkify: true,
         highlight(str, lang) {
-          lang = lang || "javascript";
+          lang = lang || 'javascript'
           if (require('highlight.js').getLanguage(lang)) {
             try {
-              return require('highlight.js').highlight(lang, str).value;
+              return require('highlight.js').highlight(lang, str).value
             } catch (__) {}
           }
-          return "";
+          return ''
         }
       };
     }
   },
   computed: {
     article() {
-      return this.$store.state.articleDetail;
+      return this.$store.state.articleDetail
     },
     isAdmin() {
-      return this.$store.state.token ? true : false;
+      return this.$store.state.token ? true : false
     }
   },
   methods: {
     async del() {
-      let id = this.$route.params.id;
-      await this.$store.dispatch("DEL_ARTICLE", id);
-      console.log(this.$store.state.status);
+      let id = this.$route.params.id
+      await this.$store.dispatch('DEL_ARTICLE', id)
+      this.$router.go(-1)
+      console.log(this.$store.state.status)
     },
     edit() {
-      const id = this.$route.params.id;
-      this.$router.push({ name: "publish-id", params: { id: id } });
+      const id = this.$route.params.id
+      this.$router.push({ name: 'publish-id', params: { id: id } })
     }
   },
   components: {

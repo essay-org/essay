@@ -41,7 +41,7 @@ VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue
 ``` 
 
 ### 导航
-- [演示站](https://vueblog.86886.wang)
+- [演示站](http://vueblog.86886.wang) 由于服务器不在国内，速度可能稍慢  
 - [线上部署](https://github.com/wmui/web-deploy)
 
 ### 结语

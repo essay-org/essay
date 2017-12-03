@@ -1,4 +1,4 @@
-## VueBlog (v2.0.0)
+## VueBlog v2
 
 ### 前言
 VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue.js开发的，可在Tags标签下查看所有版本，为了更好地做到前后端分离，从2.0开始前端和后端分别在不同的仓库。
@@ -28,10 +28,20 @@ VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue
 #### 图片上传
 ![](https://github.com/wmui/vueblog/raw/master/example/upload.png)  
 
+### 本地运行
+
+- 运行[vueblog-server](https://github.com/wmui/vueblog-server)后端服务
+- 运行vueblog前端服务
+```shell
+  git clone https://github.com/wmui/vueblog.git
+  cd vueblog
+  npm install
+  npm run dev
+  # 访问http://localhost:3010/
+``` 
+
 ### 导航
-- [vueblog服务端](https://github.com/wmui/vueblog-server)
 - [演示站](https://vueblog.86886.wang)
-- [本地运行](https://github.com/wmui/web-deploy)
 - [线上部署](https://github.com/wmui/web-deploy)
 
 ### 结语

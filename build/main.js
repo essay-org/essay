@@ -93,7 +93,8 @@ if (false) {
   // 生产环境，这里配置你的线上api地址
   baseURL = 'http://198.13.32.165:8080/v1';
 } else {
-  baseURL = 'http://127.0.0.1:8080/v1';
+  baseURL = 'http://198.13.32.165:8080/v1';
+  // baseURL = 'http://127.0.0.1:8080/v1'
 }
 var axiosServer = axios.create({
   baseURL: baseURL

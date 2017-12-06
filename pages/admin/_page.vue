@@ -33,7 +33,6 @@
 <script>
   export default {
     name: 'Admin',
-    layout: 'admin',
     middleware: 'auth',
     fetch ({redirect, store}) {
       if (!store.state.token) {

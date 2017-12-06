@@ -23,13 +23,16 @@ export default {
     return {
       links: [{
         name: '首页',
-        path: '/'
+        path: '/top'
+      }, {
+        name: '标签',
+        path: 'tags'
+      }, {
+        name: '归档',
+        path: '/archives'
       }, {
         name: '新随笔',
         path: '/publish'
-      }, {
-        name: '管理',
-        path: '/admin'
       }],
       searchInfo: ''
     }

@@ -1,21 +1,15 @@
-$black-dark: #26272B;
-$black-light: #33363B;
+$gray-dark: #26272B;
+$gray: #c8c9ca;
+$gray-light: #33363B;
 $border:#E4E4E4;
 $disabled-link:#666;
 $link:#337AB7;
-
 html,
-body,
-#app {
-  height: 100%;
-  overflow: auto;
-}
-
 body {
   font-family: "Microsoft Yahei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, tahoma, arial, Verdana, sans-serif, "WenQuanYi Micro Hei", "\5B8B\4F53";
   font-size: 15px;
   color: #333;
-  background-color: #F1F1F1;
+  background-image: url('~/assets/img/night.gif');
 }
 
 ul,
@@ -69,13 +63,13 @@ a {
 }
 
 .container {
-  max-width: 1120px;
+  max-width: 960px;
+  margin: 0 auto 30px;
 }
 
 input {
   height: 35px;
   text-indent: 1em;
-  border-radius: 5px;
   border: 1px solid $border;
   display: inline-block;
   &:focus {
@@ -85,10 +79,10 @@ input {
 
 button {
   padding: 8px 15px !important;
-  border-radius: 5px;
   cursor: pointer;
   border: 1px solid transparent;
 }
+
 
 
 
@@ -96,11 +90,9 @@ button {
 
 .header {
   height: 240px;
-  background-color: $black-dark;
-  background-image: url('~/assets/img/night.gif');
   .info {
     margin: 0 auto;
-    color: #FFF;
+    color: #fff;
     height: 184px;
     .nickname {
       font-size: 35px;
@@ -116,7 +108,7 @@ button {
   .nav {
     display: flex;
     margin: 0 auto;
-    background-color: $black-light;
+    background-color: $gray-light;
     align-items: center;
     justify-content: space-between;
     border: 1px solid #3D4045;
@@ -125,7 +117,7 @@ button {
       display: flex;
       a {
         padding: 19px 18px;
-        color: #C8C9CA;
+        color: $gray;
         &:hover {
           text-decoration: none;
         }
@@ -136,28 +128,24 @@ button {
       margin-right: 18px;
       border: none;
       background-color: #404448;
-      color: #C8C9CA;
+      color: $gray;
     }
   }
 }
 
 
-
-
 /* article list layout */
 
 .wrap {
-  display: flex;
-  margin: 0 auto 30px;
   background-color: #fff;
 }
 
 .article-list {
   flex: 1;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 15px 18px;
   .item+.item {
-    border-top: 1px dashed #F1F1F1;
+    border-top: 1px dashed $border;
   }
   .title {
     font-size: 18px;
@@ -178,7 +166,7 @@ button {
 
 .article-detail {
   flex: 1;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 15px 18px;
   overflow: auto;
   .title {
@@ -291,7 +279,7 @@ button {
 
 .footer {
   border-top: 1px solid $border;
-  color: #C8C9CA;
+  color: $gray;
   margin: auto;
   .copy {
     height: 70px;
@@ -306,49 +294,23 @@ button {
 
 
 
+
 /* admin template layout */
 
 .admin {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  .admin-aside {
-    width: 180px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    background-color: $black-light;
-    h3 {
-      color: #FFF;
-      text-align: center;
-      padding: 10px 0;
-    }
-    li {
-      cursor: pointer;
-      a {
-        display: block;
-        padding: 10px 20px;
-        color: #FFF;
-        text-decoration: none;
-        &:hover {
-          background-color: rgba(0, 0, 0, .1);
-        }
-        &.current {
-          color: $link;
-          background-color: rgba(0, 0, 0, .1);
+  .menu {
+    width: 100%;
+    ul {
+      padding: 0 15px;
+      border-bottom: 1px solid $border;
+      li {
+        width: 20%;
+        display: inline-block;
+        padding: 20px 0;
+        a {
+          display: inline-block;
         }
       }
-    }
-  }
-  .admin-content {
-    position: relative;
-    min-height: 100%;
-    margin-left: 180px;
-    background-color: #fff;
-    .content {
-      margin-bottom: 20px;
     }
   }
 }
@@ -400,6 +362,7 @@ button {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 20px;
       input[type="text"] {
         width: 400px;
       }
@@ -428,7 +391,7 @@ button {
 
 .edit {
   text-align: center;
-  padding-top: 50px;
+  padding: 50px 0 30px;
   .avatar {
     padding: 30px;
     cursor: pointer;
@@ -451,7 +414,7 @@ button {
         position: absolute;
         bottom: 0;
         font-size: 12px;
-        color: #FFF;
+        color: #fff;
         padding: 8px 0;
       }
     }
@@ -463,24 +426,17 @@ button {
     }
   }
   button[type="button"] {
-    color: #FFF;
-    background-color: $black-dark;
+    color: #fff;
+    background-color: $gray-dark;
   }
 }
 
 .login {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: $black-dark;
   .title {
     text-align: center;
-    font-size: 30px;
-    color: #fff;
+    font-size: 18px;
     letter-spacing: 8px;
-    margin-top: 100px;
+    padding-top: 30px;
   }
   .login-tip {
     width: 80%;
@@ -490,7 +446,7 @@ button {
     position: relative;
     background-color: #fff;
     width: 400px;
-    margin: 50px auto;
+    margin: 0 auto 30px;
     border-radius: 5px;
     padding: 40px 0;
     input[type="text"],
@@ -502,10 +458,10 @@ button {
     }
     button[type="button"] {
       color: #fff;
-      background-color: $black-light;
+      background-color: $gray-light;
       &:hover {
         cursor: pointer !important;
-        background-color: $black-dark;
+        background-color: $gray-dark;
       }
     }
   }
@@ -522,6 +478,7 @@ button {
 }
 
 
+
 /* @media screen*/
 
 @media only screen and(max-width: 768px) {
@@ -533,7 +490,7 @@ button {
   }
   .footer {
     border-top: 1px solid $border;
-    color: #C8C9CA;
+    color: $gray;
     margin: auto;
     .copy {
       text-align: center;

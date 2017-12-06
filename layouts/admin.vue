@@ -1,24 +1,24 @@
 <template>
-  <div class="admin">  
-    <aside class="admin-aside">
-      <ul class="menu">
-        <li>
-          <h3 @click="goIndex">VueBlog</h3>
-        </li>
-        <li v-for="(item, index) in menu" :key="index">
-          <nuxt-link :to="{path:item.path}" :title="item.name">{{item.name}}</nuxt-link>
-        </li>
-        <li><a @click="logout">退出登录</a></li>
-      </ul>
-    </aside>
-    <div class="admin-content">
-      <nuxt/>
+  <div class="admin">
+    <my-header/>
+    <div class="container wrap">
+      <div class="menu">
+        <ul>
+          <li v-for="(item, index) in menu" :key="index">
+            <nuxt-link :to="{path:item.path}" :title="item.name">{{item.name}}</nuxt-link>
+          </li>
+          <li><a @click="logout">退出登录</a></li>
+        </ul>
+      </div>
+      <nuxt />
+      <my-footer/>
     </div>
   </div>
 </template>
 <script>
+import MyHeader from '~/components/Header.vue'
+import MyFooter from '~/components/Footer.vue'
 export default {
-  name: 'AdminAside',
   data () {
     return {
       menu: [{
@@ -52,6 +52,10 @@ export default {
     goIndex () {
       this.$router.push('/top')
     }
+  },
+  components: {
+    MyHeader,
+    MyFooter
   }
 }
 </script>

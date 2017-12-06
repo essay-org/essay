@@ -1,7 +1,7 @@
 <template>
   <aside class="aside">
     <div class="tags">
-      <div class="title"><nuxt-link to="/tags">标签 》</nuxt-link></div>
+      <div class="title">标签</div>
       <div class="list">
         <ul>
           <li v-for="(item,index) in tags" :key="index">
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="archives">
-      <div class="title"><nuxt-link to="/archives">归档 》</nuxt-link></div>
+      <div class="title">归档</div>
       <div class="list">
         <ul>
           <li v-for="(item,index) in archives" :key="index">
@@ -25,7 +25,6 @@
 <script>
 export default {
   name: 'Aside',
-
   computed: {
     tags () {
       return this.$store.state.tags

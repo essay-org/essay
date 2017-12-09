@@ -1,7 +1,14 @@
 ## VueBlog v2
-
 ### 前言
-VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue.js开发的，可在Tags标签下查看所有版本，为了更好地做到前后端分离，从2.0开始前端和后端分别在不同的仓库。
+VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue.js开发的，可在Tags标签下查看所有版本。  
+
+### 导航
+- [演示站](http://vueblog.86886.wang) （服务器不在国内，速度可能稍慢）
+- [线上部署](https://github.com/wmui/web-deploy)
+
+### 版本更新
+- v2.0.0  前后端完全分离，需分别部署前端和后端服务
+- v2.1.0  前后端同构，Node既做渲染服务又做api服务
 
 ### 开发环境和技术栈
 - 操作系统： windows10
@@ -29,20 +36,16 @@ VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue
 ![](https://github.com/wmui/vueblog/raw/master/example/upload.png)  
 
 ### 本地运行
-
-- 运行[vueblog-server](https://github.com/wmui/vueblog-server)后端服务
-- 运行vueblog前端服务
+- 安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库和[Node.js](https://nodejs.org/en/)环境
+- 开启数据库服务，以windows电脑为例: 在桌面上新建一个`demo`文件夹，命令行执行`mongod --dbpath c:demo`就成功在本地开启服务了
+- 运行项目
 ```shell
   git clone https://github.com/wmui/vueblog.git
   cd vueblog
   npm install
   npm run dev
-  # 访问http://localhost:3010/
+  # 访问http://localhost:3000/
 ``` 
-
-### 导航
-- [演示站](http://vueblog.86886.wang) 由于服务器不在国内，速度可能稍慢  
-- [线上部署](https://github.com/wmui/web-deploy)
 
 ### 结语
 VueBlog长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR  

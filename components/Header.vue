@@ -23,7 +23,7 @@ export default {
     return {
       links: [{
         name: '首页',
-        path: '/'
+        path: '/top'
       }, {
         name: '标签',
         path: '/tags'
@@ -56,7 +56,7 @@ export default {
       })
     },
     goIndex () {
-      this.$router.push('/')
+      this.$router.push('/top')
     }
   }
 }

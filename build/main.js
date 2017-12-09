@@ -468,7 +468,7 @@ app.delete('/v1/*', router.noData);
 
 // Import and Set Nuxt.js options
 var config = __webpack_require__(17);
-config.dev = !("development" === 'production');
+config.dev = !("production" === 'production');
 
 // Init Nuxt.js
 var nuxt = new Nuxt(config);

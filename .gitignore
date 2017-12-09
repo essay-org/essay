@@ -1,6 +1,9 @@
 # dependencies
 node_modules
 
+# Backpack build
+build
+
 # logs
 npm-debug.log
 
@@ -9,6 +12,3 @@ npm-debug.log
 
 # Nuxt generate
 dist
-
-# Backpack build
-build

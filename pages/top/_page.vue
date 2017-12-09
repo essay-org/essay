@@ -4,7 +4,7 @@
 <script>
 import MyItems from '~/components/Items.vue'
   export default {
-    name: 'top',
+    name: 'Top',
     async fetch({store,params}) {
       // 填充状态树
       await store.dispatch('LIST_PAGE', {

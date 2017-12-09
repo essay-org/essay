@@ -10,6 +10,9 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  env: {
+    runningPort: process.env.PORT || 3000
+  },
   build: { vendor: ['axios', 'highlight.js'] },
   css: ['normalize.css/normalize.css', 'highlight.js/styles/github.css', {src: '~assets/css/main.scss', lang: 'scss'}],
   loading: { color: '#337AB7' },

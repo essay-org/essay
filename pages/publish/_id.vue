@@ -32,10 +32,11 @@ export default {
   name: 'Publish',
   layout: 'admin',
   middleware: 'auth',
-  fetch ({redirect, store}) {
+  fetch({ redirect, store }) {
     if (!store.state.token) {
       redirect('/login')
     }
+    store.dispatch('TAGS')
   },
   data() {
     return {
@@ -56,25 +57,25 @@ export default {
   },
 
   mounted() {
-    if(process.browser){
-    this.options = {
-      linkify: true,
-      highlight(str, lang) {
-        lang = lang || 'javascript'
-        if (require('highlight.js').getLanguage(lang)) {
-          try {
-            return require('highlight.js').highlight(lang, str).value
-          } catch (__) {}
+    if (process.browser) {
+      this.options = {
+        linkify: true,
+        highlight(str, lang) {
+          lang = lang || 'javascript'
+          if (require('highlight.js').getLanguage(lang)) {
+            try {
+              return require('highlight.js').highlight(lang, str).value
+            } catch (__) {}
+          }
+          return ''
         }
-        return ''
       }
     }
-  }
 
     // 有id就获取文章内容
     if (this.articleID) {
-      this.$store.dispatch('ARTICLE_DETAIL',this.articleID)
-      let articleDetail  = this.$store.state.articleDetail
+      this.$store.dispatch('ARTICLE_DETAIL', this.articleID)
+      let articleDetail = this.$store.state.articleDetail
       this.title = articleDetail.title
       this.content = articleDetail.content
       let tag = articleDetail.tag
@@ -85,7 +86,7 @@ export default {
   methods: {
     async publish(state) {
       if (!this.title) {
-       this.publishTip = '文章标题不能为空！'
+        this.publishTip = '文章标题不能为空！'
         return
       }
       if (!this.content) {
@@ -101,14 +102,20 @@ export default {
       })
       this.publishTip = this.$store.state.status.message
       //  发布成功
-       this.title = ''
-       this.content = ''
-       this.tag = ''
+      this.title = ''
+      this.content = ''
+      this.tag = ''
     },
 
     // 把多个标签分割成数组
     trim(str) {
-      return str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',')
+      let tagArr = []
+      if (str) {
+        tagArr = str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',')
+      } else {
+        tagArr.push('Default')
+      }
+      return tagArr
     },
 
     // 选择已有标签

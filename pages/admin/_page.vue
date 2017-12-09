@@ -34,6 +34,7 @@
   export default {
     name: 'Admin',
     middleware: 'auth',
+    layout: 'admin',
     fetch ({redirect, store}) {
       if (!store.state.token) {
         redirect('/login')

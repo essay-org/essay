@@ -10,6 +10,7 @@ body {
   font-size: 15px;
   color: #333;
   background-image: url('~/assets/img/night.gif');
+  background-attachment: fixed;
 }
 
 ul,
@@ -52,7 +53,7 @@ a {
   text-decoration: none;
   display: inline-block;
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
     outline: none;
   }
   &:focus,
@@ -120,6 +121,9 @@ button {
         color: $gray;
         &:hover {
           text-decoration: none;
+        }
+        &.nuxt-link-active{
+          color: #fff;
         }
       }
     }
@@ -202,10 +206,9 @@ button {
   background-color: #fff;
   padding: 15px 0;
   .list li {
-    display: inline-block;
     a {
       font-size: 18px;
-      padding: 10px 20px;
+      padding: 10px 18px;
     }
   }
   .search-box {
@@ -304,11 +307,15 @@ button {
       padding: 0 15px;
       border-bottom: 1px solid $border;
       li {
-        width: 20%;
         display: inline-block;
-        padding: 20px 0;
+        width: 20%;
         a {
-          display: inline-block;
+          display: inline-block;  
+          width: 100%;
+          padding: 10px 0;
+          &.nuxt-link-active {
+            font-weight: bold;
+          }
         }
       }
     }
@@ -337,7 +344,7 @@ button {
 
     th:nth-child(1),
     td:nth-child(1) {
-      width: 70%;
+      width: 50%;
     }
     .draft {
       color: red;

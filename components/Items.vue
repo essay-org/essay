@@ -15,7 +15,6 @@
     <div class="page" v-show="maxPage > 1">
       <a v-if="page > 1" class="prev" @click="prevPage">《上一页</a>
       <a v-else class="disabled prev">《上一页</a>
-
       <a v-if="hasMore" class="next" @click="nextPage">下一页》</a>
       <a v-else class="disabled next">下一页》</a>
     </div>
@@ -31,35 +30,57 @@ export default {
     }
   },
   methods: {
-    prevPage () {
-      this.$router.push({
-        params: {
-          category: this.category,
-          page: this.page - 1
-        }
-      })
+    prevPage() {
+      if (this.category) {
+        this.$router.push({
+          params: {
+            category: this.category,
+            page: this.page - 1
+          }
+        })
+      } else {
+        // 从首页跳转过来的
+        this.$router.push({
+          name: 'top-page',
+          params: {
+            category: 'top',
+            page: this.page - 1
+          }
+        })
+      }
     },
-    nextPage () {
-      this.$router.push({
-        params: {
-          category: this.category,
-          page: this.page + 1
-        }
-      })
+    nextPage() {
+      if (this.category) {
+        this.$router.push({
+          params: {
+            category: this.category,
+            page: this.page + 1
+          }
+        })
+      } else {
+        // 从首页跳转过来的
+        this.$router.push({
+          name: 'top-page',
+          params: {
+            category: 'top',
+            page: this.page + 1
+          }
+        })
+      }
     }
   },
   computed: {
-    maxPage () {
+    maxPage() {
       return Math.ceil(Number(this.$store.state.total) / 15)
     },
     // 归档或者标签所对应的文章列表
-    category () {
+    category() {
       return this.$route.params.category
     },
-    page () {
+    page() {
       return Number(this.$route.params.page) || 1
     },
-    hasMore () {
+    hasMore() {
       return this.page < this.maxPage
     }
   }

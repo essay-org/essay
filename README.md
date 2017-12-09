@@ -32,8 +32,6 @@ VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue
 ![](https://github.com/wmui/vueblog/raw/master/example/list.png)  
 #### 编辑器（基于Vue开发）
 ![](https://github.com/wmui/vueblog/raw/master/example/editor.png)  
-#### 图片上传
-![](https://github.com/wmui/vueblog/raw/master/example/upload.png)  
 
 ### 本地运行
 - 安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库和[Node.js](https://nodejs.org/en/)环境
@@ -45,7 +43,8 @@ VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue
   npm install
   npm run dev
   # 访问http://localhost:3000/
-``` 
+```
+- 默认用户名: q， 默认密码: q
 
 ### 结语
 VueBlog长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR  

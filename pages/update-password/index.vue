@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-  
+
 export default {
   name: 'update-password',
   middware: 'auth',
@@ -37,13 +37,13 @@ export default {
         oldPass: this.oldPass,
         newPass: this.newPass
       }
-     await this.$store.dispatch('UPDATE_PASSWORD', password)
-     if (this.$store.state.status.code === 200) {
-       //  清除token
-       await this.$store.dispatch('LOGOUT')
-       this.$store.commit('SET_USER', '')
-       this.verifyResult = this.$store.state.status.message
-     }
+      await this.$store.dispatch('UPDATE_PASSWORD', password)
+      if (this.$store.state.status.code === 200) {
+        //  清除token
+        await this.$store.dispatch('LOGOUT')
+        this.$store.commit('SET_USER', '')
+        this.verifyResult = this.$store.state.status.message
+      }
     }
   }
 }

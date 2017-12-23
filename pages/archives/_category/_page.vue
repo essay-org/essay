@@ -5,21 +5,21 @@
 import MyItems from '~/components/Items.vue'
 export default {
   name: 'archives-category-page',
-  async fetch({store,params}) {
+  async fetch ({ store, params }) {
     // 填充状态树
     await store.dispatch('LIST_PAGE', {
       typeName: 'archives',
-      category: params.category, 
+      category: params.category,
       page: params.page
     })
   },
-  head() {
+  head () {
     return {
       title: `${this.$store.state.category} | vueblog`
     }
   },
   computed: {
-    articleList(){
+    articleList () {
       return this.$store.state.articleList
     }
   },

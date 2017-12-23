@@ -12,8 +12,8 @@
 <script>
 export default {
   name: 'Tags',
-  async fetch({ store }) {
-  	await store.dispatch('TAGS')
+  async fetch ({ store }) {
+    await store.dispatch('TAGS')
   }
-};
+}
 </script>

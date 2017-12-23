@@ -7,7 +7,8 @@
       </li>
     </ul>
     <div class="tips" v-if="articleList.length === 0 && this.$route.name === 'search'">
-      <p>没有搜索到和<strong>{{ category }}</strong>相关的文章！</p>
+      <p>没有搜索到和
+        <strong>{{ category }}</strong>相关的文章！</p>
     </div>
     <div class="tips" v-if="articleList.length === 0 && this.$route.name !== 'search'">
       <p>哇哦，一篇文章都没有!</p>
@@ -30,7 +31,7 @@ export default {
     }
   },
   methods: {
-    prevPage() {
+    prevPage () {
       if (this.category) {
         this.$router.push({
           params: {
@@ -49,7 +50,7 @@ export default {
         })
       }
     },
-    nextPage() {
+    nextPage () {
       if (this.category) {
         this.$router.push({
           params: {
@@ -70,17 +71,17 @@ export default {
     }
   },
   computed: {
-    maxPage() {
+    maxPage () {
       return Math.ceil(Number(this.$store.state.total) / 15)
     },
     // 归档或者标签所对应的文章列表
-    category() {
+    category () {
       return this.$route.params.category
     },
-    page() {
+    page () {
       return Number(this.$route.params.page) || 1
     },
-    hasMore() {
+    hasMore () {
       return this.page < this.maxPage
     }
   }

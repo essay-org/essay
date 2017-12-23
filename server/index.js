@@ -58,31 +58,30 @@ app.post('/v1/upload', hasToken, router.upload)
 // 删除文章 eg: http://localhost:8080/v1/article?id=1496841740682
 app.delete('/v1/article', hasToken, router.deleteArticle)
 
-/* 
- * 以下是有数据提交的请求 
- * 目前实现的并不优雅，如果你有好的实现的方式，欢迎交流
+/*
+ * 以下是有数据提交的请求
 */
 
 // 登录
-app.post('/v1/login', function(req, res, next) {
-  let username = req.body.username;
-  let password = req.body.password;
+app.post('/v1/login', function (req, res, next) {
+  let username = req.body.username
+  let password = req.body.password
   password = md5(password)
 
   // 根据用户名查询数据库
-  db.find('users', { user: username }, function(err, result) {
+  db.find('users', { user: username }, function (err, result) {
     if (err) {
       console.log(err)
       return res.json({
         code: 500,
-        message: "内部服务器错误"
+        message: '内部服务器错误'
       })
     }
 
     if (result.length === 0) {
       return res.json({
         code: 401,
-        message: "找不到用户名"
+        message: '找不到用户名'
       })
     }
 
@@ -91,25 +90,25 @@ app.post('/v1/login', function(req, res, next) {
 
     if (result[0].user === username && result[0].pass === password) {
       // token包含了用户的名字和唯一id
-      const serverToken = jwt.sign({ username: username, userID: id }, 'vueblog');
+      const serverToken = jwt.sign({ username: username, userID: id }, 'vueblog')
       // 把token存储到cookie中
       res.cookie('token', serverToken, { maxAge: 60000 * 60 * 24 * 30 })
       return res.json({
         code: 200,
-        message: "登录成功",
+        message: '登录成功',
         token: serverToken
       })
     } else {
       return res.json({
         code: 401,
-        message: "密码错误"
+        message: '密码错误'
       })
     }
   })
 })
 
 // 登出
-app.post('/v1/logout', function(req, res) {
+app.post('/v1/logout', function (req, res) {
   res.clearCookie('token')
   res.json({
     code: 200,
@@ -118,64 +117,64 @@ app.post('/v1/logout', function(req, res) {
 })
 
 // 发布文章，发布草稿，编辑文章
-app.post('/v1/article', hasToken, function(req, res, next) {
-  let title = req.body.title;
-  let content = req.body.content;
-  let tag = req.body.tag;
-  let date = req.body.date;
-  let state = req.body.state;
+app.post('/v1/article', hasToken, function (req, res, next) {
+  let title = req.body.title
+  let content = req.body.content
+  let tag = req.body.tag
+  let date = req.body.date
+  let state = req.body.state
   let newData = {
     title: title,
     content: content,
     tag: tag,
     state: state,
     date: date
-  };
+  }
 
-  db.find('infos', { "query": { "date": date } }, function(err, result) {
+  db.find('infos', { 'query': { 'date': date } }, function (err, result) {
     if (err) {
       console.log(err)
       return res.json({
         code: 500,
-        message: "内部服务器错误"
+        message: '内部服务器错误'
       })
     }
     // 能通过发布日期找到文章，说明你编辑了文章
     if (result.length === 1) {
-      db.updateMany('infos', { "date": date }, newData, function(err, result2) {
+      db.updateMany('infos', { 'date': date }, newData, function (err, result2) {
         if (err) {
           console.log(err)
           return res.json({
             code: 401,
-            message: "文章更新失败"
+            message: '文章更新失败'
           })
         }
 
         return res.json({
           code: 200,
-          message: "文章更新成功"
+          message: '文章更新成功'
         })
       })
     } else {
       // 插入到数据库
-      db.insertOne('infos', newData, function(err, result3) {
+      db.insertOne('infos', newData, function (err, result3) {
         if (err) {
           console.log(err)
           return res.json({
             code: 401,
-            message: "文章发布失败"
+            message: '文章发布失败'
           })
         }
 
         if (state === 'draft') {
           return res.json({
             code: 200,
-            message: "草稿保存草稿"
+            message: '草稿保存草稿'
           })
         }
         return res.json({
           code: 200,
-          message: "文章发布成功"
+          message: '文章发布成功'
         })
       })
     }
@@ -183,53 +182,60 @@ app.post('/v1/article', hasToken, function(req, res, next) {
 })
 
 // 更新管理员信息
-app.put('/v1/administrator', hasToken, function(req, res, next) {
+app.put('/v1/administrator', hasToken, function (req, res, next) {
   const clientToken = req.headers.token
-  const decoded = jwt.verify(clientToken, 'vueblog');
+  const decoded = jwt.verify(clientToken, 'vueblog')
   const username = decoded.username
-  db.updateMany('users', { user: username }, req.body, function(err, result) {
+  db.updateMany('users', { user: username }, req.body, function (err, result) {
     if (err) {
       console.log(err)
       return res.json({
         code: 401,
-        message: "信息修改失败"
+        message: '信息修改失败'
       })
     }
 
     return res.json({
       code: 200,
-      message: "信息修改成功"
+      message: '信息修改成功'
     })
   })
 })
 
 // 修改密码
-app.put('/v1/password', hasToken, function(req, res, next) {
+app.put('/v1/password', hasToken, function (req, res, next) {
   const clientToken = req.headers.token
-  const decoded = jwt.verify(clientToken, 'vueblog');
+  const decoded = jwt.verify(clientToken, 'vueblog')
   const username = decoded.username
 
   let oldPass = md5(req.body.oldPass)
   let newPass = md5(req.body.newPass)
-  db.find('users', {}, function(err, result) {
+  db.find('users', {}, function (err, result) {
+    if (err) {
+      console.log(err)
+      return res.json({
+        code: 500,
+        message: '内部服务器错误'
+      })
+    }
     if (oldPass !== result[0].pass) {
       return res.json({
         code: 403,
-        message: "旧密码输入有误"
+        message: '旧密码输入有误'
       })
     }
 
-    db.updateMany('users', { "user": username }, { "pass": newPass }, function(err, result2) {
+    db.updateMany('users', { 'user': username }, { 'pass': newPass }, function (err, result2) {
       if (err) {
         console.log(err)
         return res.json({
           code: 401,
-          message: "密码修改失败"
+          message: '密码修改失败'
         })
       }
       return res.json({
         code: 200,
-        message: "密码修改成功"
+        message: '密码修改成功'
       })
     })
   })

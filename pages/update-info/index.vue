@@ -23,7 +23,7 @@ export default {
   name: 'update-info',
   middware: 'auth',
   layout: 'admin',
-  data() {
+  data () {
     return {
       user: '',
       avatar: '',
@@ -31,7 +31,7 @@ export default {
       nickname: ''
     }
   },
-  async mounted() {
+  async mounted () {
     await this.$store.dispatch('ADMIN_INFO')
     let admin = this.$store.state.administrator
     this.user = admin.user
@@ -40,7 +40,7 @@ export default {
     this.nickname = admin.nickname
   },
   methods: {
-    async edit() {
+    async edit () {
       let info = {
         intro: this.intro,
         nickname: this.nickname
@@ -55,17 +55,17 @@ export default {
     },
 
     // 模拟触发click事件
-    setAvatar() {
+    setAvatar () {
       this.$refs.avatarInput.click()
     },
 
     // 选择新的头像后，可以预览
-    changeImage(e) {
+    changeImage (e) {
       let file = e.target.files[0]
       let reader = new FileReader()
       let that = this
       reader.readAsDataURL(file)
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         that.avatar = this.result
       }
     }

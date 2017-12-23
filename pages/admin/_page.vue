@@ -17,8 +17,12 @@
           </td>
           <td>{{item.date | formatDate('yyyy-MM-dd')}}</td>
           <td :class="{'draft':item.state === 'draft'}">{{item.state | status}}</td>
-          <td><a @click="edit(item)">编辑</a></td>
-          <td><a @click="del(item)">删除</a></td>
+          <td>
+            <a @click="edit(item)">编辑</a>
+          </td>
+          <td>
+            <a @click="del(item)">删除</a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -31,55 +35,55 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'Admin',
-    middleware: 'auth',
-    layout: 'admin',
-    fetch ({redirect, store}) {
-      if (!store.state.token) {
-        redirect('/login')
-      }
+export default {
+  name: 'Admin',
+  middleware: 'auth',
+  layout: 'admin',
+  fetch ({ redirect, store }) {
+    if (!store.state.token) {
+      redirect('/login')
+    }
+  },
+  async mounted () {
+    // 后台无需做ssr, 所以在mounted获取数据
+    await this.$store.dispatch('LIST_BY_ALL', this.page)
+  },
+  computed: {
+    articles () {
+      return this.$store.state.articles
     },
-    async mounted () {
-      // 后台无需做ssr, 所以在mounted获取数据
+    maxPage () {
+      return Math.ceil(Number(this.$store.state.total) / 15)
+    },
+    page () {
+      return Number(this.$route.params.page) || 1
+    },
+    hasMore () {
+      return this.page < this.maxPage
+    }
+  },
+  methods: {
+    edit (item) {
+      this.$router.push({ name: 'publish-id', params: { id: item.date } })
+    },
+    async del (item) {
+      await this.$store.dispatch('DEL_ARTICLE', item.date)
       await this.$store.dispatch('LIST_BY_ALL', this.page)
     },
-    computed: {
-      articles () {
-        return this.$store.state.articles
-      },
-      maxPage () {
-        return Math.ceil(Number(this.$store.state.total) / 15)
-      },
-      page () {
-        return Number(this.$route.params.page) || 1
-      },
-      hasMore () {
-        return this.page < this.maxPage
-      }
+    prevPage () {
+      this.$router.push({
+        params: {
+          page: this.page - 1
+        }
+      })
     },
-    methods: {
-      edit (item) {
-        this.$router.push({name: 'publish-id', params: {id: item.date}})
-      },
-      async del (item) {
-        await this.$store.dispatch('DEL_ARTICLE', item.date)
-        await this.$store.dispatch('LIST_BY_ALL', this.page)
-      },
-      prevPage () {
-        this.$router.push({
-          params: {
-            page: this.page - 1
-          }
-        })
-      },
-      nextPage () {
-        this.$router.push({
-          params: {
-            page: this.page + 1
-          }
-        })
-      }
+    nextPage () {
+      this.$router.push({
+        params: {
+          page: this.page + 1
+        }
+      })
     }
   }
+}
 </script>

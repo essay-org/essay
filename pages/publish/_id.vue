@@ -21,7 +21,9 @@
       </div>
       <div class="tags">
         <span>选择已有标签: </span>
-        <span v-for="(item,index) in $store.state.tags" :key="index" @click="chooseTag(item)"><a>{{item.tag}}</a></span>
+        <span v-for="(item,index) in $store.state.tags" :key="index" @click="chooseTag(item)">
+          <a>{{item.tag}}</a>
+        </span>
       </div>
     </div>
   </div>
@@ -32,13 +34,13 @@ export default {
   name: 'Publish',
   layout: 'admin',
   middleware: 'auth',
-  fetch({ redirect, store }) {
+  fetch ({ redirect, store }) {
     if (!store.state.token) {
       redirect('/login')
     }
     store.dispatch('TAGS')
   },
-  data() {
+  data () {
     return {
       title: '',
       content: '',
@@ -56,16 +58,16 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     if (process.browser) {
       this.options = {
         linkify: true,
-        highlight(str, lang) {
+        highlight (str, lang) {
           lang = lang || 'javascript'
           if (require('highlight.js').getLanguage(lang)) {
             try {
               return require('highlight.js').highlight(lang, str).value
-            } catch (__) {}
+            } catch (__) { }
           }
           return ''
         }
@@ -84,7 +86,7 @@ export default {
     }
   },
   methods: {
-    async publish(state) {
+    async publish (state) {
       if (!this.title) {
         this.publishTip = '文章标题不能为空！'
         return
@@ -108,7 +110,7 @@ export default {
     },
 
     // 把多个标签分割成数组
-    trim(str) {
+    trim (str) {
       let tagArr = []
       if (str) {
         tagArr = str.replace(/(^\s*)|(\s*$)|(,$)/g, '').split(',')
@@ -119,7 +121,7 @@ export default {
     },
 
     // 选择已有标签
-    chooseTag(item) {
+    chooseTag (item) {
       this.tag = this.tag + item.tag + ','
     }
   },

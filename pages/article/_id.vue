@@ -3,8 +3,12 @@
     <h3 class="title">{{article.title}}</h3>
     <top-preview :content="article.content" :options="options"></top-preview>
     <div class="manage" v-show="isAdmin">
-      <span><a @click="edit">编辑</a></span>
-      <span><a @click="del">删除</a></span>
+      <span>
+        <a @click="edit">编辑</a>
+      </span>
+      <span>
+        <a @click="del">删除</a>
+      </span>
     </div>
   </div>
 </template>
@@ -12,52 +16,52 @@
 import TopPreview from 'top-editor/src/lib/TopPreview.vue'
 export default {
   name: 'article-detail',
-  async fetch({ store, params }) {
+  async fetch ({ store, params }) {
     await store.dispatch('ARTICLE_DETAIL', params.id)
   },
-  head() {
+  head () {
     return {
       title: this.article.title + ' | vueblog'
     }
   },
-  data() {
+  data () {
     return {
       options: {}
     }
   },
   // 一定要在mounted后配置
-  mounted() {
+  mounted () {
     if (process.browser) {
       this.options = {
         linkify: true,
-        highlight(str, lang) {
+        highlight (str, lang) {
           lang = lang || 'javascript'
           if (require('highlight.js').getLanguage(lang)) {
             try {
               return require('highlight.js').highlight(lang, str).value
-            } catch (__) {}
+            } catch (__) { }
           }
           return ''
         }
-      };
+      }
     }
   },
   computed: {
-    article() {
+    article () {
       return this.$store.state.articleDetail
     },
-    isAdmin() {
-      return this.$store.state.token ? true : false
+    isAdmin () {
+      return this.$store.state.token ? 1 : 0
     }
   },
   methods: {
-    async del() {
+    async del () {
       let id = this.$route.params.id
       await this.$store.dispatch('DEL_ARTICLE', id)
       this.$router.go(-1)
       console.log(this.$store.state.status)
     },
-    edit() {
+    edit () {
       const id = this.$route.params.id
       this.$router.push({ name: 'publish-id', params: { id: id } })
     }
@@ -65,5 +69,5 @@ export default {
   components: {
     TopPreview
   }
-};
+}
 </script>

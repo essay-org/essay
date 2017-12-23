@@ -13,13 +13,25 @@ module.exports = {
   env: {
     runningPort: process.env.PORT || 3000
   },
-  build: { vendor: ['axios', 'highlight.js'] },
-  css: ['normalize.css/normalize.css', 'highlight.js/styles/github.css', {src: '~assets/css/main.scss', lang: 'scss'}],
+  build: {
+    vendor: ['axios', 'highlight.js'],
+     extend (config, ctx) {
+      if (ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)(server)/
+        })
+      }
+    } 
+  },
+  css: ['normalize.css/normalize.css', 'highlight.js/styles/github.css', { src: '~assets/style/main.scss', lang: 'scss' }],
   loading: { color: '#337AB7' },
   manifest: {
     name: 'VueBlog',
     description: 'A blog system',
-    theme_color: '#188269'
+    theme_color: '#000'
   },
   modules: [
     '@nuxtjs/pwa',

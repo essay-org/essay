@@ -39,12 +39,12 @@ export default {
   },
   computed: {
     administrator () {
-     return this.$store.state.administrator
+      return this.$store.state.administrator
     }
   },
   methods: {
     search () {
-      if(this.searchInfo === '') {
+      if (this.searchInfo === '') {
         this.$router.push('/search')
         return
       }

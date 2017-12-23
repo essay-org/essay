@@ -12,23 +12,23 @@
 <script>
 export default {
   name: 'Login',
-  data() {
+  data () {
     return {
       username: '',
       password: '',
-      loginTip:''
-    };
+      loginTip: ''
+    }
   },
   methods: {
-    async login() {
-      if(this.username === '' || this.password === '') {
+    async login () {
+      if (this.username === '' || this.password === '') {
         this.loginTip = '请正确填写用户名和密码'
         return
       }
       await this.$store.dispatch('LOGIN', {
         username: this.username,
         password: this.password
-      });
+      })
       if (this.$store.state.status.code === 200) {
         // 登录成功, 存储token
         this.$store.commit('SET_USER', this.$store.state.status.token)
@@ -36,7 +36,7 @@ export default {
         this.username = ''
         this.password = ''
       }
-       this.loginTip = this.$store.state.status.message
+      this.loginTip = this.$store.state.status.message
     }
   }
 }

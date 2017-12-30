@@ -18,6 +18,7 @@
 export default {
   name: 'update-password',
   middware: 'auth',
+  layout: 'admin',
   data () {
     return {
       oldPass: '',

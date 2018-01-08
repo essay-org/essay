@@ -44,12 +44,13 @@ VueBlog从2.0版本开始是采用Nuxt.js开发的，之前的版本是基于Vue
 ```shell
   git clone https://github.com/wmui/vueblog.git
   cd vueblog
+  npm install nuxt
   npm install
   npm run dev
   # 访问http://localhost:3000/
 ```
 - 默认用户名: q， 默认密码: q  
-**说明：** 首次编译会比较慢，一定要等到编译进度条100%才能正常访问。node的版本建议8.9.3稳定版  
+**说明：** 首次编译会比较慢，一定要等到编译进度条100%才能正常访问，node的版本建议8.9.3稳定版，另外之所以先执行`npm install nuxt`再执行`npm install` 是为了防止`nuxt`中的依赖包和其它项目中的依赖包出现版本冲突，导致安装失败。
 
 ### 结语
 VueBlog长期更新，由于是个人项目，不建议直接用于线上，欢迎issue，欢迎PR  

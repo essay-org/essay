@@ -6,16 +6,6 @@ import actions from './actions'
 export default () => {
   return new Vuex.Store({
     state: {
-      articleList: [],
-      tags: [],
-      archives: [],
-      articles: [],
-      administrator: {},
-      articleDetail: {},
-      status: {},
-      total: '',
-      category: '',
-      page: '',
       token: ''
     },
     getters,

@@ -1,41 +1,36 @@
 <template>
   <section class="error">
-    <h1 class="title">
+    <h1 class="error-title">
       {{ error.statusCode }}
     </h1>
-    <h2 class="info">
+    <h2 class="error-info">
       {{ error.message }}
     </h2>
-    <nuxt-link class="button" to="/" v-if="error.statusCode === 404">
-      返回首页
+    <nuxt-link class="error-button" to="/">
+      Homepage
     </nuxt-link>
   </section>
 </template>
 <script>
 export default {
-  name: 'Error',
   props: ['error']
 }
 </script>
 
-<style scoped>
+<style lang="postcss">
 .error {
   text-align: center;
-  padding-top: 200px;
-}
-.title
-{
-  margin-top: 15px;
-  font-size: 5em;
-}
-.info
-{
-  font-weight: 300;
-  color: #9aabb1;
-  margin: 0;
-}
-.button
-{
-  margin-top: 50px;
+  & .error-title {
+    font-size: 50px;
+    font-weight: bold;
+    margin-top: 70px;
+  }
+  & .error-info {
+    color: #666;
+    font-weight: normal;
+  }
+  & .error-button {
+    margin: 25px;
+  }
 }
 </style>

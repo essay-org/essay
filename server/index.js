@@ -1,101 +1,57 @@
-const { Nuxt, Builder } = require('nuxt')
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const jwt = require('jsonwebtoken')
-const path = require('path')
-const router = require('./model/router.js')
-const hasToken = require('./model/has-token.js')
-const md5 = require('./model/md5.js')
-const db = require('./model/db.js')
-const resolve = file => path.resolve(__dirname, file)
-const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
+import Koa from 'koa'
+import { Nuxt, Builder } from 'nuxt'
+import path from 'path'
+import KoaStatic from 'koa-static'
+import bodyParser from 'koa-bodyparser'
+import Router from 'koa-router'
+import cors from '@koa/cors'
+import config from './config'
+import route from './routes'
 
-app.set('port', port)
-app.use(bodyParser.json())
-app.use(cookieParser())
-// 允许跨域
-app.use(cors())
-// 静态public
-app.use('/public', express.static(resolve('../public')))
+const router = new Router()
+router.use('', route.routes())
 
-// 获取已发布文章列表
-app.get('/v1/posts', router.posts)
+async function start () {
+  const app = new Koa()
+  const host = process.env.HOST || '127.0.0.1'
+  const port = process.env.PORT || 3010
 
-// 获取管理员信息
-app.get('/v1/administrator', router.admin)
+  app.use(cors())
+  app.use(bodyParser())
+  app.use(KoaStatic('.'))
+  app
+  .use(router.routes())
+  .use(router.allowedMethods())
 
-// 获取文章详情 eg:http://localhost:8080/v1/article?id=1496841740682
-app.get('/v1/article', router.getArticle)
+  // Import and Set Nuxt.js options
+  let config = require('../nuxt.config.js')
+  config.dev = !(app.env === 'production')
 
-// 获取标签列表
-app.get('/v1/tags', router.tags)
+  // Instantiate nuxt.js
+  const nuxt = new Nuxt(config)
 
-// 获取某个标签下的文章列表  eg: http://localhost:8080/v1/tag?tag=javascript
-app.get('/v1/tag', router.tag)
+  // Build in development
+  if (config.dev) {
+    const builder = new Builder(nuxt)
+    await builder.build()
+  }
 
-// 搜索(目前仅支持按标题搜索) eg:http://localhost:8080/v1/search?q=j
-app.get('/v1/search', router.search)
+  app.use(async (ctx, next) => {
+    await next()
+    ctx.status = 200 // koa defaults to 404 when it sees that status is unset
+    ctx.req.token = ctx.cookies.get('token')
+    return new Promise((resolve, reject) => {
+      ctx.res.on('close', resolve)
+      ctx.res.on('finish', resolve)
+      nuxt.render(ctx.req, ctx.res, promise => {
+        // nuxt.render passes a rejected promise into callback on error.
+        promise.then(resolve).catch(reject)
+      })
+    })
+  })
 
-// 获取归档列表
-app.get('/v1/archives', router.archives)
-
-// 获取某个归档下的文章列表 eg:http://localhost:8080/v1/archive?date=201706
-app.get('/v1/archive', router.archive)
-
-// 获取所有文章(包括草稿)
-app.get('/v1/articles', hasToken, router.articles)
-
-// 更新管理员头像
-app.post('/v1/avatar', hasToken, router.avatar)
-
-// 发布文章时，文章中的图片上传接口
-app.post('/v1/upload', hasToken, router.upload)
-
-// 删除文章 eg: http://localhost:8080/v1/article?id=1496841740682
-app.delete('/v1/article', hasToken, router.deleteArticle)
-
-// 发布文章，发布草稿，编辑文章
-app.post('/v1/article', hasToken, router.postArticle)
-
-// 更新管理员信息
-app.put('/v1/administrator', hasToken, router.putAdmin)
-
-// 修改密码
-app.put('/v1/password', hasToken, router.putPassword)
-
-// 登录
-app.post('/v1/login', router.login)
-
-// 登出
-app.post('/v1/logout', router.logout)
-
-
-// api地址错误处理
-app.get('/v1/*', router.noData)
-app.post('/v1/*', router.noData)
-app.put('/v1/*', router.noData)
-app.delete('/v1/*', router.noData)
-
-// Import and Set Nuxt.js options
-let config = require('../nuxt.config.js')
-config.dev = !(process.env.NODE_ENV === 'production')
-
-// Init Nuxt.js
-const nuxt = new Nuxt(config)
-
-// Build only in dev mode
-if (config.dev) {
-  const builder = new Builder(nuxt)
-  builder.build()
+  app.listen(port, host)
+  console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
 }
 
-// Give nuxt middleware to express
-app.use(nuxt.render)
-
-// Listen the server
-app.listen(port, host)
-console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
+start()

@@ -1,19 +1,24 @@
 <template>
-  <div>
-    <my-header/>
-    <div class="container wrap">
-      <nuxt/>
-      <my-footer/>
-    </div>
+  <div class="layout">
+    <Nav />
+    <nuxt/>
+    <Footer />
   </div>
 </template>
 <script>
-import MyHeader from '~/components/Header.vue'
-import MyFooter from '~/components/Footer.vue'
+import Nav from '../components/Nav.vue'
+import Footer from '../components/Footer.vue'
 export default {
   components: {
-    MyHeader,
-    MyFooter
+    Nav,
+    Footer
   }
 }
 </script>
+<style lang="postcss">
+.layout {
+  background-color: #fff;
+  max-width: 800px;
+  margin: 90px auto 30px;
+}
+</style>

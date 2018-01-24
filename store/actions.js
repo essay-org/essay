@@ -1,141 +1,130 @@
 import axios from 'axios'
+axios.defaults.headers
+let baseURL = 'http://localhost:3010/api'
 export default {
-  async nuxtServerInit ({ dispatch, commit }, { req, res }) {
-    if (req.cookies && req.cookies.token) {
-      // 存储token
-      commit('SET_USER', req.cookies.token)
-    }
-    // 初始化组件内的数据
-    await dispatch('ADMIN_INFO')
-  },
-
-  async ARTICLE_DETAIL ({ commit, state, getters }, id) {
-    const { data } = await axios.get(`${getters.baseURL}/article?id=${id}`)
-    commit('ARTICLE_DETAIL', data)
-  },
-
-  async LIST_PAGE ({ commit, state, getters }, params) {
-    let { typeName = '', category = '', page = 1 } = params
-    // category可能有中文，所以编码
-    category = encodeURI(category)
-    switch (typeName) {
-      case 'archives':
-        const archiveData = await axios.get(`${getters.baseURL}/archive?date=${category}&limit=15&page=${page}`)
-        commit('LIST_PAGE', {
-          data: archiveData,
-          category: decodeURI(category),
-          page
-        })
-        break
-      case 'tags':
-        const tagData = await axios.get(`${getters.baseURL}/tag?tag=${category}&limit=15&page=${page}`)
-        commit('LIST_PAGE', {
-          data: tagData,
-          category: decodeURI(category),
-          page
-        })
-        break
-      case 'search':
-        /* 对于搜索来说，category相当于关键字 */
-        const searchData = await axios.get(`${getters.baseURL}/search?q=${category}&limit=15&page=${page}`)
-        commit('LIST_PAGE', {
-          data: searchData,
-          category: decodeURI(category),
-          page
-        })
-        break
-      default:
-        // 首页数据
-        const postData = await axios.get(`${getters.baseURL}/posts?limit=15&page=${page}`)
-        commit('LIST_PAGE', {
-          data: postData,
-          category: decodeURI(category),
-          page
-        })
-        break
+  async nuxtServerInit({ dispatch, commit }, { req, res }) {
+    if (req.token) {
+      commit('SET_USER', req.token)
     }
   },
 
-  async TAGS ({ commit, state, getters }) {
-    const { data } = await axios.get(`${getters.baseURL}/tags`)
-    commit('TAGS', data)
-  },
-
-  async ARCHIVES ({ commit, state, getters }) {
-    const { data } = await axios.get(`${getters.baseURL}/archives`)
-    commit('ARCHIVES', data)
-  },
-
-  async ADMIN_INFO ({ commit, state, getters }) {
-    const { data } = await axios.get(`${getters.baseURL}/administrator`)
-    commit('ADMIN_INFO', data)
-  },
-
-  /* 需要进行验证才能操作的请求 */
-  async LIST_BY_ALL ({ commit, state, getters }, page) {
-    const { data } = await axios.get(`${getters.baseURL}/articles?limit=15&page=${page}`, {
+  async CREATE_TAG({ commit, state }, params) {
+    // eg: {name: 'new tag'}
+    const { data } = await axios.post(`${baseURL}/tag`, params, {
       headers: {
         token: state.token
       }
     })
-    commit('LIST_BY_ALL', data)
+    return data
   },
 
-  async DEL_ARTICLE ({ commit, state, getters }, id) {
-    const { data } = await axios.delete(`${getters.baseURL}/article?id=${id}`, {
+  async DELETE_TAG({ commit, state }, id) {
+    const { data } = await axios.delete(`${baseURL}/tag/${id}`, {
       headers: {
         token: state.token
       }
     })
-    commit('STATUS', data)
+    return data
   },
 
-  async SET_AVATAR ({ commit, state, getters }, image) {
-    const { data } = await axios.post(`${getters.baseURL}/avatar`, image, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        token: state.token
-      }
-    })
-    commit('STATUS', data)
-  },
-
-  /* 需要提交数据的请求 */
-  async PUBLISH_ARTICLE ({ commit, state, getters }, content) {
-    const { data } = await axios.post('/v1/article', content, {
+  async UPDATE_TAG({ commit, state }, params) {
+    // eg: {id: '001', name: 'new tag name'}
+    const { data } = await axios.patch(`${baseURL}/tag`, params, {
       headers: {
         token: state.token
       }
     })
-    commit('STATUS', data)
+    return data
   },
 
-  async UPDATE_PASSWORD ({ commit, state, getters }, password) {
-    const { data } = await axios.put('/v1/password', password, {
+  async TAGS({ commit }, id = '') {
+    const { data } = await axios.get(`${baseURL}/tags/${id}`)
+    return data
+  },
+
+  async SEARCH({ commit }, id = '') {
+    const { data } = await axios.get(`${baseURL}/search/${id}`)
+    return data
+  },
+
+  async ARTICLES({ commit }, page = 1, limit = 15) {
+    const { data } = await axios.get(`${baseURL}/articles/${page}/${limit}`)
+    return data
+  },
+
+  async PRIVATE_ARTICLES({ commit, state }) {
+    const { data } = await axios.get(`${baseURL}/private-articles`, {
       headers: {
         token: state.token
       }
     })
-    commit('STATUS', data)
+    return data
   },
 
-  async ADMIN ({ commit, state, getters }, info) {
-    const { data } = await axios.put('/v1/administrator', info, {
+  async CREATE_ARTICLE({ commit, state }, params) {
+    const { data } = await axios.post(`${baseURL}/article`, params, {
       headers: {
         token: state.token
       }
     })
-    commit('STATUS', data)
+    return data
   },
 
-  async LOGIN ({ commit }, userInfo) {
-    // 登陆成功后,会得到token
-    const { data } = await axios.post('/v1/login', userInfo)
-    commit('STATUS', data)
+  async DELETE_ARTICLE({ commit, state }, id) {
+    // let id = params.id, isPublish = params.publish, data
+    const { data } = await axios.delete(`${baseURL}/article/${id}`, {
+      headers: {
+        token: state.token
+      }
+    })
+    return data
   },
 
-  async LOGOUT ({ commit }) {
-    const { data } = await axios.post('/v1/logout')
-    commit('STATUS', data)
+  async UPDATE_ARTICLE({ commit, state }, params) {
+    const { data } = await axios.patch(`${baseURL}/article`, params, {
+      headers: {
+        token: state.token
+      }
+    })
+    return data
+  },
+
+  async ARTICLE_DETAIL({ commit, state }, id) {
+    const { data } = await axios.get(`${baseURL}/article/${id}`)
+    return data
+  },
+
+  async ARCHIVES() {
+    const { data } = await axios.get(`${baseURL}/archives`)
+    return data
+  },
+
+  async ADMIN_INFO() {
+    const { data } = await axios.get(`${baseURL}/user`)
+    return data
+  },
+
+  async UPDATE_ADMIN({ commit, state }, params) {
+    const { data } = await axios.patch(`${baseURL}/user`, params, {
+      headers: {
+        token: state.token
+      }
+    })
+    return data
+  },
+
+  async LOGIN({ commit }, user) {
+    const { data } = await axios.post('/api/login', user)
+    commit('SET_USER', data.data.token)
+    return data
+  },
+
+  async LOGOUT({ commit, state }) {
+    const { data } = await axios.post('/api/logout', {}, {
+      headers: {
+        token: state.token
+      }
+    })
+    return data
   }
 }

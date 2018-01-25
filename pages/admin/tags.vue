@@ -6,7 +6,7 @@
     </div>
     <ul class="tags-list">
       <li class="list-item" v-for="(tag, index) in tags" :key="index">
-        <p class="item-title"><a>{{tag.name}}</a></p>
+        <p class="item-title"><nuxt-link :to="'/tags/'+tag.id">{{tag.name}}</nuxt-link></p>
         <p class="item-date">{{tag.updatedAt}}</p>
         <p class="item-del"><a @click="delTag(tag)">删除</a></p>
         <p class="item-edit"><a @click="editTag(tag)">编辑</a></p>
@@ -17,7 +17,7 @@
 </template>
 <script>
 export default {
-  // middleware: 'auth',
+  middleware: 'auth',
   async asyncData({store}) {
     let data = await store.dispatch('TAGS')
     if(data.success) {

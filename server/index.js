@@ -5,7 +5,7 @@ import KoaStatic from 'koa-static'
 import bodyParser from 'koa-bodyparser'
 import Router from 'koa-router'
 import cors from '@koa/cors'
-import config from './config'
+import globalConfig from './config'
 import route from './routes'
 
 const router = new Router()
@@ -13,8 +13,8 @@ router.use('', route.routes())
 
 async function start () {
   const app = new Koa()
-  const host = process.env.HOST || '127.0.0.1'
-  const port = process.env.PORT || 3010
+  const host = process.env.HOST || globalConfig.app.baseUrl
+  const port = process.env.PORT || globalConfig.app.port
 
   app.use(cors())
   app.use(bodyParser())

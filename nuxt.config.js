@@ -10,9 +10,10 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  css: ['~assets/css/main.css'],
+  css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
   loading: { color: '#333' },
   build: {
+    vendor: ['axios'],
     postcss: [
       require('postcss-import')(),
       require('postcss-url')(),
@@ -29,5 +30,5 @@ module.exports = {
       }
     }*/
   },
-  plugins: ['~plugins/components.js']
+  plugins: ['~/plugins/components.js', '~/plugins/filters.js']
 }

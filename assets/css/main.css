@@ -185,6 +185,9 @@ button {
     & .meta {
       margin-right: 15px;
     }
+    & .meta-tags span {
+      margin-right: 8px;
+    }
   }
   & .detail-admin {
     display: flex;
@@ -223,7 +226,6 @@ button {
       vertical-align: top;
       width: 300px;
     }
-
   }
 }
 

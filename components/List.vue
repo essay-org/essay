@@ -3,7 +3,7 @@
     <ul class="list-list">
       <li class="list-item" v-for="(article, index) in articles" :key="index">
         <p class="item-title"><nuxt-link :to="'/detail/' + article.id">{{ article.title }}</nuxt-link></p>
-        <div class="item-content">{{ article.content }}</div>
+        <!-- <div class="item-content">{{ article.content }}</div> -->
       </li>
     </ul>
   </div>

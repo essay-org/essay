@@ -24,15 +24,15 @@
   </div>
 </template>
 <script>
-import TopEditor from '~/components/editor/TopEditor.vue'
+import TopEditor from 'top-editor/src/lib/TopEditor.vue'
 export default {
   middleware: 'auth',
   data() {
     return {
       upload: {
-        url: 'http://localhost:9000/api/upload',
+        url: this.$store.state.baseURL + '/upload',
         headers: {
-          token: ''
+          token: this.$store.state.token
         }
       },
       options: {},
@@ -78,7 +78,6 @@ export default {
   methods: {
     chooseTag(tag) {
       if (this.currentTags.findIndex(item => item.name === tag.name) > -1) {
-
         this.$refs.tip.openTip('标签已存在！')
         return
       }
@@ -134,7 +133,6 @@ export default {
         this.$store.dispatch('UPDATE_ARTICLE', article).then((data) => {
           if (data.success) {
             this.$refs.tip.openTip('文章更新完成')
-            // this.$router.push('/admin')
           }
         })
       } else {
@@ -148,7 +146,9 @@ export default {
         this.$store.dispatch('CREATE_ARTICLE', article).then((data) => {
           if (data.success) {
             this.$refs.tip.openTip('文章创建完成')
-            // this.$router.push('/admin')
+            this.title = ''
+            this.content = ''
+            this.currentTags = []
           }
         })
       }

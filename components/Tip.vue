@@ -34,9 +34,9 @@ export default {
 }
 .tip-info {
     position: fixed;
-    z-index: 999;
+    z-index: 9999;
     background-color: rgba(0, 0, 0, 0.7);
-    top: 150px;
+    top: 100px;
     padding: 10px 15px;
     border-radius: 4px;
     color: #fff;

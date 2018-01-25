@@ -20,7 +20,8 @@ export default {
     password: ''
   },
   app: {
-    port: process.env.PORT || 9000,
+    baseUrl: '127.0.0.1',
+    port: 3010,
     routerBaseApi: '/api'
   }
 }

@@ -98,7 +98,7 @@ module.exports = __webpack_require__(28);
   },
   jwt: {
     secret: 'vueblog',
-    exprisesIn: 60 * 60 * 24 * 30
+    expiresIn: 60 * 60 * 24 * 30
   },
   mongodb: {
     host: '127.0.0.1',
@@ -108,7 +108,8 @@ module.exports = __webpack_require__(28);
     password: ''
   },
   app: {
-    port: process.env.PORT || 9000,
+    baseUrl: '127.0.0.1',
+    port: 3010,
     routerBaseApi: '/api'
   }
 };
@@ -147,7 +148,7 @@ module.exports = {
     meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: 'Nuxt.js project' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
-  css: ['~assets/css/main.css'],
+  css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
   loading: { color: '#333' },
   build: {
     postcss: [__webpack_require__(26)(), __webpack_require__(27)(), __webpack_require__(25)()]
@@ -162,7 +163,7 @@ module.exports = {
       }
     }*/
   },
-  plugins: ['~plugins/components.js']
+  plugins: ['~/plugins/components.js', '~/plugins/filters.js']
 };
 
 /***/ },
@@ -188,11 +189,11 @@ var user = __webpack_require__(16);
 var tag = __webpack_require__(15);
 var article = __webpack_require__(14);
 
-router.get('/user', user.getUserInfo).patch('/user', user.patchUserInfo).post('/login', user.login);
+router.get('/user', user.getUserInfo).patch('/user', user.patchUserInfo).post('/login', user.login).post('/logout', user.logout);
 
-router.get('/tags/:id?', tag.getTagsOrArticles).post('/tag', tag.postTag).patch('/tag', tag.patchTag).del('/tag/:id?', tag.deleteTag);
+router.get('/tags/:id?', tag.getTagsOrArticles).post('/tag', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.postTag).patch('/tag', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.patchTag).del('/tag/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.deleteTag);
 
-router.get('/article/:id?', article.getArticle).get('/articles/:page?/:limit?', article.getArticles).get('/private-articles', article.getPrivateArticles).get('/search/:keyword?', article.search).get('/archives', article.archives).post('/article', article.postArticle).post('/upload', article.upload).patch('/article', article.patchArticle).del('/article/:id?', article.deleteArticle);
+router.get('/search/:keyword?', article.search).get('/article/:id?', article.getArticle).get('/articles/:page?/:limit?', article.getArticles).get('/private-articles', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.getPrivateArticles).get('/archives', article.archives).post('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.postArticle).post('/upload', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.upload).patch('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.patchArticle).del('/article/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.deleteArticle);
 
 /* harmony default export */ exports["a"] = router;
 
@@ -1049,6 +1050,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_md5___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_md5__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__(2);
 /* harmony export (binding) */ __webpack_require__.d(exports, "login", function() { return login; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "logout", function() { return logout; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "getUserInfo", function() { return getUserInfo; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "patchUserInfo", function() { return patchUserInfo; });
 
@@ -1083,19 +1085,20 @@ var login = function () {
             user = _context.sent;
             secret = __WEBPACK_IMPORTED_MODULE_4__config__["a" /* default */].jwt.secret;
             expiresIn = __WEBPACK_IMPORTED_MODULE_4__config__["a" /* default */].jwt.expiresIn;
-            token = __WEBPACK_IMPORTED_MODULE_2_jsonwebtoken___default.a.sign({ username: user.username, userID: user._id }, secret, { expiresIn: expiresIn });
+            token = __WEBPACK_IMPORTED_MODULE_2_jsonwebtoken___default.a.sign({ username: user.username, userID: user._id }, secret);
 
+            ctx.cookies.set('token', token);
             ctx.body = {
               success: true,
               data: {
                 token: token
               }
             };
-            _context.next = 15;
+            _context.next = 16;
             break;
 
-          case 12:
-            _context.prev = 12;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context['catch'](2);
 
             ctx.body = {
@@ -1103,12 +1106,12 @@ var login = function () {
               data: _context.t0
             };
 
-          case 15:
+          case 16:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, _this, [[2, 12]]);
+    }, _callee, _this, [[2, 13]]);
   }));
 
   return function login(_x, _x2) {
@@ -1116,148 +1119,173 @@ var login = function () {
   };
 }();
 
-var getUserInfo = function () {
+var logout = function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2(ctx, next) {
-    var avatarUrl, data;
     return __WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            ctx.cookies.set('token', null);
+            ctx.body = {
+              success: true,
+              data: {}
+            };
+
+          case 2:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, _this);
+  }));
+
+  return function logout(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+var getUserInfo = function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(ctx, next) {
+    var avatarUrl, data;
+    return __WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
             avatarUrl = ctx.protocol + '://' + ctx.host + '/public/' + __WEBPACK_IMPORTED_MODULE_4__config__["a" /* default */].user.avatar;
-            _context2.prev = 1;
-            _context2.next = 4;
+            _context3.prev = 1;
+            _context3.next = 4;
             return User.findOne({ role: 'superAdmin' }).exec();
 
           case 4:
-            data = _context2.sent;
+            data = _context3.sent;
 
             data.avatar = avatarUrl;
             ctx.body = {
               success: true,
               data: data
             };
-            _context2.next = 12;
+            _context3.next = 12;
             break;
 
           case 9:
-            _context2.prev = 9;
-            _context2.t0 = _context2['catch'](1);
-
-            ctx.body = {
-              success: false,
-              err: _context2.t0
-            };
-
-          case 12:
-          case 'end':
-            return _context2.stop();
-        }
-      }
-    }, _callee2, _this, [[1, 9]]);
-  }));
-
-  return function getUserInfo(_x3, _x4) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-var patchUserInfo = function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(ctx, next) {
-    var body, oldPassword, newPassword, user;
-    return __WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            body = ctx.request.body;
-
-            if (!(body.oldPassword && body.newPassword)) {
-              _context3.next = 21;
-              break;
-            }
-
-            // update password
-            oldPassword = __WEBPACK_IMPORTED_MODULE_3_md5___default()(body.oldPassword);
-            newPassword = __WEBPACK_IMPORTED_MODULE_3_md5___default()(body.newPassword);
-            _context3.prev = 4;
-            _context3.next = 7;
-            return User.findOne({ role: 'superAdmin' }).exec();
-
-          case 7:
-            user = _context3.sent;
-
-            if (!(user.password !== oldPassword)) {
-              _context3.next = 10;
-              break;
-            }
-
-            return _context3.abrupt('return', ctx.body = {
-              success: false,
-              err: 'Wrong password'
-            });
-
-          case 10:
-            _context3.next = 12;
-            return User.findOneAndUpdate({ role: 'superAdmin' }, { password: newPassword, updatedAt: Date.now() }).exec();
-
-          case 12:
-            body = _context3.sent;
-
-            ctx.body = {
-              success: true,
-              data: body
-            };
-            _context3.next = 19;
-            break;
-
-          case 16:
-            _context3.prev = 16;
-            _context3.t0 = _context3['catch'](4);
+            _context3.prev = 9;
+            _context3.t0 = _context3['catch'](1);
 
             ctx.body = {
               success: false,
               err: _context3.t0
             };
 
-          case 19:
-            _context3.next = 32;
-            break;
+          case 12:
+          case 'end':
+            return _context3.stop();
+        }
+      }
+    }, _callee3, _this, [[1, 9]]);
+  }));
 
-          case 21:
-            // update info
-            body.updatedAt = Date.now();
-            _context3.prev = 22;
-            _context3.next = 25;
-            return User.findOneAndUpdate({ role: 'superAdmin' }, body).exec();
+  return function getUserInfo(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
 
-          case 25:
-            body = _context3.sent;
+var patchUserInfo = function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee4(ctx, next) {
+    var body, oldPassword, newPassword, user;
+    return __WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            body = ctx.request.body;
+
+            if (!(body.oldPassword && body.newPassword)) {
+              _context4.next = 21;
+              break;
+            }
+
+            // update password
+            oldPassword = __WEBPACK_IMPORTED_MODULE_3_md5___default()(body.oldPassword);
+            newPassword = __WEBPACK_IMPORTED_MODULE_3_md5___default()(body.newPassword);
+            _context4.prev = 4;
+            _context4.next = 7;
+            return User.findOne({ role: 'superAdmin' }).exec();
+
+          case 7:
+            user = _context4.sent;
+
+            if (!(user.password !== oldPassword)) {
+              _context4.next = 10;
+              break;
+            }
+
+            return _context4.abrupt('return', ctx.body = {
+              success: false,
+              err: 'Wrong password'
+            });
+
+          case 10:
+            _context4.next = 12;
+            return User.findOneAndUpdate({ role: 'superAdmin' }, { password: newPassword, updatedAt: Date.now() }).exec();
+
+          case 12:
+            body = _context4.sent;
 
             ctx.body = {
               success: true,
               data: body
             };
-            _context3.next = 32;
+            _context4.next = 19;
             break;
 
-          case 29:
-            _context3.prev = 29;
-            _context3.t1 = _context3['catch'](22);
+          case 16:
+            _context4.prev = 16;
+            _context4.t0 = _context4['catch'](4);
 
             ctx.body = {
               success: false,
-              err: _context3.t1
+              err: _context4.t0
+            };
+
+          case 19:
+            _context4.next = 32;
+            break;
+
+          case 21:
+            // update info
+            body.updatedAt = Date.now();
+            _context4.prev = 22;
+            _context4.next = 25;
+            return User.findOneAndUpdate({ role: 'superAdmin' }, body).exec();
+
+          case 25:
+            body = _context4.sent;
+
+            ctx.body = {
+              success: true,
+              data: body
+            };
+            _context4.next = 32;
+            break;
+
+          case 29:
+            _context4.prev = 29;
+            _context4.t1 = _context4['catch'](22);
+
+            ctx.body = {
+              success: false,
+              err: _context4.t1
             };
 
           case 32:
           case 'end':
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, _this, [[4, 16], [22, 29]]);
+    }, _callee4, _this, [[4, 16], [22, 29]]);
   }));
 
-  return function patchUserInfo(_x5, _x6) {
-    return _ref3.apply(this, arguments);
+  return function patchUserInfo(_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 }();
 
@@ -1284,7 +1312,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var User = __WEBPACK_IMPORTED_MODULE_1_mongoose___default.a.model('User');
 
-/* unused harmony default export */ var _unused_webpack_default_export = (function () {
+/* harmony default export */ exports["a"] = (function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(ctx, next) {
     var token, decoded, username, userID, user;
     return __WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
@@ -1647,8 +1675,8 @@ var start = function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             app = new __WEBPACK_IMPORTED_MODULE_1_koa___default.a();
-            host = process.env.HOST || '127.0.0.1';
-            port = process.env.PORT || 3010;
+            host = process.env.HOST || __WEBPACK_IMPORTED_MODULE_8__config__["a" /* default */].app.baseUrl;
+            port = process.env.PORT || __WEBPACK_IMPORTED_MODULE_8__config__["a" /* default */].app.port;
 
 
             app.use(__WEBPACK_IMPORTED_MODULE_7__koa_cors___default()());
@@ -1688,6 +1716,7 @@ var start = function () {
 
                       case 2:
                         ctx.status = 200; // koa defaults to 404 when it sees that status is unset
+                        ctx.req.token = ctx.cookies.get('token');
                         return _context.abrupt('return', new Promise(function (resolve, reject) {
                           ctx.res.on('close', resolve);
                           ctx.res.on('finish', resolve);
@@ -1697,7 +1726,7 @@ var start = function () {
                           });
                         }));
 
-                      case 4:
+                      case 5:
                       case 'end':
                         return _context.stop();
                     }

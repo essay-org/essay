@@ -12,10 +12,8 @@ export const login = async(ctx, next) => {
     let user = await User.findOne({ username, password }).exec()
     let secret = config.jwt.secret
     let expiresIn = config.jwt.expiresIn
-    let token = jwt.sign({ username: user.username, userID: user._id }, secret, { expiresIn })
-    ctx.cookies.set('token', token, {
-      maxAge: expiresIn
-    })
+    let token = jwt.sign({ username: user.username, userID: user._id }, secret)
+    ctx.cookies.set('token', token)
     ctx.body = {
       success: true,
       data: {

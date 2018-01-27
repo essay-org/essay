@@ -12,7 +12,6 @@
       <li v-for="(nav, index) in navs" :key="index">
         <nuxt-link :to="nav.path" :class="{'active': nav.routerName === $route.name}">{{ nav.name }}</nuxt-link>
       </li>
-
     </ul>
     <div class="nav-search">
       <input type="search" placeholder="回车搜索" @keyup.enter="search" v-model="keyword">
@@ -50,7 +49,7 @@ export default {
           path: '/',
           routerName: 'index',
           name: '首页'
-        },{
+        }, {
           path: '/admin/private',
           routerName: 'admin-private',
           name: '草稿'
@@ -75,7 +74,7 @@ export default {
   },
   methods: {
     search() {
-      if(this.keyword === '') {
+      if (this.keyword === '') {
         return
       } else {
         let keyword = encodeURIComponent(this.keyword)
@@ -105,10 +104,13 @@ export default {
   & .nav-list {
     display: flex;
     padding: 0 15px;
+    & li {
+      list-style-type: none;
+    }
     & li a {
       display: block;
       color: #c8c9ca;
-      padding: 15px;
+      padding: 13px;
     }
     & li:nth-child(1) a {
       padding-left: 0;

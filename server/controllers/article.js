@@ -200,7 +200,6 @@ export const archives = async(ctx, next) => {
     })
   }
 
-  arr.sort()
   for (let i = 0; i < arr.length;) {
     let total = 0,
       archiveArticles = [];
@@ -218,7 +217,6 @@ export const archives = async(ctx, next) => {
     i += total
   }
 
-  arr2.reverse()
   ctx.body = {
     success: true,
     data: arr2

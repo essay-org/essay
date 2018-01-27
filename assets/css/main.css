@@ -5,15 +5,8 @@ html,
 body {
   font: 15px / 1.6 "Microsoft Yahei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, tahoma, arial, Verdana, sans-serif, "WenQuanYi Micro Hei", "\5B8B\4F53";
   font-size: 15px;
-  background-image: url('../img/bg.jpg');
-  background-attachment: fixed;
+  background-color: #EDE9E8;
   color: #333;
-}
-
-ul,
-ol,
-dl {
-  list-style-type: none;
 }
 
 html,
@@ -212,6 +205,9 @@ button {
   & .archive:nth-child(1) {
     margin-top: 0;
   }
+  & li {
+    list-style-position:inside;
+  }
 }
 
 .search {
@@ -358,5 +354,23 @@ button {
     & a {
       margin-right: 15px;
     }
+  }
+}
+
+/**
+ * media screen
+ */
+
+@media (max-width: 600px) {
+  nav .nav-search {
+    display: none;
+  }
+  .layout {
+    margin-top: 0 !important;
+  }
+  .layout .footer .footer-copy {
+    padding-top: 5px;
+    display: block;
+    text-align: center;
   }
 }

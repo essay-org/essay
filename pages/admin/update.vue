@@ -26,6 +26,10 @@ export default {
       return {
         user: data.data
       }
+    } else {
+      return {
+        user: {}
+      }
     }
   },
 

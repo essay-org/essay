@@ -1,5 +1,4 @@
 import axios from 'axios'
-// let getters.baseURL = 'http://localhost:3010/api'
 export default {
   async nuxtServerInit({ dispatch, commit }, { req, res }) {
     if (req.token) {

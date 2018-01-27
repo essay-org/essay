@@ -24,6 +24,7 @@ export default {
   & .list-list {
     & .list-item {
       border-top: 1px dashed #e4e4e4;
+      list-style-type: none;
       padding: 15px 0;
       & .item-title a {
         font-size: 17px;

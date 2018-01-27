@@ -1,10 +1,10 @@
 module.exports = {
   head: {
-    title: 'starter',
+    title: 'VueBlog',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: '支持服务端渲染的轻量级博客应用' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -30,5 +30,11 @@ module.exports = {
       }
     }*/
   },
+  manifest: {
+    name: 'VueBlog',
+    description: 'A blog system',
+    theme_color: '#000'
+  },
+  modules: ['@nuxtjs/pwa'],
   plugins: ['~/plugins/components.js', '~/plugins/filters.js']
 }

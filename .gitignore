@@ -9,3 +9,9 @@ npm-debug.log
 
 # Nuxt generate
 dist
+
+# pwa
+sw.*
+
+# public
+public/*

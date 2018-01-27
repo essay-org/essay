@@ -32,15 +32,17 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 .tip-info {
-    position: fixed;
-    z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.7);
-    top: 100px;
-    padding: 10px 15px;
-    border-radius: 4px;
-    color: #fff;
-  }
+  position: fixed;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 100px;
+  padding: 10px 15px;
+  border-radius: 4px;
+  color: #fff;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;

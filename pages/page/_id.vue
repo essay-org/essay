@@ -1,7 +1,7 @@
 <template>
   <div class="index container">
     <list :articles="articles"></list>
-    <div class="page" v-if="maxPage > 2">
+    <div class="page" v-if="maxPage > 1">
       <a v-if="page > 1" class="page-prev" @click="prevPage">《上一页</a>
       <a v-else class="disabled page-prev">《上一页</a>
       <a v-if="hasMore" class="page-next" @click="nextPage">下一页》</a>

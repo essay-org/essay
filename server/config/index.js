@@ -9,8 +9,7 @@ export default {
     avatar: 'avatar.png'
   },
   jwt: {
-    secret: 'vueblog',
-    expiresIn: 60 * 60 * 24 * 30
+    secret: 'vueblog'
   },
   mongodb: {
     host: '127.0.0.1',
@@ -21,7 +20,7 @@ export default {
   },
   app: {
     baseUrl: '127.0.0.1',
-    port: 3010,
+    port: 3000,
     routerBaseApi: '/api'
   }
 }

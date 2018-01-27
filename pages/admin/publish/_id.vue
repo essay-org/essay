@@ -90,7 +90,7 @@ export default {
 
     addTag() {
       if (this.tags.findIndex(item => item.name === this.tag) > -1) {
-        // 添加标签
+        // add tag
         this.tags.forEach((item) => {
           if (item.name === this.tag) {
             this.currentTags.push(item)
@@ -98,18 +98,17 @@ export default {
           }
         })
       } else {
-        // 创建标签
+        // create tag
         this.$store.dispatch('CREATE_TAG', { name: this.tag }).then((data) => {
           if(data.success) {
             this.currentTags.push(data.data)
             this.tag = ''
+            this.$refs.tip.openTip('标签创建完成')
           }
-          this.$refs.tip.openTip('标签创建完成')
         })
       }
     },
 
-    // 创建文章或者草稿
     publish(isPublish) {
       if (!this.title || !this.content) {
         this.$refs.tip.openTip('标题和内容不能为空！')
@@ -117,6 +116,7 @@ export default {
       }
 
       this.currentTags.forEach((item) => {
+        this.tagsID = []
         this.tagsID.push(item.id)
       })
 
@@ -136,13 +136,14 @@ export default {
           }
         })
       } else {
-        // create article
+        // create article or draft
         article = {
           title: this.title,
           content: this.content,
           publish: isPublish,
           tags: this.tagsID
         }
+
         this.$store.dispatch('CREATE_ARTICLE', article).then((data) => {
           if (data.success) {
             this.$refs.tip.openTip('文章创建完成')

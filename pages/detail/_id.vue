@@ -2,9 +2,9 @@
   <div class="detail container">
     <p class="detail-title">{{ article.title }}</p>
     <div class="detail-meta">
-      <p class="meta meta-created">发布时间：{{ article.createdAt | formatDate('yyyy-MM-dd') }}</p>
-      <p class="meta meta-updated">更新时间：{{ article.updatedAt | formatDate('yyyy-MM-dd') }}</p>
-      <p class="meta meta-tags" v-if="article.tags.length">标签：<span v-for="(tag, index) in article.tags" :key="index">{{ tag.name }}</span></p>
+      <p class="meta meta-created">发布：{{ article.createdAt | formatDate('yyyy-MM-dd') }}</p>
+      <p class="meta meta-updated">更新：{{ article.updatedAt | formatDate('yyyy-MM-dd') }}</p>
+      <p class="meta meta-tags">标签：<span v-for="(tag, index) in article.tags" :key="index">{{ tag.name }}</span></p>
     </div>
     <div class="detail-content">
       <top-preview :content="article.content" :options="options"></top-preview>
@@ -25,6 +25,10 @@ export default {
     if (data.success) {
       return {
         article: data.data
+      }
+    } else {
+      return {
+        article: {}
       }
     }
   },

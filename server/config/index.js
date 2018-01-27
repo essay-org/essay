@@ -13,7 +13,7 @@ export default {
   },
   mongodb: {
     host: '127.0.0.1',
-    database: 'blog',
+    database: 'vueblog',
     port: 27017,
     username: '',
     password: ''

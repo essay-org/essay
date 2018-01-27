@@ -8,7 +8,7 @@ VueBlog是一个轻量的用于记录笔记的博客应用 [演示站](http://vu
 ### 前台演示图
 
 <p align="center">
-  <a href="https://vue-hn.now.sh" target="_blank">
+  <a href="http://vueblog.86886.wang" target="_blank">
     <img src="https://github.com/wmui/vueblog/raw/master/demo/v2/index.png">
   </a>
 </p>
@@ -16,7 +16,7 @@ VueBlog是一个轻量的用于记录笔记的博客应用 [演示站](http://vu
 ### 后台演示图
 
 <p align="center">
-  <a href="https://vue-hn.now.sh" target="_blank">
+  <a href="http://vueblog.86886.wang" target="_blank">
     <img src="https://github.com/wmui/vueblog/raw/master/demo/v2/admin.png">
   </a>
 </p>
@@ -75,7 +75,7 @@ export default {
   <!-- 数据库 -->
   mongodb: {
     host: '127.0.0.1',
-    database: 'blog',
+    database: 'vueblog',
     port: 27017,
     username: '',
     password: ''

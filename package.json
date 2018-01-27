@@ -1,7 +1,7 @@
 {
-  "name": "vueblog",
-  "version": "2.2.0",
-  "description": "A blog system by nuxt.js",
+  "name": "VueBlog",
+  "version": "2.2.1",
+  "description": "A blog system by Nuxt.js",
   "author": "wmui <qq22337383@gmail.com>",
   "private": true,
   "scripts": {

@@ -7,11 +7,19 @@ VueBlog是一个轻量的用于记录笔记的博客应用 [演示站](http://vu
 
 ### 前台演示图
 
-![](https://github.com/wmui/vueblog/raw/master/demo/v2/index.png)  
+<p align="center">
+  <a href="https://vue-hn.now.sh" target="_blank">
+    <img src="https://github.com/wmui/vueblog/raw/master/demo/v2/index.png">
+  </a>
+</p>
 
 ### 后台演示图
 
-![](https://github.com/wmui/vueblog/raw/master/demo/v2/admin.png)  
+<p align="center">
+  <a href="https://vue-hn.now.sh" target="_blank">
+    <img src="https://github.com/wmui/vueblog/raw/master/demo/v2/admin.png">
+  </a>
+</p>
 
 ### 技术栈
 

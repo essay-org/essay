@@ -9,7 +9,7 @@ export const login = async(ctx, next) => {
   let { username, password } = ctx.request.body
   password = md5(password)
   try {
-    let user = await User.findOne({ username, password }).exec()
+    let user = await User.findOne({username: username, password: password}).exec()
     let secret = config.jwt.secret
     let expiresIn = config.jwt.expiresIn
     let token = jwt.sign({ username: user.username, userID: user._id }, secret)

@@ -27,28 +27,7 @@ export default {
       }
     }
   },
-  mounted () {
 
-    let articles = this.articles
-    let arr = [],
-    arr2 = [],
-    year, month, date
-  for (let i = 0; i < articles.length; i++) {
-    year = new Date(articles[i].createdAt).getFullYear() + ''
-    month = new Date(articles[i].createdAt).getMonth() + 1 + ''
-    if (month.length === 1) {
-      month = '0' + month;
-    }
-    date = `${year}年${month}月`
-    arr.push({
-      date: date,
-      article: articles[i]
-    })
-  }
-
-  // arr.sort()
-    console.log(arr)
-  },
   methods: {
     prevPage() {
       this.$router.push({

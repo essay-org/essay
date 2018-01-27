@@ -1,7 +1,7 @@
 <template>
   <div class="login container">
     <input type="text" class="login-username" placeholder="用户名" autocomplete="off" v-model="user.username">
-    <input type="password" class="login-password" placeholder="密码" autocomplete="off" v-model="user.password">
+    <input type="password" class="login-password" placeholder="密码" autocomplete="off" v-model="user.password" @keyup.enter="login">
     <button class="login-button" @click="login">登 录</button>
     <Tip ref="tip"></Tip>
   </div>

@@ -97,19 +97,18 @@ module.exports = __webpack_require__(28);
     avatar: 'avatar.png'
   },
   jwt: {
-    secret: 'vueblog',
-    expiresIn: 60 * 60 * 24 * 30
+    secret: 'vueblog'
   },
   mongodb: {
     host: '127.0.0.1',
-    database: 'blog',
+    database: 'vueblog',
     port: 27017,
     username: '',
     password: ''
   },
   app: {
     baseUrl: '127.0.0.1',
-    port: 3010,
+    port: 3000,
     routerBaseApi: '/api'
   }
 };
@@ -144,13 +143,14 @@ module.exports = require("md5");
 
 module.exports = {
   head: {
-    title: 'starter',
-    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: 'Nuxt.js project' }],
+    title: 'VueBlog',
+    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: '支持服务端渲染的轻量级博客应用' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
   loading: { color: '#333' },
   build: {
+    vendor: ['axios'],
     postcss: [__webpack_require__(26)(), __webpack_require__(27)(), __webpack_require__(25)()]
     /*extend (config, ctx) {
       if (ctx.isClient) {
@@ -163,6 +163,12 @@ module.exports = {
       }
     }*/
   },
+  manifest: {
+    name: 'VueBlog',
+    description: 'A blog system',
+    theme_color: '#000'
+  },
+  modules: ['@nuxtjs/pwa'],
   plugins: ['~/plugins/components.js', '~/plugins/filters.js']
 };
 
@@ -680,7 +686,6 @@ var archives = function () {
               });
             }
 
-            arr.sort();
             for (_i = 0; _i < arr.length;) {
               total = 0, archiveArticles = [];
 
@@ -698,13 +703,12 @@ var archives = function () {
               _i += total;
             }
 
-            arr2.reverse();
             ctx.body = {
               success: true,
               data: arr2
             };
 
-          case 9:
+          case 7:
           case 'end':
             return _context8.stop();
         }
@@ -1425,11 +1429,11 @@ var ArticleSchema = new Schema({
   }],
   createdAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   },
   updatedAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
 });
 
@@ -1532,11 +1536,11 @@ var TagSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   },
   updatedAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
 });
 
@@ -1575,11 +1579,11 @@ var UserSchema = new Schema({
   avatar: String,
   createdAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   },
   updatedAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
 });
 
@@ -1669,7 +1673,7 @@ var start = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee2() {
     var _this = this;
 
-    var app, host, port, config, nuxt, builder;
+    var app, host, port, router, config, nuxt, builder;
     return __WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -1677,11 +1681,13 @@ var start = function () {
             app = new __WEBPACK_IMPORTED_MODULE_1_koa___default.a();
             host = process.env.HOST || __WEBPACK_IMPORTED_MODULE_8__config__["a" /* default */].app.baseUrl;
             port = process.env.PORT || __WEBPACK_IMPORTED_MODULE_8__config__["a" /* default */].app.port;
+            router = new __WEBPACK_IMPORTED_MODULE_6_koa_router___default.a();
 
 
             app.use(__WEBPACK_IMPORTED_MODULE_7__koa_cors___default()());
             app.use(__WEBPACK_IMPORTED_MODULE_5_koa_bodyparser___default()());
             app.use(__WEBPACK_IMPORTED_MODULE_4_koa_static___default()('.'));
+            router.use('', __WEBPACK_IMPORTED_MODULE_9__routes__["a" /* default */].routes());
             app.use(router.routes()).use(router.allowedMethods());
 
             // Import and Set Nuxt.js options
@@ -1695,15 +1701,15 @@ var start = function () {
             // Build in development
 
             if (!config.dev) {
-              _context2.next = 14;
+              _context2.next = 16;
               break;
             }
 
             builder = new __WEBPACK_IMPORTED_MODULE_2_nuxt__["Builder"](nuxt);
-            _context2.next = 14;
+            _context2.next = 16;
             return builder.build();
 
-          case 14:
+          case 16:
 
             app.use(function () {
               var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee(ctx, next) {
@@ -1742,7 +1748,7 @@ var start = function () {
             app.listen(port, host);
             console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 
-          case 17:
+          case 19:
           case 'end':
             return _context2.stop();
         }
@@ -1766,9 +1772,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
 
-
-var router = new __WEBPACK_IMPORTED_MODULE_6_koa_router___default.a();
-router.use('', __WEBPACK_IMPORTED_MODULE_9__routes__["a" /* default */].routes());
 
 start();
 

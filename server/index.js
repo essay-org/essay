@@ -8,17 +8,17 @@ import cors from '@koa/cors'
 import globalConfig from './config'
 import route from './routes'
 
-const router = new Router()
-router.use('', route.routes())
 
 async function start () {
   const app = new Koa()
   const host = process.env.HOST || globalConfig.app.baseUrl
   const port = process.env.PORT || globalConfig.app.port
+  const router = new Router()
 
   app.use(cors())
   app.use(bodyParser())
   app.use(KoaStatic('.'))
+  router.use('', route.routes())
   app
   .use(router.routes())
   .use(router.allowedMethods())

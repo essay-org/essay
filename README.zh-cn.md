@@ -3,11 +3,9 @@
 
 ## VueBlog v2
 
-[中文文档](https://github.com/wmui/vueblog/blob/master/README.zh-cn.md)
+VueBlog是一个轻量的用于记录笔记的博客应用 [演示站](http://vueblog.86886.wang)  
 
-VueBlog is a lightweight blog application for note-taking [Live Demo](http://vueblog.86886.wang)
-
-### Front demo
+### 前台演示图
 
 <p align="center">
   <a href="http://vueblog.86886.wang" target="_blank">
@@ -15,7 +13,7 @@ VueBlog is a lightweight blog application for note-taking [Live Demo](http://vue
   </a>
 </p>
 
-### Backend demo
+### 后台演示图
 
 <p align="center">
   <a href="http://vueblog.86886.wang" target="_blank">
@@ -23,22 +21,22 @@ VueBlog is a lightweight blog application for note-taking [Live Demo](http://vue
   </a>
 </p>
 
-### Technology stack
+### 技术栈
 
-- Front: Nuxt.js + Vuex
-- Backend: Mongoose + Koa
+- 前端：Nuxt.js + Vuex
+- 后端: Mongoose + Koa
 
-### Features
+### 功能特性
 
-- Server Side Rendering.
-- Progressive Web App.
-- A lightweight markdown editor base Vue.js.
-- Support tag management and archive management.
-- Free editing of private notes and open notes.
+- 服务端渲染
+- PWA渐进式web应用
+- 基于Vue开发，支持服务端渲染和图片上传的Markdown编辑器(轻量)
+- 标签和归档
+- 私有笔记(草稿)和公开笔记自由编辑
 
-### Build Setup
+### 本地运行
 
-First you should install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/), open database service
+本地安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库和[Node.js](https://nodejs.org/en/)环境，并开启数据库服务  
 
 ``` bash
 # install dependencies
@@ -54,9 +52,9 @@ npm run build
 npm start
 ```
 
-### Global config
+### 全局配置
 
-Config file is `server/config/index.js`, default username：q, default password: q
+配置文件`server/config/index.js`，后台默认用户名：q，默认密码：q  
 
 ```javascript
 export default {
@@ -91,5 +89,5 @@ export default {
 }
 ```
 
-### License
+### 开源协议
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)  

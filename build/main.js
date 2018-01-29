@@ -106,8 +106,12 @@ module.exports = __webpack_require__(28);
     username: '',
     password: ''
   },
+  production: {
+    host: '198.13.32.165',
+    domain: 'https://vueblog.86886.wang'
+  },
   app: {
-    baseUrl: '127.0.0.1',
+    host: '127.0.0.1',
     port: 3000,
     routerBaseApi: '/api'
   }
@@ -144,11 +148,11 @@ module.exports = require("md5");
 module.exports = {
   head: {
     title: 'VueBlog',
-    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: '支持服务端渲染的轻量级博客应用' }],
+    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: '一个轻量的用于记录笔记的博客应用' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
-  loading: { color: '#333' },
+  loading: { color: '#337AB7' },
   build: {
     vendor: ['axios'],
     postcss: [__webpack_require__(26)(), __webpack_require__(27)(), __webpack_require__(25)()]
@@ -1679,7 +1683,7 @@ var start = function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             app = new __WEBPACK_IMPORTED_MODULE_1_koa___default.a();
-            host = process.env.HOST || __WEBPACK_IMPORTED_MODULE_8__config__["a" /* default */].app.baseUrl;
+            host = process.env.HOST || __WEBPACK_IMPORTED_MODULE_8__config__["a" /* default */].app.host;
             port = process.env.PORT || __WEBPACK_IMPORTED_MODULE_8__config__["a" /* default */].app.port;
             router = new __WEBPACK_IMPORTED_MODULE_6_koa_router___default.a();
 

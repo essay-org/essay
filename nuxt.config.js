@@ -4,14 +4,14 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '支持服务端渲染的轻量级博客应用' }
+      { hid: 'description', name: 'description', content: '一个轻量的用于记录笔记的博客应用' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
   css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
-  loading: { color: '#333' },
+  loading: { color: '#337AB7' },
   build: {
     vendor: ['axios'],
     postcss: [

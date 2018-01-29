@@ -46,6 +46,7 @@ export default {
       })
     }
   },
+
   computed: {
     maxPage () {
       return Math.ceil(Number(this.total) / 15)
@@ -57,6 +58,7 @@ export default {
       return this.page < this.maxPage
     }
   },
+
   components: {
     List
   }

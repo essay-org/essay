@@ -58,7 +58,7 @@ npm start
 
 ```javascript
 export default {
-  <!-- 管理员信息 -->
+  // 管理员信息
   user: {
     role: 'superAdmin',
     username: 'q',
@@ -68,11 +68,11 @@ export default {
     motto: 'Never too old to learn',
     avatar: 'avatar.png'
   },
-  <!-- jsonwebtoken -->
+  // jsonwebtoken
   jwt: {
     secret: 'vueblog'
   },
-  <!-- 数据库 -->
+  // 数据库
   mongodb: {
     host: '127.0.0.1',
     database: 'vueblog',
@@ -80,7 +80,7 @@ export default {
     username: '',
     password: ''
   },
-  <!-- 应用信息 -->
+  // 应用信息
   app: {
     baseUrl: '127.0.0.1',
     port: 3000,

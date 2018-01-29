@@ -18,8 +18,12 @@ export default {
     username: '',
     password: ''
   },
+  production: {
+    host: '198.13.32.165',
+    domain: 'https://vueblog.86886.wang'
+  },
   app: {
-    baseUrl: '127.0.0.1',
+    host: '127.0.0.1',
     port: 3000,
     routerBaseApi: '/api'
   }

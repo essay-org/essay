@@ -8,28 +8,30 @@
 </template>
 <script>
 import Tip from '~/components/Tip.vue'
-  export default {
-    data() {
-      return {
-        user:{}
+export default {
+  data() {
+    return {
+      user:{}
+    }
+  },
+
+  components: {
+    Tip
+  },
+
+  methods: {
+    login () {
+      if(!this.user.username || !this.user.password) {
+        return
       }
-    },
-    components: {
-      Tip
-    },
-    methods: {
-      login () {
-        if(!this.user.username || !this.user.password) {
-          return
+      this.$store.dispatch('LOGIN', this.user).then(data => {
+        if(data.success) {
+          this.$router.push('/admin/publish')
+        } else {
+          this.$refs.tip.openTip('用户名或密码不正确')
         }
-        this.$store.dispatch('LOGIN', this.user).then(data => {
-          if(data.success) {
-            this.$router.push('/admin/publish')
-          } else {
-            this.$refs.tip.openTip('用户名或密码不正确')
-          }
-        })
-      }
+      })
     }
   }
+}
 </script>

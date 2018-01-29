@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       upload: {
-        url: this.$store.state.baseURL + '/upload',
+        url: this.$store.getters.baseUrl + '/upload',
         headers: {
           token: this.$store.state.token
         }

@@ -11,7 +11,7 @@ import route from './routes'
 
 async function start () {
   const app = new Koa()
-  const host = process.env.HOST || globalConfig.app.baseUrl
+  const host = process.env.HOST || globalConfig.app.host
   const port = process.env.PORT || globalConfig.app.port
   const router = new Router()
 

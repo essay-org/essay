@@ -102,8 +102,8 @@ export default {
         this.$store.dispatch('CREATE_TAG', { name: this.tag }).then((data) => {
           if(data.success) {
             this.currentTags.push(data.data)
-            this.tag = ''
             this.$refs.tip.openTip('标签创建完成')
+            this.tag = ''
           }
         })
       }
@@ -115,8 +115,8 @@ export default {
         return
       }
 
+      this.tagsID = []
       this.currentTags.forEach((item) => {
-        this.tagsID = []
         this.tagsID.push(item.id)
       })
 

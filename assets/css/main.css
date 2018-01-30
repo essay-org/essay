@@ -169,13 +169,13 @@ button {
     font-weight: bold;
   }
   & .detail-meta {
-    display: flex;
     font-size: 13px;
     color: #666;
     border-top: 1px dashed #e4e4e4;
     padding-top: 8px;
     margin: 8px 0 15px;
     & .meta {
+      display: inline-block;
       margin-right: 15px;
     }
     & .meta-tags span {

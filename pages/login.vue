@@ -7,16 +7,11 @@
   </div>
 </template>
 <script>
-import Tip from '~/components/Tip.vue'
 export default {
   data() {
     return {
       user:{}
     }
-  },
-
-  components: {
-    Tip
   },
 
   methods: {

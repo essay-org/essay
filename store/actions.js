@@ -1,8 +1,18 @@
 import axios from 'axios'
 export default {
   async nuxtServerInit({ dispatch, commit }, { req, res }) {
-    if (req.token) {
-      commit('SET_USER', req.token)
+    if (req.headers.cookie) {
+      // eg: token='asdf';id='123'
+      let cookie = req.headers.cookie
+      cookie = cookie.split(';')
+      let cookieObj = {}, cookieArr = [], key = '', value = ''
+      for (let i = 0; i < cookie.length; i++) {
+        cookieArr = cookie[i].split('=')
+        key = cookieArr[0]
+        value = cookieArr[1]
+        cookieObj[key] = value
+      }
+      commit('SET_TOKEN', cookieObj.token)
     }
   },
 
@@ -113,7 +123,7 @@ export default {
 
   async LOGIN({ commit, state, getters }, user) {
     const { data } = await axios.post(`${getters.routerBaseApi}/login`, user)
-    commit('SET_USER', data.data.token)
+    commit('SET_TOKEN', data.data.token)
     return data
   },
 

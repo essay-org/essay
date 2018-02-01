@@ -7,7 +7,7 @@
 
 VueBlog is a lightweight blog application for note-taking [Live Demo](http://vueblog.86886.wang)
 
-### Front demo
+### FrontEnd demo
 
 <p align="center">
   <a href="http://vueblog.86886.wang" target="_blank">
@@ -15,7 +15,7 @@ VueBlog is a lightweight blog application for note-taking [Live Demo](http://vue
   </a>
 </p>
 
-### Backend demo
+### BackendEnd demo
 
 <p align="center">
   <a href="http://vueblog.86886.wang" target="_blank">
@@ -25,8 +25,8 @@ VueBlog is a lightweight blog application for note-taking [Live Demo](http://vue
 
 ### Technology stack
 
-- Front: Nuxt.js + Vuex
-- Backend: Mongoose + Koa
+- FrontEnd: Nuxt.js + Vuex
+- BackEnd: Mongoose + Koa
 
 ### Features
 

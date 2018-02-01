@@ -66,11 +66,13 @@ export const getArticle = async(ctx, next) => {
         select: 'id name'
       })
       .exec()
+      await Article.findByIdAndUpdate(id, {views: article.views + 1}).exec()
     ctx.body = {
       success: true,
       data: article
     }
   } catch (e) {
+    // console.log(e)
     ctx.body = {
       success: false,
       err: e
@@ -161,8 +163,10 @@ export const search = async(ctx, next) => {
   try {
     let body = await Article.find({
       publish: true,
-      $or: [{ title: { $regex: reg } }, { content: { $regex: reg } }]
-    }).exec()
+      $or: [{ title: { $regex: reg } }]
+    })
+    .sort({'createdAt': -1})
+    .exec()
     ctx.body = {
       success: true,
       data: body

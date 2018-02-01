@@ -1,5 +1,5 @@
 export default {
-  SET_USER (state, token) {
+  SET_TOKEN (state, token) {
     state.token = token
   }
 }

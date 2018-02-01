@@ -203,7 +203,7 @@ router.get('/user', user.getUserInfo).patch('/user', user.patchUserInfo).post('/
 
 router.get('/tags/:id?', tag.getTagsOrArticles).post('/tag', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.postTag).patch('/tag', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.patchTag).del('/tag/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.deleteTag);
 
-router.get('/search/:keyword?', article.search).get('/article/:id?', article.getArticle).get('/articles/:page?/:limit?', article.getArticles).get('/private-articles', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.getPrivateArticles).get('/archives', article.archives).post('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.postArticle).post('/upload', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.upload).patch('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.patchArticle).del('/article/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.deleteArticle);
+router.get('/search/:keyword?', article.search).get('/article/:id?/:view?', article.getArticle).get('/articles/:page?/:limit?', article.getArticles).get('/private-articles', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.getPrivateArticles).get('/archives', article.archives).post('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.postArticle).post('/upload', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.upload).patch('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.patchArticle).del('/article/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.deleteArticle);
 
 /* harmony default export */ exports["a"] = router;
 
@@ -374,12 +374,13 @@ var getPrivateArticles = function () {
 
 var getArticle = function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(ctx, next) {
-    var id, article;
+    var _ctx$params2, id, _ctx$params2$view, view, article;
+
     return __WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            id = ctx.params.id;
+            _ctx$params2 = ctx.params, id = _ctx$params2.id, _ctx$params2$view = _ctx$params2.view, view = _ctx$params2$view === undefined ? 0 : _ctx$params2$view;
 
             if (id) {
               _context3.next = 3;
@@ -401,29 +402,33 @@ var getArticle = function () {
 
           case 6:
             article = _context3.sent;
+            _context3.next = 9;
+            return Article.findByIdAndUpdate(id, { views: article.views + 1 }).exec();
 
+          case 9:
             ctx.body = {
               success: true,
               data: article
             };
-            _context3.next = 13;
+            _context3.next = 15;
             break;
 
-          case 10:
-            _context3.prev = 10;
+          case 12:
+            _context3.prev = 12;
             _context3.t0 = _context3['catch'](3);
 
+            // console.log(e)
             ctx.body = {
               success: false,
               err: _context3.t0
             };
 
-          case 13:
+          case 15:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, _this, [[3, 10]]);
+    }, _callee3, _this, [[3, 12]]);
   }));
 
   return function getArticle(_x5, _x6) {
@@ -1726,7 +1731,6 @@ var start = function () {
 
                       case 2:
                         ctx.status = 200; // koa defaults to 404 when it sees that status is unset
-                        ctx.req.token = ctx.cookies.get('token');
                         return _context.abrupt('return', new Promise(function (resolve, reject) {
                           ctx.res.on('close', resolve);
                           ctx.res.on('finish', resolve);
@@ -1736,7 +1740,7 @@ var start = function () {
                           });
                         }));
 
-                      case 5:
+                      case 4:
                       case 'end':
                         return _context.stop();
                     }

@@ -3,7 +3,7 @@
     <ul class="private-list">
       <li class="list-item" v-for="(article, index) in articles" :key="index">
         <p class="item-title"><a>{{article.title}}</a></p>
-        <p class="item-date">{{article.updatedAt}}</p>
+        <p class="item-date">{{article.updatedAt | formatDate('yyyy-MM-dd')}}</p>
         <p class="item-del"><a @click="del(article.id)">删除</a></p>
         <p class="item-edit"><a @click="edit(article.id)">编辑</a></p>
       </li>

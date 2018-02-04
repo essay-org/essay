@@ -1,5 +1,5 @@
 <template>
-  <div class="index container">
+  <div class="index">
     <list :articles="articles"></list>
     <div class="page" v-if="maxPage > 1">
       <a v-if="page > 1" class="page-prev" @click="prevPage">《上一页</a>

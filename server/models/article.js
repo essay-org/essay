@@ -12,9 +12,17 @@ const ArticleSchema = new Schema({
     type: Number,
     default: 0
   },
+  flag: {
+    type: Number,
+    default: 1
+  },
   like: {
     type: Array,
     default: []
+  },
+  link: {
+    type: String,
+    default:''
   },
   comments: {
     type: Array,
@@ -42,5 +50,5 @@ ArticleSchema.options.toJSON = {
     delete ret._id
   }
 }
-
+// db.articles.update({}, {$set: {flag: 1}}, {multi: 1})
 mongoose.model('Article', ArticleSchema)

@@ -1,10 +1,11 @@
 <template>
   <div class="detail container">
-    <p class="detail-title">{{ article.title }}</p>
+    <p class="detail-title" v-if="article.flag == 2"><a :href="article.link" target="_blank">{{ article.title }}</a></p>
+    <p class="detail-title" v-else>{{ article.title }}</p>
     <div class="detail-meta">
       <p class="meta meta-created">发布：{{ article.createdAt | formatDate('yyyy-MM-dd') }}</p>
       <p class="meta meta-updated">更新：{{ article.updatedAt | formatDate('yyyy-MM-dd') }}</p>
-      <p class="meta meta-view">浏览：{{ article.views }} 次</p>
+      <!-- <p class="meta meta-view">浏览：{{ article.views }} 次</p> -->
       <p class="meta meta-tags">标签：<span v-for="(tag, index) in article.tags" :key="index">{{ tag.name }}</span></p>
     </div>
     <div class="detail-content">

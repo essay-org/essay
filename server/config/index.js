@@ -20,7 +20,8 @@ export default {
   },
   production: {
     host: '198.13.32.165',
-    domain: 'https://vueblog.86886.wang'
+    // domain: 'https://vueblog.86886.wang'
+    domain: 'http://127.0.0.1:3000'
   },
   app: {
     host: '127.0.0.1',

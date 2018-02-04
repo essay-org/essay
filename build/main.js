@@ -108,7 +108,8 @@ module.exports = __webpack_require__(28);
   },
   production: {
     host: '198.13.32.165',
-    domain: 'https://vueblog.86886.wang'
+    // domain: 'https://vueblog.86886.wang'
+    domain: 'http://127.0.0.1:3000'
   },
   app: {
     host: '127.0.0.1',
@@ -203,7 +204,7 @@ router.get('/user', user.getUserInfo).patch('/user', user.patchUserInfo).post('/
 
 router.get('/tags/:id?', tag.getTagsOrArticles).post('/tag', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.postTag).patch('/tag', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.patchTag).del('/tag/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.deleteTag);
 
-router.get('/search/:keyword?', article.search).get('/article/:id?/:view?', article.getArticle).get('/articles/:page?/:limit?', article.getArticles).get('/private-articles', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.getPrivateArticles).get('/archives', article.archives).post('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.postArticle).post('/upload', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.upload).patch('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.patchArticle).del('/article/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.deleteArticle);
+router.get('/search/:keyword?', article.search).get('/article/:id?', article.getArticle).get('/articles/:page?/:limit?', article.getArticles).get('/private-articles', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.getPrivateArticles).get('/archives', article.archives).post('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.postArticle).post('/upload', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.upload).patch('/article', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.patchArticle).del('/article/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], article.deleteArticle);
 
 /* harmony default export */ exports["a"] = router;
 
@@ -374,13 +375,12 @@ var getPrivateArticles = function () {
 
 var getArticle = function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.mark(function _callee3(ctx, next) {
-    var _ctx$params2, id, _ctx$params2$view, view, article;
-
+    var id, article;
     return __WEBPACK_IMPORTED_MODULE_0_D_wmui_github_vueblog_koa_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _ctx$params2 = ctx.params, id = _ctx$params2.id, _ctx$params2$view = _ctx$params2.view, view = _ctx$params2$view === undefined ? 0 : _ctx$params2$view;
+            id = ctx.params.id;
 
             if (id) {
               _context3.next = 3;
@@ -629,8 +629,8 @@ var search = function () {
             _context7.next = 5;
             return Article.find({
               publish: true,
-              $or: [{ title: { $regex: reg } }, { content: { $regex: reg } }]
-            }).exec();
+              $or: [{ title: { $regex: reg } }]
+            }).sort({ 'createdAt': -1 }).exec();
 
           case 5:
             body = _context7.sent;
@@ -1424,9 +1424,17 @@ var ArticleSchema = new Schema({
     type: Number,
     default: 0
   },
+  flag: {
+    type: Number,
+    default: 1
+  },
   like: {
     type: Array,
     default: []
+  },
+  link: {
+    type: String,
+    default: ''
   },
   comments: {
     type: Array,
@@ -1454,7 +1462,7 @@ ArticleSchema.options.toJSON = {
     delete ret._id;
   }
 };
-
+// db.articles.update({}, {$set: {flag: 1}}, {multi: 1})
 __WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.model('Article', ArticleSchema);
 
 /***/ },

@@ -20,10 +20,6 @@ const ArticleSchema = new Schema({
     type: Array,
     default: []
   },
-  link: {
-    type: String,
-    default:''
-  },
   comments: {
     type: Array,
     default: []

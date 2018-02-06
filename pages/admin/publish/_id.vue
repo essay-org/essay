@@ -2,15 +2,6 @@
   <div class="admin-publish container">
     <div class="publish-title">
       <input type="text" placeholder="文章标题" v-model="article.title">
-      <input type="text" placeholder="原文链接" v-model="article.link" class="title-link" v-if="article.flag == 2">
-      <label for="original">
-        <input type="radio" name="flag" id="original" value="1" v-model="article.flag">
-        <span>原创</span>
-      </label>
-      <label for="share">
-        <input type="radio" name="flag" id="share" value="2" v-model="article.flag">
-        <span>分享</span>
-      </label>
     </div>
     <div class="publish-content">
       <top-editor v-model="article.content" :upload="upload" :options="options"></top-editor>
@@ -48,9 +39,7 @@ export default {
       article:{
         title: '',
         content: '',
-        link: '',
-        tags: [],
-        flag: 1,
+        tags: []
       },
       tags: [],
       tag: ''
@@ -135,9 +124,7 @@ export default {
           id: this.article.id,
           title: this.article.title,
           content: this.article.content,
-          link: this.article.link,
           tags: tagsID,
-          flag: Number(this.article.flag),
           publish: isPublish,
         }
 
@@ -150,9 +137,7 @@ export default {
         article = {
           title: this.article.title,
           content: this.article.content,
-          link: this.article.link,
           tags: tagsID,
-          flag: Number(this.article.flag),
           publish: isPublish,
         }
 
@@ -161,9 +146,7 @@ export default {
             this.$refs.tip.openTip('文章创建完成')
             this.article.title = ''
             this.article.content = ''
-            this.article.link = ''
             this.article.tags = []
-            this.article.flag = 1
           }
         })
       }

@@ -315,18 +315,9 @@ button {
 .admin-publish {
   & .publish-title input[type="text"] {
     width: 100%;
+    margin-bottom: 15px;
   }
-  & .publish-title .title-link {
-    margin-top: 15px;
-  }
-  & .publish-title input[type="radio"] {
-    vertical-align: middle;
-    margin-right: 5px;
-  }
-  & label {
-      display: inline-block;
-      margin-right: 20px;
-    }
+
   & .publish-handle {
     margin-top: 40px;
     display: flex;

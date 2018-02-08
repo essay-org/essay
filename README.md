@@ -5,7 +5,7 @@
 
 [中文文档](https://github.com/wmui/vueblog/blob/master/README.zh-cn.md)
 
-VueBlog is a lightweight blog application [Live Demo](http://vueblog.86886.wang)
+VueBlog is a lightweight blog application [Live Demo](http://www.86886.wang)
 
 ### Technology stack
 

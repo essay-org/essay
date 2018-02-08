@@ -3,7 +3,7 @@
 
 ## VueBlog v2
 
-VueBlog是一个小而美的博客应用 [演示站](http://vueblog.86886.wang)  
+VueBlog是一个小而美的博客应用 [演示站](http://www.86886.wang)  
 
 ### 技术栈
 

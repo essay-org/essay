@@ -3,23 +3,7 @@
 
 ## VueBlog v2
 
-VueBlog是一个轻量的用于记录笔记的博客应用 [演示站](http://vueblog.86886.wang)  
-
-### 前台演示图
-
-<p align="center">
-  <a href="http://vueblog.86886.wang" target="_blank">
-    <img src="https://github.com/wmui/vueblog/raw/master/demo/v2/index.png">
-  </a>
-</p>
-
-### 后台演示图
-
-<p align="center">
-  <a href="http://vueblog.86886.wang" target="_blank">
-    <img src="https://github.com/wmui/vueblog/raw/master/demo/v2/admin.png">
-  </a>
-</p>
+VueBlog是一个小而美的博客应用 [演示站](http://vueblog.86886.wang)  
 
 ### 技术栈
 
@@ -32,7 +16,6 @@ VueBlog是一个轻量的用于记录笔记的博客应用 [演示站](http://vu
 - PWA渐进式web应用
 - 基于Vue开发，支持服务端渲染和图片上传的Markdown编辑器(轻量)
 - 标签和归档
-- 私有笔记(草稿)和公开笔记自由编辑
 
 ### 本地运行
 

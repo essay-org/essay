@@ -5,23 +5,7 @@
 
 [中文文档](https://github.com/wmui/vueblog/blob/master/README.zh-cn.md)
 
-VueBlog is a lightweight blog application for note-taking [Live Demo](http://vueblog.86886.wang)
-
-### FrontEnd demo
-
-<p align="center">
-  <a href="http://vueblog.86886.wang" target="_blank">
-    <img src="https://github.com/wmui/vueblog/raw/master/demo/v2/index.png">
-  </a>
-</p>
-
-### BackendEnd demo
-
-<p align="center">
-  <a href="http://vueblog.86886.wang" target="_blank">
-    <img src="https://github.com/wmui/vueblog/raw/master/demo/v2/admin.png">
-  </a>
-</p>
+VueBlog is a lightweight blog application [Live Demo](http://vueblog.86886.wang)
 
 ### Technology stack
 
@@ -34,11 +18,10 @@ VueBlog is a lightweight blog application for note-taking [Live Demo](http://vue
 - Progressive Web App.
 - A lightweight markdown editor base Vue.js.
 - Support tag management and archive management.
-- Free editing of private notes and open notes.
 
 ### Build Setup
 
-First you should install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/), open database service
+First you should install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/), open the database service
 
 ``` bash
 # install dependencies

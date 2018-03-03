@@ -1,12 +1,14 @@
 <template>
-  <div class="tags container">
+  <div class="tags">
     <template v-if="hasID">
       <list :articles="articles"></list>
     </template>
     <template v-else>
-      <p class="tag" v-for="(tag, index) in tags" :key="index">
-        <nuxt-link :to="'/tags/'+ tag.id">{{ tag.name }}</nuxt-link>
-      </p>
+      <div class="tags-list">
+        <p class="tag" v-for="(tag, index) in tags" :key="index">
+          <nuxt-link :to="'/tags/'+ tag.id">{{ tag.name }}</nuxt-link>
+        </p>
+      </div>
     </template>
   </div>
 </template>

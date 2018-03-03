@@ -148,6 +148,9 @@ button {
 }
 
 .tags {
+  & .tags-list {
+    padding: 15px;
+  }
   & .tag {
     border: 1px solid #3d4045;
     display: inline-block;

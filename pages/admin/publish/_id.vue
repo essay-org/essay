@@ -4,7 +4,7 @@
       <input type="text" placeholder="文章标题" v-model="article.title">
     </div>
     <div class="publish-content">
-      <top-editor v-model="article.content" :upload="upload" :options="options"></top-editor>
+      <top-editor v-model="article.content" :upload="upload" :options="options" @save="save"></top-editor>
     </div>
     <div class="publish-handle">
       <input type="text" placeholder="回车可创建新标签" v-model="tag" @keyup.enter="addTag">
@@ -149,6 +149,13 @@ export default {
             this.article.tags = []
           }
         })
+      }
+    },
+
+    save(val) {
+      if(val === true) {
+        // ctrl + s save article
+        this.publish(false)
       }
     }
   },

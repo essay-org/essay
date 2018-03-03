@@ -31,7 +31,7 @@
     "postcss-import": "^11.0.0",
     "postcss-url": "^7.3.0",
     "source-map-support": "^0.4.15",
-    "top-editor": "^0.0.6"
+    "top-editor": "0.0.7"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

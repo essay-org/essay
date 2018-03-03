@@ -41,6 +41,12 @@ div {
   box-sizing: border-box;
 }
 
+/* code {
+  white-space: pre-wrap;
+  word-break: break-all;
+  word-wrap: break-word;
+} */
+
 .page-enter-active,
 .page-leave-active {
   transition: opacity .5s;

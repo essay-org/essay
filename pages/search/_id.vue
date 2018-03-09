@@ -37,6 +37,11 @@ export default {
       }
     }
   },
+  head () {
+    return {
+      title: '搜索 - VueBlog'
+    }
+  },
   data() {
     return {
       keyword: ''

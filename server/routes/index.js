@@ -13,9 +13,9 @@ const article = require('../controllers/article')
 
 router
   .get('/user', user.getUserInfo)
-  .patch('/user', user.patchUserInfo)
+  .patch('/user', checkToken, user.patchUserInfo)
   .post('/login', user.login)
-  .post('/logout', user.logout)
+  .post('/logout', checkToken, user.logout)
 
 router
   .get('/tags/:id?', tag.getTagsOrArticles)

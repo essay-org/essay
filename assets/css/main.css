@@ -41,11 +41,11 @@ div {
   box-sizing: border-box;
 }
 
-/* code {
-  white-space: pre-wrap;
-  word-break: break-all;
-  word-wrap: break-word;
-} */
+ code {
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+  word-wrap: break-word !important;
+}
 
 .page-enter-active,
 .page-leave-active {

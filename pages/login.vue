@@ -13,7 +13,11 @@ export default {
       user:{}
     }
   },
-
+  head () {
+    return {
+      title: '登录 - VueBlog'
+    }
+  },
   methods: {
     login () {
       if(!this.user.username || !this.user.password) {

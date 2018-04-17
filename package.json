@@ -1,9 +1,8 @@
 {
-  "name": "VueBlog",
-  "version": "2.2.5",
+  "name": "vueblog",
+  "version": "2.3.0",
   "description": "A blog system by Nuxt.js",
   "author": "wmui <qq22337383@gmail.com>",
-  "private": true,
   "scripts": {
     "dev": "nodemon -w ./server -w ./start.js --exec node ./start.js",
     "build": "nuxt build && backpack build",
@@ -14,7 +13,7 @@
   "dependencies": {
     "@koa/cors": "^2.2.1",
     "@nuxtjs/pwa": "^2.0.5",
-    "axios": "^0.17.1",
+    "@nuxtjs/axios": "^5.3.1",
     "cross-env": "^5.0.1",
     "formidable": "^1.1.1",
     "highlight.js": "^9.12.0",
@@ -27,9 +26,6 @@
     "md5": "^2.2.1",
     "mongoose": "^5.0.1",
     "nuxt": "latest",
-    "postcss-cssnext": "^3.0.2",
-    "postcss-import": "^11.0.0",
-    "postcss-url": "^7.3.0",
     "source-map-support": "^0.4.15",
     "top-editor": "0.0.7"
   },
@@ -46,7 +42,9 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.1",
+    "node-sass": "^4.8.3",
     "nodemon": "^1.11.0",
+    "sass-loader": "^7.0.1",
     "scmp": "^2.0.0"
   }
 }

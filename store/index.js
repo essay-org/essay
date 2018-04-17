@@ -6,7 +6,8 @@ import actions from './actions'
 export default () => {
   return new Vuex.Store({
     state: {
-      token: ''
+      token: '',
+      user: {}
     },
     getters,
     mutations,

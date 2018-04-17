@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-tags container">
+  <div class="admin-tags">
     <div class="tags-input" v-if="isEdit">
       <input type="text" @keyup.enter="edit" v-model="tag.name">
       <button class="black-button" @click="edit">确认修改</button>
@@ -70,3 +70,50 @@ export default {
 }
 
 </script>
+
+<style lang="scss" scoped>
+@import '~/assets/css/var.scss';
+.admin-tags {
+  max-width: 960px;
+  margin: 60px auto;
+  .tags-input {
+    text-align: center;
+    input {
+      border-right: none;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    button {
+      line-height: 40px;
+      border: transparent;
+      display: inline-block;
+      vertical-align: top;
+      padding: 0 15px;
+      background-color: $font-color;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+      color: #fff;
+    }
+  }
+  .list-item {
+    display: flex;
+    line-height: 45px;
+    border-top: 1px solid #eee;
+    .item-date {
+      flex:1;
+      text-align: center;
+    }
+    .item-edit,
+    .item-del {
+      width: 60px;
+      text-align: right;
+    }
+    .item-title {
+      flex: 1;
+    }
+    &:nth-child(1) {
+      border-top: none;
+    }
+  }
+}
+</style>

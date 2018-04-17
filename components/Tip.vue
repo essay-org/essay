@@ -27,7 +27,7 @@ export default {
 }
 
 </script>
-<style lang="postcss">
+<style>
 .tip {
   display: flex;
   justify-content: center;

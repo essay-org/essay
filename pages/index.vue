@@ -2,10 +2,12 @@
   <div class="index">
     <list :articles="articles"></list>
     <div class="page" v-if="maxPage > 1">
-      <a v-if="page > 1" class="page-prev" @click="prevPage">《上一页</a>
-      <a v-else class="disabled page-prev">《上一页</a>
-      <a v-if="hasMore" class="page-next" @click="nextPage">下一页》</a>
-      <a v-else class="disabled page-next">下一页》</a>
+      <div class="page-prev">
+        <a v-if="page > 1" @click="prevPage">« Prev </a>
+      </div>
+      <div class="page-next">
+        <a v-if="hasMore"  @click="nextPage">Next »</a>
+      </div>
     </div>
   </div>
 </template>
@@ -65,3 +67,25 @@ export default {
 }
 
 </script>
+<style lang="scss" scoped>
+@import '~/assets/css/var.scss';
+.page {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  margin: 30px auto;
+  .page-prev {
+    width: 50%;
+    text-align: left;
+  }
+  .page-next {
+    width: 50%;
+    text-align: right;
+  }
+  a {
+    color: $link-color;
+  }
+}
+</style>

@@ -1,8 +1,6 @@
 <template>
-  <div class="admin-publish container">
-    <div class="publish-title">
-      <input type="text" placeholder="文章标题" v-model="article.title">
-    </div>
+  <div class="admin-publish">
+    <input type="text" placeholder="文章标题" v-model="article.title" class="publish-title">
     <div class="publish-content">
       <top-editor v-model="article.content" :upload="upload" :options="options" @save="save"></top-editor>
     </div>
@@ -13,12 +11,15 @@
       </ul>
       <div class="handle-button">
         <button class="button-private" @click="publish(false)">存草稿</button>
-        <button class="black-button" @click="publish(true)">发布</button>
+        <button class="button-publish" @click="publish(true)">发布</button>
       </div>
     </div>
     <div class="publish-tags">
-      <p>插入标签：</p>
+      <p class="tags-intro">插入标签：</p>
+      <div class="tags-all">
+
       <a v-for="(tag,index) in tags" :key="index" @click="chooseTag(tag)">{{ tag.name }}</a>
+      </div>
     </div>
     <Tip ref="tip"></Tip>
   </div>
@@ -165,3 +166,81 @@ export default {
 }
 
 </script>
+<style lang="scss" scoped>
+@import '~/assets/css/var.scss';
+.admin-publish {
+  max-width: 960px;
+  margin: 30px auto;
+  .publish-title {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .publish-handle {
+    margin-top: 40px;
+    display: flex;
+    position: relative;
+    input {
+      flex: 1;
+    }
+    .handle-button {
+      width: 400px;
+      text-align: right;
+      button {
+        border: none;
+        line-height: 38px;
+        width: 80px;
+        border-radius: 3px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .button-private {
+        margin-right: 15px;
+        background-color: #ccc;
+        &:hover {
+          background-color: darken(#ccc, 5%);
+        }
+      }
+      .button-publish {
+        background-color: $font-color;
+        color: #fff;
+        &:hover {
+          background-color: darken($font-color, 5%);
+        }
+      }
+    }
+    .handle-tag {
+      position: absolute;
+      overflow: hidden;
+      top: -90%;
+      li {
+        position: relative;
+        display: inline-block;
+        font-size: 14px;
+        background-color: #eee;
+        margin-right: 15px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border-radius: 3px;
+        span {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .publish-tags {
+    margin-top: 15px;
+    display: flex;
+    .tags-intro {
+      width: 90px;
+    }
+    .tags-all {
+      flex: 1;
+      a {
+        margin-right: 15px;
+      }
+    }
+  }
+}
+</style>

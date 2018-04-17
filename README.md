@@ -16,12 +16,11 @@ VueBlog is a lightweight blog application [Live Demo](http://www.86886.wang)
 
 - Server Side Rendering.
 - Progressive Web App.
-- A lightweight markdown editor base Vue.js.
-- Support tag management and archive management.
+- A lightweight markdown editor based on Vue.js.
 
 ### Build Setup
 
-First you should install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/), open the database service
+First install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/)
 
 ``` bash
 # install dependencies
@@ -39,7 +38,9 @@ npm start
 
 ### Global config
 
-Config file is `server/config/index.js`, default username：q, default password: q
+Config file is `/server/config/index.js`.
+
+Username is `q` ,  password is `q`.
 
 ```javascript
 export default {
@@ -64,7 +65,7 @@ export default {
   },
   production: {
     host: '198.13.32.165',
-    domain: 'https://vueblog.86886.wang'
+    domain: 'https://www.86886.wang'
   },
   app: {
     host: '127.0.0.1',
@@ -75,4 +76,5 @@ export default {
 ```
 
 ### License
+
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)

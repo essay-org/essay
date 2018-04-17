@@ -1,6 +1,6 @@
 import axios from 'axios'
 export default {
-  async nuxtServerInit({ dispatch, commit }, { req, res }) {
+  async nuxtServerInit({ dispatch, commit, getters }, { req, res }) {
     if (req.headers.cookie) {
       // eg: token='asdf';id='123'
       let cookie = req.headers.cookie
@@ -14,6 +14,9 @@ export default {
       }
       commit('SET_TOKEN', cookieObj.token)
     }
+
+    const { data } = await axios.get(`${getters.baseUrl}/user`)
+    commit('SET_USER', data)
   },
 
   async CREATE_TAG({ commit, state, getters }, params) {

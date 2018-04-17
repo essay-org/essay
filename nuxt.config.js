@@ -7,18 +7,14 @@ module.exports = {
       { hid: 'description', name: 'description', content: '一个小而美的博客应用' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_620064_9otr4k6uaufbhuxr.css' }
     ]
   },
   css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
-  loading: { color: '#337AB7' },
+  loading: { color: '#42B983' },
   build: {
     vendor: ['axios'],
-    postcss: [
-      require('postcss-import')(),
-      require('postcss-url')(),
-      require('postcss-cssnext')()
-    ],
     /*extend (config, ctx) {
       if (ctx.isClient) {
         config.module.rules.push({
@@ -33,8 +29,8 @@ module.exports = {
   manifest: {
     name: 'VueBlog',
     description: 'A blog system',
-    theme_color: '#000'
+    theme_color: '#42B983'
   },
-  modules: ['@nuxtjs/pwa'],
+  modules: ['@nuxtjs/pwa', '@nuxtjs/axios'],
   plugins: ['~/plugins/components.js', '~/plugins/filters.js']
 }

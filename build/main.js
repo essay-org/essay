@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 29);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -78,7 +78,7 @@ module.exports = require("mongoose");
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(28);
+module.exports = __webpack_require__(25);
 
 
 /***/ },
@@ -108,8 +108,8 @@ module.exports = __webpack_require__(28);
   },
   production: {
     host: '198.13.32.165',
-    // domain: 'https://vueblog.86886.wang'
-    domain: 'http://127.0.0.1:3000'
+    domain: 'https://www.86886.wang'
+    // domain: 'http://127.0.0.1:3000'
   },
   app: {
     host: '127.0.0.1',
@@ -144,26 +144,25 @@ module.exports = require("md5");
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 module.exports = {
   head: {
     title: 'VueBlog',
-    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: '一个轻量的用于记录笔记的博客应用' }],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: '一个小而美的博客应用' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }, { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_620064_pg8mtxcmsll3di.css' }]
   },
   css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
-  loading: { color: '#337AB7' },
+  loading: { color: '#42B983' },
   build: {
-    vendor: ['axios'],
-    postcss: [__webpack_require__(26)(), __webpack_require__(27)(), __webpack_require__(25)()]
+    vendor: ['axios']
     /*extend (config, ctx) {
       if (ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
+          exclude: /(node_modules)(server)/
         })
       }
     }*/
@@ -171,9 +170,9 @@ module.exports = {
   manifest: {
     name: 'VueBlog',
     description: 'A blog system',
-    theme_color: '#000'
+    theme_color: '#42B983'
   },
-  modules: ['@nuxtjs/pwa'],
+  modules: ['@nuxtjs/pwa', '@nuxtjs/axios'],
   plugins: ['~/plugins/components.js', '~/plugins/filters.js']
 };
 
@@ -200,7 +199,7 @@ var user = __webpack_require__(16);
 var tag = __webpack_require__(15);
 var article = __webpack_require__(14);
 
-router.get('/user', user.getUserInfo).patch('/user', user.patchUserInfo).post('/login', user.login).post('/logout', user.logout);
+router.get('/user', user.getUserInfo).patch('/user', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], user.patchUserInfo).post('/login', user.login).post('/logout', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], user.logout);
 
 router.get('/tags/:id?', tag.getTagsOrArticles).post('/tag', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.postTag).patch('/tag', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.patchTag).del('/tag/:id?', __WEBPACK_IMPORTED_MODULE_3__middlewares_check_token__["a" /* default */], tag.deleteTag);
 
@@ -1432,10 +1431,6 @@ var ArticleSchema = new Schema({
     type: Array,
     default: []
   },
-  link: {
-    type: String,
-    default: ''
-  },
   comments: {
     type: Array,
     default: []
@@ -1640,28 +1635,10 @@ module.exports = require("os");
 /* 25 */
 /***/ function(module, exports) {
 
-module.exports = require("postcss-cssnext");
-
-/***/ },
-/* 26 */
-/***/ function(module, exports) {
-
-module.exports = require("postcss-import");
-
-/***/ },
-/* 27 */
-/***/ function(module, exports) {
-
-module.exports = require("postcss-url");
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
 module.exports = require("regenerator-runtime");
 
 /***/ },
-/* 29 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";

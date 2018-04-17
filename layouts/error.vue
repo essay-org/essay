@@ -6,7 +6,7 @@
     <h2 class="error-info">
       {{ error.message }}
     </h2>
-    <nuxt-link class="error-button" to="/">
+    <nuxt-link class="button" to="/" v-if="error.statusCode === 404">
       Homepage
     </nuxt-link>
   </section>
@@ -16,21 +16,22 @@ export default {
   props: ['error']
 }
 </script>
-
-<style lang="postcss">
+<style lang="scss" scoped>
 .error {
+  width: 700px;
+  margin: 60px auto;
   text-align: center;
-  & .error-title {
-    font-size: 50px;
-    font-weight: bold;
-    margin-top: 70px;
+  .error-title {
+    font-size: 5em;
+    font-weight: 600;
   }
-  & .error-info {
+  .error-info {
+    font-weight: lighter;
     color: #666;
-    font-weight: normal;
+    margin: 0;
   }
-  & .error-button {
-    margin: 25px;
+  .button {
+    margin-top: 50px;
   }
 }
 </style>

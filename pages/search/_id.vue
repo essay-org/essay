@@ -5,11 +5,10 @@
     </template>
     <template v-else>
       <div class="search">
-        <h3 class="search-title">文章搜索</h3>
-        <div class="search-form">
-          <input type="text" v-model="keyword" @keyup.enter="search" autofocus>
-          <button @click="search" class="black-button">搜索</button>
-        </div>
+        <h3>文章搜索</h3>
+        <label>
+          <input type="text" v-model="keyword" @keyup.enter="search" autofocus placeholder="回车搜索">
+        </label>
       </div>
     </template>
   </div>
@@ -39,7 +38,7 @@ export default {
   },
   head () {
     return {
-      title: '搜索 - VueBlog'
+      title: '搜索 - ' + this.$store.state.user.nickname
     }
   },
   data() {
@@ -63,3 +62,24 @@ export default {
 }
 
 </script>
+<style lang="scss" scoped>
+@import '~/assets/css/var.scss';
+.search {
+  text-align: center;
+  margin: 60px auto;
+  h3 {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }
+  label {
+    display: block;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  input {
+    width: 100%;
+  }
+}
+</style>

@@ -66,7 +66,7 @@ export const getArticle = async(ctx, next) => {
         select: 'id name'
       })
       .exec()
-      await Article.findByIdAndUpdate(id, {views: article.views + 1}).exec()
+    await Article.findByIdAndUpdate(id, {views: article.views + 1}).exec()
     ctx.body = {
       success: true,
       data: article
@@ -159,7 +159,7 @@ export const deleteArticle = async(ctx, next) => {
 
 export const search = async(ctx, next) => {
   const { keyword } = ctx.params
-  const reg = new RegExp(keyword, 'i');
+  const reg = new RegExp(keyword, 'i')
   try {
     let body = await Article.find({
       publish: true,
@@ -195,7 +195,7 @@ export const archives = async(ctx, next) => {
     year = new Date(articles[i].createdAt).getFullYear() + ''
     month = new Date(articles[i].createdAt).getMonth() + 1 + ''
     if (month.length === 1) {
-      month = '0' + month;
+      month = '0' + month
     }
     date = `${year}年${month}月`
     arr.push({
@@ -206,7 +206,7 @@ export const archives = async(ctx, next) => {
 
   for (let i = 0; i < arr.length;) {
     let total = 0,
-      archiveArticles = [];
+      archiveArticles = []
     for (let j = i; j < arr.length; j++) {
       if (arr[i].date === arr[j].date) {
         archiveArticles.push(arr[j].article)
@@ -228,12 +228,11 @@ export const archives = async(ctx, next) => {
 }
 
 export const upload = async(ctx, next) => {
-
   let form = new formidable.IncomingForm()
 
   function getImgUrl(ctx) {
     return new Promise((resolve, reject) => {
-      form.parse(ctx.req, function(err, fields, files) {
+      form.parse(ctx.req, function (err, fields, files) {
         if (err) {
           console.log(err)
           reject(err)

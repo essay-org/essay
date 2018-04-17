@@ -25,4 +25,4 @@ TagSchema.options.toJSON = {
   }
 }
 
-mongoose.model('Tag', TagSchema);
+mongoose.model('Tag', TagSchema)

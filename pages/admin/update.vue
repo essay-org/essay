@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-update container">
+  <div class="admin-update">
     <div class="update-info">
       <h4>修改个人信息</h4>
       <input type="text" v-model="user.nickname">
@@ -75,3 +75,32 @@ export default {
 
 </script>
 
+
+<style lang="scss" scoped>
+@import '~/assets/css/var.scss';
+.admin-update {
+  max-width: 960px;
+  margin: 60px auto;
+  text-align: center;
+  .update-info {
+    margin-bottom: 30px;
+  }
+  input {
+    display: block;
+    width: 300px;
+    margin: 20px auto;
+  }
+  button {
+    border: none;
+    line-height: 40px;
+    width: 300px;
+    background-color: $font-color;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 16px;
+    &:hover {
+      background-color: darken($font-color, 5%);
+    }
+  }
+}
+</style>

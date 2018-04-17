@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
   role: {
     type: String,
-    default: 'user',
+    default: 'user'
   },
   username: String,
   password: String,

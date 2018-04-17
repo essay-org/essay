@@ -26,7 +26,7 @@ function padLeftZero(str) {
   return ('00' + str).substr(str.length)
 }
 
-export function cutString (str, len) {
+export function cutString(str, len) {
   if (str !== null) {
     if (str.length * 2 <= len) {
       return str
@@ -58,12 +58,12 @@ export function flag(flag) {
   switch (flag) {
     case 1:
       return '原创'
-      break;
+      break
     case 2:
       return '分享'
-      break;
+      break
     default:
-    return '原创'
+      return '原创'
   }
 }
 const filters = { formatDate, flag, cutString }

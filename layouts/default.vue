@@ -161,6 +161,7 @@ export default {
       display: block;
       width: 40px;
       line-height: 40px;
+      height: 40px;
       border-radius: 50%;
       background-color: #fafafa;
       border: 1px solid #fff;

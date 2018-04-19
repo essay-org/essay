@@ -5,7 +5,7 @@
       <ul class="item-list">
         <li v-for="(article, index) in archive.articles" :key="index">
           <span>{{ article.createdAt | formatDate('MM-dd')}}</span>
-          <nuxt-link :to="'/detail/'+article.id">{{ article.title }}</nuxt-link>
+          <nuxt-link :to="'/detail/'+article.id" class="truncation">{{ article.title }}</nuxt-link>
         </li>
       </ul>
     </div>
@@ -25,7 +25,7 @@ export default {
       }
     }
   },
-  head () {
+  head() {
     return {
       title: '归档 - ' + this.$store.state.user.nickname
     }
@@ -33,7 +33,6 @@ export default {
 }
 
 </script>
-
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
 .archives {
@@ -48,20 +47,24 @@ export default {
   }
   .item-list {
     li {
+      display: flex;
       padding: 7px 0;
       color: #999;
       list-style-position: inside;
     }
     span {
-      margin-right: 40px;
+      width: 80px;
     }
     a {
-       color: $font-color;
-       font-weight: lighter;
-       &:hover {
+      display: block;
+      flex: 1;
+      color: $font-color;
+      font-weight: lighter;
+      &:hover {
         color: $link-color;
-       }
+      }
     }
   }
 }
+
 </style>

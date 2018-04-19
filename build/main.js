@@ -150,7 +150,7 @@ module.exports = {
   head: {
     title: 'VueBlog',
     meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: '一个小而美的博客应用' }],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }, { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_620064_pg8mtxcmsll3di.css' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }, { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_620064_9otr4k6uaufbhuxr.css' }]
   },
   css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
   loading: { color: '#42B983' },

@@ -2,7 +2,7 @@
   <div class="admin-publish">
     <input type="text" placeholder="文章标题" v-model="article.title" class="publish-title">
     <div class="publish-content">
-      <top-editor v-model="article.content" :upload="upload" :options="options" @save="save"></top-editor>
+      <top-editor v-model="article.content" :upload="upload" :options="options" @save="save"/>
     </div>
     <div class="publish-handle">
       <input type="text" placeholder="回车可创建新标签" v-model="tag" @keyup.enter="addTag">
@@ -17,15 +17,13 @@
     <div class="publish-tags">
       <p class="tags-intro">插入标签：</p>
       <div class="tags-all">
-
-      <a v-for="(tag,index) in tags" :key="index" @click="chooseTag(tag)">{{ tag.name }}</a>
+        <a v-for="(tag,index) in tags" :key="index" @click="chooseTag(tag)">{{ tag.name }}</a>
       </div>
     </div>
-    <Tip ref="tip"></Tip>
+    <top-tip ref="tip"/>
   </div>
 </template>
 <script>
-import TopEditor from 'top-editor/src/lib/TopEditor.vue'
 export default {
   middleware: 'auth',
   data() {
@@ -159,9 +157,6 @@ export default {
         this.publish(false)
       }
     }
-  },
-  components: {
-    TopEditor
   }
 }
 

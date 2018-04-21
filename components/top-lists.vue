@@ -17,6 +17,7 @@
 </template>
 <script>
 export default {
+  name: 'top-lists',
   props: {
     articles: {
       type: Array,

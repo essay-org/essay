@@ -7,6 +7,7 @@
 </template>
 <script>
 export default {
+  name: 'top-tip',
   data() {
     return {
       tip: '',

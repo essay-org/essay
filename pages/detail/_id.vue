@@ -21,11 +21,14 @@
       <p class="admin-del"><a @click="del(article.id)">删除</a></p>
       <p class="admin-edit"><a @click="edit(article.id)">编辑</a></p>
     </div>
-    <Tip ref="tip"></Tip>
+
+    <no-ssr>
+      <top-comments shortname="vueblog-1" :identifier="article.id"/>
+    </no-ssr>
+    <top-tip ref="tip" />
   </div>
 </template>
 <script>
-import TopPreview from 'top-editor/src/lib/TopPreview.vue'
 export default {
   async asyncData({ store, route, redirect }) {
     let id = route.params.id
@@ -78,10 +81,6 @@ export default {
     edit(id) {
       this.$router.push(`/admin/publish/${id}`)
     }
-  },
-
-  components: {
-    TopPreview
   }
 }
 

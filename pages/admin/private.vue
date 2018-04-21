@@ -8,7 +8,7 @@
         <p class="item-edit"><a @click="edit(article.id)">编辑</a></p>
       </li>
     </ul>
-    <Tip ref="tip"></Tip>
+    <top-tip ref="tip"/>
   </div>
 </template>
 <script>

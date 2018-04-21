@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",
-    "@nuxtjs/pwa": "^2.0.5",
     "@nuxtjs/axios": "^5.3.1",
+    "@nuxtjs/pwa": "^2.0.5",
     "cross-env": "^5.0.1",
     "formidable": "^1.1.1",
     "highlight.js": "^9.12.0",

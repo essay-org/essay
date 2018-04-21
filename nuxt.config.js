@@ -4,6 +4,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'renderer', content: 'webkit' },
       { hid: 'description', name: 'description', content: '一个小而美的博客应用' }
     ],
     link: [

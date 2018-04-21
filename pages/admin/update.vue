@@ -14,7 +14,7 @@
       <input type="password" v-model="vertifyPassword" placeholder="再次输入新密码">
       <button @click="updatePassword">确认修改</button>
     </div>
-    <Tip ref="tip"></Tip>
+    <top-tip ref="tip"/>
   </div>
 </template>
 <script>

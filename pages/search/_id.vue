@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="hasID">
-      <list :articles="articles"></list>
+      <top-lists :articles="articles"/>
     </template>
     <template v-else>
       <div class="search">
@@ -14,7 +14,6 @@
   </div>
 </template>
 <script>
-import List from '~/components/List.vue'
 export default {
   async asyncData({ store, route }) {
     let id = route.params.id || ''
@@ -55,9 +54,6 @@ export default {
         this.$router.push(`/search/${keyword}`)
       }
     }
-  },
-  components: {
-    List
   }
 }
 

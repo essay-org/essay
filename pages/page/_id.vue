@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <list :articles="articles"></list>
+    <top-lists :articles="articles"/>
     <div class="page" v-if="maxPage > 1">
       <div class="page-prev">
         <a v-if="page > 1" @click="prevPage">« Prev </a>
@@ -12,7 +12,6 @@
   </div>
 </template>
 <script>
-import List from '~/components/List.vue'
 export default {
   async asyncData({store, route}) {
     let page = route.params.id || 1
@@ -53,9 +52,6 @@ export default {
     hasMore () {
       return this.page < this.maxPage
     }
-  },
-  components: {
-    List
   }
 }
 

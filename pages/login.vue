@@ -3,7 +3,7 @@
     <input type="text" placeholder="用户名" autocomplete="off" v-model="user.username">
     <input type="password" placeholder="密码" autocomplete="off" v-model="user.password" @keyup.enter="login">
     <button @click="login">登 录</button>
-    <Tip ref="tip"></Tip>
+    <top-tip ref="tip"/>
   </div>
 </template>
 <script>

@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
     <template v-if="hasID">
-      <list :articles="articles"></list>
+      <top-lists :articles="articles"/>
     </template>
     <template v-else>
       <ul class="tags-list">
@@ -13,7 +13,6 @@
   </div>
 </template>
 <script>
-import List from '~/components/List.vue'
 export default {
   async asyncData({ store, route }) {
     let id = route.params.id || ''
@@ -42,9 +41,6 @@ export default {
     return {
       title: '标签 - ' + this.$store.state.user.nickname
     }
-  },
-  components: {
-    List
   }
 }
 

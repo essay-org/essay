@@ -16,16 +16,16 @@ module.exports = {
   loading: { color: '#42B983' },
   build: {
     vendor: ['axios'],
-    /*extend (config, ctx) {
+    extend(config, ctx) {
       if (ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)(server)/
+          exclude: /(node_modules)/
         })
       }
-    }*/
+    }
   },
   manifest: {
     name: 'VueBlog',

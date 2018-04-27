@@ -14,15 +14,9 @@
 <script>
 export default {
   async asyncData({ store }) {
-    let data = await store.dispatch('ARCHIVES')
-    if (data.success) {
-      return {
-        archives: data.data
-      }
-    } else {
-      return {
-        archives: []
-      }
+    const { data } = await store.dispatch('ARCHIVES')
+    return {
+      archives: data || []
     }
   },
   head() {

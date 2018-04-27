@@ -21,7 +21,6 @@
       <p class="admin-del"><a @click="del(article.id)">删除</a></p>
       <p class="admin-edit"><a @click="edit(article.id)">编辑</a></p>
     </div>
-
     <no-ssr>
       <top-comments shortname="vueblog-1" :identifier="article.id"/>
     </no-ssr>
@@ -30,15 +29,18 @@
 </template>
 <script>
 export default {
-  async asyncData({ store, route, redirect }) {
-    let id = route.params.id
-    if (id) {
-      let data = await store.dispatch('ARTICLE_DETAIL', id)
-      return {
-        article: data.data
-      }
-    } else {
-      redirect('/')
+  async asyncData({ store, route, error }) {
+    let id = route.params.id || ''
+    const { data } = await store.dispatch('ARTICLE_DETAIL', id)
+    if(!id) {
+      error({
+        message: 'This page could not be found',
+        statusCode: 404
+     })
+      return false
+    }
+    return {
+      article: data || {}
     }
   },
   head() {
@@ -52,7 +54,6 @@ export default {
       isLogin: this.$store.state.token ? true : false
     }
   },
-
   mounted() {
     if (process.browser) {
       this.options = {
@@ -68,7 +69,6 @@ export default {
       }
     }
   },
-
   methods: {
     del(id) {
       this.$store.dispatch('DELETE_ARTICLE', id).then(data => {

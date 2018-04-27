@@ -15,17 +15,10 @@
 export default {
   async asyncData({store, route}) {
     let page = route.params.id || 1
-    let data = await store.dispatch('ARTICLES', page)
-    if(data.success) {
-      return {
-        articles: data.data,
-        total: data.total
-      }
-    } else {
-      return {
-        articles: [],
-        total: 0
-      }
+    const data  = await store.dispatch('ARTICLES', page)
+    return {
+      articles: data.data || [],
+      total: data.total
     }
   },
 
@@ -49,13 +42,13 @@ export default {
   },
 
   computed: {
-    maxPage () {
+    maxPage() {
       return Math.ceil(Number(this.total) / 15)
     },
-    page () {
+    page() {
       return Number(this.$route.params.id) || 1
     },
-    hasMore () {
+    hasMore() {
       return this.page < this.maxPage
     }
   }

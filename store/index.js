@@ -7,7 +7,8 @@ export default () => {
   return new Vuex.Store({
     state: {
       token: '',
-      user: {}
+      user: {},
+      articles: {}
     },
     getters,
     mutations,

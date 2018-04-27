@@ -1,11 +1,11 @@
 <template>
   <div class="tags">
-    <template v-if="hasID">
-      <top-lists :articles="articles"/>
+    <template v-if="$route.params.id">
+      <top-lists :articles="lists"/>
     </template>
     <template v-else>
       <ul class="tags-list">
-        <li class="tag" v-for="(tag, index) in tags" :key="index">
+        <li class="tag" v-for="(tag, index) in lists" :key="index">
           <nuxt-link :to="'/tags/'+ tag.id">{{ tag.name }}</nuxt-link>
         </li>
       </ul>
@@ -16,28 +16,12 @@
 export default {
   async asyncData({ store, route }) {
     let id = route.params.id || ''
-    let data = await store.dispatch('TAGS', id)
-    if (route.params.id) {
-      // articles
-       if (data.success) {
-        return {
-          hasID: true,
-          articles: data.data,
-          tags: []
-        }
-      }
-    } else {
-      // tags
-      if (data.success) {
-        return {
-          hasID: false,
-          tags: data.data,
-          articles: []
-        }
-      }
+    const { data } = await store.dispatch('TAGS', id)
+    return {
+      lists: data || []
     }
   },
-  head () {
+  head() {
     return {
       title: '标签 - ' + this.$store.state.user.nickname
     }

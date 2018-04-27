@@ -4,5 +4,8 @@ export default {
   },
   SET_USER(state, data) {
     state.user = data.data
+  },
+  SET_ARTICLES(state, data) {
+    state.articles = data
   }
 }

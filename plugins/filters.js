@@ -54,19 +54,7 @@ export function cutString(str, len) {
   }
 }
 
-export function flag(flag) {
-  switch (flag) {
-    case 1:
-      return '原创'
-      break
-    case 2:
-      return '分享'
-      break
-    default:
-      return '原创'
-  }
-}
-const filters = { formatDate, flag, cutString }
+const filters = { formatDate, cutString }
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

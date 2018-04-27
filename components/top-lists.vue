@@ -1,15 +1,10 @@
 <template>
   <div class="list">
     <ul class="list-article">
-      <li class="article" v-for="(article, index) in articles" :key="index">
+      <li class="article" v-for="(article, index) in articles" :key="article.id">
         <h2 class="article-title">
           <nuxt-link class="title-link" :to="'/detail/' + article.id">{{ article.title }}</nuxt-link>
         </h2>
-        <div class="article-meta">
-          <span class="meta-publish-date">{{ article.createdAt | formatDate('yyyy-MM-dd') }}</span>
-          <span class="meta-division"> / </span>
-          <span class="meta-update-date">{{ article.updatedAt | formatDate('yyyy-MM-dd')}}</span>
-        </div>
         <p class="article-body">{{ article.content | cutString(170) }}</p>
       </li>
     </ul>
@@ -21,7 +16,7 @@ export default {
   props: {
     articles: {
       type: Array,
-      default: []
+      default: () => []
     }
   }
 }
@@ -34,7 +29,6 @@ $font-color: #24292e;
   ul {
     list-style: none;
   }
-
   .article {
     max-width: 700px;
     margin: 60px auto;
@@ -46,14 +40,6 @@ $font-color: #24292e;
         &:hover {
           color: $link-color;
         }
-      }
-    }
-    .article-meta {
-      font-size: 12px;
-      line-height: 30px;
-      color: #666;
-      .meta-division {
-        margin: 0 7px;
       }
     }
     .article-body {

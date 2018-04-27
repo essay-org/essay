@@ -30,6 +30,9 @@
     <footer class="blog-footer">
       <p>Powered by <a href="https://github.com/wmui/vueblog" target="_blank">VueBlog</a>.</p>
     </footer>
+    <!-- <div class="blog-github">
+      <a href="https://github.com/wmui"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+    </div> -->
   </div>
 </template>
 <script>

@@ -2,7 +2,7 @@
   <div class="admin-publish">
     <input type="text" placeholder="文章标题" v-model="article.title" class="publish-title">
     <div class="publish-content">
-      <top-editor v-model="article.content" :upload="upload" :options="options" @save="save"/>
+      <top-editor v-model="article.content" :upload="upload" :options="options" @save="save" />
     </div>
     <div class="publish-handle">
       <input type="text" placeholder="回车可创建新标签" v-model="tag" @keyup.enter="addTag">
@@ -20,7 +20,7 @@
         <a v-for="(tag,index) in tags" :key="index" @click="chooseTag(tag)">{{ tag.name }}</a>
       </div>
     </div>
-    <top-tip ref="tip"/>
+    <top-tip ref="tip" />
   </div>
 </template>
 <script>
@@ -35,7 +35,7 @@ export default {
         }
       },
       options: {},
-      article:{
+      article: {
         title: '',
         content: '',
         tags: []
@@ -45,7 +45,7 @@ export default {
     }
   },
 
-  async mounted() {
+  mounted() {
     if (process.browser) {
       this.options = {
         linkify: true,
@@ -59,14 +59,12 @@ export default {
         }
       }
     }
-
-    await this.$store.dispatch('TAGS').then((data) => {
+    this.$store.dispatch('TAGS').then((data) => {
       this.tags = data.data
     })
-
     if (this.$route.params.id) {
       let id = this.$route.params.id
-      await this.$store.dispatch('ARTICLE_DETAIL', id).then((data) => {
+      this.$store.dispatch('ARTICLE_DETAIL', id).then((data) => {
         this.article = data.data
       })
     }
@@ -79,11 +77,9 @@ export default {
       }
       this.article.tags.push(tag)
     },
-
     delTag(tag, index) {
       this.article.tags.splice(index, 1)
     },
-
     addTag() {
       if (this.tags.findIndex(item => item.name === this.tag) > -1) {
         // add tag
@@ -104,19 +100,16 @@ export default {
         })
       }
     },
-
     publish(isPublish) {
+      let tagsID = []
+      let article = {}
       if (!this.article.title || !this.article.content) {
         this.$refs.tip.openTip('标题和内容不能为空！')
-        return
+        return false
       }
-
-      let tagsID = []
       this.article.tags.forEach((item) => {
         tagsID.push(item.id)
       })
-
-      let article = {}
       // update article
       if (this.article.id) {
         article = {
@@ -126,7 +119,6 @@ export default {
           tags: tagsID,
           publish: isPublish,
         }
-
         this.$store.dispatch('UPDATE_ARTICLE', article).then((data) => {
           if (data.success) {
             this.$refs.tip.openTip('文章更新完成')
@@ -139,7 +131,6 @@ export default {
           tags: tagsID,
           publish: isPublish,
         }
-
         this.$store.dispatch('CREATE_ARTICLE', article).then((data) => {
           if (data.success) {
             this.$refs.tip.openTip('文章创建完成')
@@ -150,9 +141,8 @@ export default {
         })
       }
     },
-
     save(val) {
-      if(val === true) {
+      if (val === true) {
         // ctrl + s save article
         this.publish(false)
       }
@@ -238,4 +228,5 @@ export default {
     }
   }
 }
+
 </style>

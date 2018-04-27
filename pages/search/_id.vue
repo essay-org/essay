@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="hasID">
+    <template v-if="$route.params.id">
       <top-lists :articles="articles"/>
     </template>
     <template v-else>
@@ -17,25 +17,12 @@
 export default {
   async asyncData({ store, route }) {
     let id = route.params.id || ''
-    let data = await store.dispatch('SEARCH', id)
-    if (route.params.id) {
-      // articles
-      if (data.success) {
-        return {
-          hasID: true,
-          articles: data.data
-        }
-      }
-    } else {
-      if (data.success) {
-        return {
-          hasID: false,
-          articles: []
-        }
-      }
+    const { data } = await store.dispatch('SEARCH', id)
+    return {
+      articles: data || []
     }
   },
-  head () {
+  head() {
     return {
       title: '搜索 - ' + this.$store.state.user.nickname
     }
@@ -47,12 +34,9 @@ export default {
   },
   methods: {
     search() {
-      if (this.keyword === '') {
-        return
-      } else {
-        let keyword = encodeURIComponent(this.keyword)
-        this.$router.push(`/search/${keyword}`)
-      }
+      if (this.keyword === '') { return false }
+      let keyword = encodeURIComponent(this.keyword)
+      this.$router.push(`/search/${keyword}`)
     }
   }
 }

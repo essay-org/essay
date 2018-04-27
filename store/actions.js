@@ -4,8 +4,13 @@ export default {
     if (req.headers.cookie) {
       // eg: token='asdf';id='123'
       let cookie = req.headers.cookie
+      let cookieObj = {}
+      let cookieArr = []
+      let key = ''
+      let value = ''
+
       cookie = cookie.split(';')
-      let cookieObj = {}, cookieArr = [], key = '', value = ''
+
       for (let i = 0; i < cookie.length; i++) {
         cookieArr = cookie[i].split('=')
         key = cookieArr[0]
@@ -105,12 +110,12 @@ export default {
     return data
   },
 
-  async ARCHIVES({ state, getters }) {
+  async ARCHIVES({ commit, state, getters }) {
     const { data } = await axios.get(`${getters.baseUrl}/archives`)
     return data
   },
 
-  async ADMIN_INFO({ state, getters }) {
+  async ADMIN_INFO({ commit, state, getters }) {
     const { data } = await axios.get(`${getters.baseUrl}/user`)
     return data
   },

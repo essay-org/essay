@@ -20,27 +20,19 @@
 <script>
 export default {
   middleware: 'auth',
-  async asyncData({ store }) {
-    let data = await store.dispatch('ADMIN_INFO')
-    if (data.success) {
-      return {
-        user: data.data
-      }
-    } else {
-      return {
-        user: {}
-      }
-    }
-  },
-
   data() {
     return {
       oldPassword: '',
       newPassword: '',
-      vertifyPassword: ''
+      vertifyPassword: '',
+      user: {}
     }
   },
-
+  mounted() {
+    this.$store.dispatch('ADMIN_INFO').then((data) => {
+      this.user = data.data
+    })
+  },
   methods: {
     updateInfo() {
       this.$store.dispatch('UPDATE_ADMIN', this.user).then((data) => {
@@ -51,11 +43,11 @@ export default {
     },
     updatePassword() {
       if (!this.oldPassword || !this.newPassword || !this.vertifyPassword) {
-        return
+        return false
       }
       if (this.newPassword !== this.vertifyPassword) {
         this.$refs.tip.openTip('两次密码不一致！')
-        return
+        return false
       }
       this.$store.dispatch('UPDATE_ADMIN', { oldPassword: this.oldPassword, newPassword: this.newPassword }).then((data) => {
         if(data.success) {
@@ -64,7 +56,7 @@ export default {
           this.$store.dispatch('LOGOUT').then(ret => {
             if(ret.success) {
               this.$store.state.token = ''
-              this.$router.push('/')
+              this.$router.push('/login')
             }
           })
         }
@@ -74,8 +66,6 @@ export default {
 }
 
 </script>
-
-
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
 .admin-update {

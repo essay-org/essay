@@ -13,15 +13,15 @@ export default {
       user:{}
     }
   },
-  head () {
+  head() {
     return {
-      title: '登录'
+      title: '登录 - ' + this.$store.state.user.nickname
     }
   },
   methods: {
-    login () {
+    login() {
       if(!this.user.username || !this.user.password) {
-        return
+        return false
       }
       this.$store.dispatch('LOGIN', this.user).then(data => {
         if(data.success) {

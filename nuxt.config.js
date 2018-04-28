@@ -3,10 +3,12 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'renderer', content: 'webkit' }
+      { name: 'renderer', content: 'webkit' },
+      { name: 'keywords', content: 'VueBlog, Vuejs, Nodejs, 服务端渲染'}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'alternate', type: 'application/rss+xml', title: 'RSS 2.0', href: '/rss.xml' },
       { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_620064_9otr4k6uaufbhuxr.css' }
     ]
   },

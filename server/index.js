@@ -1,6 +1,5 @@
 import Koa from 'koa'
 import { Nuxt, Builder } from 'nuxt'
-import path from 'path'
 import KoaStatic from 'koa-static'
 import bodyParser from 'koa-bodyparser'
 import Router from 'koa-router'
@@ -14,6 +13,11 @@ async function start() {
   const port = process.env.PORT || globalConfig.app.port
   const router = new Router()
 
+  /*app.get('/rss.xml', (ctx, next) => {
+    ctx.res.end('good')
+    next()
+   })
+*/
   app.use(cors())
   app.use(bodyParser())
   app.use(KoaStatic('.'))
@@ -21,6 +25,7 @@ async function start() {
   app
   .use(router.routes())
   .use(router.allowedMethods())
+
 
   // Import and Set Nuxt.js options
   let config = require('../nuxt.config.js')

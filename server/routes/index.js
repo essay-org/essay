@@ -5,6 +5,7 @@ import db from '../models'
 import checkToken from '../middlewares/check-token'
 import { getRssBodyFromBody } from '../rss'
 import { getSitemapFromBody } from '../sitemap'
+import getRobotsFromConfig from '../robots'
 
 const router = new Router()
 const user = require('../controllers/user')
@@ -42,6 +43,15 @@ router.get('/sitemap.xml', async (ctx, next) => {
 })
   ctx.type = 'application/xml'
   ctx.res.end(sitemap)
+})
+
+// robots
+let robots = ''
+router.get('/robots.txt', (ctx, next) => {
+  robots = getRobotsFromConfig({
+    siteUrl: baseUrl
+  })
+  ctx.res.end(robots)
 })
 
 router

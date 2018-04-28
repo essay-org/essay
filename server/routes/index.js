@@ -4,6 +4,7 @@ import config from '../config'
 import db from '../models'
 import checkToken from '../middlewares/check-token'
 import { getRssBodyFromBody } from '../rss'
+import { getSitemapFromBody } from '../sitemap'
 
 const router = new Router()
 const user = require('../controllers/user')
@@ -16,9 +17,9 @@ let baseUrl = `http://${config.app.host}:${config.app.port}`
 if(process.env.NODE_ENV === 'production') {
   baseUrl = config.production.domain
 }
-let rssApi = `${baseUrl}/${config.app.routerBaseApi}/articles`
+let articleApi = `${baseUrl}/${config.app.routerBaseApi}/articles`
 router.get('/rss.xml', async (ctx, next) => {
-  await axios.get(rssApi).then((ret) => {
+  await axios.get(articleApi).then((ret) => {
   const {data} = ret
   rss = getRssBodyFromBody(data, {
     title: 'VueBlog',
@@ -28,6 +29,19 @@ router.get('/rss.xml', async (ctx, next) => {
 })
   ctx.type = 'application/xml'
   ctx.res.end(rss)
+})
+
+// sitemap
+let sitemap = ''
+router.get('/sitemap.xml', async (ctx, next) => {
+  await axios.get(articleApi).then((ret) => {
+  const {data} = ret
+  sitemap = getSitemapFromBody(data, {
+    siteUrl: baseUrl
+  })
+})
+  ctx.type = 'application/xml'
+  ctx.res.end(sitemap)
 })
 
 router

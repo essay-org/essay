@@ -21,7 +21,14 @@ export default {
       total: data.total
     }
   },
-
+  head() {
+    return {
+      title: this.$store.state.user.nickname,
+      meta: [
+        { description: 'VueBlog是一个基于Vuejs开发的小型博客应用，让你可以为所欲为的分享自己的知识和创作' }
+      ]
+    }
+  },
   methods: {
     prevPage() {
       this.$router.push({

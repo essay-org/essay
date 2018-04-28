@@ -28,6 +28,7 @@
   </div>
 </template>
 <script>
+import { cutString } from '~/plugins/filters'
 export default {
   async asyncData({ store, route, error }) {
     let id = route.params.id || ''
@@ -45,7 +46,10 @@ export default {
   },
   head() {
     return {
-      title: `${this.article.title} - ${this.$store.state.user.nickname}`
+      title: this.article.title + '-' + this.$store.state.user.nickname,
+      meta: [
+        { description: cutString(this.article.content, 300) }
+      ]
     }
   },
   data() {
@@ -54,6 +58,7 @@ export default {
       isLogin: this.$store.state.token ? true : false
     }
   },
+
   mounted() {
     if (process.browser) {
       this.options = {
@@ -69,6 +74,7 @@ export default {
       }
     }
   },
+
   methods: {
     del(id) {
       this.$store.dispatch('DELETE_ARTICLE', id).then(data => {

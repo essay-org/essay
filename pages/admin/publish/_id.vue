@@ -45,6 +45,11 @@ export default {
     }
   },
 
+  head() {
+    return {
+      title: '发布文章 - ' + this.$store.state.user.nickname
+    }
+  },
   mounted() {
     if (process.browser) {
       this.options = {

@@ -30,6 +30,11 @@ export default {
       this.tags = data.data
     })
   },
+  head() {
+    return {
+      title: '修改标签 - ' + this.$store.state.user.nickname
+    }
+  },
   methods: {
     delTag(tag) {
        this.$store.dispatch('DELETE_TAG', tag.id).then((data) => {

@@ -24,6 +24,11 @@ export default {
       this.articles = data.data
     })
   },
+  head() {
+    return {
+      title: '草稿箱 - ' + this.$store.state.user.nickname
+    }
+  },
   methods: {
     del(id) {
       this.$store.dispatch('DELETE_ARTICLE', id).then((data) => {

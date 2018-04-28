@@ -33,6 +33,11 @@ export default {
       this.user = data.data
     })
   },
+  head() {
+    return {
+      title: '修改信息 - ' + this.$store.state.user.nickname
+    }
+  },
   methods: {
     updateInfo() {
       this.$store.dispatch('UPDATE_ADMIN', this.user).then((data) => {

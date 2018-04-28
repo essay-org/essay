@@ -28,12 +28,13 @@ function padLeftZero(str) {
 
 export function cutString(str, len) {
   if (str !== null) {
+    let md = new MarkdownIt()
+    str = md.render(str)
+    str = str.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>').replace(/\s/g, '')
     if (str.length * 2 <= len) {
       return str
     }
-    let md = new MarkdownIt()
-    str = md.render(str)
-    str = str.replace(/<.*?>/g, '').replace(/&lt;.*?/g, '<').replace(/&gt;.*?/g, '>')
+
     let strlen = 0
     let s = ''
     for (let i = 0; i < str.length; i++) {

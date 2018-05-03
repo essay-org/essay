@@ -66,9 +66,6 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
   .page {
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
     display: flex;
     justify-content: space-between;
     margin: 30px auto;

@@ -32,8 +32,6 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
 .tags-list {
-  max-width: 700px;
-  margin: 60px auto;
   li {
     display: inline-block;
     margin-right: 10px;

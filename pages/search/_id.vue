@@ -46,7 +46,6 @@ export default {
 @import '~/assets/css/var.scss';
 .search {
   text-align: center;
-  margin: 60px auto;
   h3 {
     font-size: 20px;
     font-weight: 400;

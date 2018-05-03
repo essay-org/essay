@@ -93,10 +93,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
-
 .detail {
-  max-width: 700px;
-  margin: 60px auto;
   .detail-title {
     margin-bottom: 15px;
   }

@@ -30,8 +30,6 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
 .archives {
-  max-width: 700px;
-  margin: 60px auto;
   .archive-item {
     margin-bottom: 30px;
   }

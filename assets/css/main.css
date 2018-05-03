@@ -90,9 +90,9 @@ input[type="search"] {
 }
 
 .container {
-  max-width: 700px;
-  margin: 60px auto;
-  padding: 0 15px;
+  max-width: 770px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .clearfix::after {

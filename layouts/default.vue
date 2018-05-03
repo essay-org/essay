@@ -20,19 +20,17 @@
         </nav>
       </header>
     </div>
-    <section class="blog-body">
+    <section class="blog-body container">
       <nuxt/>
     </section>
     <aside class="blog-aside">
-      <a href="#" class="aside-backtop"><i class="iconfont icon-backtop"></i></a>
-      <a href="/admin/publish" class="aside-new"><i class="iconfont icon-logs"></i></a>
+      <nuxt-link to="/rss.xml" target="_blank"><i class="iconfont icon-rss"></i></nuxt-link>
+      <a to="https://github.com/wmui"><i class="iconfont icon-github" target="_blank"></i></a>
+      <a href="#"><i class="iconfont icon-backtop"></i></a>
     </aside>
-    <footer class="blog-footer">
+    <footer class="blog-footer container">
       <p>Powered by <a href="https://github.com/wmui/vueblog" target="_blank">VueBlog</a>.</p>
     </footer>
-    <!-- <div class="blog-github">
-      <a href="https://github.com/wmui"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
-    </div> -->
   </div>
 </template>
 <script>
@@ -153,35 +151,37 @@ export default {
   .blog-body {
     padding-left: 15px;
     padding-right: 15px;
+    margin-top: 60px;
+    margin-bottom: 60px;
   }
   .blog-aside {
     position: fixed;
-    right: 50px;
+    right: 30px;
     bottom: 50px;
     z-index: 999;
-    .aside-new,
-    .aside-backtop {
+    // border: 1px solid #eee;
+    border-radius: 4px;
+    box-shadow: 0 0 3px  rgba(0, 0, 0, 0.3);
+    a {
       display: block;
+      color: #999;
       width: 40px;
       line-height: 40px;
       height: 40px;
-      border-radius: 50%;
       background-color: #fafafa;
-      border: 1px solid #fff;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
       text-align: center;
+      border: 1px solid #fff;
       opacity: 1;
-    }
-    .aside-backtop{
-      margin-bottom: 10px;
-      i {
-        font-size: 25px;
+      border-bottom: 1px solid #eee;
+      &:hover {
+        color: $link-color;
       }
+    }
+    i {
+      font-size: 25px;
     }
   }
   .blog-footer {
-    max-width: 700px;
-    margin: 0 auto;
     border-top: 1px solid #eee;
     text-align: center;
     font-size: 12px;

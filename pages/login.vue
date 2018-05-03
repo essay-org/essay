@@ -38,8 +38,6 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
 .login {
-  max-width: 700px;
-  margin: 60px auto;
   input {
     display: block;
     width: 300px;

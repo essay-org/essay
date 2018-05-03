@@ -1,3 +1,5 @@
+import MarkdownIt from 'markdown-it'
+
 let getUpdatedDate = date => `<lastBuildDate>${date}</lastBuildDate>\r\n`
 let tail = `</channel>
 </rss>`
@@ -12,7 +14,8 @@ let getRssBodyFromBody = (result, config) => {
     <language>zh-CN</language>\r\n`
   let body = result.data.reduce((prev, curr) => {
     let date = new Date(curr.updatedAt).toUTCString()
-    let content = curr.content
+    let md = new MarkdownIt()
+    let content = md.render(curr.content)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')

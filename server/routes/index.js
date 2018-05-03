@@ -21,7 +21,7 @@ if(process.env.NODE_ENV === 'production') {
 let articleApi = `${baseUrl}/${config.app.routerBaseApi}/articles`
 router.get('/rss.xml', async (ctx, next) => {
   await axios.get(articleApi).then((ret) => {
-  const {data} = ret
+  let {data} = ret
   rss = getRssBodyFromBody(data, {
     title: 'VueBlog',
     siteUrl: baseUrl,

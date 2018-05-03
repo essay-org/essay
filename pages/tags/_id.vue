@@ -1,5 +1,5 @@
 <template>
-  <div class="tags">
+  <div class="tags container">
     <template v-if="$route.params.id">
       <top-lists :articles="lists"/>
     </template>

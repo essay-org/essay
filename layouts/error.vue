@@ -1,5 +1,5 @@
 <template>
-  <section class="error">
+  <section class="error container">
     <h1 class="error-title">
       {{ error.statusCode }}
     </h1>
@@ -16,10 +16,8 @@ export default {
   props: ['error']
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .error {
-  width: 700px;
-  margin: 60px auto;
   text-align: center;
   .error-title {
     font-size: 5em;

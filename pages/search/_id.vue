@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <template v-if="$route.params.id">
       <top-lists :articles="articles"/>
     </template>

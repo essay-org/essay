@@ -20,12 +20,13 @@
         </nav>
       </header>
     </div>
-    <section class="blog-body container">
+    <section class="blog-body">
       <nuxt/>
     </section>
     <aside class="blog-aside">
       <nuxt-link to="/rss.xml" target="_blank"><i class="iconfont icon-rss"></i></nuxt-link>
       <a href="https://github.com/wmui"><i class="iconfont icon-github"></i></a>
+      <a href="/admin/publish"><i class="iconfont icon-writefill"></i></a>
       <a href="#"><i class="iconfont icon-backtop"></i></a>
     </aside>
     <footer class="blog-footer container">

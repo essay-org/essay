@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index container">
     <top-lists :articles="articles"/>
     <div class="page" v-if="maxPage > 1">
       <div class="page-prev">

@@ -1,5 +1,5 @@
 <template>
-  <div class="archives">
+  <div class="archives container">
     <div class="archive-item" v-for="(archive, index) in archives" :key="index">
       <h3 class="item-title">{{ archive.date }}({{ archive.total }})</h3>
       <ul class="item-list">

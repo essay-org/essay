@@ -1,5 +1,5 @@
 <template>
-  <div class="detail">
+  <div class="detail container">
     <h1 class="detail-title">{{ article.title }}</h1>
     <div class="detail-meta">
       <span>

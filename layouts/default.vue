@@ -25,7 +25,7 @@
     </section>
     <aside class="blog-aside">
       <nuxt-link to="/rss.xml" target="_blank"><i class="iconfont icon-rss"></i></nuxt-link>
-      <a to="https://github.com/wmui"><i class="iconfont icon-github" target="_blank"></i></a>
+      <a href="https://github.com/wmui"><i class="iconfont icon-github"></i></a>
       <a href="#"><i class="iconfont icon-backtop"></i></a>
     </aside>
     <footer class="blog-footer container">

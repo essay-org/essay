@@ -1,24 +1,31 @@
+[中文文档](https://github.com/wmui/vueblog/blob/master/README.md)
+
 <a href="https://travis-ci.org/wmui/vueblog"><img src="https://travis-ci.org/wmui/vueblog.svg?branch=master" alt="Build Status"></a>
 <a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 
-## VueBlog v2
+<div style="text-align:center">
+  <img src="https://www.86886.wang/public/1525424904553.png" alt="VueBlog">
+  <p><a href="https://www.86886.wang" target="_blank">Live Demo</a></p>
+</div>
 
-VueBlog是一个小而美的博客应用 [演示站](http://www.86886.wang)  
+## VueBlog
 
-### 技术栈
+VueBlog is a lightweight blog application [Live Demo](http://www.86886.wang)
 
-- 前端：Nuxt.js + Vuex
-- 后端: Mongoose + Koa
+### Technology stack
 
-### 功能特性
+- FrontEnd: Nuxt.js and Vuex
+- BackEnd: Mongoose and Koa
 
-- 服务端渲染
-- PWA渐进式web应用
-- 基于Vue开发的轻量级Markdown编辑器
+### Features
 
-### 本地运行
+- Server Side Rendering.
+- Progressive Web App.
+- A lightweight markdown editor based on Vue.js.
 
-本地安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库和[Node.js](https://nodejs.org/en/)环境。
+### Build Setup
+
+First install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/)
 
 ``` bash
 # install dependencies
@@ -34,11 +41,11 @@ npm run build
 npm start
 ```
 
-### 全局配置
+### Global config
 
-全局配置文件`/server/config/index.js`
+The config file is `/server/config/index.js`.
 
-默认用户名：q，默认密码：q  
+The uername is `q` and password is `q`.
 
 ```javascript
 export default {
@@ -68,11 +75,12 @@ export default {
   app: {
     host: '127.0.0.1',
     port: 3000,
-    routerBaseApi: '/api'
+    routerBaseApi: 'api'
   }
 }
+
 ```
 
-### 开源协议
+### License
 
-[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)  
+[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)

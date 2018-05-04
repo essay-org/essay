@@ -3,14 +3,14 @@
 <a href="https://travis-ci.org/wmui/vueblog"><img src="https://travis-ci.org/wmui/vueblog.svg?branch=master" alt="Build Status"></a>
 <a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 
-<div style="text-align:center">
+<div style="text-align:center;">
   <img src="https://www.86886.wang/public/1525424904553.png" alt="VueBlog">
   <p><a href="https://www.86886.wang" target="_blank">Live Demo</a></p>
 </div>
 
 ## VueBlog
 
-VueBlog is a lightweight blog application [Live Demo](http://www.86886.wang)
+VueBlog is a lightweight blog application
 
 ### Technology stack
 

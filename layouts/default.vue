@@ -27,7 +27,7 @@
       <nuxt-link to="/rss.xml" target="_blank"><i class="iconfont icon-rss"></i></nuxt-link>
       <a href="https://github.com/wmui"><i class="iconfont icon-github"></i></a>
       <a href="/admin/publish"><i class="iconfont icon-writefill"></i></a>
-      <a href="#"><i class="iconfont icon-backtop"></i></a>
+      <a @click="backTop"><i class="iconfont icon-backtop"></i></a>
     </aside>
     <footer class="blog-footer container">
       <p>Powered by <a href="https://github.com/wmui/vueblog" target="_blank">VueBlog</a>.</p>
@@ -99,6 +99,10 @@ export default {
           this.$router.push('/')
         }
       })
+    },
+    backTop() {
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
     }
   }
 }

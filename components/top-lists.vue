@@ -5,7 +5,7 @@
         <h2 class="article-title">
           <nuxt-link class="title-link" :to="'/detail/' + article.id">{{ article.title }}</nuxt-link>
         </h2>
-        <p class="article-body">{{ article.content | cutString(170) }}</p>
+        <p class="article-body">{{ article.content | cutString(180) }}</p>
       </li>
     </ul>
   </div>
@@ -30,7 +30,6 @@ $font-color: #24292e;
     list-style: none;
   }
   .article {
-    max-width: 700px;
     margin: 60px auto;
     .article-title {
       font-size: 20px;

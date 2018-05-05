@@ -30,7 +30,7 @@ $font-color: #24292e;
     list-style: none;
   }
   .article {
-    margin: 60px auto;
+    margin: 50px auto;
     .article-title {
       font-size: 20px;
       font-weight: normal;

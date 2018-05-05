@@ -1,7 +1,10 @@
 <template>
   <div class="search container">
     <div v-if="$route.params.id">
-      <top-lists :articles="articles"/>
+      <div class="search-result">
+        <p>找到{{ articles.length }}篇和 <span>{{ keyword }}</span> 相关的文章</p>
+        <top-lists :articles="articles" />
+      </div>
     </div>
     <div v-else>
       <div class="search-wrap">
@@ -29,7 +32,7 @@ export default {
   },
   data() {
     return {
-      keyword: ''
+      keyword: this.$route.params.id || ''
     }
   },
   methods: {
@@ -45,6 +48,12 @@ export default {
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
 .search {
+  .search-result {
+    color: #666;
+    span {
+      color: $link-color;
+    }
+  }
   .search-wrap {
     text-align: center;
     h3 {
@@ -63,4 +72,5 @@ export default {
     }
   }
 }
+
 </style>

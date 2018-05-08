@@ -163,7 +163,7 @@ export const search = async(ctx, next) => {
   try {
     let body = await Article.find({
       publish: true,
-      $or: [{ title: { $regex: reg } }]
+      $or: [{ title: { $regex: reg }}, { content: { $regex: reg }}]
     })
     .sort({'createdAt': -1})
     .exec()

@@ -10,7 +10,7 @@
       <div class="search-wrap">
         <h3>文章搜索</h3>
         <label>
-          <input type="text" v-model="keyword" @keyup.enter="search" autofocus placeholder="回车搜索">
+          <input type="text" v-model="keyword" @keyup.enter="search" autofocus placeholder="回车搜索" maxlength="30">
         </label>
       </div>
     </div>

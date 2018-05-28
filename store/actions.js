@@ -136,7 +136,7 @@ export default {
   },
 
   async LOGOUT({ commit, state, getters }) {
-    const { data } = await axios.post(`${getters.routerBaseApi}/logout`, {}, {
+    const { data } = await axios.post(`${getters.baseUrl}/logout`, {}, {
       headers: {
         token: state.token
       }

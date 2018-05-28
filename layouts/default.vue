@@ -6,7 +6,7 @@
           <nav class="header-nav" ref="headerNav">
             <div class="nav-search">
               <i class="vueblog icon-search"></i>
-              <input type="text" v-model="keyword" @keyup.enter="search">
+              <input type="text" v-model="keyword" @keyup.enter="search" maxlength="30">
             </div>
             <!-- admin navs -->
             <ul class="nav-list" v-if="/^(admin)/.test($route.name)">

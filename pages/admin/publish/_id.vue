@@ -232,6 +232,9 @@ export default {
       }
     }
   }
+  .full-screen  {
+    z-index: 1000 !important;
+  }
 }
 
 </style>

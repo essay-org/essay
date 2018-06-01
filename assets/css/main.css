@@ -102,7 +102,7 @@ input[type="search"] {
 }
 
 .markdown-body {
-  line-height: 1.6 !important;
+  line-height: 1.618 !important;
 }
 
 code {

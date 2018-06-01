@@ -46,5 +46,5 @@ ArticleSchema.options.toJSON = {
     delete ret._id
   }
 }
-// db.articles.update({}, {$set: {flag: 1}}, {multi: 1})
+// db.users.update({}, {$set: {github: 'https://github.com/wmui'}}, {multi: 1})
 mongoose.model('Article', ArticleSchema)

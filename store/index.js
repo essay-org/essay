@@ -7,6 +7,7 @@ export default () => {
   return new Vuex.Store({
     state: {
       token: '',
+      githubToken: '',
       user: {},
       articles: {}
     },

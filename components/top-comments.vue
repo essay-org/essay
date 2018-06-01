@@ -1,5 +1,5 @@
 <!-- https://github.com/ktquez/vue-disqus -->
-<template>
+<!-- <template>
   <div id="disqus_thread"></div>
   </div>
 </template>
@@ -99,3 +99,14 @@ export default {
 }
 
 </script>
+ -->
+ <template>
+   <div class="comment">
+
+   </div>
+ </template>
+ <script>
+   export default {
+
+   }
+ </script>

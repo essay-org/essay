@@ -21,14 +21,14 @@
       <p class="admin-del"><a @click="del(article.id)">删除</a></p>
       <p class="admin-edit"><a @click="edit(article.id)">编辑</a></p>
     </div>
-    <no-ssr>
-      <top-comments shortname="vueblog-1" :identifier="article.id"/>
-    </no-ssr>
+
+    <button @click="githubLogin(article.id)">github login</button>
     <top-tip ref="tip" />
   </div>
 </template>
 <script>
 import { cutString } from '~/plugins/filters'
+import axios from 'axios'
 export default {
   async asyncData({ store, route, error }) {
     let id = route.params.id || ''
@@ -73,6 +73,11 @@ export default {
         }
       }
     }
+    /*if(this.$store.state.githubToken){
+      axios.get('https://api.github.com/user?access_token=' + this.$store.state.githubToken).then(data=> {
+         console.log(data.data)
+      })
+    }*/
   },
 
   methods: {
@@ -86,6 +91,9 @@ export default {
     },
     edit(id) {
       this.$router.push(`/admin/publish/${id}`)
+    },
+    githubLogin(id){
+      window.location.href = `${this.$store.getters.baseUrl}/oauth/github/${id}`
     }
   }
 }

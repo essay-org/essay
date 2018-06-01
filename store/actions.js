@@ -1,16 +1,11 @@
 import axios from 'axios'
+
 export default {
   async nuxtServerInit({ dispatch, commit, getters }, { req, res }) {
     if (req.headers.cookie) {
       // eg: token='asdf';id='123'
-      let cookie = req.headers.cookie
-      let cookieObj = {}
-      let cookieArr = []
-      let key = ''
-      let value = ''
-
+      let cookie = req.headers.cookie, cookieObj = {}, cookieArr = [], key = '', value = '';
       cookie = cookie.split(';')
-
       for (let i = 0; i < cookie.length; i++) {
         cookieArr = cookie[i].split('=')
         key = cookieArr[0]
@@ -18,6 +13,7 @@ export default {
         cookieObj[key] = value
       }
       commit('SET_TOKEN', cookieObj.token)
+      commit('SET_GITHUB_TOKEN', cookieObj.githubToken)
     }
 
     const { data } = await axios.get(`${getters.baseUrl}/user`)

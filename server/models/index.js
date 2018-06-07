@@ -5,6 +5,7 @@ import config from '../config'
 require('./user')
 require('./tag')
 require('./article')
+require('./comment')
 
 const User = mongoose.model('User')
 
@@ -14,7 +15,7 @@ mongoose.connection
   .openUri(mongoUrl)
   .once('open', async () => {
     console.log('database connect successed')
-    // init admin information
+    // 初始化管理员信息
     let userInfo = config.user
     userInfo.password = md5(userInfo.password)
 

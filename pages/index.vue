@@ -29,6 +29,9 @@ export default {
       ]
     }
   },
+  mounted() {
+
+  },
   methods: {
     prevPage() {
       this.$router.push({

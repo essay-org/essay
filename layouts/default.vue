@@ -4,6 +4,10 @@
       <header class="blog-header">
         <h1 class="header-title"><a href="/">{{ $store.state.user.nickname }}</a></h1>
           <nav class="header-nav" ref="headerNav">
+            <div class="nav-avatar">
+              <img :src="$store.state.user.avatar" alt="">
+              <h4>{{ $store.state.user.motto }}</h4>
+            </div>
             <div class="nav-search">
               <i class="vueblog icon-search"></i>
               <input type="text" v-model="keyword" @keyup.enter="search" maxlength="30">
@@ -37,7 +41,7 @@
       <a @click="backTop"><i class="vueblog icon-backtop"></i></a>
     </aside>
     <footer class="blog-footer container">
-      <p>Powered by <a href="https://github.com/wmui/vueblog" target="_blank">VueBlog</a>.</p>
+      <p>Powered by <a href="https://github.com/wmui/vueblog" target="_blank">VueBlog</a></p>
     </footer>
   </div>
 </template>
@@ -47,7 +51,6 @@ export default {
     return {
       keyword: '',
       navStyle: {},
-      isShow: false,
       navs: [{
           path: '/',
           routerName: 'index',
@@ -168,6 +171,9 @@ export default {
       }
     }
     .header-nav {
+      .nav-avatar {
+        display: none;
+      }
       ul {
         display: inline-block;
         list-style: none;
@@ -261,6 +267,16 @@ export default {
         padding: 0 15px;
         z-index: 1000;
         background-color: #f3f3f3;
+        .nav-avatar {
+          display: block;
+          img {
+            width: 100px;
+            border-radius: 50%;
+            text-align: center;
+            display: inline-block;
+            margin-top: 30px;
+          }
+        }
         .nav-search {
           display: block;
           width: 200px;

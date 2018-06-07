@@ -22,7 +22,7 @@ const UserSchema = new Schema({
   }
 })
 
-// hidden some field
+// 隐藏一些字段
 UserSchema.options.toJSON = {
   virtuals: true,
   versionKey: false,
@@ -30,7 +30,6 @@ UserSchema.options.toJSON = {
     ret.id = ret._id
     delete ret._id
     delete ret.id
-    delete ret.username
   }
 }
 mongoose.model('User', UserSchema)

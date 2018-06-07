@@ -100,7 +100,10 @@ export default {
     })
     return data
   },
-
+  async CREATE_COMMENT({ commit, state, getters }, params) {
+    const { data } = await axios.post(`${getters.baseUrl}/comment`, params)
+    return data
+  },
   async ARTICLE_DETAIL({ commit, state, getters }, id) {
     const { data } = await axios.get(`${getters.baseUrl}/article/${id}`)
     return data

@@ -8,6 +8,7 @@ const router = new Router()
 const user = require('../controllers/user')
 const tag = require('../controllers/tag')
 const article = require('../controllers/article')
+const comment = require('../controllers/comment')
 const tool = require('../controllers/tool')
 const oauthGithub = require('../controllers/oauth-github')
 
@@ -42,5 +43,9 @@ router
   .post('/api/upload', checkToken, article.upload)
   .patch('/api/article', checkToken, article.patchArticle)
   .del('/api/article/:id?', checkToken, article.deleteArticle)
+
+router
+  .post('/api/comment', comment.postComment)
+  .get('/api/comment', comment.getComment)
 
 export default router

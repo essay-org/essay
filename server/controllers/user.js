@@ -40,7 +40,7 @@ export const getUserInfo = async(ctx, next) => {
   let { username } = ctx.params
   let avatarUrl = ctx.protocol + '://' + ctx.host + '/public/' + config.user.avatar
   if(!username){
-    // superAdmin message
+    // 获取管理员信息
     try {
       let data = await User.findOne({ role: 'superAdmin' }).exec()
       data.avatar = avatarUrl
@@ -55,7 +55,7 @@ export const getUserInfo = async(ctx, next) => {
       }
     }
   } else {
-    // user message
+    // 获取普通用户信息
     try {
       let data = await User.findOne({ username: username }).exec()
       ctx.body = {
@@ -75,7 +75,7 @@ export const patchUserInfo = async(ctx, next) => {
   let body = ctx.request.body
 
   if (body.oldPassword && body.newPassword) {
-    // update password
+    // 更新管理员密码
     let oldPassword = md5(body.oldPassword)
     let newPassword = md5(body.newPassword)
     try {
@@ -98,7 +98,7 @@ export const patchUserInfo = async(ctx, next) => {
       }
     }
   } else {
-    // update info
+    // 更新管理员信息
     body.updatedAt = Date.now()
     try {
       body = await User.findOneAndUpdate({ role: 'superAdmin' }, body).exec()

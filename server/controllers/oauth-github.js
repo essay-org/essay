@@ -3,8 +3,9 @@ import axios from 'axios'
 import url from 'url'
 import mongoose from 'mongoose'
 
-// require('./user')
 const User = mongoose.model('User')
+
+// state表示github授权后的回调信息
 let state = ''
 export const login = (ctx, next) => {
   state = ctx.params.state || ''
@@ -14,12 +15,14 @@ export const login = (ctx, next) => {
     ctx.res.end()
 }
 
+// 授权成功后的回调函数
 export const callback = async (ctx, next) => {
   let query = url.parse(ctx.req.url, true).query
   let code = query.code
   let u = `https://github.com/login/oauth/access_token?client_id=${config.githubConfig.githubClient}&client_secret=${config.githubConfig.githubSecret}&code=${code}&state=${state}`
   let githubToken = ''
 
+  // 把获取到的token设置到cookie里
   await axios.get(u).then((ret) => {
     const {data} = ret
     var arr = data.split('&'),obj = {}
@@ -37,6 +40,7 @@ export const callback = async (ctx, next) => {
   })
   if(githubToken) {
     let userInfo = {}
+    // 把用户信息保存到数据库
     await axios.get(`https://api.github.com/user?access_token=${githubToken}`).then(ret => {
       const {data} = ret
       userInfo.role = 'user'
@@ -53,5 +57,6 @@ export const callback = async (ctx, next) => {
       await user.save()
     }
   }
+  // 完成授权后页面重定向
   return ctx.response.redirect(`${ctx.protocol}://${ctx.host}/detail/${state}`)
 }

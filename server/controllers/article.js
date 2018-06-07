@@ -20,7 +20,7 @@ export const getArticles = async(ctx, next) => {
       })
       .skip(page)
       .limit(limit)
-      .sort({'createdAt': -1})
+      .sort({ 'createdAt': -1 })
       .exec()
     ctx.body = {
       success: true,
@@ -42,7 +42,7 @@ export const getPrivateArticles = async(ctx, next) => {
       path: 'tags',
       select: 'id name'
     })
-    .sort({'updatedAt': -1})
+    .sort({ 'updatedAt': -1 })
     .exec()
   ctx.body = {
     success: true,
@@ -65,8 +65,13 @@ export const getArticle = async(ctx, next) => {
         path: 'tags',
         select: 'id name'
       })
+      .populate({
+        path: 'comments',
+        populate: { path: 'user' },
+        options: {sort:{createdAt: -1}}
+      })
       .exec()
-    await Article.findByIdAndUpdate(id, {views: article.views + 1}).exec()
+    await Article.findByIdAndUpdate(id, { views: article.views + 1 }).exec()
     ctx.body = {
       success: true,
       data: article
@@ -93,8 +98,6 @@ export const postArticle = async(ctx, next) => {
   try {
     body = await new Article(body)
     await body.save()
-    // when save article, we can replace id to object
-    // await body.populate('tags').execPopulate()
     ctx.body = {
       success: true,
       data: body
@@ -107,7 +110,8 @@ export const postArticle = async(ctx, next) => {
   }
 }
 
-// modify publish article or private article
+
+// 修改私有文章或已发布文章
 export const patchArticle = async(ctx, next) => {
   let body = ctx.request.body
   body.updatedAt = Date.now()
@@ -162,11 +166,11 @@ export const search = async(ctx, next) => {
   const reg = new RegExp(keyword, 'i')
   try {
     let body = await Article.find({
-      publish: true,
-      $or: [{ title: { $regex: reg }}, { content: { $regex: reg }}]
-    })
-    .sort({'createdAt': -1})
-    .exec()
+        publish: true,
+        $or: [{ title: { $regex: reg } }, { content: { $regex: reg } }]
+      })
+      .sort({ 'createdAt': -1 })
+      .exec()
     ctx.body = {
       success: true,
       data: body
@@ -186,7 +190,7 @@ export const archives = async(ctx, next) => {
       select: 'id name'
     })
     .select('id title tags createdAt updatedAt')
-    .sort({'createdAt': -1})
+    .sort({ 'createdAt': -1 })
     .exec()
   let arr = [],
     arr2 = [],
@@ -232,7 +236,7 @@ export const upload = async(ctx, next) => {
 
   function getImgUrl(ctx) {
     return new Promise((resolve, reject) => {
-      form.parse(ctx.req, function (err, fields, files) {
+      form.parse(ctx.req, function(err, fields, files) {
         if (err) {
           console.log(err)
           reject(err)
@@ -240,12 +244,12 @@ export const upload = async(ctx, next) => {
         // console.log(files)
         let lastItem = files[Object.keys(files)[Object.keys(files).length - 1]]
 
-        // fetch file extname
+        // 获取文件后缀名
         let extname = Date.now() + path.extname(lastItem.name)
         let oldUrl = lastItem.path
         let newUrl = './public/' + extname
 
-        // modify file name and upload file
+        // 文件重命名，上传到服务器
         let readStream = fs.createReadStream(oldUrl)
         let writeStream = fs.createWriteStream(newUrl)
         readStream.pipe(writeStream)

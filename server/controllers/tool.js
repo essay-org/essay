@@ -11,11 +11,12 @@ export const sitemap = async(ctx, next) => {
   let tail = '</urlset>'
   let res = await Article.find({ publish: true }).sort({ 'createdAt': -1 }).exec()
   let body = res.reduce((prev, curr) => {
-    prev += `  <url>\r\n`
-    prev += `    <loc>${ctx.protocol}://${ctx.host}/detail/${curr.id}</loc>\r\n`
-    prev += `    <lastmod>${curr.updatedAt}</lastmod>\r\n`
-    prev += `    <priority>0.6</priority>\r\n`
-    prev += `  </url>\r\n`
+    prev += `
+      <url>
+        <loc>${ctx.protocol}://${ctx.host}/detail/${curr.id}</loc>
+        <lastmod>${curr.updatedAt}</lastmod>
+        <priority>0.6</priority>
+      </url>`.trim()
     return prev
   }, '')
   sitemap = head + body + tail
@@ -46,13 +47,14 @@ export const rss = async(ctx, next) => {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&apos;')
-    prev += `    <item>\r\n`
-    prev += `      <title>${curr.title}</title>\r\n`
-    prev += `      <link>${ctx.protocol}://${ctx.host}/detail/${curr.id}</link>\r\n`
-    prev += `      <description>${content}</description>\r\n`
-    prev += `      <pubDate>${date}</pubDate>\r\n`
-    prev += `      <guid>${ctx.protocol}://${ctx.host}/detail/${curr.id}</guid>\r\n`
-    prev += `    </item>\r\n`
+    prev += `
+      <item>
+        <title>${curr.title}</title>
+        <link>${ctx.protocol}://${ctx.host}/detail/${curr.id}</link>
+        <description>${content}</description>
+        <pubDate>${date}</pubDate>
+        <guid>${ctx.protocol}://${ctx.host}/detail/${curr.id}</guid>
+      </item>`.trim()
     return prev
   }, '')
   ctx.type = 'application/xml'
@@ -64,7 +66,8 @@ export const rss = async(ctx, next) => {
 
 // robots
 export const robots = (ctx, next) => {
-  let robots =`User-agent: *
+  let robots =`
+    User-agent: *
     Allow: /
     Sitemap: ${ctx.protocol}://${ctx.host}/sitemap.xml
     User-agent: YisouSpider
@@ -73,6 +76,6 @@ export const robots = (ctx, next) => {
     Disallow: /
     User-agent: EtaoSpider
     Disallow: /
-    User-agent:`
+    User-agent:`.trim()
   ctx.res.end(robots)
 }

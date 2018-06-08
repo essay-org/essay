@@ -3,7 +3,7 @@
     <div v-if="$route.params.id">
       <div class="search-result">
         <p>找到{{ articles.length }}篇和 <span>{{ keyword }}</span> 相关的文章</p>
-        <top-lists :articles="articles" />
+        <top-list :articles="articles" />
       </div>
     </div>
     <div v-else>

@@ -2,14 +2,14 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const CommentSchema = new Schema({
-  user: [{
+  user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-  }],
-  article:[{
+  },
+  article:{
     type: Schema.Types.ObjectId,
     ref: 'Article',
-  }],
+  },
   content: {
     type: String,
     default: ''

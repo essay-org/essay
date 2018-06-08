@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-  name: 'top-lists',
+  name: 'top-list',
   props: {
     articles: {
       type: Array,

@@ -46,6 +46,7 @@ router
 
 router
   .post('/api/comment', comment.postComment)
-  .get('/api/comment', comment.getComment)
+  .get('/api/comments', comment.getComments)
+  .del('/api/comment/:id?',comment.deleteComment)
 
 export default router

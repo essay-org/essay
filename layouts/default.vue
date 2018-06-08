@@ -68,10 +68,16 @@ export default {
         }
       ],
 
-      adminNavs: [{
+      adminNavs: [
+        {
           path: '/admin/private',
           routerName: 'admin-private',
           name: '草稿'
+        },
+        {
+          path: '/admin/comment',
+          routerName: 'admin-comment',
+          name: '评论'
         },
         {
           path: '/admin/tags',
@@ -81,7 +87,7 @@ export default {
         {
           path: '/admin/update',
           routerName: 'admin-update',
-          name: '修改'
+          name: '设置'
         }
       ]
     }

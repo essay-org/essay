@@ -67,8 +67,8 @@ export const getArticle = async(ctx, next) => {
       })
       .populate({
         path: 'comments',
-        populate: { path: 'user' },
-        options: {sort:{createdAt: -1}}
+        populate: { path: 'user'}
+        // options: {sort:{createdAt: -1}}
       })
       .exec()
     await Article.findByIdAndUpdate(id, { views: article.views + 1 }).exec()

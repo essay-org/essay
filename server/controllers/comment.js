@@ -29,10 +29,14 @@ export const postComment = async(ctx, next) => {
       await Article.findByIdAndUpdate(id, { $push: { comments: comment } }, { safe: true, upsert: true })
       ctx.body = {
         success: true,
-        data: comment
+        data: {
+          content: comment.content,
+          createdAt: comment.createdAt,
+          id: comment.id
+        }
       }
     } catch (e) {
-      // console.log(e)
+      console.log(e)
       ctx.body = {
         success: false,
         err: e
@@ -46,7 +50,7 @@ export const postComment = async(ctx, next) => {
   }
 }
 
-export const getComment = async(ctx, next) => {
+export const getComments = async(ctx, next) => {
   let comments = await Comment.find({})
     .populate({
       path: 'user'
@@ -61,6 +65,30 @@ export const getComment = async(ctx, next) => {
     ctx.body = {
       success: true,
       data: comments
+    }
+  } catch (e) {
+    ctx.body = {
+      success: false,
+      err: e
+    }
+  }
+}
+
+export const deleteComment = async(ctx, next) => {
+  let { id } = ctx.params
+
+  if (!id) {
+    return (ctx.body = {
+      success: false,
+      err: 'id is required'
+    })
+  }
+
+  try {
+    let body = await Comment.findByIdAndRemove(id).exec()
+    ctx.body = {
+      success: true,
+      data: body
     }
   } catch (e) {
     ctx.body = {

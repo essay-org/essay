@@ -9,7 +9,10 @@ export default () => {
       token: '',
       githubToken: '',
       user: {},
-      articles: {}
+      articles: {},
+      githubApi:{
+        userInfo: 'https://api.github.com/user?access_token='
+      }
     },
     getters,
     mutations,

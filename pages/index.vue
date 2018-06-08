@@ -1,6 +1,6 @@
 <template>
   <div class="index container">
-    <top-lists :articles="articles" />
+    <top-list :articles="articles" />
     <div class="page" v-if="maxPage > 1">
       <div class="page-prev">
         <a v-if="page > 1" @click="prevPage">« Prev </a>

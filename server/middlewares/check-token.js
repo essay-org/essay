@@ -4,9 +4,21 @@ import config from '../config'
 const User = mongoose.model('User')
 
 export default async(ctx, next) => {
-  const token = ctx.get('token')
-  if (token) {
-    const decoded = jwt.verify(token, config.jwt.secret)
+  let cookie = ctx.get('Cookie'),
+    cookieObj = {},
+    cookieArr = [],
+    key = '',
+    value = '';
+  cookie = cookie.split(';')
+  for (let i = 0; i < cookie.length; i++) {
+    cookieArr = cookie[i].trim().split('=')
+    key = cookieArr[0]
+    value = cookieArr[1]
+    cookieObj[key] = value
+  }
+  // console.log(cookieObj.token)
+  if (cookieObj.token) {
+    const decoded = jwt.verify(cookieObj.token, config.jwt.secret)
     const username = decoded.username
     const userID = decoded.userID
     try {

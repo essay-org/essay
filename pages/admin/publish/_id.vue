@@ -158,6 +158,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~/assets/css/var.scss';
+
+.top-editor {
+  z-index: 1 !important;
+}
+.full-screen  {
+  z-index: 99 !important;
+}
+
 .admin-publish {
   max-width: 960px;
   margin: 30px auto;
@@ -231,9 +239,6 @@ export default {
         margin-right: 15px;
       }
     }
-  }
-  .full-screen  {
-    z-index: 1000 !important;
   }
 }
 

@@ -136,7 +136,7 @@ export default {
     height: 50px;
     line-height: 50px;
     border-bottom: 1px solid #eee;
-    z-index: 1000;
+    z-index: 9;
     background-color: #fff;
   }
   .blog-header {

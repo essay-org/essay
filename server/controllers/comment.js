@@ -6,7 +6,8 @@ const User = mongoose.model('User')
 
 export const postComment = async(ctx, next) => {
   let body = ctx.request.body
-  let { id, token, content } = body
+  let { id, token, content, replyId  = ''} = body
+  // replyId表示是一条回复，是可选的
   if (!id || !token || !content) {
     return (ctx.body = {
       success: false,
@@ -21,7 +22,8 @@ export const postComment = async(ctx, next) => {
       let comment = await new Comment({
         content: content,
         user: user._id,
-        article: id
+        article: id,
+        replyId: replyId
       })
       // 保存用户评论
       await comment.save()
@@ -29,11 +31,7 @@ export const postComment = async(ctx, next) => {
       await Article.findByIdAndUpdate(id, { $push: { comments: comment } }, { safe: true, upsert: true })
       ctx.body = {
         success: true,
-        data: {
-          content: comment.content,
-          createdAt: comment.createdAt,
-          id: comment.id
-        }
+        data: comment
       }
     } catch (e) {
       console.log(e)

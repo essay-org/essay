@@ -17,6 +17,10 @@ const CommentSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  replyId: {
+    type: String,
+    default: ''
   }
 })
 

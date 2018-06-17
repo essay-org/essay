@@ -44,20 +44,12 @@ export default {
     margin: 0 auto 30px auto;
   }
   button {
-    display: block;
     width: 300px;
-    border: none;
-    line-height: 40px;
-    font-size: 16px;
+    height: 35px;
+    display: block;
     margin-left: auto;
     margin-right: auto;
     cursor: pointer;
-    background-color: $font-color;
-    color: #fff;
-    border-radius: 3px;
-    &:hover {
-      background-color: darken($font-color, 5%);
-    }
   }
 }
 </style>

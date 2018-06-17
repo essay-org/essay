@@ -1,14 +1,14 @@
 <template>
   <div class="admin-comments">
-    <!-- <div class="comments-input" v-if="isEdit">
-      <input type="text" @keyup.enter="edit" v-model="tag.name">
-      <button class="black-button" @click="edit">确认修改</button>
-    </div> -->
+    <div class="mask" v-if="isShow"><span class="close" @click="isShow = false">&times;</span></div>
+    <div class="comments-box" v-show="isShow">
+      <p>{{ comment.content }}</p>
+    </div>
     <ul class="comments-list">
       <li class="list-item" v-for="(comment, index) in comments" :key="index">
-        <p class="item-title"><a href="javascript:;">{{comment.content}}</a></p>
+        <p class="item-title"><a @click="isShow = true">{{comment.content}}</a></p>
         <p class="item-date">{{comment.createdAt | formatDate('yyyy-MM-dd')}}</p>
-        <p class="item-del"><a @click="delComment(comment)">删除</a></p>
+        <p class="item-del"><a @click="delBtn(comment)">删除</a></p>
       </li>
     </ul>
     <top-tip ref="tip"/>
@@ -20,7 +20,9 @@ export default {
   data() {
     return {
       comment:{},
-      comments: []
+      comments: [],
+      isShow: false,
+      replyContent: ''
     }
   },
   mounted() {
@@ -34,7 +36,7 @@ export default {
     }
   },
   methods: {
-    delComment(comment) {
+    delBtn(comment) {
        this.$store.dispatch('DELETE_COMMENT', comment.id).then((data) => {
         if(data.success) {
          this.$refs.tip.openTip('评论已删除')
@@ -54,25 +56,6 @@ export default {
 .admin-comments {
   max-width: 960px;
   margin: 60px auto;
-  .comments-input {
-    text-align: center;
-    input {
-      border-right: none;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    button {
-      line-height: 40px;
-      border: transparent;
-      display: inline-block;
-      vertical-align: top;
-      padding: 0 15px;
-      background-color: $font-color;
-      border-top-right-radius: 3px;
-      border-bottom-right-radius: 3px;
-      color: #fff;
-    }
-  }
   .list-item {
     display: flex;
     line-height: 45px;
@@ -91,6 +74,25 @@ export default {
     }
     &:nth-child(1) {
       border-top: none;
+    }
+  }
+  .comments-box {
+    width: 500px;
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    background-color: #fff;
+    border-radius: 3px;
+    z-index: 1000;
+    padding: 15px 10px;
+    textarea {
+      width: 100%;
+      border-color: #ddd;
+      border-radius: 3px;
+      margin: 8px 0;
+    }
+    button {
+      float: right;
     }
   }
 }

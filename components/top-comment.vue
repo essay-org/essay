@@ -6,10 +6,17 @@
           <a :href="`https://github.com/${item.user.username}`">
             <img :src="item.user.avatar" :alt="item.user.nickname" width="50px" height="50px">
           </a>
-          <div class="list-box">
-            <a :href="`https://github.com/${item.user.username}`">{{item.user.nickname}}</a>
-            <span> 评论于 {{item.createdAt | formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
+          <div class="list-item">
+            <div class="item-comment">
+              <a :href="`https://github.com/${item.user.username}`">{{item.user.username}}</a>
+            <span class="comment-time"> 评论于 {{item.createdAt | formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
             <p>{{item.content}}</p>
+            <a class="comment-reply" @click="replyComment(item.user.username, item.id)">回复</a>
+            </div>
+            <!-- <div class="item-reply">
+              <span class="author">博主</span>
+              <p>作者回复作者回复作者回复作者</p>
+            </div> -->
           </div>
         </li>
       </ul>
@@ -19,7 +26,7 @@
         <a :href="userInfo.html_url">
           <img :src="userInfo.avatar_url" :alt="userInfo.name" width="50px" height="50px">
         </a>
-        <textarea v-model="commentContent" placeholder="留言" class="box-content" maxlength="300"></textarea>
+        <textarea v-model="commentContent" placeholder="留言" class="box-content" maxlength="300" ref="commentTextarea"></textarea>
       </div>
       <button @click="submitComment" :disabled="disabled">提交留言</button>
     </div>
@@ -49,7 +56,8 @@ export default {
       tipMessage: '欢迎留言交流',
       commentContent: '',
       userInfo: {},
-      comments: this.commentList
+      comments: this.commentList,
+      replyId: ''
     }
   },
   mounted() {
@@ -58,6 +66,13 @@ export default {
       axios.get(u).then(data => {
         this.userInfo = data.data
       })
+    }
+  },
+  watch: {
+    commentContent() {
+      if(this.commentContent === '') {
+        this.replyId = ''
+      }
     }
   },
   methods: {
@@ -71,16 +86,27 @@ export default {
       this.$store.dispatch('CREATE_COMMENT', {
         id: this.articleId,
         content: this.commentContent,
-        token: this.$store.state.githubToken
+        token: this.$store.state.githubToken,
+        replyId: this.replyId
       }).then((data) => {
         if (data.success) {
-          this.disabled = false
-          this.commentContent = ''
           this.$store.dispatch('COMMENTS').then((data) => {
-            this.comments.push( data.data[0])
-         })
+            this.comments.push(data.data[0])
+            this.disabled = false
+            this.commentContent = ''
+            this.replyId = ''
+          })
         }
       })
+    },
+    replyComment(username, id) {
+      if(!this.isGithubLogin) {
+        this.githubLogin()
+      }else{
+        this.replyId = id
+        this.commentContent = `@${username} `
+        this.$refs.commentTextarea.focus()
+      }
     }
   }
 }
@@ -93,18 +119,6 @@ export default {
     border-radius: 3px;
     margin-right: 15px;
   }
-  button {
-    outline: none;
-    border: none;
-    cursor: pointer;
-    background-color: $link-color;
-    color: #fff;
-    padding: 8px 10px;
-    border-radius: 3px;
-    &:hover {
-      background-color: darken($link-color, 5%);
-    }
-  }
   .comment-list {
     ul {
       list-style: none;
@@ -112,15 +126,24 @@ export default {
         display: flex;
         margin-bottom: 20px;
       }
-      .list-box {
+      .list-item {
         position: relative;
         width: 100%;
         border: 1px solid #ddd;
         border-radius: 3px;
         padding: 10px;
-        span {
+        p {
+          font-size: 14px;
+        }
+        .comment-time {
           font-size: 14px;
           color: #666;
+        }
+        .comment-reply {
+          position: absolute;
+          right: 10px;
+          bottom: 10px;
+          font-size: 14px;
         }
         &::after {
           position: absolute;

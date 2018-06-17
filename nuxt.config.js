@@ -12,7 +12,7 @@ module.exports = {
       { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_620064_hrymm1e94nnlv7vi.css' }
     ]
   },
-  css: ['~assets/css/main.css', 'highlight.js/styles/github.css'],
+  css: ['~assets/css/main.scss', 'highlight.js/styles/github.css'],
   loading: { color: '#42B983' },
   build: {
     vendor: ['axios'],

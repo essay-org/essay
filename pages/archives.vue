@@ -27,36 +27,3 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
-@import '~/assets/css/var.scss';
-.archives {
-  .archive-item {
-    margin-bottom: 30px;
-  }
-  .item-title {
-    font-size: 20px;
-    font-weight: 400;
-  }
-  .item-list {
-    li {
-      display: flex;
-      padding: 7px 0;
-      color: #999;
-      list-style-position: inside;
-    }
-    span {
-      width: 80px;
-    }
-    a {
-      display: block;
-      flex: 1;
-      color: $font-color;
-      font-weight: lighter;
-      &:hover {
-        color: $link-color;
-      }
-    }
-  }
-}
-
-</style>

@@ -13,10 +13,6 @@
             <p>{{item.content}}</p>
             <a class="comment-reply" @click="replyComment(item.user.username, item.id)">回复</a>
             </div>
-            <!-- <div class="item-reply">
-              <span class="author">博主</span>
-              <p>作者回复作者回复作者回复作者</p>
-            </div> -->
           </div>
         </li>
       </ul>
@@ -137,13 +133,14 @@ export default {
         }
         .comment-time {
           font-size: 14px;
-          color: #666;
+          color: #999;
         }
         .comment-reply {
           position: absolute;
           right: 10px;
-          bottom: 10px;
+          bottom: 0;
           font-size: 14px;
+          color: #666;
         }
         &::after {
           position: absolute;

@@ -89,47 +89,4 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
-@import '~/assets/css/var.scss';
-.detail {
-  .detail-title {
-    margin-bottom: 15px;
-  }
-  .detail-meta {
-    font-size: 14px;
-    color: #999;
-    margin-bottom: 30px;
-    .meta-division {
-      margin: 0 7px;
-    }
-  }
-  .detail-tags {
-    margin-top: 30px;
-    a {
-      font-size: 14px;
-      color: #666;
-      padding: 3px 10px;
-      background-color: #eee;
-      border-radius: 3px;
-      margin-right: 15px;
-      &:hover {
-        background-color: darken(#eee, 5%);
-      }
-    }
-  }
-  .detail-copyright {
-    font-size: 14px;
-    color: #999;
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-  .detail-admin {
-    display: flex;
-    justify-content: space-between;
-    line-height: 50px;
-    border-top: 1px dashed #ccc;
-  }
-}
 
-</style>

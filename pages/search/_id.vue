@@ -45,32 +45,3 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
-@import '~/assets/css/var.scss';
-.search {
-  .search-result {
-    color: #666;
-    span {
-      color: $link-color;
-    }
-  }
-  .search-wrap {
-    text-align: center;
-    h3 {
-      font-size: 20px;
-      font-weight: 400;
-      margin-bottom: 30px;
-    }
-    label {
-      display: block;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    input {
-      width: 100%;
-    }
-  }
-}
-
-</style>

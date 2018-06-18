@@ -35,21 +35,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '~/assets/css/var.scss';
-.login {
-  input {
-    display: block;
-    width: 300px;
-    margin: 0 auto 30px auto;
-  }
-  button {
-    width: 300px;
-    height: 35px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    cursor: pointer;
-  }
-}
-</style>

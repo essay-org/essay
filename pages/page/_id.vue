@@ -63,22 +63,4 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
-@import '~/assets/css/var.scss';
-  .page {
-    display: flex;
-    justify-content: space-between;
-    margin: 30px auto;
-     .page-prev {
-      width: 50%;
-      text-align: left;
-    }
-    .page-next {
-      width: 50%;
-      text-align: right;
-    }
-    a {
-      color: $link-color;
-    }
-  }
-</style>
+

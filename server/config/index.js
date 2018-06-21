@@ -19,7 +19,7 @@ export default {
     password: ''
   },
   production: {
-    host: '198.13.32.165',
+    host: '108.61.166.13',
     domain: 'https://www.86886.wang'
   },
   app: {

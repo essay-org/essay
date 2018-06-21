@@ -3,6 +3,8 @@
 <a href="https://travis-ci.org/wmui/vueblog"><img src="https://travis-ci.org/wmui/vueblog.svg?branch=master" alt="Build Status"></a>
 <a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 
+服务器挂了，演示站已无法访问，正在考虑换成国内服务器，非常抱歉
+
 <div style="text-align:center;">
   <img src="https://www.86886.wang/public/1525424904553.png" alt="VueBlog">
   <p><a href="https://www.86886.wang" target="_blank">演示站</a></p>

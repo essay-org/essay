@@ -20,7 +20,7 @@ export default {
   },
   production: {
     host: '108.61.166.13',
-    domain: 'https://www.86886.wang'
+    domain: 'https://www.86886.wang' // 如果没有域名，留空即可
   },
   app: {
     host: '127.0.0.1',

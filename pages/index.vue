@@ -47,7 +47,6 @@ export default {
       })
     }
   },
-
   computed: {
     maxPage() {
       return Math.ceil(Number(this.total) / 15)

@@ -9,14 +9,17 @@ import route from './routes'
 
 async function start() {
   const app = new Koa()
-  let port = process.env.PORT || globalConfig.app.port, host
+
+  /*let port = process.env.PORT || globalConfig.app.port, host
   if(process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
     host = globalConfig.production.host
   }else{
     host = process.env.HOST || globalConfig.app.host
-  }
-  const router = new Router()
+  }*/
 
+  const host = process.env.HOST || globalConfig.app.host
+  const port = process.env.PORT || globalConfig.app.port
+  const router = new Router()
   app.use(cors())
   app.use(bodyParser())
   app.use(KoaStatic('.'))

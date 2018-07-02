@@ -27,30 +27,18 @@ export default {
   // 标签相关操作
   async CREATE_TAG({ commit, state, getters }, params) {
     // eg: {name: 'new tag'}
-    const { data } = await axios.post(`${getters.baseUrl}/tag`, params, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.post(`${getters.baseUrl}/tag`, params)
     return data
   },
 
   async DELETE_TAG({ commit, state, getters }, id) {
-    const { data } = await axios.delete(`${getters.baseUrl}/tag/${id}`, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.delete(`${getters.baseUrl}/tag/${id}`)
     return data
   },
 
   async UPDATE_TAG({ commit, state, getters }, params) {
     // eg: {id: '001', name: 'new tag name'}
-    const { data } = await axios.patch(`${getters.baseUrl}/tag`, params, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.patch(`${getters.baseUrl}/tag`, params)
     return data
   },
 
@@ -67,39 +55,23 @@ export default {
   },
 
   async PRIVATE_ARTICLES({ commit, state, getters }) {
-    const { data } = await axios.get(`${getters.baseUrl}/private-articles`, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.get(`${getters.baseUrl}/private-articles`)
     return data
   },
 
   async CREATE_ARTICLE({ commit, state, getters }, params) {
-    const { data } = await axios.post(`${getters.baseUrl}/article`, params, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.post(`${getters.baseUrl}/article`, params)
     return data
   },
 
   async DELETE_ARTICLE({ commit, state, getters }, id) {
     // let id = params.id, isPublish = params.publish, data
-    const { data } = await axios.delete(`${getters.baseUrl}/article/${id}`, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.delete(`${getters.baseUrl}/article/${id}`)
     return data
   },
 
   async UPDATE_ARTICLE({ commit, state, getters }, params) {
-    const { data } = await axios.patch(`${getters.baseUrl}/article`, params, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.patch(`${getters.baseUrl}/article`, params)
     return data
   },
 
@@ -120,11 +92,7 @@ export default {
   },
 
   async DELETE_COMMENT({ commit, state, getters }, id) {
-    const { data } = await axios.delete(`${getters.baseUrl}/comment/${id}`, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.delete(`${getters.baseUrl}/comment/${id}`)
     return data
   },
 
@@ -154,11 +122,7 @@ export default {
 
   // 更新管理员信息
   async UPDATE_ADMIN({ commit, state, getters }, params) {
-    const { data } = await axios.patch(`${getters.baseUrl}/user`, params, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.patch(`${getters.baseUrl}/user`, params)
     return data
   },
 
@@ -171,11 +135,7 @@ export default {
 
   // 管理员退出
   async LOGOUT({ commit, state, getters }) {
-    const { data } = await axios.post(`${getters.baseUrl}/logout`, {}, {
-      headers: {
-        token: state.token
-      }
-    })
+    const { data } = await axios.post(`${getters.baseUrl}/logout`)
     return data
   }
 }

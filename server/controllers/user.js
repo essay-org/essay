@@ -30,7 +30,7 @@ export const login = async(ctx, next) => {
   }
 }
 
-export const logout = async(ctx, next) => {
+export const logout = (ctx, next) => {
   ctx.cookies.set('token', null)
   ctx.body = {
     success: true,

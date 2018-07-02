@@ -1,14 +1,14 @@
-[English Doc](https://github.com/wmui/vueblog/blob/master/README.en.md)
 
 <a href="https://travis-ci.org/wmui/vueblog"><img src="https://travis-ci.org/wmui/vueblog.svg?branch=master" alt="Build Status"></a>
 <a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 
+## VueBlog
+
+[English Doc](https://github.com/wmui/vueblog/blob/master/README.en.md)
+
 <div style="text-align:center;">
-  <img src="https://www.86886.wang/public/1525424904553.png" alt="VueBlog">
   <p><a href="https://www.86886.wang" target="_blank">演示站</a></p>
 </div>
-
-## VueBlog
 
 VueBlog是一个轻量级的博客应用
 

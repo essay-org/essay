@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 import config from '../config'
+import axios from 'axios'
 const User = mongoose.model('User')
 
-export default async(ctx, next) => {
+export const checkToken = async(ctx, next) => {
   let cookie = ctx.get('Cookie'),
     cookieObj = {},
     cookieArr = [],
@@ -42,5 +43,24 @@ export default async(ctx, next) => {
       success: false,
       err: 'Please login'
     })
+  }
+}
+
+export const checkGithubToken = async(ctx, next) => {
+  let cookie = ctx.get('Cookie'),
+    cookieObj = {},
+    cookieArr = [],
+    key = '',
+    value = '';
+  cookie = cookie.split(';')
+  for (let i = 0; i < cookie.length; i++) {
+    cookieArr = cookie[i].trim().split('=')
+    key = cookieArr[0]
+    value = cookieArr[1]
+    cookieObj[key] = value
+  }
+  // console.log(cookieObj.token)
+  if (cookieObj.githubToken) {
+
   }
 }

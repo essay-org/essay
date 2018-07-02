@@ -1,6 +1,9 @@
 import MarkdownIt from 'markdown-it'
 import mongoose from 'mongoose'
 import config from '../config'
+import fs from 'fs'
+import path from 'path'
+const nodemailer = require('nodemailer');
 const Article = mongoose.model('Article')
 
 // sitemap
@@ -66,7 +69,7 @@ export const rss = async(ctx, next) => {
 
 // robots
 export const robots = (ctx, next) => {
-  let robots =`
+  let robots = `
     User-agent: *
     Allow: /
     Sitemap: ${ctx.protocol}://${ctx.host}/sitemap.xml
@@ -79,3 +82,136 @@ export const robots = (ctx, next) => {
     User-agent:`.trim()
   ctx.res.end(robots)
 }
+
+export const sendEmail = (ctx, next) => {
+  let body = ctx.request.body
+  let {
+    fromUserNickname,
+    fromUserContent,
+    fromUserEmail,
+    toUserNickname,
+    toUserContent,
+    toUserEmail,
+    articleId
+  } = body
+  let emailInfo = ''
+  if (!fromUserNickname || !fromUserContent || !fromUserEmail || !toUserNickname || !toUserContent || !toUserEmail || !articleId) {
+    return (ctx.body = {
+      success: false,
+      err: 'Field incomplete'
+    })
+  }
+  let transporter = nodemailer.createTransport({
+    service: 'qq',
+    port: 465,
+    secure: true,
+    auth: {
+      user: config.emailConfig.user,
+      pass: config.emailConfig.pass
+    }
+  })
+  let mailOptions = {
+    from: config.emailConfig.user,
+    to: toUserEmail,
+    subject: '博客评论通知',
+    html: `<p>${fromUserNickname}回复了你的评论：<p>
+    <p>评论内容：${toUserContent}<p>
+    <p>回复内容：${fromUserContent}<p>
+    <p><a href="${config.production.domain}/detail/${articleId}">查看原文</a></p>`.trim()
+  }
+
+  // send mail with defined transport object
+  /*transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return (ctx.body = {
+        success: false,
+        data: error
+      })
+    }
+  })
+
+  ctx.body = {
+    success: true
+  }*/
+
+  function sendMail(mailOptions) {
+    return new Promise(function(resolve, reject){
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          reject(error)
+          return
+        }
+        resolve(info)
+      })
+    })
+  }
+
+  let promise = sendMail(mailOptions)
+  promise.then((info) =>{
+    ctx.body = {
+      success: true,
+      data: info
+    }
+  },(err) => {
+    ctx.body = {
+      success: false,
+      data: err
+    }
+  })
+}
+
+/*export const configGithub = (ctx, next) => {
+  let body = ctx.request.body
+  fs.readFile(path.resolve(__dirname,'../config/index.js'), 'utf8', function (err,data) {
+  if (err) {
+    return (ctx.body = {
+      success: false,
+      data: err
+    })
+  }
+  let result = data
+  .replace(/githubClient: '\w+'/g, `githubClient: '${body.githubClient}'`)
+  .replace(/githubSecret: '\w+'/g, `githubSecret: '${body.githubSecret}'`)
+
+  fs.writeFile(path.resolve(__dirname, '../config/index.js'), result, 'utf8', function (err) {
+     if (err) {
+      return (ctx.body = {
+        success: false,
+        data: err
+      })
+     }
+     ctx.body = {
+      success: true,
+      data:''
+     }
+  })
+})
+}
+
+export const configSMTP = (ctx, next) => {
+  let body = ctx.request.body
+  fs.readFile(path.resolve(__dirname,'../config/index.js'), 'utf8', function (err,data) {
+  if (err) {
+    return (ctx.body = {
+      success: false,
+      data: err
+    })
+  }
+  let result = data
+  .replace(/user: ''/g, `user: '${body.user}'`)
+  .replace(/pass: ''/g, `pass: '${body.pass}'`)
+
+  fs.writeFile(path.resolve(__dirname, '../config/index.js'), result, 'utf8', function (err) {
+    if (err) {
+      return (ctx.body = {
+        success: false,
+        data: err
+      })
+     }
+     ctx.body = {
+      success: true,
+      data:''
+     }
+  })
+})
+}*/

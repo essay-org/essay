@@ -101,7 +101,21 @@ export default {
     const { data } = await axios.get(`${getters.baseUrl}/archives`)
     return data
   },
+  // 发送邮件
+  async SEND_EMAIL({ commit, state, getters }, params) {
+    const { data } = await axios.post(`${getters.baseUrl}/send-email`, params)
+    return data
+  },
 
+  async UPDATE_GITHUB({ commit, state, getters }, params) {
+    const { data } = await axios.post(`${getters.baseUrl}/config-github`, params)
+    return data
+  },
+
+  async UPDATE_SMTP({ commit, state, getters }, params) {
+    const { data } = await axios.post(`${getters.baseUrl}/config-smtp`, params)
+    return data
+  },
   // 获取管理员信息
   async ADMIN_INFO({ commit, state, getters }) {
     const { data } = await axios.get(`${getters.baseUrl}/user`)

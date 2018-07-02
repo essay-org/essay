@@ -26,6 +26,7 @@
     "markdown-it": "^8.4.0",
     "md5": "^2.2.1",
     "mongoose": "^5.0.1",
+    "nodemailer": "^4.6.7",
     "nuxt": "latest",
     "source-map-support": "^0.4.15",
     "top-editor": "0.0.7"

@@ -2,7 +2,7 @@ import axios from 'axios'
 import Router from 'koa-router'
 import config from '../config'
 import db from '../models'
-import checkToken from '../middlewares/check-token'
+import {checkToken, checkGithubToken} from '../middlewares/check-token'
 
 const router = new Router()
 const user = require('../controllers/user')
@@ -10,16 +10,16 @@ const tag = require('../controllers/tag')
 const article = require('../controllers/article')
 const comment = require('../controllers/comment')
 const tool = require('../controllers/tool')
-const oauthGithub = require('../controllers/oauth-github')
-
-router
-  .get(/\/api\/oauth\/github\/callback/, oauthGithub.callback)
-  .get('/api/oauth/github/:state?', oauthGithub.login)
 
 router
   .get('/rss.xml', tool.rss)
   .get('/sitemap.xml', tool.sitemap)
   .get('/robots.txt', tool.robots)
+  .post('/api/send-email', tool.sendEmail)
+
+router
+  .get(/\/api\/oauth\/github\/callback/, user.githubCallback)
+  .get('/api/oauth/github/:state?', user.githubLogin)
 
 router
   .get('/api/user/:username?', user.getUserInfo)

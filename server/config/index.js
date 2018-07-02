@@ -18,16 +18,17 @@ export default {
     username: '',
     password: ''
   },
-  production: {
-    host: '198.13.32.165',
-    domain: 'https://www.86886.wang'
-  },
-  githubConfig: {
-    githubClient: '1a8eaec421501d6a5785',
-    githubSecret: '0e873771c5a23d18ef31d3b2702628331415143b',
+   githubConfig: {
+    githubClient: '',
+    githubSecret: '',
     scope: 'user'
   },
+  emailConfig: {
+    user: '',
+    pass: ''
+  },
   app: {
+    domain: '',
     host: '127.0.0.1',
     port: 3000,
     routerBaseApi: 'api'

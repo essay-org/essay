@@ -50,6 +50,7 @@ npm start
 
 ```javascript
 export default {
+  // 初始化管理员信息，后台可以修改
   user: {
     role: 'superAdmin',
     username: 'q',
@@ -62,6 +63,7 @@ export default {
   jwt: {
     secret: 'vueblog'
   },
+  // 数据库配置，默认即可
   mongodb: {
     host: '127.0.0.1',
     database: 'vueblog',
@@ -69,17 +71,24 @@ export default {
     username: '',
     password: ''
   },
-  production: {
-    host: '198.13.32.165',
-    domain: 'https://www.86886.wang'
+  // github登录需要的密钥
+  githubConfig: {
+    githubClient: '',
+    githubSecret: '',
+    scope: 'user'
+  },
+  // SMTP 邮箱服务 只支持qq邮箱
+  emailConfig: {
+    user: '',
+    pass: ''
   },
   app: {
+    domain: '', // 如果需要部署到线上，必须填写域名，并且带协议地址
     host: '127.0.0.1',
     port: 3000,
     routerBaseApi: 'api'
   }
 }
-
 ```
 
 ### 开源协议

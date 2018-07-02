@@ -67,11 +67,17 @@ export default {
     username: '',
     password: ''
   },
-  production: {
-    host: '198.13.32.165',
-    domain: 'https://www.86886.wang'
+  githubConfig: {
+    githubClient: '',
+    githubSecret: '',
+    scope: 'user'
+  },
+  emailConfig: {
+    user: '',
+    pass: ''
   },
   app: {
+    domain: '',
     host: '127.0.0.1',
     port: 3000,
     routerBaseApi: 'api'

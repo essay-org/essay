@@ -14,6 +14,9 @@ dist
 sw.*
 
 # public
+public/*
+
+server/config/*
 
 NOTE.md
 

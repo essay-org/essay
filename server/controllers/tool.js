@@ -83,7 +83,7 @@ export const robots = (ctx, next) => {
   ctx.res.end(robots)
 }
 
-export const sendEmail = (ctx, next) => {
+export const sendEmail = async (ctx, next) => {
   let body = ctx.request.body
   let {
     fromUserNickname,
@@ -94,7 +94,6 @@ export const sendEmail = (ctx, next) => {
     toUserEmail,
     articleId
   } = body
-  let emailInfo = ''
   if (!fromUserNickname || !fromUserContent || !fromUserEmail || !toUserNickname || !toUserContent || !toUserEmail || !articleId) {
     return (ctx.body = {
       success: false,
@@ -110,108 +109,25 @@ export const sendEmail = (ctx, next) => {
       pass: config.emailConfig.pass
     }
   })
+  let domain = config.app.domain ? config.app.domain : config.app.host
   let mailOptions = {
     from: config.emailConfig.user,
     to: toUserEmail,
     subject: '博客评论通知',
     html: `<p>${fromUserNickname}回复了你的评论：<p>
-    <p>评论内容：${toUserContent}<p>
+    <p>原内容：${toUserContent}<p>
     <p>回复内容：${fromUserContent}<p>
-    <p><a href="${config.production.domain}/detail/${articleId}">查看原文</a></p>`.trim()
+    <p><a href="${domain}/detail/${articleId}">查看原文</a></p>`.trim()
   }
-
-  // send mail with defined transport object
-  /*transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return (ctx.body = {
-        success: false,
-        data: error
-      })
-    }
-  })
-
-  ctx.body = {
-    success: true
-  }*/
-
-  function sendMail(mailOptions) {
-    return new Promise(function(resolve, reject){
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          reject(error)
-          return
-        }
-        resolve(info)
-      })
-    })
-  }
-
-  let promise = sendMail(mailOptions)
-  promise.then((info) =>{
+  await transporter.sendMail(mailOptions).then(function(info){
     ctx.body = {
       success: true,
       data: info
     }
-  },(err) => {
-    ctx.body = {
+  }).catch(function(err){
+     ctx.body = {
       success: false,
-      data: err
+      err: err
     }
   })
 }
-
-/*export const configGithub = (ctx, next) => {
-  let body = ctx.request.body
-  fs.readFile(path.resolve(__dirname,'../config/index.js'), 'utf8', function (err,data) {
-  if (err) {
-    return (ctx.body = {
-      success: false,
-      data: err
-    })
-  }
-  let result = data
-  .replace(/githubClient: '\w+'/g, `githubClient: '${body.githubClient}'`)
-  .replace(/githubSecret: '\w+'/g, `githubSecret: '${body.githubSecret}'`)
-
-  fs.writeFile(path.resolve(__dirname, '../config/index.js'), result, 'utf8', function (err) {
-     if (err) {
-      return (ctx.body = {
-        success: false,
-        data: err
-      })
-     }
-     ctx.body = {
-      success: true,
-      data:''
-     }
-  })
-})
-}
-
-export const configSMTP = (ctx, next) => {
-  let body = ctx.request.body
-  fs.readFile(path.resolve(__dirname,'../config/index.js'), 'utf8', function (err,data) {
-  if (err) {
-    return (ctx.body = {
-      success: false,
-      data: err
-    })
-  }
-  let result = data
-  .replace(/user: ''/g, `user: '${body.user}'`)
-  .replace(/pass: ''/g, `pass: '${body.pass}'`)
-
-  fs.writeFile(path.resolve(__dirname, '../config/index.js'), result, 'utf8', function (err) {
-    if (err) {
-      return (ctx.body = {
-        success: false,
-        data: err
-      })
-     }
-     ctx.body = {
-      success: true,
-      data:''
-     }
-  })
-})
-}*/

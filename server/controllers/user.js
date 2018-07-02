@@ -25,7 +25,7 @@ export const login = async(ctx, next) => {
   } catch (e) {
     ctx.body = {
       success: false,
-      data: e
+      err: e
     }
   }
 }

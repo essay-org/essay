@@ -34,7 +34,6 @@ export const postComment = async(ctx, next) => {
         data: comment
       }
     } catch (e) {
-      console.log(e)
       ctx.body = {
         success: false,
         err: e

@@ -21,7 +21,9 @@
       <p class="admin-del"><a @click="del(article.id)">删除</a></p>
       <p class="admin-edit"><a @click="edit(article.id)">编辑</a></p>
     </div>
-    <top-comment :comment-list="article.comments" :article-id="article.id" />
+    <div v-if="isConfig">
+      <top-comment :comment-list="article.comments" :article-id="article.id" />
+    </div>
     <top-tip ref="tip" />
   </div>
 </template>
@@ -53,7 +55,8 @@ export default {
   data() {
     return {
       options: {},
-      isLogin: this.$store.state.token ? true : false
+      isLogin: this.$store.state.token ? true : false,
+      isConfig: this.$store.getters.isGithubConfig
     }
   },
 
@@ -89,4 +92,3 @@ export default {
 }
 
 </script>
-

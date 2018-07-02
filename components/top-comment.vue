@@ -55,6 +55,7 @@ export default {
     return {
       disabled: false,
       isGithubLogin: this.$store.state.githubToken ? true : false,
+      isSMTPConfig: this.$store.getters.isSMTPConfig,
       tipMessage: '欢迎留言交流',
       commentContent: '',
       userInfo: {},
@@ -105,8 +106,9 @@ export default {
         if (data.success) {
           this.$store.dispatch('COMMENTS').then((data) => {
             this.comments.push(data.data[0])
+
             // 回复邮件通知
-            if(this.replyId) {
+            if(this.isSMTPConfig && this.replyId) {
               let lastIndex = this.realComments.length - 1
               let lastItem = this.realComments[lastIndex]
               this.sendEmail({

@@ -14,18 +14,6 @@
       <input type="password" v-model="vertifyPassword" placeholder="再次输入新密码">
       <button @click="updatePassword">确认修改</button>
     </div>
-    <div class="update-github">
-      <h4>配置Github登录</h4>
-      <input type="text" v-model="githubConfig.githubClient" placeholder="github client">
-      <input type="text" v-model="githubConfig.githubSecret" placeholder="github secret">
-      <button @click="updateGithub">提交</button>
-    </div>
-    <div class="update-smtp">
-      <h4>配置SMTP邮箱</h4>
-      <input type="text" v-model="smtpConfig.user" placeholder="SMTP 邮箱地址">
-      <input type="text" v-model="smtpConfig.pass" placeholder="SMTP 邮箱密码">
-      <button @click="updateSMTP">提交</button>
-    </div>
     <top-tip ref="tip"/>
   </div>
 </template>
@@ -77,16 +65,6 @@ export default {
             }
           })
         }
-      })
-    },
-    updateGithub() {
-      this.$store.dispatch('UPDATE_GITHUB', this.githubConfig).then((data) => {
-        console.log(data)
-      })
-    },
-    updateSMTP() {
-      this.$store.dispatch('UPDATE_SMTP', this.smtpConfig).then((data) => {
-        console.log(data)
       })
     }
   }

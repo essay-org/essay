@@ -10,7 +10,21 @@ export default {
     return host
   },
   routerBaseApi() {
-    let baseApi = globalConfig.app.routerBaseApi
-    return baseApi
+    let routerBaseApi =  globalConfig.app.routerBaseApi
+    return routerBaseApi
+  },
+  isGithubConfig() {
+    if(globalConfig.githubConfig.githubClient && globalConfig.githubConfig.githubSecret) {
+      return true
+    }else{
+      return false
+    }
+  },
+  isSMTPConfig() {
+    if(globalConfig.emailConfig.user && globalConfig.emailConfig.pass) {
+      return true
+    }else{
+      return false
+    }
   }
 }

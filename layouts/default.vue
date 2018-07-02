@@ -218,7 +218,7 @@ export default {
   .blog-aside {
     position: fixed;
     right: 30px;
-    bottom: 50px;
+    bottom: 30px;
     z-index: 999;
     border-radius: 4px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);

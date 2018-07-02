@@ -14,10 +14,8 @@ dist
 sw.*
 
 # public
-public/*
 
 NOTE.md
 
 build
 
-server/config/*

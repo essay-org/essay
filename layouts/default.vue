@@ -296,6 +296,9 @@ export default {
         }
       }
     }
+    .blog-aside {
+      display: none;
+    }
   }
 }
 </style>

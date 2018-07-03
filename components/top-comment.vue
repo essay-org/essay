@@ -5,12 +5,12 @@
         <li v-for="(item,index) in realComments" :key="item.id">
           <div class="list-header clearfix">
             <a :href="`https://github.com/${item.user.username}`" class="header-avatar">
-              <img :src="item.user.avatar" :alt="item.user.nickname" width="30px" height="30px">
+              <img :src="item.user.avatar" :alt="item.user.username" width="30px" height="30px">
             </a>
-            <a :href="`https://github.com/${item.user.username}`" class="header-username">{{item.user.nickname}}</a>
+            <a :href="`https://github.com/${item.user.username}`" class="header-username">{{item.user.username}}</a>
             <div class="header-reply" v-if="item.replyId">
               <span>回复</span>
-              <a :href="`https://github.com/${item.replyId.user.username}`" class="header-username">{{item.replyId.user.nickname}}</a>
+              <a :href="`https://github.com/${item.replyId.user.username}`" class="header-username">{{item.replyId.user.username}}</a>
             </div>
             <span class="header-time">{{item.createdAt | formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
           </div>
@@ -18,7 +18,7 @@
             <p>{{item.content}}</p>
           </div>
           <div class="list-handler">
-            <a class="handler-reply" @click="replyComment(item.user.nickname, item.id)">回复</a>
+            <a class="handler-reply" @click="replyComment(item.user.username, item.id)">回复</a>
           </div>
         </li>
       </ul>
@@ -112,10 +112,10 @@ export default {
               let lastIndex = this.realComments.length - 1
               let lastItem = this.realComments[lastIndex]
               this.sendEmail({
-                fromUserNickname: lastItem.user.nickname,
+                fromUserNickname: lastItem.user.username,
                 fromUserContent: lastItem.content,
                 fromUserEmail: lastItem.user.email,
-                toUserNickname: lastItem.replyId.user.nickname,
+                toUserNickname: lastItem.replyId.user.username,
                 toUserContent: lastItem.replyId.content,
                 toUserEmail: lastItem.replyId.user.email,
                 articleId: lastItem.article.id
@@ -130,12 +130,12 @@ export default {
         }
       })
     },
-    replyComment(nickname, id) {
+    replyComment(username, id) {
       if (!this.isGithubLogin) {
         this.githubLogin()
       } else {
         this.replyId = id
-        this.placeholder = `回复 ${nickname} `
+        this.placeholder = `回复 ${username} `
         this.$refs.commentTextarea.focus()
       }
     },

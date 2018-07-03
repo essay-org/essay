@@ -5,7 +5,7 @@ import fs from 'fs'
 import path from 'path'
 const nodemailer = require('nodemailer');
 const Article = mongoose.model('Article')
-
+const domain = config.app.domain ? config.app.domain : `http://${config.app.host}:${config.app.port}`
 // sitemap
 export const sitemap = async(ctx, next) => {
   let sitemap = ''
@@ -16,7 +16,7 @@ export const sitemap = async(ctx, next) => {
   let body = res.reduce((prev, curr) => {
     prev += `
       <url>
-        <loc>${ctx.protocol}://${ctx.host}/detail/${curr.id}</loc>
+        <loc>${domain}/detail/${curr.id}</loc>
         <lastmod>${curr.updatedAt}</lastmod>
         <priority>0.6</priority>
       </url>`.trim()
@@ -34,13 +34,13 @@ export const rss = async(ctx, next) => {
   let head = `<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
       <title>${config.user.nickname}</title>
-      <link>${ctx.protocol}://${ctx.host}</link>
+      <link>${domain}</link>
       <description>${config.user.motto}</description>
-      <atom:link href="${ctx.protocol}://${ctx.host}/rss.xml" rel="self"/>
+      <atom:link href="${domain}/rss.xml" rel="self"/>
       <language>zh-CN</language>
       <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>\r\n`
   let tail = `</channel>\r\n</rss>`
-  let res = await Article.find({ publish: true }).sort({ 'createdAt': -1 }).exec()
+  let res = await Article.find({ publish: true }).limit(30).sort({ 'createdAt': -1 }).exec()
   let body = res.reduce((prev, curr) => {
     let date = new Date(curr.updatedAt).toUTCString()
     let md = new MarkdownIt()
@@ -53,10 +53,10 @@ export const rss = async(ctx, next) => {
     prev += `
       <item>
         <title>${curr.title}</title>
-        <link>${ctx.protocol}://${ctx.host}/detail/${curr.id}</link>
+        <link>${domain}/detail/${curr.id}</link>
         <description>${content}</description>
         <pubDate>${date}</pubDate>
-        <guid>${ctx.protocol}://${ctx.host}/detail/${curr.id}</guid>
+        <guid>${domain}/detail/${curr.id}</guid>
       </item>`.trim()
     return prev
   }, '')
@@ -72,7 +72,7 @@ export const robots = (ctx, next) => {
   let robots = `
     User-agent: *
     Allow: /
-    Sitemap: ${ctx.protocol}://${ctx.host}/sitemap.xml
+    Sitemap: ${domain}/sitemap.xml
     User-agent: YisouSpider
     Disallow: /
     User-agent: EasouSpider

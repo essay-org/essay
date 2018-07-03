@@ -1,7 +1,7 @@
 {
   "name": "vueblog",
   "version": "2.3.0",
-  "description": "A blog system by Nuxt.js",
+  "description": "A blog system based on Nuxt.js",
   "author": "wmui <qq22337383@gmail.com>",
   "scripts": {
     "dev": "nodemon -w ./server -w ./start.js --exec node ./start.js",

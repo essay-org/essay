@@ -30,7 +30,7 @@ First install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#communit
 # install dependencies
 npm install # or yarn
 
-# serve in dev mode, with hot reload at localhost:3000
+# serve in dev mode, with hot reload at http://127.0.0.1:3000
 npm run dev
 
 # build for production

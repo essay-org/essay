@@ -3,7 +3,10 @@ import path from 'path'
 import os from 'os'
 import fs from 'fs'
 import formidable from 'formidable'
+import config from '../config'
 const Article = mongoose.model('Article')
+
+const domain = config.app.domain ? config.app.domain : `http://${config.app.host}:${config.app.port}`
 
 export const getArticles = async(ctx, next) => {
   let { page = 1, limit = 15 } = ctx.params
@@ -253,7 +256,7 @@ export const upload = async(ctx, next) => {
         let readStream = fs.createReadStream(oldUrl)
         let writeStream = fs.createWriteStream(newUrl)
         readStream.pipe(writeStream)
-        let imgUrl = ctx.protocol + '://' + ctx.host + '/public/' + extname
+        let imgUrl = domain + '/public/' + extname
         resolve(imgUrl)
       })
     })

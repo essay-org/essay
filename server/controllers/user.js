@@ -7,6 +7,8 @@ import config from '../config'
 
 const User = mongoose.model('User')
 
+const domain = config.app.domain ? config.app.domain : `http://${config.app.host}:${config.app.port}`
+
 export const login = async(ctx, next) => {
   let { username, password } = ctx.request.body
   password = md5(password)
@@ -170,5 +172,5 @@ export const githubCallback = async (ctx, next) => {
     }
   }
   // 完成授权后页面重定向
-  return ctx.response.redirect(`${ctx.protocol}://${ctx.host}/detail/${state}`)
+  return ctx.response.redirect(`${domain}/detail/${state}`)
 }

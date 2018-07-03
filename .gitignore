@@ -16,8 +16,6 @@ sw.*
 # public
 public/*
 
-server/config/*
-
 NOTE.md
 
 build

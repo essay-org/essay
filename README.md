@@ -22,7 +22,7 @@ VueBlog是一个轻量级的博客应用
 - 支持服务端渲染
 - PWA渐进式web应用
 - 轻量级Markdown编辑器
-- 标签、归档、搜索草稿箱功能
+- 支持标签、归档、搜索草稿箱等功能
 
 ### 本地运行
 
@@ -32,7 +32,7 @@ VueBlog是一个轻量级的博客应用
 # install dependencies
 npm install # or yarn
 
-# serve in dev mode, with hot reload at localhost:3000
+# serve in dev mode, with hot reload at http://127.0.0.1:3000
 npm run dev
 
 # build for production
@@ -71,24 +71,41 @@ export default {
     username: '',
     password: ''
   },
-  // github登录需要的密钥
+  // 可选，评论功能需要配置github登录的密钥
   githubConfig: {
     githubClient: '',
     githubSecret: '',
     scope: 'user'
   },
-  // SMTP 邮箱服务 只支持qq邮箱
+  // 可选，评论通知的SMTP邮箱配置，目前只支持qq邮箱
   emailConfig: {
     user: '',
     pass: ''
   },
   app: {
-    domain: '', // 如果需要部署到线上，必须填写域名，并且带协议地址
+    domain: '', // 可选，线上域名，比如https://www.86886.wang
     host: '127.0.0.1',
     port: 3000,
     routerBaseApi: 'api'
   }
 }
+```
+
+### 线上部署
+
+如果需要部署到线上看下效果，可以参考这里[Nuxt项目自动化部署手册](https://github.com/wmui/web-deploy)
+
+如果感觉自动化部署太麻烦，可以简单部署上线
+
+```bash
+# install dependencies
+npm install # or yarn
+
+# build for production
+npm run build
+
+# serve in production mode
+pm2 start npm --name "vueblog" -- start
 ```
 
 ### 开源协议

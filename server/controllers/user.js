@@ -42,7 +42,7 @@ export const logout = (ctx, next) => {
 
 export const getUserInfo = async(ctx, next) => {
   let { username } = ctx.params
-  let avatarUrl = ctx.protocol + '://' + ctx.host + '/public/' + config.user.avatar
+  let avatarUrl = domain + '/public/' + config.user.avatar
   if(!username){
     // 获取管理员信息
     try {
@@ -123,7 +123,7 @@ export const patchUserInfo = async(ctx, next) => {
 let state = ''
 export const githubLogin = (ctx, next) => {
   state = ctx.params.state || ''
-  let u = `https://github.com/login/oauth/authorize?client_id=${config.githubConfig.githubClient}&scope=${config.githubConfig.scope}&redirect_uri=${ctx.protocol}://${ctx.host}/api/oauth/github/callback&state=${state}`
+  let u = `https://github.com/login/oauth/authorize?client_id=${config.githubConfig.githubClient}&scope=${config.githubConfig.scope}&redirect_uri=${domain}/api/oauth/github/callback&state=${state}`
     ctx.res.statusCode = 302
     ctx.res.setHeader('location', u)
     ctx.res.end()

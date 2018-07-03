@@ -44,6 +44,7 @@ $font-color: #24292e;
     .article-body {
       margin: 10px 0;
       color: #666;
+      word-wrap: break-word;
     }
   }
 }

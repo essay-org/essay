@@ -40,6 +40,8 @@ npm run build
 npm start
 ```
 
+**Tips：** Use `http://127.0.0.1:3000` replace `http://localhost:3000` visit your local Project
+
 ### Global config
 
 The config file is `/server/config/index.js`.

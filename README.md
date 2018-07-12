@@ -42,6 +42,8 @@ npm run build
 npm start
 ```
 
+**注意：** 不要使用`http://localhost:3000`访问，而是用`http://127.0.0.1:3000`
+
 ### 全局配置
 
 全局配置文件`/server/config/index.js`

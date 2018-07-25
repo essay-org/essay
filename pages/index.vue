@@ -1,67 +1,60 @@
 <template>
-  <div class="index container">
-    <top-list :articles="articles" />
-    <div class="page" v-if="maxPage > 1">
-      <div class="page-prev">
-        <a v-if="page > 1" @click="prevPage">« Prev </a>
-      </div>
-      <div class="page-next">
-        <a v-if="hasMore"  @click="nextPage">Next »</a>
-      </div>
-    </div>
+  <div class="index container" v-scroll="onLoad">
+    <top-list :articles="$store.state.articles" />
+    <p v-if="isLoading" class="load-tip">加载中...</p>
+    <p v-if="noMore" class="load-tip">没有更多文章了</p>
   </div>
 </template>
 <script>
 export default {
-  async asyncData({store, route}) {
-    let page = route.params.id || 1
-    const data  = await store.dispatch('ARTICLES', page)
+  async fetch({ store, route }) {
+    if (!store.state.articles.length) {
+      await store.dispatch('ARTICLES', 1)
+    }
+  },
+  data() {
     return {
-      articles: data.data || [],
-      total: data.total
+      page: 1,
+      isLoading: false,
+      noMore: false
     }
   },
   head() {
     return {
-      title: this.$store.state.user.nickname,
-      meta: [
-        { description: 'VueBlog是一个基于Vuejs开发的小型博客应用，让你可以为所欲为的分享自己的知识和创作' }
-      ]
+      title: this.$store.state.user.nickname
     }
   },
-  mounted() {
-
+  directives: {
+    scroll: {
+      bind(el, binding) {
+        window.addEventListener('scroll', () => {
+          let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+          if (scrollTop + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            let onLoad = binding.value
+            onLoad()
+          }
+        }, false)
+      }
+    }
   },
   methods: {
-    prevPage() {
-      this.$router.push({
-        name: 'page-id',
-        params: {
-          id: this.page - 1
+    async onLoad() {
+      // 没有正在加载中
+      if(!this.isLoading) {
+        if(this.$store.state.articles.length < this.$store.state.total) {
+          this.isLoading = true
+          this.page++
+          await this.$store.dispatch('ARTICLES', this.page)
+          this.isLoading = false
+        }else{
+          this.noMore = true
+          return false
         }
-      })
-    },
-    nextPage() {
-      this.$router.push({
-        name: 'page-id',
-        params: {
-          id: this.page + 1
-        }
-      })
-    }
-  },
-  computed: {
-    maxPage() {
-      return Math.ceil(Number(this.total) / 15)
-    },
-    page() {
-      return Number(this.$route.params.id) || 1
-    },
-    hasMore() {
-      return this.page < this.maxPage
+      }else{
+        return false
+      }
     }
   }
 }
 
 </script>
-

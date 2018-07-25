@@ -44,6 +44,11 @@ export default {
 
   async TAGS({ commit, state, getters }, id = '') {
     const { data } = await axios.get(`${getters.baseUrl}/tags/${id}`)
+    if(id) {
+      commit('SET_TAG_ARTICLES', data)
+    }else{
+      commit('SET_TAGS', data)
+    }
     return data
   },
 
@@ -51,6 +56,7 @@ export default {
   // 文章相关操作
   async ARTICLES({ commit, state, getters }, page = 1, limit = 15) {
     const { data } = await axios.get(`${getters.baseUrl}/articles/${page}/${limit}`)
+    commit('SET_ARTICLES', data)
     return data
   },
 
@@ -99,12 +105,14 @@ export default {
   // 搜索
   async SEARCH({ commit, state, getters }, id = '') {
     const { data } = await axios.get(`${getters.baseUrl}/search/${id}`)
+    commit('SET_SEARCH', data)
     return data
   },
 
   // 获取归档
   async ARCHIVES({ commit, state, getters }) {
     const { data } = await axios.get(`${getters.baseUrl}/archives`)
+    commit('SET_ARCHVES', data)
     return data
   },
 

@@ -2,8 +2,8 @@
   <div class="search container">
     <div v-if="$route.params.id">
       <div class="search-result">
-        <p>找到{{ articles.length }}篇和 <span>{{ keyword }}</span> 相关的文章</p>
-        <top-list :articles="articles" />
+        <p>找到{{ $store.state.searchArticles.length }}篇和 <span>{{ keyword }}</span> 相关的文章</p>
+        <top-list :articles="$store.state.searchArticles" />
       </div>
     </div>
     <div v-else>
@@ -18,12 +18,9 @@
 </template>
 <script>
 export default {
-  async asyncData({ store, route }) {
-    let id = route.params.id || ''
-    const { data } = await store.dispatch('SEARCH', id)
-    return {
-      articles: data || []
-    }
+  async fetch({ store, route }) {
+    let id = decodeURIComponent(route.params.id) || ''
+    await store.dispatch('SEARCH', id)
   },
   head() {
     return {
@@ -32,14 +29,19 @@ export default {
   },
   data() {
     return {
-      keyword: this.$route.params.id || ''
+      keyword: ''
     }
   },
   methods: {
     search() {
-      if (this.keyword === '') { return false }
-      let keyword = encodeURIComponent(this.keyword)
-      this.$router.push(`/search/${keyword}`)
+      let keyword = encodeURIComponent(this.keyword) || encodeURIComponent(this.$route.params.id)
+      if (!keyword) { return false }
+      this.$router.push({
+        name: 'search-id',
+        params: {
+          id: keyword
+        }
+      })
     }
   }
 }

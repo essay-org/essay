@@ -148,7 +148,7 @@ code {
   word-wrap: break-word !important;
 }
 
-.page-enter-active,
+/* .page-enter-active,
 .page-leave-active {
   transition: opacity .5s
 }
@@ -156,24 +156,13 @@ code {
 .page-enter,
 .page-leave-active {
   opacity: 0
-}
+} */
 
 /* index */
-.page {
-  display: flex;
-  justify-content: space-between;
-  margin: 30px auto;
-  .page-prev {
-    width: 50%;
-    text-align: left;
-  }
-  .page-next {
-    width: 50%;
-    text-align: right;
-  }
-  a {
-    color: $link-color;
-  }
+.load-tip {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
 }
 
 /* login */
@@ -217,6 +206,24 @@ code {
       font-weight: lighter;
       &:hover {
         color: $link-color;
+      }
+    }
+  }
+}
+
+/* tag */
+.tags-list {
+  li {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    a {
+      color: #666;
+      padding: 3px 10px;
+      background-color: #eee;
+      border-radius: 3px;
+      &:hover {
+        background-color: darken(#eee, 5%);
       }
     }
   }

@@ -9,6 +9,19 @@ export default {
     state.user = data.data
   },
   SET_ARTICLES(state, data) {
-    state.articles = data
+    state.articles = state.articles.concat(data.data)
+    state.total = data.total
+  },
+  SET_TAGS(state, data) {
+    state.tags = data.data
+  },
+  SET_TAG_ARTICLES(state, data) {
+    state.tagArticles = data.data
+  },
+  SET_ARCHVES(state, data) {
+    state.archives = data.data
+  },
+  SET_SEARCH(state, data) {
+    state.searchArticles = data.data
   }
 }

@@ -9,7 +9,12 @@ export default () => {
       token: '',
       githubToken: '',
       user: {},
-      articles: {},
+      total: 0,
+      articles: [],
+      tags: [],
+      tagArticles: [], // 标签下的文章列表
+      searchArticles: [],
+      archives: [],
       githubApi:{
         userInfo: 'https://api.github.com/user?access_token='
       }

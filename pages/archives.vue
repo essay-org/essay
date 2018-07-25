@@ -1,6 +1,6 @@
 <template>
   <div class="archives container">
-    <div class="archive-item" v-for="(archive, index) in archives" :key="index">
+    <div class="archive-item" v-for="(archive, index) in $store.state.archives" :key="index">
       <h3 class="item-title">{{ archive.date }}({{ archive.total }})</h3>
       <ul class="item-list">
         <li v-for="(article, index) in archive.articles" :key="index">
@@ -13,10 +13,9 @@
 </template>
 <script>
 export default {
-  async asyncData({ store }) {
-    const { data } = await store.dispatch('ARCHIVES')
-    return {
-      archives: data || []
+  async fetch({ store }) {
+    if(!store.state.archives.length) {
+      await store.dispatch('ARCHIVES')
     }
   },
   head() {

@@ -94,12 +94,14 @@ export default {
   },
   methods: {
     search() {
-      if (this.keyword === '') {
-        return
-      } else {
-        let keyword = encodeURIComponent(this.keyword)
-        this.$router.push(`/search/${keyword}`)
-      }
+      let keyword = encodeURIComponent(this.keyword)
+      if (!keyword) { return false }
+      this.$router.push({
+        name: 'search-id',
+        params: {
+          id: keyword
+        }
+      })
     },
     logout() {
       this.$store.dispatch('LOGOUT').then(data => {

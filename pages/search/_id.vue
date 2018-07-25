@@ -19,7 +19,7 @@
 <script>
 export default {
   async fetch({ store, route }) {
-    let id = decodeURIComponent(route.params.id) || ''
+    let id = route.params.id || ''
     await store.dispatch('SEARCH', id)
   },
   head() {

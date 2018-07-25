@@ -165,8 +165,9 @@ export const deleteArticle = async(ctx, next) => {
 }
 
 export const search = async(ctx, next) => {
-  const { keyword } = ctx.params
-  const reg = new RegExp(keyword, 'i')
+  let { keyword } = ctx.params
+  keyword = decodeURIComponent(keyword)
+  let reg = new RegExp(keyword, 'i')
   try {
     let body = await Article.find({
         publish: true,

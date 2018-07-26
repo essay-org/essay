@@ -40,13 +40,13 @@ npm run build
 npm start
 ```
 
-**Tips：** Use `http://127.0.0.1:3000` replace `http://localhost:3000` visit your local Project
+**Tips：** Useing `http://127.0.0.1:3000` replace `http://localhost:3000` visit your local project
 
 ### Global config
 
 The config file is `/server/config/index.js`.
 
-The uername is `q` and password is `q`.
+The default uername is `q` and password is `q`.
 
 ```javascript
 export default {

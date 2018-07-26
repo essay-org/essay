@@ -212,18 +212,20 @@ code {
 }
 
 /* tag */
-.tags-list {
-  li {
-    display: inline-block;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    a {
-      color: #666;
-      padding: 3px 10px;
-      background-color: #eee;
-      border-radius: 3px;
-      &:hover {
-        background-color: darken(#eee, 5%);
+.tags {
+  .tags-list {
+    li {
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      a {
+        color: #666;
+        padding: 3px 10px;
+        background-color: #eee;
+        border-radius: 3px;
+        &:hover {
+          background-color: darken(#eee, 5%);
+        }
       }
     }
   }

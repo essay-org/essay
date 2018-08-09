@@ -40,7 +40,7 @@ export const rss = async(ctx, next) => {
       <language>zh-CN</language>
       <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>\r\n`
   let tail = `</channel>\r\n</rss>`
-  let res = await Article.find({ publish: true }).limit(30).sort({ 'createdAt': -1 }).exec()
+  let res = await Article.find({ publish: true }).limit(10).sort({ 'createdAt': -1 }).exec()
   let body = res.reduce((prev, curr) => {
     let date = new Date(curr.updatedAt).toUTCString()
     let md = new MarkdownIt()

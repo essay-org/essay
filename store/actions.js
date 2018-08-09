@@ -136,7 +136,7 @@ export default {
 
   // 管理员登录
   async LOGIN({ commit, state, getters }, user) {
-    const { data } = await axios.post(`${getters.routerBaseApi}/login`, user)
+    const { data } = await axios.post(`${getters.baseUrl}/login`, user)
     commit('SET_TOKEN', data.data.token)
     return data
   },

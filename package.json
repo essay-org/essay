@@ -1,6 +1,6 @@
 {
   "name": "vueblog",
-  "version": "2.3.0",
+  "version": "2.3.2",
   "description": "A blog system based on Nuxt.js",
   "author": "wmui <qq22337383@gmail.com>",
   "scripts": {
@@ -29,7 +29,7 @@
     "nodemailer": "^4.6.7",
     "nuxt": "latest",
     "source-map-support": "^0.4.15",
-    "top-editor": "0.0.7"
+    "top-editor": "^0.0.8"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

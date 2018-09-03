@@ -110,6 +110,14 @@ npm run build
 pm2 start npm --name "vueblog" -- start
 ```
 
+### 交流
+
+如果你也热爱技术，期待我们能成为朋友
+
+QQ： 22337383
+wexin： henanzhijia
+
+
 ### 开源协议
 
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)  

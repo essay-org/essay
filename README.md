@@ -12,6 +12,8 @@
 
 Eaasys 是一个轻量级的博客应用
 
+Essays 在3.0.0之前的版本叫VueBlog，由于重名率太高，后改名为Essays
+
 ### 技术栈
 
 - 前端：Nuxt.js + Vuex

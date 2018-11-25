@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'vueblog',
+      name: 'essays',
       script: 'build/main.js',
       env: {
         COMMON_VARIABLE: 'true'
@@ -17,7 +17,7 @@ module.exports = {
       host: '118.193.175.253', // 服务器IP
       ref: 'origin/master',
       repo: 'git@github.com:wmui/essays.git',
-      path: '/www/vueblog',
+      path: '/www/essays',
       'post-deploy': 'yarn && npm run build && pm2 reload ecosystem.config.js --env production'
     }
   }

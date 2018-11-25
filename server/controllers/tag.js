@@ -1,39 +1,28 @@
 import mongoose from 'mongoose'
 const Tag = mongoose.model('Tag')
-const Article = mongoose.model('Article')
-export const getTagsOrArticles = async(ctx, next) => {
-  let { id } = ctx.params, data
-  if (id) {
-    try {
-      data = await Article.find({ publish: true, tags: [id] })
-        .populate({
-          path: 'tags',
-          select: 'id name'
-        })
-        .sort({ 'updatedAt': -1 })
-        .exec()
-      ctx.body = {
-        success: true,
-        data: data
-      }
-    } catch (e) {
-      ctx.body = {
-        success: false,
-        err: e
-      }
-    }
-  } else {
-    data = await Tag.find({}).sort({ 'updatedAt': -1 }).exec()
+
+export const getTags = async (ctx, next) => {
+  try {
+    let data = await Tag.find({}).sort({
+      'updatedAt': -1
+    }).exec()
     ctx.body = {
       success: true,
       data: data
     }
+  } catch (e) {
+    ctx.body = {
+      success: false,
+      err: e
+    }
   }
 }
 
-export const postTag = async(ctx, next) => {
+export const postTag = async (ctx, next) => {
   let body = ctx.request.body
-  let { name } = body
+  let {
+    name
+  } = body
 
   if (!name) {
     return (ctx.body = {
@@ -57,10 +46,12 @@ export const postTag = async(ctx, next) => {
   }
 }
 
-export const patchTag = async(ctx, next) => {
+export const patchTag = async (ctx, next) => {
   let body = ctx.request.body
   body.updatedAt = Date.now()
-  const { id } = body
+  const {
+    id
+  } = body
   if (!id) {
     return (ctx.body = {
       success: false,
@@ -82,8 +73,10 @@ export const patchTag = async(ctx, next) => {
   }
 }
 
-export const deleteTag = async(ctx, next) => {
-  let { id } = ctx.params
+export const deleteTag = async (ctx, next) => {
+  let {
+    id
+  } = ctx.params
 
   if (!id) {
     return (ctx.body = {

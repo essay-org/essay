@@ -1,14 +1,12 @@
 import mongoose from 'mongoose'
 import md5 from 'md5'
 import config from '../config'
-
 require('./user')
 require('./tag')
 require('./article')
 require('./comment')
 
 const User = mongoose.model('User')
-
 const mongoUrl = `mongodb://${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.database}`
 mongoose.Promise = global.Promise
 mongoose.connection

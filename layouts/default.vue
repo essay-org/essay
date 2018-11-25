@@ -2,32 +2,43 @@
   <div class="blog">
     <div class="header-wraper">
       <header class="blog-header">
-        <h1 class="header-title"><a href="/">{{ $store.state.user.nickname }}</a></h1>
-          <nav class="header-nav" ref="headerNav">
-            <div class="nav-avatar">
-              <img :src="$store.state.user.avatar" alt="">
-              <h4>{{ $store.state.user.motto }}</h4>
-            </div>
-            <div class="nav-search">
-              <i class="vueblog icon-search"></i>
-              <input type="text" v-model="keyword" @keyup.enter="search" maxlength="30">
-            </div>
-            <!-- admin navs -->
-            <ul class="nav-list" v-if="/^(admin)/.test($route.name)">
-              <li v-for="(nav, index) in adminNavs" :key="index" :class="{'nav-active': nav.routerName === $route.name}">
-                <nuxt-link :to="nav.path">{{ nav.name }}</nuxt-link>
-              </li>
-              <li><a @click="logout">退出</a></li>
-            </ul>
-            <!-- front navs -->
-            <ul class="nav-list" v-else>
-              <li v-for="(nav, index) in navs" :key="index" :class="{'nav-active': nav.routerName === $route.name}">
-                <nuxt-link :to="nav.path">{{ nav.name }}</nuxt-link>
-              </li>
-            </ul>
-          </nav>
-        <div class="header-menu" @click="showMenu">
-          <i class="vueblog icon-menu"></i>
+        <div 
+          class="header-back" 
+          v-if="$route.params.id" 
+          @click="$router.go(-1)">
+          <i class="wmui icon-back"></i>
+        </div>
+        <h1 class="header-title" v-else>
+          <nuxt-link to="/">{{ $store.state.user.nickname }}</nuxt-link>
+        </h1>
+        <nav class="header-nav">
+          <div class="nav-search">
+            <i class="wmui icon-search"></i>
+            <input
+              type="text"
+              v-model="keyword"
+              @keyup.enter="search"
+              maxlength="30">
+          </div>
+          <ul class="nav-list" v-if="/^admin/.test(this.$route.name)">
+            <li
+              v-for="(nav, index) in adminNavs"
+              :key="index"
+              >
+              <nuxt-link :to="nav.path">{{ nav.name }}</nuxt-link>
+            </li>
+          </ul>
+          <ul class="nav-list" v-else>
+            <li
+              v-for="(nav, index) in navs"
+              :key="index"
+              >
+              <nuxt-link :to="nav.path">{{ nav.name }}</nuxt-link>
+            </li>
+          </ul>
+        </nav>
+        <div class="header-search" @click="$router.push('/search')">
+          <i class="wmui icon-search"></i>
         </div>
       </header>
     </div>
@@ -35,13 +46,18 @@
       <nuxt/>
     </section>
     <aside class="blog-aside">
-      <nuxt-link to="/rss.xml" target="_blank"><i class="vueblog icon-rss"></i></nuxt-link>
-      <a href="https://github.com/wmui"><i class="vueblog icon-github"></i></a>
-      <a href="/admin/publish"><i class="vueblog icon-writefill"></i></a>
-      <a @click="backTop"><i class="vueblog icon-backtop"></i></a>
+      <nuxt-link to="/rss.xml" target="_blank">
+        <i class="wmui icon-rss"></i>
+      </nuxt-link>
+      <a href="https://github.com/wmui">
+        <i class="wmui icon-github"></i>
+      </a>
+      <a @click="backTop">
+        <i class="wmui icon-backtop"></i>
+      </a>
     </aside>
-    <footer class="blog-footer container">
-      <p>Powered by <a href="https://github.com/wmui/vueblog" target="_blank">VueBlog</a></p>
+    <footer class="blog-footer">
+      <p>Powered by <a href="https://github.com/wmui/essays" target="_blank">Essays</a></p>
     </footer>
   </div>
 </template>
@@ -50,45 +66,37 @@ export default {
   data() {
     return {
       keyword: '',
-      navStyle: {},
-      navs: [{
-          path: '/',
-          routerName: 'index',
-          name: '首页'
-        },
+      navs: [
         {
           path: '/tags',
-          routerName: 'tags-id',
-          name: '标签'
+          name: '标签',
         },
         {
-          path: '/archives',
-          routerName: 'archives',
-          name: '归档'
-        }
+          path: '/admin/posts',
+          name: '新随笔',
+        },
       ],
-
-      adminNavs: [
+      adminNavs:[
         {
-          path: '/admin/private',
-          routerName: 'admin-private',
-          name: '草稿'
+          path: '/admin/settings',
+          name: '设置',
         },
         {
-          path: '/admin/comment',
-          routerName: 'admin-comment',
-          name: '评论'
+          path: '/admin/comments',
+          name: '评论',
         },
         {
           path: '/admin/tags',
-          routerName: 'admin-tags',
-          name: '标签'
+          name: '标签',
         },
         {
-          path: '/admin/update',
-          routerName: 'admin-update',
-          name: '设置'
-        }
+          path: '/admin/drafts',
+          name: '草稿',
+        },
+        {
+          path: '/admin/posts',
+          name: '随笔',
+        },
       ]
     }
   },
@@ -103,31 +111,16 @@ export default {
         }
       })
     },
-    logout() {
-      this.$store.dispatch('LOGOUT').then(data => {
-        if (data.success) {
-          this.$store.state.token = ''
-          this.$router.push('/')
-        }
-      })
-    },
     backTop() {
       document.documentElement.scrollTop = 0
       document.body.scrollTop = 0
     },
-    showMenu() {
-      if(this.$refs.headerNav.style.transform) {
-        this.$refs.headerNav.style.transform = ''
-      } else {
-        this.$refs.headerNav.style.transform = 'translateX(0)'
-      }
-    }
   }
 }
 
 </script>
 <style lang="scss">
-@import '~/assets/css/var.scss';
+@import '~/assets/styles/var.scss';
 .blog {
   position: relative;
   .header-wraper {
@@ -138,7 +131,7 @@ export default {
     height: 50px;
     line-height: 50px;
     border-bottom: 1px solid #eee;
-    z-index: 9;
+    z-index: 999;
     background-color: #fff;
   }
   .blog-header {
@@ -147,9 +140,9 @@ export default {
     margin: 0 auto;
     justify-content: space-between;
     padding: 0 15px;
-    .header-title {
+    .header-title{
       font-size: 20px;
-      font-weight: 600;
+      font-weight: bold;
       a:link,
       a:visited,
       a:hover,
@@ -157,9 +150,17 @@ export default {
         color: $font-color;
       }
     }
+    .header-back {
+      width: 50px;
+      cursor: pointer;
+      .icon-back {
+       font-size: 25px;
+      }
+    }
     .nav-search {
       display: inline-block;
       position: relative;
+      margin-right: 15px;
       .icon-search {
         position: absolute;
         left: 10px;
@@ -170,7 +171,7 @@ export default {
         height: 35px;
         width: 200px;
         line-height: 35px;
-        text-indent: 2em;
+        text-indent: 2rem;
         border-radius: 35px;
         &:focus {
           outline: none;
@@ -179,11 +180,8 @@ export default {
       }
     }
     .header-nav {
-      .nav-avatar {
-        display: none;
-      }
+      display: flex;
       ul {
-        display: inline-block;
         list-style: none;
       }
       li {
@@ -195,12 +193,12 @@ export default {
             color: $link-color;
           }
         }
-        &.nav-active a {
-          color: $link-color;
-        }
+      }
+      .nuxt-link-active{
+        color: $link-color;
       }
     }
-    .header-menu {
+    .header-search {
       display: none;
       height: 50px;
       line-height: 50px;
@@ -211,32 +209,30 @@ export default {
     }
   }
   .blog-body {
+    max-width: 770px;
+    margin: 100px auto 50px;
     position: relative;
     padding-left: 15px;
     padding-right: 15px;
-    margin-bottom: 50px;
-    margin-top: 100px;
   }
   .blog-aside {
     position: fixed;
     right: 30px;
-    bottom: 30px;
-    z-index: 999;
-    border-radius: 4px;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    bottom: 50px;
+    border: 1px solid #eee;
+    border-bottom: none;
+    background: #eee;
     a {
-      display: block;
-      color: #999;
-      width: 40px;
-      line-height: 40px;
-      height: 40px;
-      background-color: #fafafa;
-      text-align: center;
-      border: 1px solid #fff;
-      opacity: 1;
-      border-bottom: 1px solid #eee;
+    display: block;
+    color: #999;
+    width: 45px;
+    line-height: 45px;
+    height: 45px;
+    background-color: #fff;
+    text-align: center;
+    border-bottom: 1px solid #eee;
       &:hover {
-        color: $link-color;
+        background: #f3f3f3;
       }
     }
     i {
@@ -247,6 +243,9 @@ export default {
     border-top: 1px solid #eee;
     text-align: center;
     font-size: 12px;
+    max-width: 770px;
+    margin-left: auto;
+    margin-right: auto;
     p {
       line-height: 50px;
       color: #999;
@@ -256,46 +255,23 @@ export default {
     }
   }
 }
-
-@media screen and(max-width: 768px) {
+.wmui-edit.full-screen {
+  z-index: 1000 !important;
+}
+@media screen and(max-width: 770px) {
   .blog {
     .blog-header {
-      .header-menu {
-        display: inline-block;
+      .nav-search {
+        display: none;
       }
-      .header-nav {
-        transform: translateX(100%);
-        transition: transform .2s ease;
-        position: fixed;
-        right: 0;
-        height: 100%;
-        margin-top: 50px;
-        text-align: center;
-        overflow: auto;
-        padding: 0 15px;
-        z-index: 1000;
-        background-color: #f3f3f3;
-        .nav-avatar {
-          display: block;
-          img {
-            width: 100px;
-            border-radius: 50%;
-            text-align: center;
-            display: inline-block;
-            margin-top: 30px;
-          }
-        }
-        .nav-search {
-          display: block;
-          width: 200px;
-        }
-        .nav-list {
-          width: 100%;
-          li {
-            display: block;
-            border-bottom: 1px solid #ddd;
-          }
-        }
+      .header-search {
+        display: inline-block;
+        width: 50px;
+        text-align: right;
+        cursor: pointer;
+      }
+      .header-nav li a{
+        padding: 0 7px;
       }
     }
     .blog-aside {
@@ -303,4 +279,5 @@ export default {
     }
   }
 }
+
 </style>

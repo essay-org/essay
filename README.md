@@ -1,16 +1,16 @@
 
-<a href="https://travis-ci.org/wmui/vueblog"><img src="https://travis-ci.org/wmui/vueblog.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
+<a href="https://travis-ci.org/wmui/essays"><img src="https://travis-ci.org/wmui/essays.svg?branch=master" alt="Build Status"></a>
+<a href="https://github.com/wmui/essays"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 
-## VueBlog
+## Essays
 
-[English Doc](https://github.com/wmui/vueblog/blob/master/README.en.md)
+[English Doc](https://github.com/wmui/essays/blob/master/README.en.md)
 
 <div style="text-align:center;">
   <p><a href="https://www.86886.wang" target="_blank">演示站</a></p>
 </div>
 
-VueBlog是一个轻量级的博客应用
+Eaasys 是一个轻量级的博客应用
 
 ### 技术栈
 
@@ -22,24 +22,15 @@ VueBlog是一个轻量级的博客应用
 - 支持服务端渲染
 - PWA渐进式web应用
 - 轻量级Markdown编辑器
-- 支持标签、归档、搜索草稿箱等功能
+- 支持标签、归档、搜索和草稿箱等功能
 
 ### 本地运行
 
-安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库并启动，安装[Node.js](https://nodejs.org/en/)环境。
-
-启动数据库
-
-```bash
-# yourDBpath 表示你自定义的数据库目录，任意位置皆可
-sudo mongod --dbpath yourDBpath
-```
-
-运行项目
+安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库和[Node.js](https://nodejs.org/en/)环境。
 
 ``` bash
 # install dependencies
-yarn # or npm install
+npm install # or yarn
 
 # serve in dev mode, with hot reload at http://127.0.0.1:3000
 npm run dev
@@ -51,10 +42,7 @@ npm run build
 npm start
 ```
 
-**注意：** 
-
-1. 不要使用`http://localhost:3000`访问，而是用`http://127.0.0.1:3000`
-2. 建议使用yarn安装项目依赖，确保不会因为版本问题导致项目无法运行
+**注意：** 不要使用`http://localhost:3000`访问，而是用`http://127.0.0.1:3000`
 
 ### 全局配置
 
@@ -70,9 +58,8 @@ export default {
     username: 'q',
     password: 'q',
     email: 'qq22337383@gmail.com',
-    nickname: 'VueBlog',
-    motto: 'Never too old to learn',
-    avatar: 'avatar.png'
+    nickname: 'Essays',
+    motto: 'Never too old to learn'
   },
   jwt: {
     secret: 'vueblog'
@@ -107,7 +94,7 @@ export default {
 
 ### 线上部署
 
-如果需要部署到线上看下效果，可以参考这里[Nuxt项目自动化部署手册](https://github.com/wmui/web-deploy)
+如果需要部署到线上看下效果，可以参考这里[Nuxt项目自动化部署](https://github.com/wmui/web-deploy)
 
 如果感觉自动化部署太麻烦，可以简单部署上线
 
@@ -119,9 +106,10 @@ npm install # or yarn
 npm run build
 
 # serve in production mode
-pm2 start npm --name "vueblog" -- start
+pm2 start npm --name "essays" -- start
 ```
 
+该项目仅供学习交流，不建议用于线上
 
 ### 开源协议
 

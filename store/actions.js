@@ -42,26 +42,36 @@ export default {
     return data
   },
 
-  async TAGS({ commit, state, getters }, id = '') {
-    const { data } = await axios.get(`${getters.baseUrl}/tags/${id}`)
-    if(id) {
-      commit('SET_TAG_ARTICLES', data)
-    }else{
-      commit('SET_TAGS', data)
-    }
+  async TAGS({ commit, state, getters }) {
+    const { data } = await axios.get(`${getters.baseUrl}/tags`)
+    commit('SET_TAGS', data)
     return data
   },
 
+  async TAG_ARTICLES({ commit, state, getters }, params) {
+    const {
+      data
+    } = await axios.get(`${getters.baseUrl}/tag/${params.id}/${params.page}/${state.limit}`)
+    commit('SET_TAG_ARTICLES', data)
+    return data
+  },
 
   // 文章相关操作
-  async ARTICLES({ commit, state, getters }, page = 1, limit = 15) {
-    const { data } = await axios.get(`${getters.baseUrl}/articles/${page}/${limit}`)
+  async ARTICLES({ commit, state, getters }, page) {
+    const { data } = await axios.get(`${getters.baseUrl}/articles/${page}/${state.limit}`)
     commit('SET_ARTICLES', data)
     return data
   },
 
-  async PRIVATE_ARTICLES({ commit, state, getters }) {
-    const { data } = await axios.get(`${getters.baseUrl}/private-articles`)
+  async STICK_ARTICLES({ commit, state, getters }, page) {
+    const { data } = await axios.get(`${getters.baseUrl}/stick/${page}/${state.limit}`)
+    commit('SET_STICK_ARTICLES', data)
+    return data
+  },
+
+  async DRAFTS({ commit, state, getters }, page) {
+    const { data } = await axios.get(`${getters.baseUrl}/drafts/${page}/${state.limit}`)
+    commit('SET_DRAFTS', data)
     return data
   },
 
@@ -71,7 +81,6 @@ export default {
   },
 
   async DELETE_ARTICLE({ commit, state, getters }, id) {
-    // let id = params.id, isPublish = params.publish, data
     const { data } = await axios.delete(`${getters.baseUrl}/article/${id}`)
     return data
   },
@@ -83,6 +92,7 @@ export default {
 
   async ARTICLE_DETAIL({ commit, state, getters }, id) {
     const { data } = await axios.get(`${getters.baseUrl}/article/${id}`)
+    commit('SET_ARTICLE_DETAIL', data)
     return data
   },
 
@@ -103,16 +113,11 @@ export default {
   },
 
   // 搜索
-  async SEARCH({ commit, state, getters }, id = '') {
-    const { data } = await axios.get(`${getters.baseUrl}/search/${id}`)
+  async SEARCH({ commit, state, getters }, params) {
+    const {
+      data
+    } = await axios.get(`${getters.baseUrl}/search/${params.id}/${params.page}/${state.limit}`)
     commit('SET_SEARCH', data)
-    return data
-  },
-
-  // 获取归档
-  async ARCHIVES({ commit, state, getters }) {
-    const { data } = await axios.get(`${getters.baseUrl}/archives`)
-    commit('SET_ARCHVES', data)
     return data
   },
 
@@ -122,26 +127,31 @@ export default {
     return data
   },
 
-  // 获取管理员信息
-  async ADMIN_INFO({ commit, state, getters }) {
-    const { data } = await axios.get(`${getters.baseUrl}/user`)
+  // 获取用户信息
+  async USER_INFO({ commit, state, getters }, username) {
+    const { data } = await axios.get(`${getters.baseUrl}/user/${username}`)
     return data
   },
 
-  // 更新管理员信息
-  async UPDATE_ADMIN({ commit, state, getters }, params) {
+  // 修改信息
+  async UPDATE_USER_INFO({ commit, state, getters }, params) {
     const { data } = await axios.patch(`${getters.baseUrl}/user`, params)
     return data
   },
 
-  // 管理员登录
+  async UPDATE_USER_PASSWORD({ commit, state, getters }, params) {
+    const { data } = await axios.patch(`${getters.baseUrl}/password`, params)
+    return data
+  },
+
+  // 登录
   async LOGIN({ commit, state, getters }, user) {
     const { data } = await axios.post(`${getters.baseUrl}/login`, user)
     commit('SET_TOKEN', data.data.token)
     return data
   },
 
-  // 管理员退出
+  // 退出
   async LOGOUT({ commit, state, getters }) {
     const { data } = await axios.post(`${getters.baseUrl}/logout`)
     return data

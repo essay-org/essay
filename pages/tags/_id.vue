@@ -1,11 +1,16 @@
 <template>
-  <div class="tags container">
+  <div class="tags">
     <template v-if="$route.params.id">
-      <top-list :articles="$store.state.tagArticles"/>
+      <blog-list :articles="tagArticles"/>
+      <wmui-pagination 
+        :limit="limit" 
+        :total="total" 
+        :currentPage="currentPage"
+        @pageClick="pageClick"/>
     </template>
     <template v-else>
       <ul class="tags-list">
-        <li class="tag" v-for="(tag, index) in $store.state.tags" :key="index">
+        <li class="tag" v-for="(tag, index) in tags" :key="index">
           <nuxt-link :to="'/tags/'+ tag.id">{{ tag.name }}</nuxt-link>
         </li>
       </ul>
@@ -13,16 +18,39 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 export default {
-  async fetch({ store, route }) {
-    let id = route.params.id || ''
-    await store.dispatch('TAGS', id)
+  fetch({ store, route }) {
+    let id = route.params.id
+    if(id){
+      return store.dispatch('TAG_ARTICLES', {id, page: 1})
+    }else{
+      return store.dispatch('TAGS')
+    }
+  },
+  data() {
+    return {
+      currentPage: 1,
+    }
   },
   head() {
     return {
-      title: '标签 - ' + this.$store.state.user.nickname
+      title: '标签 - ' + this.user.nickname
     }
-  }
+  },
+  computed: mapState([
+    'user',
+    'tags',
+    'tagArticles',
+    'limit',
+    'total',
+  ]),
+  methods: {
+    pageClick(i) {
+      this.currentPage = i
+      this.$store.dispatch('TAG_ARTICLES', {id: this.$route.params.id, page: Number(i)})
+    }
+  },
 }
 
 </script>

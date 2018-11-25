@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import TopTip from '../components/top-tip.vue'
-import TopList from '../components/top-list.vue'
-import TopComment from '../components/top-comment.vue'
-import TopPreview from 'top-editor/src/lib/TopPreview.vue'
-import TopEditor from 'top-editor/src/lib/TopEditor.vue'
+import BlogList from '../components/blog-list.vue'
+import BlogComment from '../components/blog-comment.vue'
 
-const components = { TopTip, TopList, TopComment, TopPreview, TopEditor }
+const components = [
+  BlogList,
+  BlogComment,
+]
 
-Object.keys(components).forEach(key => {
-  Vue.component(key, components[key])
+components.forEach(component => {
+  Vue.component(component.name, component)
 })

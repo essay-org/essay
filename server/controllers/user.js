@@ -4,9 +4,9 @@ import md5 from 'md5'
 import axios from 'axios'
 import url from 'url'
 import config from '../config'
+import {checkToken} from '../middlewares/check-token'
 
 const User = mongoose.model('User')
-
 const domain = config.app.domain ? config.app.domain : `http://${config.app.host}:${config.app.port}`
 
 export const login = async(ctx, next) => {
@@ -16,7 +16,7 @@ export const login = async(ctx, next) => {
     let user = await User.findOne({username: username, password: password}).exec()
     let secret = config.jwt.secret
     let expiresIn = config.jwt.expiresIn
-    let token = jwt.sign({ username: user.username, userID: user._id }, secret)
+    let token = jwt.sign({ username: user.username, userID: user._id }, secret, { expiresIn:expiresIn })
     ctx.cookies.set('token', token)
     ctx.body = {
       success: true,
@@ -41,59 +41,62 @@ export const logout = (ctx, next) => {
 }
 
 export const getUserInfo = async(ctx, next) => {
-  let { username } = ctx.params
-  let avatarUrl = domain + '/public/' + config.user.avatar
-  if(!username){
-    // 获取管理员信息
-    try {
-      let data = await User.findOne({ role: 'superAdmin' }).exec()
-      data.avatar = avatarUrl
-      ctx.body = {
-        success: true,
-        data: data
-      }
-    } catch (e) {
-      ctx.body = {
-        success: false,
-        err: e
-      }
+  // 用户名必须是唯一的
+  let username = ctx.params.username || config.user.username
+  try {
+    let user = await User.findOne({ username }).exec()
+    if(user.avatar === 'avatar.png') {
+      // 默认头像
+      user.avatar = domain + '/public/avatar.png'
     }
-  } else {
-    // 获取普通用户信息
-    try {
-      let data = await User.findOne({ username: username }).exec()
-      ctx.body = {
-        success: true,
-        data: data
-      }
-    } catch (e) {
-      ctx.body = {
-        success: false,
-        err: e
-      }
+    ctx.body = {
+      success: true,
+      data: user
+    }
+  } catch (e) {
+    ctx.body = {
+      success: false,
+      err: e
     }
   }
 }
 
 export const patchUserInfo = async(ctx, next) => {
   let body = ctx.request.body
+  let username = ctx.state.username
+  try {
+    body.updatedAt = Date.now()
+    body = await User.findOneAndUpdate({ username }, body).exec()
+    ctx.body = {
+      success: true,
+      data: body
+    }
+  } catch (e) {
+    ctx.body = {
+      success: false,
+      err: e
+    }
+  }
+}
 
+export const patchUserPassword = async(ctx, next) => {
+  let body = ctx.request.body
+  let username = ctx.state.username
   if (body.oldPassword && body.newPassword) {
-    // 更新管理员密码
     let oldPassword = md5(body.oldPassword)
     let newPassword = md5(body.newPassword)
     try {
-      let user = await User.findOne({ role: 'superAdmin' }).exec()
+      let user = await User.findOne({ username }).exec()
       if (user.password !== oldPassword) {
         return (ctx.body = {
           success: false,
           err: 'Wrong password'
         })
       }
-      body = await User.findOneAndUpdate({ role: 'superAdmin' }, { password: newPassword, updatedAt: Date.now() }).exec()
+      body = await User.findOneAndUpdate({ username }, { password: newPassword, updatedAt: Date.now() }).exec()
       ctx.body = {
         success: true,
-        data: body
+        data: ''
       }
     } catch (e) {
       ctx.body = {
@@ -102,19 +105,48 @@ export const patchUserInfo = async(ctx, next) => {
       }
     }
   } else {
-    // 更新管理员信息
-    body.updatedAt = Date.now()
+    ctx.body = {
+      success: false,
+      err: 'Field incomplete'
+    }
+  }
+}
+
+export const register = async(ctx, next) => {
+  let {username, password} = ctx.request.body
+  if(username && password) {
     try {
-      body = await User.findOneAndUpdate({ role: 'superAdmin' }, body).exec()
-      ctx.body = {
-        success: true,
-        data: body
+      let user = await User.findOne({ username: username }).exec()
+      if(user) {
+        ctx.body = {
+          success: false,
+          err: 'The username is taken'
+        }
+      }else{
+        user = new User({username: username, password: md5(password)})
+        await user.save() // 注册用户
+        user = await User.findOne({ username: username }).exec()
+        let secret = config.jwt.secret
+        let expiresIn = config.jwt.expiresIn
+        let token = jwt.sign({ username: user.username, userID: user._id }, secret, { expiresIn: expiresIn })
+        ctx.cookies.set('token', token)
+        ctx.body = {
+          success: true,
+          data: {
+            token: token
+          }
+        }
       }
-    } catch (e) {
+    }catch(e) {
       ctx.body = {
         success: false,
         err: e
       }
+    }
+  }else{
+    ctx.body = {
+      success: false,
+      err: 'Field incomplete'
     }
   }
 }
@@ -139,10 +171,10 @@ export const githubCallback = async (ctx, next) => {
   // 把获取到的token设置到cookie里
   await axios.get(u).then((ret) => {
     const {data} = ret
-    var arr = data.split('&'),obj = {}
+    let arr = data.split('&'),obj = {}
     arr.forEach(function(item){
-      var key = item.split('=')[0]
-      var value = item.split('=')[1]
+      let key = item.split('=')[0]
+      let value = item.split('=')[1]
       obj[key] = value
     })
     if(obj.access_token) {
@@ -157,7 +189,6 @@ export const githubCallback = async (ctx, next) => {
     // 把用户信息保存到数据库
     await axios.get(`https://api.github.com/user?access_token=${githubToken}`).then(ret => {
       const {data} = ret
-      userInfo.role = 'user'
       userInfo.username = data.login
       userInfo.email = data.email
       userInfo.nickname = data.name
@@ -165,6 +196,7 @@ export const githubCallback = async (ctx, next) => {
       userInfo.avatar = data.avatar_url
     })
 
+    // 信息初次保存
     var user = await User.findOne({ username: userInfo.username }).exec()
     if(!user) {
       user = new User(userInfo)

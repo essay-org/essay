@@ -1,5 +1,5 @@
 <template>
-  <section class="error container">
+  <section class="error">
     <h1 class="error-title">
       {{ error.statusCode }}
     </h1>

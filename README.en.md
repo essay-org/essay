@@ -1,15 +1,15 @@
-<a href="https://travis-ci.org/wmui/vueblog"><img src="https://travis-ci.org/wmui/vueblog.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
+<a href="https://travis-ci.org/wmui/essays"><img src="https://travis-ci.org/wmui/essays.svg?branch=master" alt="Build Status"></a>
+<a href="https://github.com/wmui/essays"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 
-## VueBlog
+## Essays
 
-[中文文档](https://github.com/wmui/vueblog/blob/master/README.md)
+[中文文档](https://github.com/wmui/essays/blob/master/README.md)
 
 <div style="text-align:center;">
   <p><a href="https://www.86886.wang" target="_blank">Live Demo</a></p>
 </div>
 
-VueBlog is a lightweight blog application
+Essays is a lightweight blog application
 
 ### Technology stack
 
@@ -55,9 +55,8 @@ export default {
     username: 'q',
     password: 'q',
     email: 'qq22337383@gmail.com',
-    nickname: 'VueBlog',
-    motto: 'Never too old to learn',
-    avatar: 'avatar.png'
+    nickname: 'Essays',
+    motto: 'Never too old to learn'
   },
   jwt: {
     secret: 'vueblog'

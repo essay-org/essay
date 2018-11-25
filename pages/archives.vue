@@ -1,6 +1,6 @@
 <template>
-  <div class="archives container">
-    <div class="archive-item" v-for="(archive, index) in $store.state.archives" :key="index">
+  <div class="archives">
+    <div class="archive-item" v-for="(archive, index) in archives" :key="index">
       <h3 class="item-title">{{ archive.date }}({{ archive.total }})</h3>
       <ul class="item-list">
         <li v-for="(article, index) in archive.articles" :key="index">
@@ -12,17 +12,23 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 export default {
-  async fetch({ store }) {
+  name: 'archives',
+  fetch({ store }) {
     if(!store.state.archives.length) {
-      await store.dispatch('ARCHIVES')
+      return store.dispatch('ARCHIVES')
     }
   },
   head() {
     return {
-      title: '归档 - ' + this.$store.state.user.nickname
+      title: '归档 - ' + this.user.nickname
     }
-  }
+  },
+  computed: mapState([
+    'user',
+    'archives',
+  ]),
 }
 
 </script>

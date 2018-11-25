@@ -6,12 +6,40 @@ const UserSchema = new Schema({
     type: String,
     default: 'user'
   },
-  username: String,
-  password: String,
-  email: String,
-  nickname: String,
-  motto: String,
-  avatar: String,
+  email: {
+    type: String,
+    default: ''
+  },
+  username: {
+    type: String
+  },
+  password: {
+    type: String
+  },
+  nickname: {
+    type: String,
+    default: ''
+  },
+  motto: {
+    type: String,
+    default: ''
+  },
+  avatar: {
+    type: String,
+    default: 'avatar.png'
+  },
+  following: {
+    type: Number,
+    default: 0
+  },
+  followers: {
+    type: Number,
+    default: 0
+  },
+  like: {
+    type: Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -30,6 +58,7 @@ UserSchema.options.toJSON = {
     ret.id = ret._id
     delete ret._id
     delete ret.id
+    delete ret.password
   }
 }
 mongoose.model('User', UserSchema)

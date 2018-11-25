@@ -3,34 +3,34 @@ export default {
     role: 'superAdmin',
     username: 'q',
     password: 'q',
+    nickname: 'Essays',
     email: 'qq22337383@gmail.com',
-    nickname: 'VueBlog',
-    motto: 'Never too old to learn',
-    avatar: 'avatar.png'
+    motto: 'Never too old to learn'
   },
   jwt: {
-    secret: 'vueblog'
+    secret: 'vueblog',
+    expiresIn: 1296000,
   },
   mongodb: {
     host: '127.0.0.1',
     database: 'vueblog',
     port: 27017,
     username: '',
-    password: ''
+    password: '',
   },
   githubConfig: {
     githubClient: '',
     githubSecret: '',
-    scope: 'user'
+    scope: 'user',
   },
   emailConfig: {
     user: '',
-    pass: ''
+    pass: '',
   },
   app: {
     domain: '',
     host: '127.0.0.1',
     port: 3000,
-    routerBaseApi: 'api'
-  }
+    routerBaseApi: 'api',
+  },
 }

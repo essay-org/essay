@@ -1,8 +1,8 @@
 <template>
-  <div class="top-comment">
+  <div class="blog-comment">
     <div class="comment-list">
       <ul>
-        <li v-for="(item,index) in realComments" :key="item.id">
+        <li v-for="item in realComments" :key="item.id">
           <div class="list-header clearfix">
             <a :href="`https://github.com/${item.user.username}`" class="header-avatar">
               <img :src="item.user.avatar" :alt="item.user.username" width="30px" height="30px">
@@ -23,25 +23,26 @@
         </li>
       </ul>
     </div>
-    <div v-if="isGithubLogin" class="comment-login clearfix">
+    <div v-if="githubToken" class="comment-login clearfix">
       <div class="comment-box">
         <a :href="userInfo.html_url">
           <img :src="userInfo.avatar_url" :alt="userInfo.name" width="50px" height="50px">
         </a>
         <textarea v-model="commentContent" :placeholder="placeholder" class="box-content" maxlength="300" ref="commentTextarea"></textarea>
       </div>
-      <button @click="submitComment" :disabled="disabled">提交留言</button>
+      <wmui-button className="wmui-btn-primary" @click.native="submitComment" :disabled="disabled">提交留言</wmui-button>
     </div>
     <div v-else class="comment-unlogin">
-      <button @click="githubLogin">Github 登录</button>
+      <wmui-button className="wmui-btn-primary" @click.native="githubLogin">Github 登录</wmui-button>
       <p>{{ tipMessage }}</p>
     </div>
   </div>
 </template>
 <script>
 import axios from 'axios'
+import {mapState, mapGetters} from 'vuex'
 export default {
-  name: 'top-comment',
+  name: 'blog-comment',
   props: {
     commentList: {
       type: Array,
@@ -54,8 +55,6 @@ export default {
   data() {
     return {
       disabled: false,
-      isGithubLogin: this.$store.state.githubToken ? true : false,
-      isSMTPConfig: this.$store.getters.isSMTPConfig,
       tipMessage: '欢迎留言交流',
       commentContent: '',
       userInfo: {},
@@ -79,11 +78,18 @@ export default {
         }
       }
       return list
-    }
+    },
+    ...mapState([
+      'githubToken',
+      'githubApi'
+    ]),
+    ...mapGetters([
+      'isSMTPConfig'
+    ])
   },
   mounted() {
-    if (this.isGithubLogin) {
-      let u = this.$store.state.githubApi.userInfo + this.$store.state.githubToken
+    if (this.githubToken) {
+      let u = this.githubApi.userInfo + this.githubToken
       axios.get(u).then(data => {
         this.userInfo = data.data
       })
@@ -100,7 +106,7 @@ export default {
       this.$store.dispatch('CREATE_COMMENT', {
         id: this.articleId,
         content: this.commentContent,
-        token: this.$store.state.githubToken,
+        token: this.githubToken,
         replyId: this.replyId
       }).then((data) => {
         if (data.success) {
@@ -131,7 +137,7 @@ export default {
       })
     },
     replyComment(username, id) {
-      if (!this.isGithubLogin) {
+      if (!this.githubToken) {
         this.githubLogin()
       } else {
         this.replyId = id
@@ -146,91 +152,4 @@ export default {
 }
 
 </script>
-<style lang="scss">
-@import '~/assets/css/var.scss';
-.top-comment {
-  img {
-    border-radius: 3px;
-    margin-right: 15px;
-  }
-  .comment-list {
-    ul {
-      list-style: none;
-      li {
-        margin-bottom: 20px;
-        border-bottom: 1px solid #ddd;
-      }
-      .list-header {
-        position: relative;
-        margin-bottom: 10px;
-        font-size: 14px;
-        .header-avatar {
-          float: left;
-        }
-        .header-reply {
-          display: inline-block;
-          vertical-align: top;
-          line-height: 1;
-          span {
-            font-size: 13px;
-            color: #999;
-            padding: 0 5px;
-          }
-        }
-        .header-username {
-          line-height: 1;
-          vertical-align: top;
-        }
-        .header-time {
-          position: absolute;
-          top: 12px;
-          left: 45px;
-          font-size: 13px;
-          color: #999;
-        }
-      }
-      .list-content {
-        margin-bottom: 10px;
-      }
-      .list-handler {
-        margin-bottom: 15px;
-        .handler-reply {
-          font-size: 14px;
-          color: #666;
-        }
-      }
-    }
-  }
-  .comment-box {
-    display: flex;
-    .box-content {
-      width: 100%;
-      height: 100px;
-      border: none;
-      border: 1px solid #ddd;
-      padding: 10px;
-      resize: vertical;
-      border-radius: 3px;
-    }
-  }
 
-  .comment-login {
-    button {
-      margin-top: 15px;
-      float: right;
-    }
-  }
-  .comment-unlogin {
-    background-color: #eee;
-    text-align: center;
-    border-radius: 3px;
-    padding: 15px;
-    p {
-      font-size: 14px;
-      color: #999;
-      margin-top: 10px;
-    }
-  }
-}
-
-</style>

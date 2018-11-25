@@ -1,92 +1,73 @@
 <template>
-  <div class="detail container">
-    <h1 class="detail-title">{{ article.title }}</h1>
-    <div class="detail-meta">
-      <span>
-        {{ article.createdAt | formatDate('yyyy-MM-dd') }}
-        <span class="meta-division">/</span> {{ article.updatedAt | formatDate('yyyy-MM-dd') }}
-      <span class="meta-division">/</span> {{ article.views }}次浏览
-      </span>
-    </div>
+  <div class="detail">
+    <h1 class="detail-title">{{ articleDetail.title }}</h1>
     <div class="detail-content">
-      <top-preview :content="article.content" :options="options"></top-preview>
+      <wmui-preview :content="articleDetail.content" />
     </div>
     <p class="detail-tags">
-      <nuxt-link v-for="(tag, index) in article.tags" :key="index" :to="'/tags/' + tag.id">{{ tag.name }}</nuxt-link>
+      <nuxt-link v-for="(tag, index) in articleDetail.tags" :key="index" :to="'/tags/' + tag.id"># {{ tag.name }}</nuxt-link>
     </p>
-    <div class="detail-copyright">
-      <p>文章采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接。</p>
+    <div class="detail-admin">
+      <p>发布于 {{ articleDetail.createdAt | formatDate('yyyy-MM-dd') }}</p>
+      <p> 更新于 {{ articleDetail.updatedAt | formatDate('yyyy-MM-dd') }}</p>
+      <p> 浏览{{ articleDetail.views }}次</p>
+      <p class="admin-del" v-if="token"><a @click="del(articleDetail.id)">删除</a></p>
+      <p class="admin-edit" v-if="token"><a @click="edit(articleDetail.id)">编辑</a></p>
     </div>
-    <div class="detail-admin" v-if="isLogin">
-      <p class="admin-del"><a @click="del(article.id)">删除</a></p>
-      <p class="admin-edit"><a @click="edit(article.id)">编辑</a></p>
+    <div v-if="isGithubConfig">
+      <blog-comment 
+      :comment-list="articleDetail.comments" 
+      :article-id="articleDetail.id" />
     </div>
-    <div v-if="isConfig">
-      <top-comment :comment-list="article.comments" :article-id="article.id" />
-    </div>
-    <top-tip ref="tip" />
   </div>
 </template>
 <script>
+import { mapState, mapGetters } from 'vuex'
 import { cutString } from '~/plugins/filters'
 export default {
-  async asyncData({ store, route, error }) {
+  fetch({ store, route }) {
     let id = route.params.id || ''
-    const { data } = await store.dispatch('ARTICLE_DETAIL', id)
-    if (!id) {
-      error({
-        message: 'This page could not be found',
-        statusCode: 404
-      })
-      return false
-    }
-    return {
-      article: data || {}
-    }
+    return store.dispatch('ARTICLE_DETAIL', route.params.id || '')
   },
   head() {
     return {
-      title: this.article.title + '-' + this.$store.state.user.nickname,
+      title: `${this.articleDetail.title} - ${this.user.nickname}`,
       meta: [
-        { description: cutString(this.article.content, 300) }
+        { description: cutString(this.articleDetail.content, 300) }
       ]
     }
   },
-  data() {
-    return {
-      options: {},
-      isLogin: this.$store.state.token ? true : false,
-      isConfig: this.$store.getters.isGithubConfig
-    }
+  computed: {
+    ...mapGetters([
+      'isGithubConfig',
+    ]),
+    ...mapState([
+      'user',
+      'token',
+      'articleDetail',
+    ]),
   },
-
-  mounted() {
-    if (process.browser) {
-      this.options = {
-        linkify: true,
-        highlight(str, lang = 'javascript') {
-          if (require('highlight.js').getLanguage(lang)) {
-            try {
-              return require('highlight.js').highlight(lang, str).value
-            } catch (__) {}
-          }
-          return ''
-        }
-      }
-    }
-  },
-
   methods: {
     del(id) {
-      this.$store.dispatch('DELETE_ARTICLE', id).then(data => {
-        if (data.success) {
-          this.$refs.tip.openTip('文章已删除')
-          this.$router.go(-1)
+      let _self = this
+      this.$Modal.confirm({
+        title: '确定要删除该文章吗？',
+        text: '删除后不可恢复',
+        onConfirm(instance) {
+          _self.$store.dispatch('DELETE_ARTICLE', id).then(data => {
+            if (data.success) {
+              _self.$router.go(-1)
+            }
+          })
+          instance.open = false
+        },
+        onCancel(instance) {
+          instance.open = false
         }
       })
     },
     edit(id) {
-      this.$router.push(`/admin/publish/${id}`)
+      this.$router.push(`/admin/posts/${id}`)
     }
   }
 }

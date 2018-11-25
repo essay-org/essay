@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <blog-list :articles="allArticles" />
+    <blog-list :articles="articles" />
     <wmui-pagination 
     :limit="limit" 
     :total="total" 
@@ -11,9 +11,8 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  async fetch({ store, route }) {
-    await store.dispatch('STICK_ARTICLES')
-    await store.dispatch('ARTICLES', 1)
+  fetch({ store, route }) {
+    return store.dispatch('ARTICLES', Number(route.params.id))
   },
   data() {
     return {
@@ -25,18 +24,12 @@ export default {
       title: this.user.nickname
     }
   },
-  computed: {
-    ...mapState([
-      'user',
-      'articles',
-      'stickArticles',
-      'total',
-      'limit',
-    ]),
-    allArticles() {
-      return this.stickArticles.concat(this.articles)
-    }
-  },
+  computed: mapState([
+    'user',
+    'articles',
+    'total',
+    'limit',
+  ]),
   methods: {
     pageClick(i) {
       this.$router.push({

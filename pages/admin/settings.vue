@@ -2,22 +2,22 @@
   <div class="admin-update">
     <div class="update-info">
       <h4>修改个人信息</h4>
-      <input type="text" v-model="user.nickname">
-      <input type="text" v-model="user.motto">
-      <input type="text" v-model="user.email">
-      <button @click="updateInfo">确认修改</button>
+      <input type="text" v-model="user.nickname" placeholder="昵称">
+      <input type="text" v-model="user.motto" placeholder="一句话介绍">
+      <input type="text" v-model="user.email" placeholder="邮箱">
+      <wmui-button className="wmui-btn-primary" @click.native="updateInfo">确认修改</wmui-button>
     </div>
     <div class="update-password">
       <h4>修改密码</h4>
       <input type="password" v-model="oldPassword" placeholder="输入旧密码">
       <input type="password" v-model="newPassword" placeholder="输入新密码">
       <input type="password" v-model="vertifyPassword" placeholder="再次输入新密码">
-      <button @click="updatePassword">确认修改</button>
+      <wmui-button className="wmui-btn-primary" @click.native="updatePassword">确认修改</wmui-button>
     </div>
-    <top-tip ref="tip"/>
   </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 export default {
   middleware: 'auth',
   data() {
@@ -25,24 +25,23 @@ export default {
       oldPassword: '',
       newPassword: '',
       vertifyPassword: '',
-      user: {}
     }
   },
-  mounted() {
-    this.$store.dispatch('ADMIN_INFO').then((data) => {
-      this.user = data.data
-    })
+  computed: {
+    ...mapState([
+      'user'
+    ])
   },
   head() {
     return {
-      title: '修改信息 - ' + this.$store.state.user.nickname
+      title: '修改信息 - ' + this.user.nickname
     }
   },
   methods: {
     updateInfo() {
-      this.$store.dispatch('UPDATE_ADMIN', this.user).then((data) => {
+      this.$store.dispatch('UPDATE_USER_INFO', this.user).then((data) => {
         if(data.success) {
-          this.$refs.tip.openTip('信息修改完成')
+          this.$Toast({text: '信息已修改'})
         }
       })
     },
@@ -51,12 +50,12 @@ export default {
         return false
       }
       if (this.newPassword !== this.vertifyPassword) {
-        this.$refs.tip.openTip('两次密码不一致！')
+        this.$Toast({text: '两次密码不一致'})
         return false
       }
-      this.$store.dispatch('UPDATE_ADMIN', { oldPassword: this.oldPassword, newPassword: this.newPassword }).then((data) => {
+      this.$store.dispatch('UPDATE_USER_PASSWORD', { oldPassword: this.oldPassword, newPassword: this.newPassword }).then((data) => {
         if(data.success) {
-          this.$refs.tip.openTip('密码重置完成')
+          this.$Toast({text: '密码已重置'})
           // clear token
           this.$store.dispatch('LOGOUT').then(ret => {
             if(ret.success) {

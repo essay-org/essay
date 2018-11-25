@@ -1,22 +1,8 @@
-# dependencies
-node_modules
-
-# logs
-npm-debug.log
-
-# Nuxt build
 .nuxt
-
-# Nuxt generate
-dist
-
-# pwa
-sw.*
-
-# public
-public/*
-
-NOTE.md
-
 build
-
+dist
+node_modules
+npm-debug.log
+public/*
+static/sw.*
+NOTE.md

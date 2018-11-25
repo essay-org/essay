@@ -32,7 +32,8 @@ export const checkToken = async(ctx, next) => {
       const userID = decoded.userID
       let user = await User.findOne({ _id: userID, username: username }).exec()
       if (user._id && user.username) {
-        await next()
+        ctx.state.username = username
+        await next() // token有效
       } else {
         return (ctx.body = {
           success: false,

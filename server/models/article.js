@@ -2,11 +2,13 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const ArticleSchema = new Schema({
-  title: String,
-  content: String,
-  publish: {
-    type: Boolean,
-    default: false
+  title: {
+    type: String,
+    required: true
+  },
+  content: {
+    type: String,
+    required: true
   },
   views: {
     type: Number,
@@ -14,7 +16,7 @@ const ArticleSchema = new Schema({
   },
   flag: {
     type: Number,
-    default: 1
+    default: 3
   },
   like: {
     type: Array,
@@ -28,6 +30,14 @@ const ArticleSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Tag'
   }],
+  previousArticle: {
+    type: Object,
+    default: null
+  },
+  nextArticle: {
+    type: Object,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now

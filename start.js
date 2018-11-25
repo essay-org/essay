@@ -4,5 +4,5 @@ require('babel-core/register')({
     ['latest-node', { 'target': 'current' }]
   ]
 })
-require('./server')
-// require('./server/app')
+require('./server/')
+// require('./server/server')

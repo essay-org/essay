@@ -11,13 +11,16 @@ export default () => {
       user: {},
       total: 0,
       articles: [],
+      drafts: [],
+      articleDetail: {},
       tags: [],
+      stickArticles:[],
       tagArticles: [], // 标签下的文章列表
       searchArticles: [],
-      archives: [],
       githubApi:{
         userInfo: 'https://api.github.com/user?access_token='
-      }
+      },
+      limit: 10
     },
     getters,
     mutations,

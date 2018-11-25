@@ -3,6 +3,7 @@ import Router from 'koa-router'
 import config from '../config'
 import db from '../models'
 import {checkToken, checkGithubToken} from '../middlewares/check-token'
+import {stick,draft,index,byTag} from '../middlewares/flag'
 
 const router = new Router()
 const user = require('../controllers/user')
@@ -24,21 +25,24 @@ router
 router
   .get('/api/user/:username?', user.getUserInfo)
   .patch('/api/user', checkToken, user.patchUserInfo)
+  .patch('/api/password', checkToken, user.patchUserPassword)
   .post('/api/login', user.login)
   .post('/api/logout', checkToken, user.logout)
+  // .post('/api/register', user.register)
 
 router
-  .get('/api/tags/:id?', tag.getTagsOrArticles)
+  .get('/api/tags', tag.getTags)
   .post('/api/tag', checkToken, tag.postTag)
   .patch('/api/tag', checkToken, tag.patchTag)
   .del('/api/tag/:id?', checkToken, tag.deleteTag)
 
 router
-  .get('/api/search/:keyword?', article.search)
   .get('/api/article/:id?', article.getArticle)
-  .get('/api/articles/:page?/:limit?', article.getArticles)
-  .get('/api/private-articles', checkToken, article.getPrivateArticles)
-  .get('/api/archives', article.archives)
+  .get('/api/search/:keyword/:page?/:limit?', article.getArticles)
+  .get('/api/articles/:page?/:limit?', index, article.getArticles)
+  .get('/api/stick/:page?/:limit?', stick, article.getArticles)
+  .get('/api/tag/:id/:page?/:limit?', byTag, article.getArticles)
+  .get('/api/drafts/:page?/:limit?', checkToken, draft, article.getArticles)
   .post('/api/article', checkToken, article.postArticle)
   .post('/api/upload', checkToken, article.upload)
   .patch('/api/article', checkToken, article.patchArticle)

@@ -5,9 +5,7 @@
 
 [中文文档](https://github.com/wmui/essays/blob/master/README.md)
 
-<div style="text-align:center;">
-  <p><a href="https://www.86886.wang" target="_blank">Live Demo</a></p>
-</div>
+<p><a href="https://www.86886.wang" target="_blank">Live Demo</a></p>
 
 Essays is a lightweight blog application
 

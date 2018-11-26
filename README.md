@@ -6,13 +6,11 @@
 
 [English Doc](https://github.com/wmui/essays/blob/master/README.en.md)
 
-<div style="text-align:center;">
-  <p><a href="https://www.86886.wang" target="_blank">演示站</a></p>
-</div>
+<p><a href="https://www.86886.wang" target="_blank">演示站</a></p>
 
-Eaasys 是一个轻量级的博客应用
+Essays 是一个轻量级的博客应用
 
-Essays 在3.0.0之前的版本叫VueBlog，由于重名率太高，后改名为Essays
+VueBlog 从3.0.0开始更名为 Essays
 
 ### 技术栈
 

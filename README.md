@@ -10,7 +10,7 @@
 
 Essays 是一个轻量级的博客应用
 
-VueBlog 从3.0.0开始更名为 Essays
+VueBlog 从v3.0.0开始更名为 Essays
 
 ### 技术栈
 
@@ -28,9 +28,19 @@ VueBlog 从3.0.0开始更名为 Essays
 
 安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库和[Node.js](https://nodejs.org/en/)环境。
 
+
+#### 启动数据库
+
+```bash
+# yourDBpath 表示你自定义的数据库目录，任意位置皆可
+sudo mongod --dbpath yourDBpath
+```
+
+#### 运行项目
+
 ``` bash
 # install dependencies
-npm install # or yarn
+yarn # or install
 
 # serve in dev mode, with hot reload at http://127.0.0.1:3000
 npm run dev
@@ -42,7 +52,10 @@ npm run build
 npm start
 ```
 
-**注意：** 不要使用`http://localhost:3000`访问，而是用`http://127.0.0.1:3000`
+**注意：** 
+
+1. 不要使用`http://localhost:3000`访问，而是用`http://127.0.0.1:3000`
+2. 推荐使用yarn安装依赖，避免由于包版本问题导致项目无法运行
 
 ### 全局配置
 
@@ -100,7 +113,7 @@ export default {
 
 ```bash
 # install dependencies
-npm install # or yarn
+yarn # or npm install
 
 # build for production
 npm run build

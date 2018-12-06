@@ -1,11 +1,14 @@
 export default {
-  SET_TOKEN(state, token) {
-    state.token = token
+  SET_LOCAL_TOKEN(state, token) {
+    state.localToken = token
   },
-  SET_GITHUB_TOKEN(state, token){
-    state.githubToken = token
+  SET_ADMIN_TOKEN(state, token){
+    state.adminToken = token
   },
-  SET_USER(state, data) {
+  CLEAR_ADMIN_TOKEN(state) {
+    state.adminToken = ''
+  },
+  SET_ADMIN_INFO(state, data) {
     state.user = data.data
   },
   SET_ARTICLES(state, data) {

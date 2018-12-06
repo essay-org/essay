@@ -1,4 +1,9 @@
 module.exports = {
+  mode: 'universal',
+
+  /*
+   ** Headers of the page
+   */
   head: {
     meta: [{
         charset: 'utf-8'
@@ -14,12 +19,12 @@ module.exports = {
       {
         hid: 'keywords',
         name: 'keywords',
-        content: 'Essays, 博客系统'
+        content: 'Essay, 博客系统'
       },
       {
         hid: 'description',
         name: 'description',
-        content: 'Essays, 一个基于现代化前端技术开发的轻量级博客系统'
+        content: 'Essay， 一个基于现代化前端技术开发的轻量级博客系统'
       }
     ],
     link: [{
@@ -35,14 +40,41 @@ module.exports = {
       }
     ]
   },
-  css: ['~assets/styles/main.scss'],
+
+  /*
+   ** Customize the progress-bar color
+   */
   loading: {
     color: '#42B983'
   },
+
+  /*
+   ** Global CSS
+   */
+  css: ['~/assets/styles/main.scss'],
+
+  /*
+   ** Plugins to load before mounting the App
+   */
+  plugins: ['~/plugins/components.js', '~/plugins/filters.js', {
+    src: '~/plugins/wmui.js',
+    ssr: true
+  }],
+  /*
+   ** Nuxt.js modules
+   */
+  modules: [],
+
+  /*
+   ** Build configuration
+   */
   build: {
-    vendor: ['axios'],
+    /*
+     ** You can extend webpack config here
+     */
     extend(config, ctx) {
-      if (ctx.isClient) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -51,17 +83,5 @@ module.exports = {
         })
       }
     }
-  },
-  manifest: {
-    name: 'Essays',
-    description: 'A blog system',
-    theme_color: '#42B983'
-  },
-  modules: ['@nuxtjs/pwa', ['@nuxtjs/google-analytics', {
-    id: 'UA-125551361-1'
-  }]],
-  plugins: ['~/plugins/components.js', '~/plugins/filters.js', {
-    src: '~/plugins/wmui.js',
-    ssr: true
-  }]
+  }
 }

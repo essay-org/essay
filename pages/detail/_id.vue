@@ -8,13 +8,13 @@
       <nuxt-link v-for="(tag, index) in articleDetail.tags" :key="index" :to="'/tags/' + tag.id"># {{ tag.name }}</nuxt-link>
     </p>
     <div class="detail-admin">
-      <p>发布于 {{ articleDetail.createdAt | formatDate('yyyy-MM-dd') }}</p>
-      <p> 更新于 {{ articleDetail.updatedAt | formatDate('yyyy-MM-dd') }}</p>
+      <p>发布于 {{ articleDetail.created_at | formatDate('yyyy-MM-dd') }}</p>
+      <p> 更新于 {{ articleDetail.updated_at | formatDate('yyyy-MM-dd') }}</p>
       <p> 浏览{{ articleDetail.views }}次</p>
-      <p class="admin-del" v-if="token"><a @click="del(articleDetail.id)">删除</a></p>
-      <p class="admin-edit" v-if="token"><a @click="edit(articleDetail.id)">编辑</a></p>
+      <p class="admin-del" v-if="adminToken"><a @click="del(articleDetail.id)">删除</a></p>
+      <p class="admin-edit" v-if="adminToken"><a @click="edit(articleDetail.id)">编辑</a></p>
     </div>
-    <div v-if="isGithubConfig">
+    <div>
       <blog-comment 
       :comment-list="articleDetail.comments" 
       :article-id="articleDetail.id" />
@@ -43,7 +43,7 @@ export default {
     ]),
     ...mapState([
       'user',
-      'token',
+      'adminToken',
       'articleDetail',
     ]),
   },

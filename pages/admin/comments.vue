@@ -12,7 +12,7 @@
       <ul class="comments-list">
         <li class="list-item" v-for="(comment, index) in comments" :key="index">
           <a class="item-title" @click="showComment(comment)">{{comment.content}}</a>
-          <p class="item-date">{{comment.createdAt | formatDate('yyyy-MM-dd')}}</p>
+          <p class="item-date">{{comment.created_at | formatDate('yyyy-MM-dd')}}</p>
           <p class="item-del"><a @click="delBtn(comment)">删除</a></p>
         </li>
       </ul>

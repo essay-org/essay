@@ -1,16 +1,16 @@
 
-<a href="https://travis-ci.org/wmui/essays"><img src="https://travis-ci.org/wmui/essays.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/wmui/essays"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
+<a href="https://travis-ci.org/wmui/essay"><img src="https://travis-ci.org/wmui/essay.svg?branch=master" alt="Build Status"></a>
+<a href="https://github.com/wmui/essay"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 
-## Essays
+## Essay
 
-[English Doc](https://github.com/wmui/essays/blob/master/README.en.md)
+[English Doc](https://github.com/wmui/essay/blob/master/README.en.md)
 
 <p><a href="https://www.86886.wang" target="_blank">演示站</a></p>
 
-Essays 是一个轻量级的博客应用
+Essay 是一个轻量级的博客应用
 
-VueBlog 从v3.0.0开始更名为 Essays
+VueBlog 从v3.0.0开始更名为 Essay
 
 ### 技术栈
 
@@ -38,7 +38,7 @@ sudo mongod --dbpath yourDBpath
 
 #### 运行项目
 
-``` bash
+```bash
 # install dependencies
 yarn # or install
 
@@ -71,16 +71,16 @@ export default {
     username: 'q',
     password: 'q',
     email: 'qq22337383@gmail.com',
-    nickname: 'Essays',
+    nickname: 'Essay',
     motto: 'Never too old to learn'
   },
   jwt: {
-    secret: 'vueblog'
+    secret: 'essay'
   },
   // 数据库配置，默认即可
   mongodb: {
     host: '127.0.0.1',
-    database: 'vueblog',
+    database: 'essay',
     port: 27017,
     username: '',
     password: ''
@@ -119,7 +119,7 @@ yarn # or npm install
 npm run build
 
 # serve in production mode
-pm2 start npm --name "essays" -- start
+pm2 start npm --name "essay" -- start
 ```
 
 该项目仅供学习交流，不建议用于线上

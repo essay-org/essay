@@ -1,13 +1,13 @@
-<a href="https://travis-ci.org/wmui/essays"><img src="https://travis-ci.org/wmui/essays.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/wmui/essays"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
+<a href="https://travis-ci.org/wmui/essay"><img src="https://travis-ci.org/wmui/essay.svg?branch=master" alt="Build Status"></a>
+<a href="https://github.com/wmui/essay"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 
-## Essays
+## Essay
 
-[中文文档](https://github.com/wmui/essays/blob/master/README.md)
+[中文文档](https://github.com/wmui/essay/blob/master/README.md)
 
 <p><a href="https://www.86886.wang" target="_blank">Live Demo</a></p>
 
-Essays is a lightweight blog application
+Essay is a lightweight blog application
 
 ### Technology stack
 
@@ -24,9 +24,18 @@ Essays is a lightweight blog application
 
 First install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/)
 
+#### Start mongodb
+
+```bash
+# yourDBpath is your database folder
+sudo mongod --dbpath yourDBpath
+```
+
+#### Start project
+
 ``` bash
 # install dependencies
-npm install # or yarn
+yarn # or npm install
 
 # serve in dev mode, with hot reload at http://127.0.0.1:3000
 npm run dev
@@ -53,15 +62,15 @@ export default {
     username: 'q',
     password: 'q',
     email: 'qq22337383@gmail.com',
-    nickname: 'Essays',
+    nickname: 'Essay',
     motto: 'Never too old to learn'
   },
   jwt: {
-    secret: 'vueblog'
+    secret: 'essay'
   },
   mongodb: {
     host: '127.0.0.1',
-    database: 'vueblog',
+    database: 'essay',
     port: 27017,
     username: '',
     password: ''
@@ -82,7 +91,6 @@ export default {
     routerBaseApi: 'api'
   }
 }
-
 ```
 
 ### License

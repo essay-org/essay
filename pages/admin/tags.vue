@@ -6,7 +6,7 @@
         <p class="item-title">
           <nuxt-link :to="'/tags/'+tag.id">{{tag.name}}</nuxt-link>
         </p>
-        <p class="item-date">{{tag.updatedAt | formatDate('yyyy-MM-dd')}}</p>
+        <p class="item-date">{{tag.updated_at | formatDate('yyyy-MM-dd')}}</p>
         <p class="item-del"><a @click="delTag(tag)">删除</a></p>
         <p class="item-edit"><a @click="editTag(tag)">编辑</a></p>
       </li>

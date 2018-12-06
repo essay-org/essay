@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     updateInfo() {
-      this.$store.dispatch('UPDATE_USER_INFO', this.user).then((data) => {
+      this.$store.dispatch('UPDATE_ADMIN_INFO', this.user).then((data) => {
         if(data.success) {
           this.$Toast({text: '信息已修改'})
         }
@@ -53,13 +53,12 @@ export default {
         this.$Toast({text: '两次密码不一致'})
         return false
       }
-      this.$store.dispatch('UPDATE_USER_PASSWORD', { oldPassword: this.oldPassword, newPassword: this.newPassword }).then((data) => {
+      this.$store.dispatch('UPDATE_ADMIN_PASSWORD', { oldPassword: this.oldPassword, newPassword: this.newPassword }).then((data) => {
         if(data.success) {
           this.$Toast({text: '密码已重置'})
           // clear token
-          this.$store.dispatch('LOGOUT').then(ret => {
-            if(ret.success) {
-              this.$store.state.token = ''
+          this.$store.dispatch('LOGOUT').then(data => {
+            if(data.success) {
               this.$router.push('/login')
             }
           })

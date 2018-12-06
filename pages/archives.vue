@@ -4,7 +4,7 @@
       <h3 class="item-title">{{ archive.date }}({{ archive.total }})</h3>
       <ul class="item-list">
         <li v-for="(article, index) in archive.articles" :key="index">
-          <span>{{ article.createdAt | formatDate('MM-dd')}}</span>
+          <span>{{ article.created_at | formatDate('MM-dd')}}</span>
           <nuxt-link :to="'/detail/'+article.id" class="truncation">{{ article.title }}</nuxt-link>
         </li>
       </ul>

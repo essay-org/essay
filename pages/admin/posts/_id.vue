@@ -30,15 +30,15 @@
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 export default {
   middleware: 'auth',
   data() {
     return {
       upload: {
-        url: this.$store.getters.baseUrl + '/upload',
+        url: this.$store.getters.baseUrl + '/upload-img',
         headers: {
-          token: this.token,
+          Token: this.$store.state.adminToken,
         },
       },
       article: {
@@ -76,7 +76,6 @@ export default {
   computed: {
     ...mapState([
       'user',
-      'token'
     ])
   },
   mounted() {
@@ -119,6 +118,10 @@ export default {
               text: '标签创建完成'
             })
             this.tag = ''
+          }else{
+            this.$Toast({
+              text: data.err
+            })
           }
         })
       }

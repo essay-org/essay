@@ -57,7 +57,7 @@
       </a>
     </aside>
     <footer class="blog-footer">
-      <p>Powered by <a href="https://github.com/wmui/essays" target="_blank">Essays</a></p>
+      <p>Powered by <a href="https://github.com/wmui/essay" target="_blank">Essay</a></p>
     </footer>
   </div>
 </template>

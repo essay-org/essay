@@ -4,15 +4,13 @@
       <ul>
         <li v-for="item in realComments" :key="item.id">
           <div class="list-header clearfix">
-            <a :href="`https://github.com/${item.user.username}`" class="header-avatar">
+            <a :href="`https://github.com/${item.user.username}`" class="header-avatar" target="_blank">
               <img :src="item.user.avatar" :alt="item.user.username" width="30px" height="30px">
             </a>
-            <a :href="`https://github.com/${item.user.username}`" class="header-username">{{item.user.username}}</a>
-            <div class="header-reply" v-if="item.replyId">
-              <span>回复</span>
-              <a :href="`https://github.com/${item.replyId.user.username}`" class="header-username">{{item.replyId.user.username}}</a>
+            <div class="header-reply" >
+              <span>{{ item.user.username }}</span><span v-if="item.reply_id">回复{{item.replyId.user.username}}</span>
             </div>
-            <span class="header-time">{{item.createdAt | formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
+            <span class="header-time">{{item.created_at | formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
           </div>
           <div class="list-content">
             <p>{{item.content}}</p>
@@ -23,23 +21,20 @@
         </li>
       </ul>
     </div>
-    <div v-if="githubToken" class="comment-login clearfix">
+    <div v-if="localToken" class="comment-login clearfix">
       <div class="comment-box">
-        <a :href="userInfo.html_url">
-          <img :src="userInfo.avatar_url" :alt="userInfo.name" width="50px" height="50px">
-        </a>
+        <img :src="userInfo.avatar" :alt="userInfo.name" width="50px" height="50px">
         <textarea v-model="commentContent" :placeholder="placeholder" class="box-content" maxlength="300" ref="commentTextarea"></textarea>
       </div>
       <wmui-button className="wmui-btn-primary" @click.native="submitComment" :disabled="disabled">提交留言</wmui-button>
     </div>
     <div v-else class="comment-unlogin">
       <wmui-button className="wmui-btn-primary" @click.native="githubLogin">Github 登录</wmui-button>
-      <p>{{ tipMessage }}</p>
+      <p>欢迎留言交流</p>
     </div>
   </div>
 </template>
 <script>
-import axios from 'axios'
 import {mapState, mapGetters} from 'vuex'
 export default {
   name: 'blog-comment',
@@ -55,7 +50,6 @@ export default {
   data() {
     return {
       disabled: false,
-      tipMessage: '欢迎留言交流',
       commentContent: '',
       userInfo: {},
       comments: this.commentList,
@@ -80,24 +74,22 @@ export default {
       return list
     },
     ...mapState([
-      'githubToken',
-      'githubApi'
+      'localToken'
     ]),
     ...mapGetters([
       'isSMTPConfig'
     ])
   },
   mounted() {
-    if (this.githubToken) {
-      let u = this.githubApi.userInfo + this.githubToken
-      axios.get(u).then(data => {
-        this.userInfo = data.data
+    if (this.localToken) {
+      this.$store.dispatch('USER_INFO').then((ret) => {
+        this.userInfo = ret.data
       })
     }
   },
   methods: {
     githubLogin() {
-      this.tipMessage = '请稍等...'
+      this.$Loading.start('授权中...')
       window.location.href = `${this.$store.getters.baseUrl}/oauth/github/${this.articleId}`
     },
     submitComment() {
@@ -106,7 +98,6 @@ export default {
       this.$store.dispatch('CREATE_COMMENT', {
         id: this.articleId,
         content: this.commentContent,
-        token: this.githubToken,
         replyId: this.replyId
       }).then((data) => {
         if (data.success) {
@@ -137,7 +128,7 @@ export default {
       })
     },
     replyComment(username, id) {
-      if (!this.githubToken) {
+      if (!this.localToken) {
         this.githubLogin()
       } else {
         this.replyId = id
@@ -146,7 +137,7 @@ export default {
       }
     },
     sendEmail(params){
-      this.$store.dispatch('SEND_EMAIL',params)
+      this.$store.dispatch('SEND_EMAIL', params)
     }
   }
 }

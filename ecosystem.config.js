@@ -17,7 +17,7 @@ module.exports = {
       host: '116.196.17.78',
       ref: 'origin/master',
       repo: 'git@github.com:wmui/essay.git',
-      path: '/www/essay',
+      path: '/root/essay',
       'post-deploy': 'yarn && npm run build && pm2 reload ecosystem.config.js --env production'
     }
   }

@@ -1,7 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -81,3 +80,5 @@ dist
 .idea
 
 NOTE.md
+# server/public/*
+server/config/production.js

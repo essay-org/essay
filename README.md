@@ -4,15 +4,13 @@
 
 ## Essay
 
-[English Doc](https://github.com/wmui/essay/blob/master/README.en.md)
-
 <p><a href="https://www.86886.wang" target="_blank">演示站</a></p>
 
-Essay 原名叫VueBlog，是一个轻量级的博客应用
+Essay 原名叫 VueBlog，是一个基于 Nuxt2 开发的轻量级的博客应用
 
 Essay 从3.0开始采用前后端完全分离的开发模式，前端和后端均需要单独部署，服务端代码[移步至此](https://github.com/wmui/essay-server)。
 
-**说明：** 3.0之前的版本也是前后端分离的，只不过是前后端同构应用，因此只需要开启一项服务。考虑到代码的易读性和可维护性，遂将其完全分离。
+**说明：** 3.0之前的版本也是前后端分离的，只不过是前后端同构应用，因此只需要开启一项服务。考虑到代码的易读性和可维护性，遂将其完全分离
 
 
 ### 功能特性
@@ -74,6 +72,14 @@ pm2 start npm --name "essay" -- start # pm2 启动
 ```
 
 我正在计划开发一个通用的Node项目部署脚本，因为我发现整个部署流程还是比较麻烦的，希望能通过一个命令按照提示便可以把环境搭建起来
+
+### 更新说明
+
+v1.0.0-v1.2.1： 前后端同构，基于express服务端渲染，原生Vue SSR
+
+v2.0.0-v2.3.1：前后端同构，基于koa服务端渲染，采用Nuxt1.x框架开发
+
+v3.0.0：前后端分离，前端基于Nuxt2.x开发，后端基于express开发
 
 ### 开源协议
 

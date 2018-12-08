@@ -17,10 +17,7 @@ export default () => {
       stickArticles:[],
       tagArticles: [],
       searchArticles: [],
-      githubApi:{
-        userInfo: 'https://api.github.com/user?access_token='
-      },
-      limit: 3
+      limit: 10
     },
     getters,
     mutations,

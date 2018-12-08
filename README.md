@@ -8,121 +8,72 @@
 
 <p><a href="https://www.86886.wang" target="_blank">演示站</a></p>
 
-Essay 是一个轻量级的博客应用
+Essay 原名叫VueBlog，是一个轻量级的博客应用
 
-VueBlog 从v3.0.0开始更名为 Essay
+Essay 从3.0开始采用前后端完全分离的开发模式，前端和后端均需要单独部署，服务端代码[移步至此](https://github.com/wmui/essay-server)。
 
-### 技术栈
+**说明：** 3.0之前的版本也是前后端分离的，只不过是前后端同构应用，因此只需要开启一项服务。考虑到代码的易读性和可维护性，遂将其完全分离。
 
-- 前端：Nuxt.js + Vuex
-- 后端: Mongoose + Koa
 
 ### 功能特性
 
 - 支持服务端渲染
 - PWA渐进式web应用
 - 轻量级Markdown编辑器
-- 支持标签、归档、搜索和草稿箱等功能
+- 支持标签、文章搜索、评论、邮件通知和草稿箱等功能
 
 ### 本地运行
 
-安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库和[Node.js](https://nodejs.org/en/)环境。
+#### 后端
 
+如果只是想在本地查看下前端运行效果，可以修改下`store/getters.js`中的baseUrl，而不需要本地运行[服务端代码](https://github.com/wmui/essay-server)
 
-#### 启动数据库
-
-```bash
-# yourDBpath 表示你自定义的数据库目录，任意位置皆可
-sudo mongod --dbpath yourDBpath
-```
-
-#### 运行项目
-
-```bash
-# install dependencies
-yarn # or install
-
-# serve in dev mode, with hot reload at http://127.0.0.1:3000
-npm run dev
-
-# build for production
-npm run build
-
-# serve in production mode
-npm start
-```
-
-**注意：** 
-
-1. 不要使用`http://localhost:3000`访问，而是用`http://127.0.0.1:3000`
-2. 推荐使用yarn安装依赖，避免由于包版本问题导致项目无法运行
-
-### 全局配置
-
-全局配置文件`/server/config/index.js`
-
-默认用户名：q，默认密码：q  
-
-```javascript
-export default {
-  // 初始化管理员信息，后台可以修改
-  user: {
-    role: 'superAdmin',
-    username: 'q',
-    password: 'q',
-    email: 'qq22337383@gmail.com',
-    nickname: 'Essay',
-    motto: 'Never too old to learn'
-  },
-  jwt: {
-    secret: 'essay'
-  },
-  // 数据库配置，默认即可
-  mongodb: {
-    host: '127.0.0.1',
-    database: 'essay',
-    port: 27017,
-    username: '',
-    password: ''
-  },
-  // 可选，评论功能需要配置github登录的密钥
-  githubConfig: {
-    githubClient: '',
-    githubSecret: '',
-    scope: 'user'
-  },
-  // 可选，评论通知的SMTP邮箱配置，目前只支持qq邮箱
-  emailConfig: {
-    user: '',
-    pass: ''
-  },
-  app: {
-    domain: '', // 可选，线上域名，比如https://www.86886.wang
-    host: '127.0.0.1',
-    port: 3000,
-    routerBaseApi: 'api'
+```js
+baseUrl() {
+  let host
+  if (process.env.NODE_ENV === 'production') {
+    host = 'https://api.86886.wang/v1'
+  } else {
+    // host = 'http://127.0.0.1:3010/v1'
+    host = 'https://api.86886.wang/v1' // 开发环境连接远程接口服务
   }
-}
+  return host
+},
+```
+
+如果要查看完整的运行效果，则需要先运行[服务端代码](https://github.com/wmui/essay-server)，开启接口服务
+
+#### 前端
+
+```bash
+$ git clone https://github.com/wmui/essay
+
+$ cd essay
+
+$ yarn # 或 npm install
+
+$ npm run dev # 访问 http://127.0.0.1:3000
 ```
 
 ### 线上部署
 
-如果需要部署到线上看下效果，可以参考这里[Nuxt项目自动化部署](https://github.com/wmui/web-deploy)
+如果需要部署到线上，可以参考这里[Node项目自动化部署](https://github.com/wmui/web-deploy)
 
-如果感觉自动化部署太麻烦，可以简单部署上线
+如果感觉自动化部署太麻烦，可以简单部署
 
 ```bash
-# install dependencies
-yarn # or npm install
+$ git clone https://github.com/wmui/essay
 
-# build for production
-npm run build
+$ cd essay
 
-# serve in production mode
-pm2 start npm --name "essay" -- start
+$ yarn
+
+$ npm run dev
+
+pm2 start npm --name "essay" -- start # pm2 启动
 ```
 
-该项目仅供学习交流，不建议用于线上
+我正在计划开发一个通用的Node项目部署脚本，因为我发现整个部署流程还是比较麻烦的，希望能通过一个命令按照提示便可以把环境搭建起来
 
 ### 开源协议
 

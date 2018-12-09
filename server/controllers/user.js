@@ -68,7 +68,7 @@ exports.getUserInfo = async (req, res, next) => {
 
 exports.getAdminInfo = async (req, res, next) => {
   const username = config.user.username
-  const domain = res.locals.domain
+  const domain = res.locals.app.domain
   try {
     let user = await User.findOne({
       username

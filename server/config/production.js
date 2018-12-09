@@ -27,4 +27,8 @@ module.exports =  {
     user: '',
     pass: '',
   },
+  app: {
+    domain: 'https://www.86886.wang',
+    baseApi: '/v1',
+  },
 }

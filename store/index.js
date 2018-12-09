@@ -17,7 +17,8 @@ export default () => {
       stickArticles:[],
       tagArticles: [],
       searchArticles: [],
-      limit: 10
+      limit: 10,
+      app: {},
     },
     getters,
     mutations,

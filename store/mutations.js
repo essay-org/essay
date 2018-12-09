@@ -35,5 +35,8 @@ export default {
   SET_DRAFTS(state, data) {
     state.drafts = data.data
     state.total = data.total
-  }
+  },
+  SET_APP(state, data) {
+    state.app = data
+  },
 }

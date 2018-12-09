@@ -17,7 +17,7 @@ exports.sitemap = async (req, res, next) => {
   let body = articles.reduce((prev, curr) => {
     prev += `
       <url>
-        <loc>${res.locals.domain}/detail/${curr.id}</loc>
+        <loc>${res.locals.app.domain}/detail/${curr.id}</loc>
         <lastmod>${curr.updated_at}</lastmod>
         <priority>0.6</priority>
       </url>`.trim()
@@ -35,9 +35,9 @@ exports.rss = async (req, res, next) => {
   let head = `<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
       <title>${config.user.nickname}</title>
-      <link>${res.locals.domain}</link>
+      <link>${res.locals.app.domain}</link>
       <description>${config.user.motto}</description>
-      <atom:link href="${res.locals.domain}/rss.xml" rel="self"/>
+      <atom:link href="${res.locals.app.domain}/rss.xml" rel="self"/>
       <language>zh-CN</language>
       <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>\r\n`
   let tail = `</channel>\r\n</rss>`
@@ -58,10 +58,10 @@ exports.rss = async (req, res, next) => {
     prev += `
       <item>
         <title>${curr.title}</title>
-        <link>${res.locals.domain}/detail/${curr.id}</link>
+        <link>${res.locals.app.domain}/detail/${curr.id}</link>
         <description>${content}</description>
         <pubDate>${date}</pubDate>
-        <guid>${res.locals.domain}/detail/${curr.id}</guid>
+        <guid>${res.locals.app.domain}/detail/${curr.id}</guid>
       </item>`.trim()
     return prev
   }, '')
@@ -78,7 +78,7 @@ exports.robots = (req, res, next) => {
   let robots = `
     User-agent: *
     Allow: /
-    Sitemap: ${res.locals.domain}/sitemap.xml
+    Sitemap: ${res.locals.app.domain}/sitemap.xml
     User-agent: YisouSpider
     Disallow: /
     User-agent: EasouSpider

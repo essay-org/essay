@@ -8,7 +8,7 @@ const token = require('../utils/token')
 let state = ''
 exports.githubLogin = (req, res) => {
   state = req.params.state || ''
-  const domain = res.locals.domain
+  const domain = res.locals.app.domain
   const u = `https://github.com/login/oauth/authorize?client_id=${config.githubConfig.githubClient}&scope=${config.githubConfig.scope}&redirect_uri=${domain}/v1/oauth/github/callback&state=${state}`
   
   res.status(302).set('location', u).end()
@@ -60,7 +60,7 @@ exports.githubCallback = async (req, res, next) => {
     } else {
       const t = token.sign(user)
       res.cookie('localToken', t)
-      return res.redirect(`${res.locals.domain}/detail/${state}`)
+      return res.redirect(`${res.locals.app.domain}/detail/${state}`)
     }
   }
 }

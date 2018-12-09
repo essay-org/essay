@@ -6,13 +6,12 @@ const cookieParser = require('cookie-parser')
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
+const globalConfig = require('./config')
 const resolve = file => path.resolve(__dirname, file)
 const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache ? 1000 * 60 * 60 * 24 : 0
 })
 const app = express()
-const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
 
 app.enable('trust proxy')
 app.use(cors({
@@ -22,8 +21,14 @@ app.use(cors({
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(function (req, res, next) {
-  const domain = `${req.protocol}://${req.get('host')}`
-  res.locals.domain = domain
+  // const domain = `${req.protocol}://${req.get('host')}`
+  // 前后端共享配置数据
+  res.locals.app = {
+    domain: globalConfig.app.domain,
+    baseUrl: globalConfig.app.domain + globalConfig.app.baseApi,
+    isGithubConfig: !!(globalConfig.githubConfig.githubClient && globalConfig.githubConfig.githubSecret),
+    isSMTPConfig: !!(globalConfig.emailConfig.user && globalConfig.emailConfig.pass),
+  }
   next()
 })
 app.use('/public', serve('./public', true))
@@ -40,8 +45,6 @@ app.all('/v1/*', (req, res) => {
     err: 'api is invalid'
   })
 })
-
-app.set('port', port)
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
@@ -61,9 +64,9 @@ async function start() {
   app.use(nuxt.render)
 
   // Listen the server
-  app.listen(port, host)
+  app.listen(3000)
   consola.ready({
-    message: `Server listening on http://${host}:${port}`,
+    message: `Server listening on http://127.0.0.1:3000`,
     badge: true
   })
 }

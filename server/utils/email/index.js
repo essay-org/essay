@@ -37,7 +37,7 @@ module.exports = async (req, res, next) => {
     html: `<p>${fromUserNickname}回复了你的评论：<p>
     <p>原内容：${toUserContent}<p>
     <p>回复内容：${fromUserContent}<p>
-    <p><a href="${res.locals.domain}/detail/${articleId}">查看原文</a></p>`.trim()
+    <p><a href="${res.locals.app.domain}/detail/${articleId}">查看原文</a></p>`.trim()
   }
   await transporter.sendMail(mailOptions).then(function (info) {
     res.json({

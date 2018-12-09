@@ -24,7 +24,7 @@ exports.img = async (req, res, next) => {
         const readStream = fs.createReadStream(oldUrl)
         const writeStream = fs.createWriteStream(newUrl)
         readStream.pipe(writeStream)
-        const imgUrl = `${res.locals.domain}/public/${extname}`
+        const imgUrl = `${res.locals.app.domain}/public/${extname}`
         resolve(imgUrl)
       })
     })

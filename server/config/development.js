@@ -27,4 +27,8 @@ module.exports = {
     user: '',
     pass: '',
   },
+  app: {
+    domain: 'http://127.0.0.1:3000',
+    baseApi: '/v1',
+  },
 }

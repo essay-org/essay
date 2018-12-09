@@ -8,7 +8,7 @@
               <img :src="item.user.avatar" :alt="item.user.username" width="30px" height="30px">
             </a>
             <div class="header-reply" >
-              <span>{{ item.user.username }}</span><span v-if="item.reply_id">回复{{item.replyId.user.username}}</span>
+              <span>{{ item.user.username }}</span><span v-if="item.reply_id">回复{{item.reply_id.user.username}}</span>
             </div>
             <span class="header-time">{{item.created_at | formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
           </div>
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import {mapState, mapGetters} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 export default {
   name: 'blog-comment',
   props: {
@@ -58,74 +58,71 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      'localToken',
+      'app',
+    ]),
     realComments() {
-      // 把replayId替换成用户信息
       let list = this.comments
       for (let i = 0; i < list.length; i++) {
         let item = list[i]
-        if (item.replyId) {
+        if (item.reply_id) {
           for (let i = 0; i < list.length; i++) {
-            if (list[i].id === item.replyId) {
-              item.replyId = list[i]
+            if (list[i].id === item.reply_id) {
+              item.reply_id = list[i]
             }
           }
         }
       }
       return list
     },
-    ...mapState([
-      'localToken'
-    ]),
-    ...mapGetters([
-      'isSMTPConfig'
-    ])
   },
-  mounted() {
+  async mounted() {
     if (this.localToken) {
-      this.$store.dispatch('USER_INFO').then((ret) => {
-        this.userInfo = ret.data
-      })
+      const { data } = await this.USER_INFO()
+      this.userInfo = data
     }
   },
   methods: {
+    ...mapActions([
+      'USER_INFO',
+      'CREATE_COMMENT',
+      'COMMENTS',
+      'SEND_EMAIL',
+    ]),
     githubLogin() {
       this.$Loading.start('授权中...')
-      window.location.href = `${this.$store.getters.baseUrl}/oauth/github/${this.articleId}`
+      window.location.href = `${this.app.baseUrl}/oauth/github/${this.articleId}`
     },
-    submitComment() {
+    async submitComment() {
       if (!this.commentContent) { return false }
       this.disabled = true
-      this.$store.dispatch('CREATE_COMMENT', {
+      const { data } = await this.CREATE_COMMENT({
         id: this.articleId,
         content: this.commentContent,
         replyId: this.replyId
-      }).then((data) => {
-        if (data.success) {
-          this.$store.dispatch('COMMENTS').then((data) => {
-            this.comments.push(data.data[0])
-
-            // 回复邮件通知
-            if(this.isSMTPConfig && this.replyId) {
-              let lastIndex = this.realComments.length - 1
-              let lastItem = this.realComments[lastIndex]
-              this.sendEmail({
-                fromUserNickname: lastItem.user.username,
-                fromUserContent: lastItem.content,
-                fromUserEmail: lastItem.user.email,
-                toUserNickname: lastItem.replyId.user.username,
-                toUserContent: lastItem.replyId.content,
-                toUserEmail: lastItem.replyId.user.email,
-                articleId: lastItem.article.id
-              })
-            }
-            // 状态重置
-            this.disabled = false
-            this.placeholder = ''
-            this.commentContent = ''
-            this.replyId = ''
-          })
-        }
       })
+      const comments = await this.COMMENTS()
+      this.comments.push(comments.data[0])
+      // 回复邮件通知
+      if(this.app.isSMTPConfig && this.replyId) {
+        let lastIndex = this.realComments.length - 1
+        let lastItem = this.realComments[lastIndex]
+        this.SEND_EMAIL({
+          fromUserNickname: lastItem.user.username,
+          fromUserContent: lastItem.content,
+          fromUserEmail: lastItem.user.email,
+          toUserNickname: lastItem.replyId.user.username,
+          toUserContent: lastItem.replyId.content,
+          toUserEmail: lastItem.replyId.user.email,
+          articleId: lastItem.article.id
+        })
+      }
+      // 状态重置
+      this.disabled = false
+      this.placeholder = ''
+      this.commentContent = ''
+      this.replyId = ''
     },
     replyComment(username, id) {
       if (!this.localToken) {
@@ -136,9 +133,6 @@ export default {
         this.$refs.commentTextarea.focus()
       }
     },
-    sendEmail(params){
-      this.$store.dispatch('SEND_EMAIL', params)
-    }
   }
 }
 

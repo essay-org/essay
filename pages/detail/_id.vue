@@ -14,7 +14,7 @@
       <p class="admin-del" v-if="adminToken"><a @click="del(articleDetail.id)">删除</a></p>
       <p class="admin-edit" v-if="adminToken"><a @click="edit(articleDetail.id)">编辑</a></p>
     </div>
-    <div>
+    <div v-if="app.isGithubConfig">
       <blog-comment 
       :comment-list="articleDetail.comments" 
       :article-id="articleDetail.id" />
@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import { cutString } from '~/plugins/filters'
 export default {
   fetch({ store, route }) {
@@ -38,13 +38,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'isGithubConfig',
-    ]),
     ...mapState([
       'user',
       'adminToken',
       'articleDetail',
+      'app',
     ]),
   },
   methods: {

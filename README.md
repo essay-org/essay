@@ -179,7 +179,6 @@ baseUrl: http://127.0.0.1:3000/v1
 | GET | /sitemap.xml | | 网站地图，便于搜索引擎收录 | 
 | GET | /robots.txt | | robot 协议 | 
 
-**PS：** 经个人实践，Nuxt并不像想象的那么好用，在大型项目上应用Nuxt还需斟酌，个人意见，仅供参考
 
 ### 开源协议
 

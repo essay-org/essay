@@ -8377,10 +8377,10 @@ widest-line@^2.0.0:
   dependencies:
     string-width "^2.1.1"
 
-wmui@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/wmui/-/wmui-0.1.0.tgz#56516efd34b277516e9f549ab64e52e3fc5e05ff"
-  integrity sha512-2Hsf802kFB/8D7BYbB9x4K7hR/P6roFjEYmnIXPGVbDlD6ESHzDoaIfcjGZPeUtH5BXefLLY+RN6krhexFHCSQ==
+wmui@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/wmui/-/wmui-0.1.2.tgz#c17c94a3d2eab743a41234469f9bc8a10a9733a1"
+  integrity sha512-foQBY/SJEmVoEt6atbxV21QPJfhL/xcU6b/jLiLzj352CMjWH0Vse7Wn4KOy6U78q9C1XtR9JUK2q32PkRCvUg==
 
 wordwrap@~1.0.0:
   version "1.0.0"

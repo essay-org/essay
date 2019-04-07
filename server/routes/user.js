@@ -1,33 +1,32 @@
 const express = require('express')
-const router = express.Router()
-const check = require('../middlewares/check')
-const auth = require('../middlewares/auth')
 const user = require('../controllers/user')
+const check = require('../middlewares/check')
 
+const router = express.Router()
 router
-  .get('/user',
-    auth('localToken'),
-    user.getUserInfo
-  ) // 获取用户信息
-  .get('/admin',
-    user.getAdminInfo
-  )
-  .patch('/admin',
-    auth('adminToken'),
-    user.patchAdminInfo,
-  )
-  .patch('/password',
-    check.bodyParams(['oldPassword', 'newPassword']),
-    auth('adminToken'),
-    user.patchAdminPassword,
-  )
-  .post('/login',
-    check.bodyParams(['username', 'password']),
-    user.login,
-  )
-  .post('/logout',
-    auth('adminToken'),
-    user.logout,
-  )
+    .get('/users',
+        check.auth('token'),
+        user.getUsers)
+    .get('/user',
+        check.auth('token'),
+        user.getUserInfo)
+    .get('/user-base/:id',
+        user.getUserInfo)
+    .post('/user',
+        check.formData(['username', 'email', 'password']),
+        user.postUser) // 注册
+    .patch('/user',
+        check.auth('token'),
+        user.patchUserInfo)
+    .patch('/user/password',
+        check.formData(['oldPassword', 'newPassword']),
+        check.auth('token'),
+        user.patchPassword)
+    .post('/login',
+        check.formData(['email', 'password']),
+        user.login)
+    .post('/logout',
+        check.auth('token'),
+        user.logout)
 
 module.exports = router

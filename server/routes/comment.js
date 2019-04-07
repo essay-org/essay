@@ -1,22 +1,22 @@
 const express = require('express')
-const router = express.Router()
 const comment = require('../controllers/comment')
 const check = require('../middlewares/check')
-const auth = require('../middlewares/auth')
+
+const router = express.Router()
 
 router
-  .post('/comment',
-    check.bodyParams(['id', 'content']),
-    auth('localToken'),
-    comment.postComment
-  )
-  .get('/comments',
-    comment.getComments
-  )
-  .delete('/comment/:id',
-    check.params(['id']),
-    auth('adminToken'),
-    comment.deleteComment
-  ) // 管理员可以删除评论
+    .get('/comments',
+        check.auth('token'),
+        comment.getComments)
+    .get('/comments/:id',
+        comment.getComments)
+    .post('/comment',
+        check.formData(['id', 'content']),
+        check.auth('token'),
+        comment.postComment)
+    .delete('/comment/:id',
+        check.auth('token'),
+        check.role('superAdmin'),
+        comment.deleteComment)
 
 module.exports = router

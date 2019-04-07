@@ -1,31 +1,28 @@
+<p align="center">
+<img src="https://www.86886.wang/public/picture/1554636859240.png">
+</p>
 
+<p align="center">
 <a href="https://travis-ci.org/wmui/essay"><img src="https://travis-ci.org/wmui/essay.svg?branch=master" alt="Build Status"></a>
 <a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/node-%3E%3D8.12.0-orange.svg" alt="Version"></a>
 <a href="https://github.com/wmui/essay"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
+</p>
 
-## Essay
+<p align="center"><a href="https://www.86886.wang" target="_blank">演示站</a></p>
 
-<p><a href="https://www.86886.wang" target="_blank">演示站</a></p>
+> Essay - 简约而不简单的博客系统
 
-Essay 原名 VueBlog，是一个基于 Nuxt2 开发的前后端同构应用，一个轻量级博客系统
+<a href="https://www.86886.wang/posts/5ca9d0b2277e7f71cc4e2caa" target="_blank">快速了解 Essay</a>
 
 ### 功能特性
 
 - 支持服务端渲染
 - PWA渐进式web应用
 - 轻量级Markdown编辑器
-- 支持标签、文章搜索、评论、邮件通知和草稿箱等功能
+- 支持标签、分类、搜索、单页、评论、邮件通知、草稿箱等功能
 
 
-### 更新说明
-
-v1.0.0-v1.2.1： 基于express服务端渲染，原生Vue SSR
-
-v2.0.0-v2.3.1：基于koa服务端渲染，采用Nuxt1.x框架开发
-
-v3.0.0：基于express服务端渲染，采用Nuxt2.x框架开发（由于生态问题，放弃koa）
-
-### 本地运行
+### 运行
 
 #### 启动数据库
 
@@ -43,53 +40,64 @@ $ git clone https://github.com/wmui/essay
 
 $ cd essay
 
-$ yarn # 或 npm install
+$ yarn # 
 
-$ npm run dev # 访问 http://127.0.0.1:3000
+$ npm run dev # 访问 http://127.0.0.1:3025
 ```
+
+**注意:** 不要用`localhost`访问，因为cookie的domain只支持了 `127.0.0.1`
 
 ### 配置说明
 
-配置文件在`server/config`目录下
+配置文件在`server/config`目录下，分为测试环境、开发环境和正式环境
 
-管理员默认用户名：q，默认密码：q
 
 ```js
 module.exports = {
-  // 初始化管理员信息
-  user: {
-    role: 'superAdmin',
-    username: 'q',
-    password: 'q',
-    nickname: 'Essay',
-    email: 'qq22337383@gmail.com',
-    motto: 'Never too old to learn',
-  },
-  // jwt 配置
-  jwt: {
-    secret: 'essay',
-    expiresIn: 1296000,
-  },
-  mongodb: {
-    host: '127.0.0.1',
-    database: 'essay-dev',
-    port: 27017,
-    username: '',
-    password: '',
-  },
-  // GitHub登录
-  githubConfig: {
-    githubClient: '',
-    githubSecret: '',
-    scope: 'user',
-  },
-  // SMTP配置
-  emailConfig: {
-    user: '',
-    pass: '',
-  },
+    mongodb: {
+        host: '127.0.0.1',
+        database: 'essay_dev',
+        port: 27017,
+        user: '',
+        pass: '',
+    },
+    app: {
+        domain: 'http://127.0.0.1:3025',
+        siteName: 'Essay',
+    },
+    // 管理员信息，仅初始化一次
+    admin: {
+        user: 'admin',
+        pass: '123456',
+        email: 'qq22337383@gmail.com',
+    },
+    // 如果要上线记得修改 secret，确保安全性
+    jwt: {
+        expiresIn: 365 * 86400,
+        secret: 'essay',
+    },
+    // 如果要发送通知邮件，需要配置 SMTP 服务
+    email: {
+        host: 'smtp.qq.com',
+        user: '22337383@qq.com',
+        pass: '',
+    },
+    // 如果需要支持 GitHub 登录，需要配置 clientID 和 secret
+    github: {
+        id: '9588f02db3f89d176f36',
+        secret: '10f4f1daa81764664fafb2e50be2c6985ef139f8',
+        scope: 'user',
+    },
+    // 如果需要支持自动化部署，需要配置服务器 IP，项目repo地址，服务器目录
+    pm2: {
+        host: '116.196.17.78',
+        repo: 'git@github.com:wmui/essay.git',
+        path: '/root/blog',
+    },
 }
 ```
+
+管理员默认登录邮箱：`qq22337383@gmail.com`，默认密码：`123456`
 
 ### 线上部署
 
@@ -104,81 +112,10 @@ $ cd essay
 
 $ yarn
 
-$ npm run dev
+$ npm run build
 
-pm2 start npm --name "essay" -- start # pm2 启动
+pm2 start npm --name "Essay" -- start # pm2 启动
 ```
-
-### 接口文档
-
-baseUrl: http://127.0.0.1:3000/v1
-
-若无特殊说明，所有POST、PATCH、DELETE请求均需要认证信息
-
-#### 文章
-
-| Method | URL | 参数 | 描述 |
-| --- | --- | --- | --- |
-| GET | /articles/{limit}/{page} | limit: 显示多少条，page: 第几页 | 获取首页展示的文章列表|
-| GET | /article/{id} | 文章id | 获取文章详情 |
-| GET | /stick/{limit}/{page} | ... | 获取置顶文章 |
-| GET | /drafts/{limit}/{page} | ... | 获取草稿文章，需要token |
-| GET | /search/{keyword}/{limit}/{page} | keyword: 搜索关键字 | 获取搜索列表 |
-| GET | /tag/{id}/{limit}/{page} | id: 标签id | 获取标签下的文章列表 |
-| POST | /article | title: 标题，content: 内容，tags：标签id组成的数组（可选） | 发布文章 |
-| PATCH | /article | id: 文章的id，title: 标题，content: 内容| 修改文章 |
-| DELETE | /article/{id} | id: 文章的id | 删除文章 |
-
-#### 标签
-
-| Method | URL | 参数 | 描述 |
-| --- | --- | --- | --- |
-| GET | /tags | | 获取所有标签 |
-| POST | /tag | name: 标签名 | 创建一个标签 | 
-| PATCH | /tag | id: 原标签id，name： 新标签名字 | 修改标签 |
-| DELETE | /tag/{id} | id: 标签id | 删除一个标签 |
-
-#### 用户
-
-| Method | URL | 参数 | 描述 |
-| --- | --- | --- | --- |
-| GET | /admin | | 获取管理员信息 |
-| GET | /user | | 获取用户信息，需要token |
-| POST | /login | username: 用户名，password: 密码 | 管理员登录，后端会返回token并设置cookie | 
-| POST | /logout | | 退出登录 |
-| PATCH  | /password | oldPassword: 旧密码，newPassword: 新密码| 修改管理员密码 |
-| PATCH | /admin | nickname： 昵称，emial： 邮箱，motto： 介绍| 修改管理员信息 | 
-
-#### 评论
-
-| Method | URL | 参数 | 描述 |
-| --- | --- | --- | --- |
-| GET | /comments | | 获取所有的评论 |
-| POST | /comment | id: 文章id，content: 评论内容 | 用户发布评论 |
-| DELETE | /comment/{id} | id: 评论的id | 管理员删除评论 |
-
-#### OAuth认证
-
-仅支持GitHub
-
-| Method | URL | 参数 | 描述 |
-| --- | --- | --- | --- |
-| GET | /oauth/github/{state} | state: 文章id | GitHub授权 |
-
-#### 基础服务
-
-| Method | URL | 参数 | 描述 |
-| --- | --- | --- | --- |
-| POST | /upload-img | | 上传图片 |
-
-#### 服务
-
-| Method | URL | 参数 | 描述 |
-| --- | --- | --- | --- |
-| GET | /rss.xml | | rss订阅服务 | 
-| GET | /sitemap.xml | | 网站地图，便于搜索引擎收录 | 
-| GET | /robots.txt | | robot 协议 | 
-
 
 ### 开源协议
 

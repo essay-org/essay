@@ -1,12 +1,9 @@
 import Vue from 'vue'
-import BlogList from '../components/blog-list.vue'
-import BlogComment from '../components/blog-comment.vue'
+import Comment from '../components/comment.vue'
+import EditorEdit from '../components/editor-edit.vue'
+import EditorPreview from '../components/editor-preview.vue'
+import List from '../components/list.vue'
 
-const components = [
-  BlogList,
-  BlogComment,
-]
-
-components.forEach(component => {
-  Vue.component(component.name, component)
+[Comment, EditorEdit, EditorPreview, List].forEach((component) => {
+    Vue.component(component.name, component)
 })

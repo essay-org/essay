@@ -1,77 +1,100 @@
 const mongoose = require('mongoose')
-const Tag = mongoose.model('Tag')
 
+const Tag = mongoose.model('Tag')
+const Article = mongoose.model('Article')
 exports.getTags = async (req, res) => {
-  try {
-    let data = await Tag.find({}).sort({
-      'updated_at': -1
-    }).exec()
-    res.json({
-      success: true,
-      data: data
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+    try {
+        const tags = await Tag.find({}).sort({
+            createdAt: -1,
+        })
+            .exec()
+
+        // 查询标签下文章数量
+        // const arr = await Article
+        //     .aggregate([
+        //         { $unwind: '$tags' },
+        //         { $group: { _id: '$tags', total: { $sum: 1 } } },
+        //     ])
+        //     .exec()
+
+        // // 聚合数据
+        // tags = JSON.parse(JSON.stringify(tags))
+        // const data = tags.map((tag) => {
+        //     const t = arr.find(item => String(item._id) === String(tag.id))
+        //     return {
+        //         ...tag,
+        //         total: t ? t.total : 0,
+        //     }
+        // })
+        res.json({
+            success: true,
+            data: tags,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '标签获取失败',
+            error,
+        })
+    }
 }
 
 exports.postTag = async (req, res) => {
-  let body = req.body
-  try {
-    let tag = await Tag.findOne(body)
-    if(tag) {
-      return (res.json({
-        success: false,
-        err: 'tag already exists'
-      }))
+    const { body } = req
+    try {
+        let data = await Tag.findOne({ name: body.name })
+        if (data) {
+            res.json({
+                success: false,
+                message: '标签已存在',
+            })
+            return
+        }
+        data = await new Tag(body).save()
+        res.json({
+            success: true,
+            data,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '标签创建失败',
+            error,
+        })
     }
-    body = new Tag(body)
-    await body.save()
-    res.json({
-      success: true,
-      data: body
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
 }
 
 exports.patchTag = async (req, res) => {
-  let body = req.body
-  body.updated_at = Date.now()
+    const { body } = req
 
-  try {
-    body = await Tag.findByIdAndUpdate(body.id, body).exec()
-    res.json({
-      success: true,
-      data: body
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+    try {
+        const data = await Tag.findByIdAndUpdate(body.id, body).exec()
+        res.json({
+            success: true,
+            data,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '标签更新失败',
+            error,
+        })
+    }
 }
 
 exports.deleteTag = async (req, res) => {
-  let id = req.params.id
-  try {
-    body = await Tag.findByIdAndRemove(id).exec()
-    res.json({
-      success: true,
-      data: body
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+    const { id } = req.params
+    try {
+        const data = await Tag.findByIdAndRemove(id).exec()
+        res.json({
+            success: true,
+            data,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '标签删除失败',
+            error,
+        })
+    }
 }

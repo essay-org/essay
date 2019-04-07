@@ -1,142 +1,193 @@
 const mongoose = require('mongoose')
 const md5 = require('md5')
+const _ = require('lodash')
 const config = require('../config')
-const User = mongoose.model('User')
-const token  = require('../utils/token')
+const token = require('../utils/token')
 
-exports.login = async (req, res, next) => {
-  let {
-    username,
-    password
-  } = req.body
-  password = md5(password)
-  try {
+const User = mongoose.model('User')
+
+exports.postUser = async (req, res, nest) => {
+    const { body } = req
     let user = await User.findOne({
-      username: username,
-      password: password
+        email: body.email,
     }).exec()
     if (user) {
-      const t = token.sign(user) 
-      res.cookie('adminToken', t)
-      res.json({
-        success: true,
-        data: {
-          adminToken: t
-        }
-      })
-    } else {
-      res.json({
-        success: false,
-        err: 'username or password is invalid'
-      })
+        res.json({
+            success: false,
+            message: '邮箱已被注册',
+        })
+        return
     }
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+    user = await User.findOne({
+        username: body.username,
+    }).exec()
+    if (user) {
+        res.json({
+            success: false,
+            message: '用户名已被占用',
+        })
+        return
+    }
+    // 注册
+    try {
+        // 生成随机头像
+        const avatar = body.avatar
+            ? body.avatar
+            : `${config.app.domain}/public/avatar/${_.random(1, 9)}.jpg`
+        user = await new User({
+            ...body,
+            avatar,
+        }).save()
+        res.json({
+            success: true,
+            data: user,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '注册失败',
+            error,
+        })
+    }
+}
+
+exports.login = async (req, res, next) => {
+    const { body } = req
+    try {
+        const user = await User.findOne(body).exec()
+        if (user) {
+            const t = token.sign(user)
+            res.cookie('token', t, {
+                maxAge: config.jwt.expiresIn * 1000, // 与jwt有限期一致，cookie是毫秒
+                httpOnly: true,
+                domain: res.locals.cookieDomain,
+            })
+            res.json({
+                success: true,
+                data: {
+                    token: t,
+                },
+            })
+        } else {
+            res.json({
+                success: false,
+                message: '用户名或密码错误',
+            })
+        }
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '登录失败',
+            error,
+        })
+    }
 }
 
 exports.logout = (req, res) => {
-  res.clearCookie('adminToken')
-  res.json({
-    success: true,
-    data: null
-  })
+    res.clearCookie('token')
+    res.json({
+        success: true,
+        data: {},
+    })
 }
 
+exports.getUsers = async (req, res, next) => {
+    try {
+        const users = await User.find({}).exec()
+        res.json({
+            success: true,
+            data: users,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '获取用户列表失败',
+            error,
+        })
+    }
+}
 
 exports.getUserInfo = async (req, res, next) => {
-  // 用户名必须是唯一的
-  let username = res.locals.username
-  try {
-    let user = await User.findOne({
-      username
-    }).exec()
-    res.json({
-      success: true,
-      data: user
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
-}
-
-exports.getAdminInfo = async (req, res, next) => {
-  const username = config.user.username
-  const domain = res.locals.app.domain
-  try {
-    let user = await User.findOne({
-      username
-    }).exec()
-    user.avatar = domain + '/public/avatar.png'
-    res.json({
-      success: true,
-      data: user
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
-}
-
-exports.patchAdminInfo = async (req, res, next) => {
-  let body = req.body
-  const username = res.locals.username
-  try {
-    body.updated_at = Date.now()
-    body = await User.findOneAndUpdate({
-      username
-    }, body).exec()
-    res.json({
-      success: true,
-      data: body
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
-}
-
-exports.patchAdminPassword = async (req, res, next) => {
-  let body = req.body
-  let username = res.locals.username
-  let oldPassword = md5(body.oldPassword)
-  let newPassword = md5(body.newPassword)
-
-  try {
-    let user = await User.findOne({
-      username
-    }).exec()
-    if (user && user.password !== oldPassword) {
-      return(res.json({
-        success: false,
-        err: 'wrong password'
-      }))
+    const state = {
+        1: req.params.id || '',
+        2: res.locals.user ? res.locals.user.userId : '',
     }
-    body = await User.findOneAndUpdate({
-      username
-    }, {
-      password: newPassword,
-      updated_at: Date.now()
-    }).exec()
-    res.clearCookie('adminToken')
-    res.json({
-      success: true,
-      data: 'password update succeeded'
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+    const userId = state[1] || state[2]
+
+    try {
+        const user = await User.findOne({
+            _id: userId,
+        }).select('-createdAt -updatedAt').exec()
+        res.json({
+            success: true,
+            data: user,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '信息获取失败',
+            error,
+        })
+    }
+}
+
+exports.patchUserInfo = async (req, res, next) => {
+    let { body } = req
+    const {
+        userId,
+    } = res.locals.user
+    try {
+        body = await User.findOneAndUpdate({
+            _id: userId,
+        }, body).exec()
+        res.json({
+            success: true,
+            data: body,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '信息修改失败',
+            error,
+        })
+    }
+}
+
+exports.patchPassword = async (req, res, next) => {
+    const {
+        oldPassword,
+        newPassword,
+    } = req.body
+    const {
+        userId,
+    } = res.locals.user
+    const realOldPassword = md5(oldPassword)
+    try {
+        const user = await User.findOne({
+            _id: userId,
+        }).exec()
+        if (user && user.password !== realOldPassword) {
+            res.json({
+                success: false,
+                message: '原始密码错误',
+            })
+            return
+        }
+        await User.findOneAndUpdate({
+            _id: userId,
+        }, {
+            password: newPassword,
+        }).exec()
+        res.clearCookie('token')
+        res.json({
+            success: true,
+            data: {},
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '密码修改失败',
+            error,
+        })
+    }
 }

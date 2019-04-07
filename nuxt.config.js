@@ -1,87 +1,118 @@
+const configApp = require('./server/config')
+
+// 需要前后端共享的数据，添加到环境变量
+process.env.DOMAIN = configApp.app.domain
+process.env.SITE_NAME = configApp.app.siteName
+
 module.exports = {
-  mode: 'universal',
-
-  /*
-   ** Headers of the page
-   */
-  head: {
-    meta: [{
-        charset: 'utf-8'
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
-      },
-      {
-        name: 'renderer',
-        content: 'webkit'
-      },
-      {
-        hid: 'keywords',
-        name: 'keywords',
-        content: 'Essay, 博客系统'
-      },
-      {
-        hid: 'description',
-        name: 'description',
-        content: 'Essay， 一个基于现代化前端技术开发的轻量级博客系统'
-      }
-    ],
-    link: [{
-        rel: 'icon',
-        type: 'image/x-icon',
-        href: '/favicon.ico'
-      },
-      {
-        rel: 'alternate',
-        type: 'application/rss+xml',
-        title: 'RSS 2.0',
-        href: '/rss.xml'
-      }
-    ]
-  },
-
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: {
-    color: '#42B983'
-  },
-
-  /*
-   ** Global CSS
-   */
-  css: ['~/assets/styles/main.scss'],
-
-  /*
-   ** Plugins to load before mounting the App
-   */
-  plugins: ['~/plugins/components.js', '~/plugins/filters.js', {
-    src: '~/plugins/wmui.js',
-    ssr: true
-  }],
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [],
-
-  /*
-   ** Build configuration
-   */
-  build: {
     /*
-     ** You can extend webpack config here
+     ** Headers of the page
      */
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    }
-  }
+    head: {
+        meta: [
+            {
+                charset: 'utf-8',
+            },
+            {
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1',
+            }, {
+                name: 'renderer',
+                content: 'webkit',
+            },
+        ],
+        link: [
+            {
+                rel: 'icon',
+                type: 'image/x-icon',
+                href: 'favicon.ico',
+            }, {
+                rel: 'alternate',
+                type: 'application/rss+xml',
+                title: 'RSS 2.0',
+                href: '/rss.xml',
+            },
+        ],
+    },
+    manifest: {
+        name: 'Essay',
+        short_name: 'Essay',
+        display: 'standalone',
+        background_color: '#f3f3f3',
+        theme_color: '#64B888',
+        description: 'A blog system',
+    },
+    modules: ['@nuxtjs/pwa'],
+    /*
+     ** Customize the progress-bar color
+     */
+    loading: {
+        color: '#64B888',
+    },
+
+    /*
+     ** Global CSS
+     */
+    css: ['~/assets/styles/main.less'],
+
+    /*
+     ** Plugins to load before mounting the App
+     */
+    plugins: [
+        {
+            src: '~/plugins/iview',
+            ssr: true,
+        },
+        {
+            src: '~/plugins/components',
+            ssr: true,
+        },
+        {
+            src: '~/plugins/moment',
+            ssr: true,
+        },
+        {
+            src: '~/plugins/filters',
+            ssr: true,
+        },
+    ],
+
+    /*
+     ** Nuxt.js modules
+     */
+    modules: [],
+
+    /*
+     ** Build configuration
+     */
+    build: {
+        /*
+         ** You can extend webpack config here
+         */
+        loaders: {
+            less: {
+                javascriptEnabled: true,
+            },
+        },
+        extend(config, ctx) {
+            config.module.rules.push({
+                enforce: 'pre',
+                test: /\.vue$/,
+                loader: 'iview-loader',
+                options: {
+                    prefix: true,
+                },
+                exclude: /(node_modules)/,
+            })
+            // Run ESLint on save
+            if (ctx.isDev && ctx.isClient) {
+                config.module.rules.push({
+                    enforce: 'pre',
+                    test: /\.(js|vue)$/,
+                    loader: 'eslint-loader',
+                    exclude: /(node_modules)/,
+                })
+            }
+        },
+    },
 }

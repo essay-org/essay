@@ -1,64 +1,75 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const md5 = require('md5')
 
+const { Schema } = mongoose
 const UserSchema = new Schema({
-  role: {
-    type: String,
-    default: 'user'
-  },
-  email: {
-    type: String,
-    default: ''
-  },
-  username: {
-    type: String
-  },
-  password: {
-    type: String
-  },
-  nickname: {
-    type: String,
-    default: ''
-  },
-  motto: {
-    type: String,
-    default: ''
-  },
-  avatar: {
-    type: String,
-    default: 'avatar.png'
-  },
-  following: {
-    type: Number,
-    default: 0
-  },
-  followers: {
-    type: Number,
-    default: 0
-  },
-  like: {
-    type: Number,
-    default: 0
-  },
-  created_at: {
-    type: Date,
-    default: Date.now
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now
-  }
+    role: {
+        type: String,
+        enum: ['superAdmin', 'admin', 'user'],
+        default: 'user',
+    },
+    username: {
+        type: String,
+        trim: true,
+        unique: true,
+        required: true,
+    },
+    email: {
+        type: String,
+        unique: true,
+        trim: true,
+        lowercase: true,
+        required: true,
+    },
+    password: {
+        type: String,
+        set: md5,
+    },
+    description: {
+        type: String,
+        default: '',
+    },
+    phone: {
+        type: String,
+        trim: true,
+        default: '',
+    },
+    avatar: {
+        type: String,
+        default: '',
+    },
+    isVerifyEmail: {
+        type: Boolean,
+        default: false,
+    },
+    loginMode: {
+        type: String,
+        default: 'github',
+        enum: ['github', 'register'],
+    },
+    followers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    following: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+}, {
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+    },
+    toJSON: {
+        virtuals: true,
+        versionKey: false,
+        transform(doc, ret) {
+            ret.id = ret._id
+            delete ret._id
+            delete ret.password
+        },
+    },
+    minimize: false,
 })
 
-// 隐藏一些字段
-UserSchema.options.toJSON = {
-  virtuals: true,
-  versionKey: false,
-  transform(doc, ret) {
-    ret.id = ret._id
-    delete ret._id
-    delete ret.id
-    delete ret.password
-  }
-}
 mongoose.model('User', UserSchema)

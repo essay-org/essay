@@ -1,178 +1,311 @@
+/*
+ * @Author: wmui
+ * @GitHub: https://github.com/wmui
+ * @License: GPL-3.0
+ */
 const mongoose = require('mongoose')
+const _ = require('lodash')
+
 const Article = mongoose.model('Article')
+// articles?limit=15&page=1
+// articles?categoryId=asdf&limit=15&page=1
+// articles?keywords=js&limit=15&page=1
 
-// flag: 0置顶 1首页 2非首页 3草稿
 exports.getArticles = async (req, res, next) => {
-  let {
-    page = 1, 
-    limit = 15, 
-    id = '', 
-    keyword = ''
-  } = req.params
+    const {
+        page = 1,
+        limit = 15,
+        keywords = '',
+        categoryId = '',
+        tagId = '',
+        userId = '',
+        likeId = '',
+    } = req.query
 
-  let flag = res.locals.flag
-  
-  let findOption = {}
-  keyword = decodeURIComponent(keyword)
-  page = Number((page - 1) * limit) || 0
-  limit = Number(limit) || 15
-  let reg = new RegExp(keyword, 'i')
+    const skipCount = Number((page - 1) * limit)
+    const limitCount = Number(limit)
+    const reg = new RegExp(decodeURIComponent(keywords), 'i')
 
-  if (id) {
-    // 根据标签id查询
-    findOption = {
-      flag: {
-        $ne: 3
-      },
-      tags: [id]
+    let findOption = {
+        isRecommend: true,
     }
-  } else if (keyword) {
-    // 根据keyword 搜索查询
-    findOption = {
-      flag: {
-        $ne: 3
-      },
-      $or: [{
-        title: {
-          $regex: reg
+
+    if (keywords) {
+        findOption = {
+            $or: [{
+                title: {
+                    $regex: reg,
+                },
+            }, {
+                content: {
+                    $regex: reg,
+                },
+            }],
         }
-      }, {
-        content: {
-          $regex: reg
+    }
+    if (categoryId) {
+        findOption = {
+            category: categoryId,
         }
-      }]
     }
-  } else {
-    // 首页文章
-    findOption = {
-      flag
+    if (tagId) {
+        findOption = {
+            tags: tagId,
+        }
     }
-  }
-  try {
-    let total = (await Article.find(findOption).exec()).length
+    if (userId) {
+        findOption = {
+            user: userId,
+        }
+    }
+    if (likeId) {
+        findOption = {
+            likes: likeId,
+        }
+    }
+    try {
+        const total = (await Article.find({
+            ...findOption,
+            isPublish: true,
+        }).exec()).length
 
-    let data = await Article.find(findOption)
-      .populate({
-        path: 'tags',
-        select: 'id name'
-      })
-      .skip(page)
-      .limit(limit)
-      .sort({
-        'created_at': -1
-      })
-      .exec()
+        const data = await Article.find({
+            ...findOption,
+            isPublish: true,
+        })
+            .populate({
+                path: 'category',
+                select: 'id name',
+            })
+            .populate({
+                path: 'tags',
+                select: 'id name',
+            })
+            .populate({
+                path: 'user',
+                select: 'id username avatar email',
+            })
+            .skip(skipCount)
+            .limit(limitCount)
+            .sort({
+                createdAt: -1,
+            })
+            .exec()
 
-    res.json({
-      success: true,
-      data: data,
-      total: total
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e,
-      total: 0
-    })
-  }
+        res.json({
+            success: true,
+            data,
+            total,
+        })
+    } catch (error) {
+        res.status(404).json({
+            success: false,
+            message: '文章获取失败',
+            error,
+        })
+    }
+}
+
+exports.getDrafts = async (req, res, next) => {
+    const {
+        limit = 15,
+        page = 1,
+        userId = '',
+    } = req.query
+    const skipCount = Number((page - 1) * limit)
+    const limitCount = Number(limit)
+
+    try {
+        const total = (await Article.find({
+            isPublish: false,
+            user: userId,
+        }).exec()).length
+
+        const data = await Article.find({
+            isPublish: false,
+            user: userId,
+        })
+            .populate({
+                path: 'category',
+                select: 'id name',
+            })
+            .populate({
+                path: 'tags',
+                select: 'id name',
+            })
+            .populate({
+                path: 'user',
+                select: 'id username avatar email',
+            })
+            .skip(skipCount)
+            .limit(limitCount)
+            .sort({
+                createdAt: -1,
+            })
+            .exec()
+
+        res.json({
+            success: true,
+            data,
+            total,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '草稿获取失败',
+            error,
+        })
+    }
 }
 
 exports.getArticle = async (req, res, next) => {
-  let id = req.params.id
+    const { role = '' } = res.locals.user
+    const {
+        id,
+    } = req.params
+    // 草稿和私有分类文章拦截处理
+    try {
+        const article = await Article.findOne({
+            _id: id,
+        })
+            .populate({
+                path: 'category',
+                select: 'id name isShow',
+            })
+            .populate({
+                path: 'tags',
+                select: 'id name',
+            })
+            .populate({
+                path: 'user',
+                select: 'id username avatar email',
+            })
+            .exec()
 
-  try {
-    let article = await Article.findOne({
-        _id: id
-      })
-      .populate({
-        path: 'tags',
-        select: 'id name'
-      })
-      .populate({
-        path: 'comments',
-        populate: {
-          path: 'user'
+        const stateMap = {
+            1: role === 'superAdmin',
+            2: article.isPublish && article.category && article.category.isShow, // 有分类
+            3: article.isPublish && !article.category,
         }
-      })
-      .exec()
+        if (stateMap[1] || stateMap[2] || stateMap[3]) {
+            await Article.findByIdAndUpdate(id, {
+                views: article.views + 1,
+            }).exec()
 
-    /*article.previousArticle = await Article.findOne({flag: 1, _id: {$gt: id}})
-    .sort({_id: 1 })
-    .limit(1)
-    .select('id title')
-    .exec()
-
-    article.nextArticle = await Article.findOne({flag: 1,  _id: {$lt: id}})
-    .sort({_id: -1 })
-    .limit(1)
-    .select('id title')
-    .exec()*/
-
-    await Article.findByIdAndUpdate(id, {
-      views: article.views + 1
-    }).exec()
-    res.json({
-      success: true,
-      data: article
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+            res.json({
+                success: true,
+                data: article,
+            })
+            return
+        }
+        // 无权限
+        res.status(403).json({
+            success: false,
+            message: '无权限',
+        })
+    } catch (error) {
+        res.status(404).json({
+            success: false,
+            message: '文章内容获取失败',
+            error,
+        })
+    }
 }
 
 exports.postArticle = async (req, res, next) => {
-  let body = req.body
-
-  try {
-    body = await new Article(body)
-    await body.save()
-    res.json({
-      success: true,
-      data: body
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+    let { body } = req
+    try {
+        if (!body.category) body.category = null // 未添加分类的文章
+        body = await new Article(body).save()
+        res.json({
+            success: true,
+            data: body,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '文章添加失败',
+            error,
+        })
+    }
 }
 
-// 修改文章
-exports.patchArticle = async (req, res, next) => {
-  let body = req.body
-  body.updated_at = Date.now()
 
-  try {
-    body = await Article.findByIdAndUpdate(body.id, body).exec()
-    res.json({
-      success: true,
-      data: body
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+exports.patchArticle = async (req, res, next) => {
+    let { body } = req
+    const {
+        id,
+    } = req.params
+    try {
+        body = await Article.findByIdAndUpdate(id, body).exec()
+        res.json({
+            success: true,
+            data: body,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '文章更新失败',
+            error,
+        })
+    }
 }
 
 exports.deleteArticle = async (req, res, next) => {
-  let id = req.params.id
+    const {
+        id,
+    } = req.params
 
-  try {
-    let body = await Article.findByIdAndRemove(id).exec()
-    res.json({
-      success: true,
-      data: body
-    })
-  } catch (e) {
-    res.json({
-      success: false,
-      err: e
-    })
-  }
+    try {
+        const body = await Article.findByIdAndRemove(id).exec()
+        res.json({
+            success: true,
+            data: body,
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: '文章删除失败',
+            error,
+        })
+    }
+}
+
+exports.patchArticleLikes = async (req, res, next) => {
+    const { id } = req.params
+    const { userId } = res.locals.user
+    const article = await Article.findOne({ _id: id }).exec()
+    const likes = article.likes.map(i => i.toString()) // 获取 likes 数组
+
+    if (likes.includes(userId)) {
+        await Article.findByIdAndUpdate(id, {
+            $pull: {
+                likes: userId,
+            },
+        }, {
+            safe: true,
+            upsert: true,
+        })
+        res.json({
+            success: true,
+            data: {
+                message: '已取消喜欢',
+            },
+        })
+    } else {
+        await Article.findByIdAndUpdate(id, {
+            $push: {
+                likes: userId,
+            },
+        }, {
+            safe: true,
+            upsert: true,
+        })
+        res.json({
+            success: true,
+            data: {
+                message: '已加入喜欢',
+            },
+        })
+    }
 }

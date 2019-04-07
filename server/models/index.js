@@ -1,29 +1,53 @@
 const mongoose = require('mongoose')
-const md5 = require('md5')
 const config = require('../config')
 require('./user')
-require('./tag')
-require('./article')
 require('./comment')
+require('./media')
+require('./tag')
+require('./category')
+require('./article')
+require('./page')
 
 const User = mongoose.model('User')
+const Article = mongoose.model('Article')
 const mongoUrl = `mongodb://${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.database}`
-mongoose.Promise = global.Promise
-mongoose.connection
-  .openUri(mongoUrl)
-  .once('open', async () => {
-    console.log('database connect successed')
-    // 初始化管理员信息
-    let userInfo = config.user
-    userInfo.password = md5(userInfo.password)
 
-    let user = await User.findOne({ role: 'superAdmin' }).exec()
-    if (!user) {
-      user = new User(userInfo)
-      await user.save()
-      console.log('Administrator information initialization succeeded')
-    }
-  })
-  .on('error', (error) => {
-    console.warn('database connect fail', error)
-  })
+mongoose.Promise = global.Promise
+mongoose.set('useFindAndModify', false)
+mongoose.connection
+    .openUri(mongoUrl, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        user: config.mongodb.user,
+        pass: config.mongodb.pass,
+    })
+    .once('open', async () => {
+        let user = await User.findOne({
+            role: 'superAdmin',
+        }).exec()
+
+        // 数据初始化
+        if (!user) {
+            user = new User({
+                role: 'superAdmin',
+                username: config.admin.user,
+                password: config.admin.pass,
+                email: config.admin.email,
+                loginMode: 'register',
+                avatar: `${config.app.domain}/public/avatar/default.jpg`,
+            })
+
+            const article = new Article({
+                user: user.id,
+                title: '欢迎使用 Essay 博客系统',
+                content: '当您看到这篇文章，说明系统已经安装成功，接下来开始您的创作之旅吧',
+                isPublish: true,
+            })
+
+            user.save()
+            article.save()
+        }
+    })
+    .on('error', (error) => {
+        console.warn('数据库连接失败', error)
+    })

@@ -1,27 +1,24 @@
 const express = require('express')
-const router = express.Router()
 const tag = require('../controllers/tag')
 const check = require('../middlewares/check')
-const auth = require('../middlewares/auth')
+
+const router = express.Router()
 
 router
-  .get('/tags',
-    tag.getTags
-  )
-  .post('/tag',
-    check.bodyParams(['name']),
-    auth('adminToken'),
-    tag.postTag
-  )
-  .patch('/tag',
-    check.bodyParams(['id','name']),
-    auth('adminToken'),
-    tag.patchTag
-  )
-  .delete('/tag/:id',
-    check.params(['id']),
-    auth('adminToken'),
-    tag.deleteTag
-  )
+    .get('/tags',
+        tag.getTags)
+    .post('/tag',
+        check.auth('token'),
+        check.role('superAdmin'),
+        tag.postTag)
+    .patch('/tag',
+        check.formData(['id', 'name']),
+        check.auth('token'),
+        check.role('superAdmin'),
+        tag.patchTag)
+    .delete('/tag/:id',
+        check.auth('token'),
+        check.role('superAdmin'),
+        tag.deleteTag)
 
 module.exports = router

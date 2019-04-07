@@ -1,49 +1,36 @@
 const express = require('express')
-const router = express.Router()
 const article = require('../controllers/article')
 const check = require('../middlewares/check')
-const auth = require('../middlewares/auth')
-const flag = require('../middlewares/flag')
+
+const router = express.Router()
 
 router
-  .get('/article/:id',
-    check.params(['id']),
-    article.getArticle
-  )
-  .get('/search/:keyword/:limit?/:page?',
-    article.getArticles
-  )
-  .get('/articles/:limit?/:page?', 
-    flag('index'),
-    article.getArticles
-  )
-  .get('/stick/:limit?/:page?',
-    flag('stick'),
-    article.getArticles
-  )
-  .get('/tag/:id/:limit?/:page?', 
-    flag('tag'), 
-    article.getArticles
-  )
-  .get('/drafts/:limit?/:page?', 
-    flag('draft'),
-    auth('adminToken'),
-    article.getArticles
-  )
-  .post('/article',
-    check.bodyParams(['title', 'content']),
-    auth('adminToken'), 
-    article.postArticle
-  )
-  .patch('/article',
-    check.bodyParams(['id', 'title', 'content']),
-    auth('adminToken'),
-    article.patchArticle
-  )
-  .delete('/article/:id',
-    check.params(['id']),
-    auth('adminToken'),
-    article.deleteArticle
-  )
+    .get('/articles',
+        article.getArticles)
+    .get('/article/:id',
+        check.filter('token'),
+        article.getArticle)
+    .get('/drafts',
+        check.auth('token'),
+        check.role('superAdmin'),
+        article.getDrafts)
+    .post('/article',
+        check.formData(['title', 'content']),
+        check.auth('token'),
+        check.role('superAdmin'),
+        article.postArticle)
+    .patch('/article/:id',
+        check.formData(['title', 'content']),
+        check.auth('token'),
+        check.role('superAdmin'),
+        article.patchArticle)
+    .patch('/article-likes/:id',
+        check.auth('token'),
+        check.role('superAdmin'),
+        article.patchArticleLikes)
+    .delete('/article/:id',
+        check.auth('token'),
+        check.role('superAdmin'),
+        article.deleteArticle)
 
 module.exports = router

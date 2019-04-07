@@ -1,27 +1,31 @@
-import Vuex from 'vuex'
-import getters from './getters'
-import mutations from './mutations'
-import actions from './actions'
+import ajax from '@/assets/scripts/ajax'
 
-export default () => {
-  return new Vuex.Store({
-    state: {
-      adminToken: '',
-      localToken: '',
-      user: {},
-      total: 0,
-      articles: [],
-      drafts: [],
-      articleDetail: {},
-      tags: [],
-      stickArticles:[],
-      tagArticles: [],
-      searchArticles: [],
-      limit: 10,
-      app: {},
+
+export const actions = {
+    async nuxtServerInit({ commit, getters, dispatch }, { req, res }) {
+        await dispatch('page/getPages')
+        if (req.cookies.token) {
+            // init data
+            await ajax.get('/user', {
+                headers: {
+                    token: req.cookies.token,
+                },
+            }).then((ret) => {
+                if (ret.success) {
+                    commit('user/setData', {
+                        key: 'user',
+                        value: ret.data,
+                    })
+
+                    commit('global/setData', {
+                        key: 'token',
+                        value: req.cookies.token,
+                    })
+                }
+            })
+        }
     },
-    getters,
-    mutations,
-    actions
-  })
 }
+
+export const state = () => ({
+})

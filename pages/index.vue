@@ -1,52 +1,42 @@
 <template>
-  <div class="index">
-    <blog-list :articles="allArticles" />
-    <wmui-pagination 
-    :limit="limit" 
-    :total="total" 
-    :currentPage="currentPage"
-    @pageClick="pageClick"/>
-  </div>
+    <div class="index container">
+        <base-list></base-list>
+    </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-export default {
-  async fetch({ store, route }) {
-    await store.dispatch('STICK_ARTICLES')
-    await store.dispatch('ARTICLES', 1)
-  },
-  data() {
-    return {
-      currentPage: Number(this.$route.params.id) || 1
-    }
-  },
-  head() {
-    return {
-      title: this.user.nickname
-    }
-  },
-  computed: {
-    ...mapState([
-      'user',
-      'articles',
-      'stickArticles',
-      'total',
-      'limit',
-    ]),
-    allArticles() {
-      return this.stickArticles.concat(this.articles)
-    }
-  },
-  methods: {
-    pageClick(i) {
-      this.$router.push({
-        name: 'page-id',
-        params: {
-          id: i
-        }
-      })
-    }
-  }
-}
+import { mapState, mapActions, mapMutations } from 'vuex'
 
+export default {
+    name: 'Index',
+    async fetch({ store, route }) {
+        const { article } = store.state
+        if (article.articles.length === 0) {
+            await store.dispatch('article/getArticles', { page: 1 })
+        }
+    },
+    beforeRouteLeave(to, from, next) {
+        if (to.name !== 'posts-id') {
+            this.$store.commit('article/setArticlesNull')
+        }
+        next()
+    },
+}
 </script>
+<style lang="less">
+.index {
+    .article {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        .main {
+            .content {
+                margin-bottom: 15px;
+            }
+            .title {
+                font-size: 14px;
+                margin-bottom: 15px;
+                text-align: right;
+            }
+        }
+    }
+}
+</style>

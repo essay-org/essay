@@ -1,36 +1,43 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+
+const { Schema } = mongoose
 
 const CommentSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  article:{
-    type: Schema.Types.ObjectId,
-    ref: 'Article',
-  },
-  content: {
-    type: String,
-    default: ''
-  },
-  created_at: {
-    type: Date,
-    default: Date.now
-  },
-  reply_id: {
-    type: String,
-    default: ''
-  }
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    article: {
+        type: Schema.Types.ObjectId,
+        ref: 'Article',
+    },
+    content: {
+        type: String,
+        default: '',
+    },
+    isInvalid: {
+        type: Boolean,
+        default: false,
+    },
+    reply: {
+        type: Object,
+        default: {},
+    },
+}, {
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+    },
+    toJSON: {
+        virtuals: true,
+        versionKey: false,
+        transform(doc, ret) {
+            ret.id = ret._id
+            delete ret._id
+        },
+    },
+    minimize: false,
 })
 
-CommentSchema.options.toJSON = {
-  virtuals: true,
-  versionKey: false,
-  transform(doc, ret) {
-    ret.id = ret._id
-    delete ret._id
-  }
-}
 
 mongoose.model('Comment', CommentSchema)

@@ -1,87 +1,154 @@
 <template>
-  <div class="admin-tags">
-
-    <ul class="tags-list">
-      <li class="list-item" v-for="(tag, index) in tags" :key="index">
-        <p class="item-title">
-          <nuxt-link :to="'/tags/'+tag.id">{{tag.name}}</nuxt-link>
-        </p>
-        <p class="item-date">{{tag.updated_at | formatDate('yyyy-MM-dd')}}</p>
-        <p class="item-del"><a @click="delTag(tag)">删除</a></p>
-        <p class="item-edit"><a @click="editTag(tag)">编辑</a></p>
-      </li>
-    </ul>
-
-    <wmui-dialog v-model="isEdit">
-      <div class="tag-input">
-        <input type="text" @keyup.enter="edit" v-model="tag.name">
-      </div>
-      <div class="tag-btn">
-        <wmui-button className="wmui-btn-primary" @click.native="edit">确认修改</wmui-button>
-      </div>
-    </wmui-dialog>
-  </div>
+    <div class="admin-tags container-admin">
+        <i-modal
+            v-model="modal"
+            @on-ok="handleOk"
+        >
+            <p slot="header">标签</p>
+            <div v-if="modal">
+                <i-form
+                    :model="tag"
+                    :label-width="100"
+                    :rules="rules"
+                    ref="form"
+                >
+                    <i-form-item
+                        label="标签名："
+                        prop="name"
+                    >
+                        <i-input
+                            v-model="tag.name"
+                            @on-enter="handleOk"
+                        ></i-input>
+                    </i-form-item>
+                </i-form>
+            </div>
+        </i-modal>
+        <i-button
+            type="primary"
+            @click="handlePost"
+            style="margin-bottom: 15px"
+        >添加标签</i-button>
+        <i-table
+            border
+            :columns="columns"
+            :data="tags"
+        >
+            <template
+                slot="name"
+                slot-scope="{row}"
+            >
+                <a @click="handleLink(row.id)">{{ row.name}}</a>
+            </template>
+            <template
+                slot="operation"
+                slot-scope="{row}"
+            >
+                <i-poptip
+                    confirm
+                    @on-ok="handleDelete(row)"
+                    title="确定删除吗"
+                >
+                    <i-button size="small">删除</i-button>
+                </i-poptip>
+                <i-button
+                    size="small"
+                    @click="handlePatch(row)"
+                >编辑</i-button>
+            </template>
+        </i-table>
+    </div>
 </template>
 <script>
-export default {
-  middleware: 'auth',
-  data() {
-    return {
-      tag: {
-        isShow: true
-      },
-      tags: [],
-      isEdit: false
-    }
-  },
-  mounted() {
-    this.$store.dispatch('TAGS').then((data) => {
-      this.tags = data.data
-    })
-  },
-  head() {
-    return {
-      title: '修改标签 - ' + this.$store.state.user.nickname
-    }
-  },
-  methods: {
-    delTag(tag) {
-      let _self = this
-      this.$Modal.confirm({
-        title: '确定删除该标签吗？',
-        text: '仅删除标签，不会影响到标签下的文章',
-        onConfirm(instance) {
-          _self.$store.dispatch('DELETE_TAG', tag.id).then((data) => {
-            if (data.success) {
-              _self.$Toast({ text: '标签已删除' })
-              _self.$store.dispatch('TAGS').then((data) => {
-                _self.tags = data.data
-              })
-            }
-          })
-          instance.open = false
-        },
-        onCancel(instance) {
-          instance.open = false
-        }
-      })
-    },
-    editTag(tag) {
-      this.isEdit = true
-      this.tag = tag
-    },
-    edit() {
-      this.isEdit = false
-      this.$store.dispatch('UPDATE_TAG', this.tag).then((data) => {
-        if (data.success) {
-          this.$Toast({ text: '标签已更新' })
-          this.$store.dispatch('TAGS').then((data) => {
-            this.tags = data.data
-          })
-        }
-      })
-    }
-  }
-}
+import { mapState, mapActions } from 'vuex'
 
+export default {
+    name: 'AdminTags',
+    layout: 'admin',
+    middleware: 'admin',
+    data() {
+        return {
+            modal: false,
+            tag: {},
+            id: this.$route.params.id,
+            columns: [
+                {
+                    title: '名称',
+                    slot: 'name',
+                },
+                {
+                    title: '创建日期',
+                    render: (h, { row }) => h('p', this.$Moment(row.createdAt).format('YYYY年MM月DD日')),
+                },
+                {
+                    title: '操作',
+                    slot: 'operation',
+                },
+            ],
+            rules: {
+                name: [
+                    {
+                        required: true,
+                        trigger: 'blur',
+                        message: '必填项',
+                    },
+                ],
+            },
+        }
+    },
+    computed: {
+        ...mapState('tag', [
+            'tags',
+        ]),
+    },
+    mounted() {
+        this.setDefault()
+        this.getTags()
+    },
+    methods: {
+        ...mapActions('tag', [
+            'postTag',
+            'deleteTag',
+            'patchTag',
+            'getTags',
+        ]),
+        setDefault() {
+            this.tag = {
+                id: '',
+                name: '',
+            }
+        },
+        handleLink(id) {
+            this.$store.commit('article/setArticlesNull')
+            this.$router.push(`/tags/${id}`)
+        },
+        handleOk() {
+            this.$refs.form.validate(async (valid) => {
+                if (valid) {
+                    if (this.tag.id) {
+                        await this.patchTag(this.tag)
+                    } else {
+                        await this.postTag(this.tag)
+                    }
+                    this.modal = false
+                    this.getTags()
+                }
+            })
+        },
+        async handlePost() {
+            this.modal = true
+            this.setDefault()
+        },
+        async handleDelete(row) {
+            await this.deleteTag(row.id)
+            this.getTags()
+        },
+        handlePatch(row) {
+            this.modal = true
+            this.tag = {
+                ...row,
+            }
+        },
+    },
+}
 </script>

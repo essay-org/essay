@@ -95,3 +95,6 @@ server/public/video/*
 
 logs/*
 !logs/.gitkeep
+
+server/config/*
+!server/config/.gitkeep

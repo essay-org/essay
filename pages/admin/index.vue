@@ -42,23 +42,8 @@
                 </i-form-item>
             </i-form>
         </i-modal>
-        <div class="admin__data">
-            <div>
-                <span>{{ total }}</span>
-                <p>文章数</p>
-            </div>
-            <div>
-                <span>{{ comments.length }}</span>
-                <p>评论数</p>
-            </div>
-            <div>
-                <span>{{ users.length }}</span>
-                <p>用户数</p>
-            </div>
-        </div>
-        <i-divider dashed />
         <div class="admin__link">
-            <a @click="goHome">
+            <a @click="$router.push('/')">
                 <i-icon
                     type="md-home"
                     :size="30"
@@ -100,6 +85,16 @@
                 <p>系统信息</p>
             </a>
         </div>
+        <i-divider dashed />
+        <div class="admin__link">
+            <a @click="handleDataup">
+                <i-icon
+                    type="md-cloud-download"
+                    :size="30"
+                />
+                <p>数据备份</p>
+            </a>
+        </div>
     </div>
 </template>
 <script>
@@ -117,27 +112,16 @@ export default {
     },
     methods: {
         ...mapActions('tool', ['getSystem']),
-        ...mapActions('user', ['getUsers']),
-        ...mapActions('article', ['getArticles']),
-        ...mapActions('comment', ['getComments']),
-
-        goHome() {
-            this.$store.commit('article/setArticlesNull')
-            this.$router.push('/')
+        handleDataup() {
+            window.open('/api/backup')
         },
     },
     computed: {
         ...mapState('tool', ['system']),
         ...mapState('global', ['domain']),
-        ...mapState('user', ['users']),
-        ...mapState('article', ['total']),
-        ...mapState('comment', ['comments']),
     },
     mounted() {
         this.getSystem()
-        this.getArticles()
-        this.getUsers()
-        this.getComments()
     },
 }
 </script>

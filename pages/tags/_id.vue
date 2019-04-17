@@ -10,27 +10,19 @@ export default {
     name: 'TagsId',
     async fetch({ store, route, error }) {
         const { article } = store.state
-
-        if (article.articles.length === 0) {
-            await Promise.all([
-                store.dispatch('article/getArticles', { tagId: route.params.id, page: 1 }).catch((err) => {
-                    error({ statusCode: 404 })
-                }),
-                store.dispatch('tag/getTags', route.params.id).catch((err) => {
-                    error({ statusCode: 404 })
-                })])
-        }
+        store.commit('article/setArticlesNull')
+        await Promise.all([
+            store.dispatch('article/getArticles', { tagId: route.params.id, page: 1 }).catch((err) => {
+                error({ statusCode: 404 })
+            }),
+            store.dispatch('tag/getTags', route.params.id).catch((err) => {
+                error({ statusCode: 404 })
+            })])
     },
     head() {
         return {
             title: `${this.tagName} - ${this.siteName}`,
         }
-    },
-    beforeRouteLeave(to, from, next) {
-        if (to.name !== 'posts-id') {
-            this.$store.commit('article/setArticlesNull')
-        }
-        next()
     },
     data() {
         return {
@@ -48,9 +40,6 @@ export default {
             const tag = this.tags.find(i => i.id === this.$route.params.id)
             return tag ? tag.name : '标签'
         },
-    },
-    methods: {
-        ...mapMutations('article', ['setRouterName']),
     },
 }
 </script>

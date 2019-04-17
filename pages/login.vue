@@ -69,7 +69,6 @@ export default {
         ...mapActions('user', [
             'login',
         ]),
-        ...mapMutations('article', ['setRouterName']),
         log() {
             this.$refs.form.validate(async (valid) => {
                 if (valid) {

@@ -26,8 +26,7 @@ router
         article.patchArticle)
     .patch('/article-likes/:id',
         check.auth('token'),
-        check.role('superAdmin'),
-        article.patchArticleLikes)
+        article.patchArticleLikes) // 任何人都可以点赞
     .delete('/article/:id',
         check.auth('token'),
         check.role('superAdmin'),

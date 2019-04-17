@@ -16,10 +16,11 @@ exports.img = async (req, res, next) => {
                 if (err) {
                     reject(err)
                 }
-                const lastItem = files[Object.keys(files)[Object.keys(files).length - 1]]
+                const filename = Object.keys(files)[0]
+                const lastItem = files[filename]
 
                 // 获取文件后缀名
-                const extname = Date.now() + path.extname(lastItem.name)
+                const extname = Date.now() + path.extname(filename)
                 const oldUrl = lastItem.path
                 const newUrl = path.join(path.resolve(__dirname, '../../public/picture/'), extname)
 

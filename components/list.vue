@@ -14,6 +14,7 @@
                 >
                     <h2 class="article__title">
                         <nuxt-link
+                            target="_blank"
                             class="title_link"
                             :to="'/posts/' + article.id"
                             v-text="article.title"
@@ -58,7 +59,12 @@ export default {
             isLast: false,
         }
     },
-
+    beforeRouteLeave(to, from, next) {
+        if (to.name !== 'posts-id') {
+            this.$store.commit('article/setArticlesNull')
+        }
+        next()
+    },
     directives: {
         scroll: {
             bind(el, binding) {

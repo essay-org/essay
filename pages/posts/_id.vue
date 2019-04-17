@@ -6,12 +6,12 @@
             class="posts-tags"
             v-if="article.tags.length"
         >
-            <a
+            <nuxt-link
                 class="tags"
                 v-for="(tag, index) in article.tags"
                 :key="index"
-                @click="handleTag(tag.id)"
-            ># {{ tag.name }}</a>
+                :to="`/tags/${tag.id}`"
+            ># {{ tag.name }}</nuxt-link>
         </p>
         <div class="posts-admin">
             <p>
@@ -19,10 +19,10 @@
             </p>
             <p> 更新于{{ $Moment(article.updatedAt).format('YYYY年MM月DD日') }}</p>
             <p> 浏览{{ article.views }}次</p>
-            <p><a
-                    @click="handleCategory(article.category.id)"
+            <p><nuxt-link
+                    :to="`/categories/${article.category.id}`"
                     v-if="article.category.name"
-                >{{ article.category.name }}</a></p>
+                >{{ article.category.name }}</nuxt-link></p>
             <p><a @click="handleLike">{{ likeText }}</a></p>
             <div
                 class="admin-edit"
@@ -53,9 +53,7 @@ export default {
     async fetch({
         store, route, req, res, error,
     }) {
-        await Promise.all([
-            store.dispatch('article/getArticle', route.params.id).catch(err => error({ statusCode: 404 })),
-        ])
+        await store.dispatch('article/getArticle', route.params.id).catch(err => error({ statusCode: 404 }))
     },
 
     head() {
@@ -108,14 +106,6 @@ export default {
             }
             await this.patchArticleLikes(this.article.id)
             await this.getArticle(this.article.id)
-        },
-        handleTag(id) {
-            this.setArticlesNull()
-            this.$router.push(`/tags/${id}`)
-        },
-        handleCategory(id) {
-            this.setArticlesNull()
-            this.$router.push(`/categories/${id}`)
         },
     },
 }

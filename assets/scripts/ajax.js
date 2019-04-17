@@ -14,7 +14,7 @@ ajax.interceptors.response.use((response) => {
     const {
         data,
     } = response
-    if (data.success === false && !isServer) {
+    if (data && !isServer && data.success === false) {
         Vue.prototype.$Message.error({
             content: data.message,
         })

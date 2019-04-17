@@ -28,16 +28,9 @@ export default {
         ...mapActions('article', ['getDrafts']),
         ...mapMutations('article', ['setArticlesNull']),
     },
-    beforeRouteLeave(to, from, next) {
-        if (to.name !== 'posts-id') {
-            this.$store.commit('article/setArticlesNull')
-        }
-        next()
-    },
     mounted() {
-        if (this.articles.length === 0) {
-            this.getDrafts(this.query)
-        }
+        this.setArticlesNull()
+        this.getDrafts(this.query)
     },
 }
 </script>

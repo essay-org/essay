@@ -1,6 +1,6 @@
 {
   "name": "essay",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A blog system",
   "author": "wmui",
   "private": false,
@@ -15,7 +15,9 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/google-analytics": "^2.2.0",
     "@nuxtjs/pwa": "^3.0.0-beta.14",
+    "archiver": "^3.0.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
@@ -32,7 +34,10 @@
     "moment": "^2.23.0",
     "mongoose": "^5.4.2",
     "nodemailer": "^5.1.1",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "qr-image": "^3.2.0",
+    "shelljs": "^0.8.3",
+    "trek-captcha": "^0.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

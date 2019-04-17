@@ -67,6 +67,8 @@ const UserSchema = new Schema({
             ret.id = ret._id
             delete ret._id
             delete ret.password
+            delete ret.createdAt
+            delete ret.updatedAt
         },
     },
     minimize: false,

@@ -75,7 +75,7 @@ exports.getArticles = async (req, res, next) => {
         })
             .populate({
                 path: 'category',
-                select: 'id name',
+                select: 'id name isShow',
             })
             .populate({
                 path: 'tags',
@@ -92,9 +92,16 @@ exports.getArticles = async (req, res, next) => {
             })
             .exec()
 
+
+        let arts = JSON.parse(JSON.stringify(data))
+
+        // 私有分类下的文章不能被检索
+        if (keywords) {
+            arts = arts.filter(i => i.category.isShow !== false)
+        }
         res.json({
             success: true,
-            data,
+            data: arts,
             total,
         })
     } catch (error) {

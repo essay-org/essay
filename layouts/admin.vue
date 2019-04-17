@@ -73,10 +73,6 @@ export default {
                     name: 'admin-comments',
                 },
                 // {
-                //     text: '数据备份',
-                //     name: 'admin-data',
-                // },
-                // {
                 //     text: '插件列表',
                 //     name: 'admin-plugins',
                 // },

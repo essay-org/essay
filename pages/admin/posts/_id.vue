@@ -53,7 +53,7 @@
                     v-model="articleTmp.category"
                     @on-change="handleChange"
                     clearable
-                    placeholder="选择分类"
+                    placeholder="添加分类"
                     style="margin: 20px auto"
                 >
                     <i-option
@@ -155,20 +155,12 @@ export default {
         },
         handleChange(id) {
             this.articleTmp.tags = []
-            // 根据分类取标签
+            // 默认状态
+            this.articleTmp.isRecommend = false
+            this.articleTmp.enableComment = true
+            // 分类是否公开
             const obj = this.categories.find(item => item.id === id)
-
-            if (obj) {
-                // 私有分类下文章不允许推荐和评论
-                this.articleTmp.isRecommend = obj.isShow
-                this.articleTmp.enableComment = obj.isShow
-                this.isShow = obj.isShow
-            } else {
-                // 默认状态
-                this.isShow = true
-                this.articleTmp.isRecommend = false
-                this.articleTmp.enableComment = true
-            }
+            this.isShow = obj && obj.isShow
         },
         setDefault() {
             this.articleTmp = {
@@ -274,6 +266,9 @@ export default {
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+    }
+    .editor-edit {
+        margin-bottom: 20px;
     }
 }
 </style>

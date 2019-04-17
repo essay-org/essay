@@ -52,7 +52,7 @@
                 slot="name"
                 slot-scope="{row}"
             >
-                <a @click="handleLink(row.id)">{{ row.name}}</a>
+                <nuxt-link :to="`/categories/${id}`">{{ row.name}}</nuxt-link>
             </template>
             <template
                 slot="operation"
@@ -141,10 +141,6 @@ export default {
                 description: '',
                 isShow: true,
             }
-        },
-        handleLink(id) {
-            this.$store.commit('article/setArticlesNull')
-            this.$router.push(`/categories/${id}`)
         },
         handleOk() {
             this.$refs.form.validate(async (valid) => {

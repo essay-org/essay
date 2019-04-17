@@ -19,12 +19,6 @@ export default {
             title: `${this.$route.params.id} - ${this.siteName}`,
         }
     },
-    beforeRouteLeave(to, from, next) {
-        if (to.name !== 'posts-id') {
-            this.$store.commit('article/setArticlesNull')
-        }
-        next()
-    },
     computed: {
         ...mapState('article', ['total']),
         ...mapState('global', ['siteName']),

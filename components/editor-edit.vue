@@ -133,6 +133,10 @@ export default {
             type: Boolean,
             default: true,
         },
+        maxSize: {
+            type: Number,
+            default: 300 * 1024, // 当图片大大于300kb，自动压缩
+        },
     },
     data() {
         return {
@@ -151,20 +155,20 @@ export default {
             showContent: true,
             showPreview: true,
             statusMessage: {
-                type: '', text: '', timeout: 0, show: false,
+                type: '',
+                text: '',
+                timeout: 0,
+                show: false,
             },
         }
     },
     mounted() {
         this.uploadOpt = { ...this.uploadOpt, ...this.upload }
-        // console.log(this.uploadOpt)
         // this.value接收v-model中的值
         this.content = this.value
         // 保存一条历史记录
         this.history.push(this.content)
-        if (!this.preview) {
-            this.showPreview = false
-        }
+        this.showPreview = this.preview
     },
     watch: {
         value(value) {
@@ -190,8 +194,7 @@ export default {
     },
     computed: {
         realHeight() {
-            if (this.isFullScreen) return '100%'
-            return this.height
+            return this.isFullScreen ? '100%' : this.height
         },
         // ctrl+z
         canUndo() {
@@ -211,10 +214,8 @@ export default {
                     const item = items[key]
                     // 如果是图片
                     if (item.kind === 'file') {
-                        const blob = item.getAsFile()
-                        const fileData = new window.FormData()
-                        fileData.append(this.uploadOpt.name, blob)
-                        this.uploadFormData(fileData)
+                        const file = item.getAsFile()
+                        this.fileParam(file)
                     }
                 }
             }
@@ -348,23 +349,111 @@ export default {
         uploadClick() {
             this.$refs.upload.click()
         },
+        fileParam(file) {
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = () => {
+                let img = new Image()
+                img.src = reader.result
+                if (reader.result.length <= this.maxSize) {
+                    this.uploadFormData(reader.result, file)
+                    img = null
+                } else {
+                    // 进行压缩
+                    img.onload = () => {
+                        const data = this.compress(img)
+                        this.uploadFormData(data, file)
+                        img = null
+                    }
+                }
+            }
+        },
         fileUpload() {
             if (isServer) return
             const input = this.$refs.upload
-            const upload = this.$emit('custom-upload', input)
-            if (upload === false) return
-            if (input.files.length) {
-                const fileData = new window.FormData()
-                fileData.append(input.name, input.files[0])
-                this.uploadFormData(fileData)
-            }
+            const upload = this.$emit('on-upload', input)
+            if (upload === false || !input.files.length) return
+            this.fileParam(input.files[0])
         },
-        uploadFormData(formData) {
+        compress(img) {
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
+            const { maxSize } = this
+            //    瓦片canvas
+            const tCanvas = document.createElement('canvas')
+            const tctx = tCanvas.getContext('2d')
+            const initSize = img.src.length
+            let { width, height } = img
+
+            // 如果图片大于四百万像素，计算压缩比并将大小压至400万以下
+            let ratio = width * height / 4000000
+            if (ratio > 1) {
+                ratio = Math.sqrt(ratio)
+                width /= ratio
+                height /= ratio
+            } else {
+                ratio = 1
+            }
+            canvas.width = width
+            canvas.height = height
+
+            // 铺底色
+            ctx.fillStyle = '#fff'
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+            // 如果图片像素大于100万则使用瓦片绘制
+            let count = width * height / 1000000
+            if (count > 1) {
+                count = Math.floor(Math.sqrt(count)) + 1 // 计算要分成多少块瓦片
+
+                // 计算每块瓦片的宽和高
+                const nw = width / count
+                const nh = height / count
+
+                tCanvas.width = nw
+                tCanvas.height = nh
+
+                for (let i = 0; i < count; i++) {
+                    for (let j = 0; j < count; j++) {
+                        tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh)
+
+                        ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh)
+                    }
+                }
+            } else {
+                ctx.drawImage(img, 0, 0, width, height)
+            }
+
+            // 动态计算压缩比，压缩到最接近 maxsize的状态
+            const range = +(maxSize / initSize).toFixed(1)
+            const ndata = canvas.toDataURL('image/jpeg', range)
+
+            tCanvas.width = 0
+            tCanvas.height = 0
+            canvas.width = 0
+            canvas.height = 0
+
+            return ndata
+        },
+        dataURItoBlob(dataURI) {
+            const binary = atob(dataURI.split(',')[1])
+            const array = []
+            for (let i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i))
+            }
+            return new Blob([new Uint8Array(array)], {
+                type: 'image/jpeg',
+            })
+        },
+        uploadFormData(baseStr, file) {
             if (isServer) return
             if (!this.uploadOpt.url) {
                 this.error('请先配置上传路径')
                 return
             }
+            const blob = this.dataURItoBlob(baseStr)
+            const formdata = new FormData()
+            formdata.append(file.name, blob)
             const xhr = new window.XMLHttpRequest()
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
@@ -399,7 +488,7 @@ export default {
                     xhr.setRequestHeader(k, this.uploadOpt.headers[k])
                 })
             }
-            xhr.send(formData)
+            xhr.send(formdata)
         },
 
         // 内容发生变化，执行

@@ -1,13 +1,12 @@
 const configApp = require('./server/config')
 
 // 需要前后端共享的数据，添加到环境变量
-process.env.DOMAIN = configApp.app.domain
-process.env.SITE_NAME = configApp.app.siteName
+// process.env.DOMAIN = configApp.app.domain
+// process.env.SITE_NAME = configApp.app.siteName
 
 module.exports = {
-    /*
-     ** Headers of the page
-     */
+    mode: 'universal',
+    modern: true,
     head: {
         meta: [
             {
@@ -25,7 +24,7 @@ module.exports = {
             {
                 rel: 'icon',
                 type: 'image/x-icon',
-                href: 'favicon.ico',
+                href: '/favicon.ico',
             }, {
                 rel: 'alternate',
                 type: 'application/rss+xml',
@@ -34,30 +33,10 @@ module.exports = {
             },
         ],
     },
-    manifest: {
-        name: 'Essay',
-        short_name: 'Essay',
-        display: 'standalone',
-        background_color: '#f3f3f3',
-        theme_color: '#64B888',
-        description: 'A blog system',
-    },
-    modules: ['@nuxtjs/pwa'],
-    /*
-     ** Customize the progress-bar color
-     */
     loading: {
         color: '#64B888',
     },
-
-    /*
-     ** Global CSS
-     */
     css: ['~/assets/styles/main.less'],
-
-    /*
-     ** Plugins to load before mounting the App
-     */
     plugins: [
         {
             src: '~/plugins/iview',
@@ -76,15 +55,12 @@ module.exports = {
             ssr: true,
         },
     ],
-
-    /*
-     ** Nuxt.js modules
-     */
-    modules: [],
-
-    /*
-     ** Build configuration
-     */
+    modules: [
+        '@nuxtjs/pwa',
+        ['@nuxtjs/google-analytics', {
+            id: 'UA-125551361-1',
+        }],
+    ],
     build: {
         /*
          ** You can extend webpack config here
@@ -114,5 +90,17 @@ module.exports = {
                 })
             }
         },
+    },
+    manifest: {
+        name: 'Essay',
+        short_name: 'Essay',
+        display: 'standalone',
+        background_color: '#f3f3f3',
+        theme_color: '#64B888',
+        description: 'A blog system',
+    },
+    env: {
+        DOMAIN: configApp.app.domain,
+        SITE_NAME: configApp.app.siteName,
     },
 }

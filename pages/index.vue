@@ -10,15 +10,8 @@ export default {
     name: 'Index',
     async fetch({ store, route }) {
         const { article } = store.state
-        if (article.articles.length === 0) {
-            await store.dispatch('article/getArticles', { page: 1 })
-        }
-    },
-    beforeRouteLeave(to, from, next) {
-        if (to.name !== 'posts-id') {
-            this.$store.commit('article/setArticlesNull')
-        }
-        next()
+        store.commit('article/setArticlesNull')
+        await store.dispatch('article/getArticles', { page: 1 })
     },
 }
 </script>

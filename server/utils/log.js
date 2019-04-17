@@ -33,7 +33,7 @@ const bunyanConfig = {
     {
         type: 'rotating-file',
         level: 'error',
-        path: path.join(path.resolve(__dirname, '../logs/'), `${env}-error.log`),
+        path: path.join(path.resolve(__dirname, '../../logs/'), `${env}-error.log`),
         period: '1d',
         count: 7,
     },

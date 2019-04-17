@@ -17,19 +17,12 @@ import { mapState } from 'vuex'
 export default {
     name: 'TagsIndex',
     async fetch({ store }) {
-        const { tag } = store.state
-        if (tag.tags.length === 0) {
-            await store.dispatch('tag/getTags')
-        }
+        await store.dispatch('tag/getTags')
     },
     head() {
         return {
             title: `标签列表 - ${this.siteName}`,
         }
-    },
-    beforeRouteLeave(to, from, next) {
-        this.$store.commit('article/setArticlesNull')
-        next()
     },
     computed: {
         ...mapState('tag', ['tags']),

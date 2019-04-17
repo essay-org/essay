@@ -89,5 +89,4 @@ export const state = () => ({
     total: 0,
     limit: 15,
     article: {},
-    keywords: '',
 })

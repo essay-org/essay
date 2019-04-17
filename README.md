@@ -12,8 +12,6 @@
 
 > Essay - 简约而不简单的博客系统
 
-<a href="https://www.86886.wang/posts/5ca9d0b2277e7f71cc4e2caa" target="_blank">快速了解 Essay</a>
-
 ### 功能特性
 
 - 支持服务端渲染

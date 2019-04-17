@@ -48,10 +48,6 @@ export default {
             query: { likeId: this.$route.params.id, page: 1 },
         }
     },
-    beforeRouteLeave(to, from, next) {
-        this.$store.commit('article/setArticlesNull')
-        next()
-    },
     computed: {
         ...mapState('user', ['otherUser']),
         ...mapState('global', ['siteName']),

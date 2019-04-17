@@ -10,13 +10,13 @@ export default {
     name: 'CategoriesId',
     async fetch({ store, route, error }) {
         const { article } = store.state
-
-        if (article.articles.length === 0) {
-            await Promise.all([
-                store.dispatch('article/getArticles', { categoryId: route.params.id, page: 1 }).catch(err => error({ statusCode: 404 })),
-                // store.dispatch('category/getCategory', route.params.id).catch(err => error({ statusCode: 404 })),
-            ])
-        }
+        store.commit('article/setArticlesNull')
+        await Promise.all([
+            store.dispatch('article/getArticles', { categoryId: route.params.id, page: 1 }).catch(err => error({ statusCode: 404 })),
+            store.dispatch('category/getCategory', route.params.id).catch((err) => {
+                error({ statusCode: 404 })
+            }),
+        ])
     },
     head() {
         return {
@@ -34,12 +34,6 @@ export default {
                 },
             ],
         }
-    },
-    beforeRouteLeave(to, from, next) {
-        if (to.name !== 'posts-id') {
-            this.$store.commit('article/setArticlesNull')
-        }
-        next()
     },
     data() {
         return {

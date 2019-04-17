@@ -17,19 +17,12 @@ export default {
     async fetch({
         store, route, req, res,
     }) {
-        const { category } = store.state
-        if (category.categories.length === 0) {
-            await store.dispatch('category/getCategories')
-        }
+        await store.dispatch('category/getCategories')
     },
     head() {
         return {
             title: `分类列表 - ${this.siteName}`,
         }
-    },
-    beforeRouteLeave(to, from, next) {
-        this.$store.commit('article/setArticlesNull')
-        next()
     },
     computed: {
         ...mapState('category', [

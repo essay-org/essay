@@ -1,12 +1,11 @@
 const configApp = require('./server/config')
 
 // 需要前后端共享的数据，添加到环境变量
-// process.env.DOMAIN = configApp.app.domain
-// process.env.SITE_NAME = configApp.app.siteName
+process.env.DOMAIN = configApp.app.domain
+process.env.SITE_NAME = configApp.app.siteName
 
 module.exports = {
     mode: 'universal',
-    modern: true,
     head: {
         meta: [
             {
@@ -98,9 +97,5 @@ module.exports = {
         background_color: '#f3f3f3',
         theme_color: '#64B888',
         description: 'A blog system',
-    },
-    env: {
-        DOMAIN: configApp.app.domain,
-        SITE_NAME: configApp.app.siteName,
     },
 }

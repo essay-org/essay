@@ -53,6 +53,7 @@ exports.postUser = async (req, res, nest) => {
 
 exports.login = async (req, res, next) => {
     const { body } = req
+    console.log(res.locals.cookieDomain)
     try {
         const user = await User.findOne(body).exec()
         if (user) {

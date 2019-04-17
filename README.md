@@ -47,7 +47,7 @@ $ npm run dev # 访问 http://127.0.0.1:3025
 
 ### 配置说明
 
-配置文件在`server/config`目录下，分为测试环境、开发环境和正式环境
+配置文件在`server/config`目录下，它涵盖了全局所有配置信息
 
 
 ```js
@@ -90,7 +90,7 @@ module.exports = {
     pm2: {
         host: '116.196.17.78',
         repo: 'git@github.com:wmui/essay.git',
-        path: '/root/blog',
+        path: '/root/essay',
     },
 }
 ```
@@ -114,6 +114,12 @@ $ npm run build
 
 pm2 start npm --name "Essay" -- start # pm2 启动
 ```
+
+### 交流圈
+
+你在学习这个开源项目的过程中，遇到了任何问题，或是有好的建议，都欢迎加入下方的微信交流群（不仅限于技术交流哦）
+
+<img src="./static/essay.png">
 
 ### 开源协议
 

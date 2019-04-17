@@ -119,7 +119,7 @@ pm2 start npm --name "Essay" -- start # pm2 启动
 
 你在学习这个开源项目的过程中，遇到了任何问题，或是有好的建议，都欢迎加入下方的微信交流群（不仅限于技术交流哦）
 
-<img src="./static/essay.png">
+<img src="./static/essay.png" width="300px">
 
 ### 开源协议
 

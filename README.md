@@ -4,57 +4,56 @@
 
 <p align="center">
 <a href="https://travis-ci.org/wmui/essay"><img src="https://travis-ci.org/wmui/essay.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/wmui/vueblog"><img src="https://img.shields.io/badge/node-%3E%3D8.12.0-orange.svg" alt="Version"></a>
+<a href="https://github.com/wmui/essay"><img src="https://img.shields.io/badge/node-%3E%3D8.12.0-orange.svg" alt="Version"></a>
 <a href="https://github.com/wmui/essay"><img src="https://img.shields.io/badge/license-AGPL-blue.svg" alt="License"></a>
 </p>
 
-<p align="center"><a href="https://www.86886.wang" target="_blank">演示站</a></p>
+<p align="center"><a href="https://www.86886.wang" target="_blank">Demo Site</a></p>
 
-> Essay - 简约而不简单的博客系统
+> Essay - Simple but not simple blog system
 
-### 功能特性
+### Features
 
-- 支持服务端渲染
-- PWA渐进式web应用
-- 轻量级Markdown编辑器
-- 支持标签、分类、搜索、单页、评论、邮件通知、草稿箱等功能
+- Support server rendering.
+- Progressive Web Apps.
+- Lightweight Markdown editor based on VueJS.
+- Support Tag, Category, Search, Page, Comment, Email notification and Draft box.
 
 
-### 运行
+### Bootstrap
 
-#### 启动数据库
+#### Run MongoDB
 
-首先安装[MongoDB](https://www.mongodb.com/download-center?jmp=nav#community)数据库和[Node.js](https://nodejs.org/en/)环境，然后启动数据库
+Please install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/), then start the database.
 
 ```bash
-# yourDBpath 表示你自定义的数据库目录，任意位置皆可
+# yourDBpath is your DB folder(Any position)
 $ sudo mongod --dbpath yourDBpath
 ```
 
-#### 运行项目
+#### Run Essay
 
 ```bash
 $ git clone https://github.com/wmui/essay
 
 $ cd essay
 
-$ yarn # 
+$ yarn
 
-$ npm run dev # 访问 http://127.0.0.1:3025
+$ npm run dev # Visit http://127.0.0.1:3025
 ```
 
-**注意:** 不要用`localhost`访问，因为cookie的domain只支持了 `127.0.0.1`
+**Tips:** Do not use `localhost` visit the project, because of cookie is domain only support `127.0.0.1`.
 
-### 配置说明
+### Global Config
 
-配置文件在`server/config`目录下，它涵盖了全局所有配置信息
-
+Global config file is `server/config/index.js`, the default configuration like this
 
 ```js
 module.exports = {
     mongodb: {
         host: '127.0.0.1',
-        database: 'essay_dev',
+        database: 'essay',
         port: 27017,
         user: '',
         pass: '',
@@ -63,30 +62,30 @@ module.exports = {
         domain: 'http://127.0.0.1:3025',
         siteName: 'Essay',
     },
-    // 管理员信息，仅初始化一次
+    // Init admin information
     admin: {
         user: 'admin',
         pass: '123456',
         email: 'qq22337383@gmail.com',
     },
-    // 如果要上线记得修改 secret，确保安全性
+    // Secret is very important, please remember to modify it.
     jwt: {
         expiresIn: 365 * 86400,
         secret: 'essay',
     },
-    // 如果要发送通知邮件，需要配置 SMTP 服务
+    // If you want to send Email when received a comment, please config SMTP Server.
     email: {
         host: 'smtp.qq.com',
         user: '22337383@qq.com',
         pass: '',
     },
-    // 如果需要支持 GitHub 登录，需要配置 clientID 和 secret
+    // If you want to support GitHub login，please config clientID and secret.
     github: {
         id: '9588f02db3f89d176f36',
         secret: '10f4f1daa81764664fafb2e50be2c6985ef139f8',
         scope: 'user',
     },
-    // 如果需要支持自动化部署，需要配置服务器 IP，项目repo地址，服务器目录
+    // If you want to support auto deploy，please config Server IP, repo and path.
     pm2: {
         host: '116.196.17.78',
         repo: 'git@github.com:wmui/essay.git',
@@ -95,13 +94,12 @@ module.exports = {
 }
 ```
 
-管理员默认登录邮箱：`qq22337383@gmail.com`，默认密码：`123456`
+Default login email: `qq22337383@gmail.com`
+Default login password: `123456`
 
-### 线上部署
+### Deploy Essay
 
-如果需要部署到线上，可以参考这里[Node项目自动化部署](https://github.com/wmui/web-deploy)
-
-如果感觉自动化部署太麻烦，可以简单部署
+If you want to deploy on production environment, you can do just like this
 
 ```bash
 $ git clone https://github.com/wmui/essay
@@ -112,15 +110,17 @@ $ yarn
 
 $ npm run build
 
-pm2 start npm --name "Essay" -- start # pm2 启动
+$ pm2 start npm --name "Essay" -- start
 ```
 
-### 交流圈
+如果需要自动化部署，可以参考这里[Node项目自动化部署](https://github.com/wmui/web-deploy)
 
-你在学习这个开源项目的过程中，遇到了任何问题，或是有好的建议，都欢迎加入下方的微信交流群（不仅限于技术交流哦）
+### Wechat
 
-<img src="./static/essay.png" width="300px">
+If you love technology or program, hope we can to be friends.
 
-### 开源协议
+<img src="./static/weixin.jpeg" width="300px">
+
+### License
 
 [GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)  

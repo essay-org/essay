@@ -1,16 +1,17 @@
 const mongoose = require('mongoose')
-const config = require('../config')
-require('./user')
-require('./comment')
-require('./media')
-require('./tag')
-require('./category')
-require('./article')
-require('./page')
+const requireAll = require('require-all')
+const path = require('path')
+const globalConfig = require('../config/global.config')
+
+requireAll({
+    dirname: path.join(__dirname, './'),
+    filter: /(.+)\.model\.js$/,
+    recursive: true,
+})
 
 const User = mongoose.model('User')
 const Article = mongoose.model('Article')
-const mongoUrl = `mongodb://${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.database}`
+const mongoUrl = `mongodb://${globalConfig.mongodb.host}:${globalConfig.mongodb.port}/${globalConfig.mongodb.database}`
 
 mongoose.Promise = global.Promise
 mongoose.set('useFindAndModify', false)
@@ -18,8 +19,8 @@ mongoose.connection
     .openUri(mongoUrl, {
         useNewUrlParser: true,
         useCreateIndex: true,
-        user: config.mongodb.user,
-        pass: config.mongodb.pass,
+        user: globalConfig.mongodb.user,
+        pass: globalConfig.mongodb.pass,
     })
     .once('open', async () => {
         let user = await User.findOne({
@@ -30,11 +31,11 @@ mongoose.connection
         if (!user) {
             user = new User({
                 role: 'superAdmin',
-                username: config.admin.user,
-                password: config.admin.pass,
-                email: config.admin.email,
+                username: globalConfig.admin.user,
+                password: globalConfig.admin.pass,
+                email: globalConfig.admin.email,
                 loginMode: 'register',
-                avatar: `${config.app.domain}/public/avatar/default.jpg`,
+                avatar: `${globalConfig.app.domain}/public/avatar/default.jpg`,
             })
 
             const article = new Article({

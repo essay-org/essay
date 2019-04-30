@@ -8,20 +8,40 @@
                 class="list-article"
                 v-scroll="onLoad"
             >
+                <!-- 置顶 -->
+                <li
+                    v-for="(article, index) in articlesTop"
+                    :key="index"
+                >
+                    <nuxt-link
+                        target="_blank"
+                        class="title_link"
+                        :to="'/posts/' + article.id"
+                    >
+                        <h2 class="article__title">
+
+                            <span class="title_top">[置顶]</span>{{ article.title }}
+
+                        </h2>
+                        <p class="article__body">{{ article.content | cutString(150)}}</p>
+                    </nuxt-link>
+                </li>
                 <li
                     v-for="article in articles"
                     :key="article.id"
                 >
-                    <h2 class="article__title">
-                        <nuxt-link
-                            target="_blank"
-                            class="title_link"
-                            :to="'/posts/' + article.id"
-                            v-text="article.title"
-                        >
-                        </nuxt-link>
-                    </h2>
-                    <p class="article__body">{{ article.content | cutString(150)}}</p>
+                    <nuxt-link
+                        target="_blank"
+                        class="title_link"
+                        :to="'/posts/' + article.id"
+                    >
+                        <h2 class="article__title">
+
+                            {{ article.title }}
+
+                        </h2>
+                        <p class="article__body">{{ article.content | cutString(150)}}</p>
+                    </nuxt-link>
                 </li>
             </ul>
             <p
@@ -59,12 +79,6 @@ export default {
             isLast: false,
         }
     },
-    beforeRouteLeave(to, from, next) {
-        if (to.name !== 'posts-id') {
-            this.$store.commit('article/setArticlesNull')
-        }
-        next()
-    },
     directives: {
         scroll: {
             bind(el, binding) {
@@ -87,6 +101,7 @@ export default {
             'articles',
             'total',
             'limit',
+            'articlesTop',
         ]),
         noMoreData() {
             return this.articles.length === this.total || this.total === 0
@@ -144,19 +159,17 @@ export default {
             .article__title {
                 font-size: 20px;
                 font-weight: normal;
-                a {
-                    color: #333;
-                    display: block;
-                    &:hover {
-                        color: @link-color;
-                    }
-                }
-                span {
+                color: #333;
+                .title_top {
                     font-size: 20px;
                     color: @link-color;
                 }
             }
-
+            a:hover {
+                .article__title {
+                    color: @link-color;
+                }
+            }
             .article__body {
                 margin: 10px 0;
                 color: #666;

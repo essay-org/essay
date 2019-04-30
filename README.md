@@ -47,7 +47,7 @@ $ npm run dev # Visit http://127.0.0.1:3025
 
 ### Global Config
 
-Global config file is `server/config/index.js`, the default configuration like this
+Global config file is `server/config/global.config.js`, the default configuration like this
 
 ```js
 module.exports = {
@@ -115,11 +115,9 @@ $ pm2 start npm --name "Essay" -- start
 
 如果需要自动化部署，可以参考这里[Node项目自动化部署](https://github.com/wmui/web-deploy)
 
-### Wechat
+### Join us
 
-If you love technology or program, hope we can to be friends.
-
-<img src="./static/weixin.jpeg" width="300px">
+QQ群：488268810
 
 ### License
 

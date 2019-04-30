@@ -76,10 +76,10 @@ export default {
                 //     text: '插件列表',
                 //     name: 'admin-plugins',
                 // },
-                // {
-                //     text: '媒体库',
-                //     name: 'admin-media',
-                // },
+                {
+                    text: '媒体库',
+                    name: 'admin-mediums',
+                },
                 // {
                 //     text: '设置',
                 //     name: 'admin-settings',

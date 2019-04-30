@@ -20,6 +20,13 @@
                             v-model="tag.name"
                             @on-enter="handleOk"
                         ></i-input>
+
+                    </i-form-item>
+                    <i-form-item label="权重：">
+                        <i-input-number
+                            v-model="tag.sort"
+                            :min="0"
+                        />
                     </i-form-item>
                 </i-form>
             </div>
@@ -30,7 +37,6 @@
             style="margin-bottom: 15px"
         >添加标签</i-button>
         <i-table
-            border
             :columns="columns"
             :data="tags"
         >
@@ -75,13 +81,21 @@ export default {
                 {
                     title: '名称',
                     slot: 'name',
+                    minWidth: 100,
+                },
+                {
+                    title: '权重',
+                    key: 'sort',
+                    minWidth: 100,
                 },
                 {
                     title: '创建日期',
+                    minWidth: 160,
                     render: (h, { row }) => h('p', this.$Moment(row.createdAt).format('YYYY年MM月DD日')),
                 },
                 {
                     title: '操作',
+                    minWidth: 150,
                     slot: 'operation',
                 },
             ],
@@ -116,6 +130,7 @@ export default {
             this.tag = {
                 id: '',
                 name: '',
+                sort: 0,
             }
         },
         handleOk() {

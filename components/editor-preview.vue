@@ -1,6 +1,7 @@
 <template>
     <div
         class="editor-preview markdown-body"
+        v-lazyload
         v-html="html"
     ></div>
 </template>
@@ -16,6 +17,39 @@ const hlJavascript = require('highlight.js/lib/languages/javascript.js')
 const hlJson = require('highlight.js/lib/languages/json.js')
 const hlBash = require('highlight.js/lib/languages/bash.js')
 
+const imgList = []
+
+/**
+ * 节流函数
+ * @param {function} fn 要执行的函数
+ * @param {number} time 节流时间
+ */
+function throttle(method, context) {
+    clearTimeout(method.tId)
+    method.tId = setTimeout(() => {
+        method.call(context)
+    }, 300)
+}
+
+// 判断图片出否出现在可视区
+function isShow(el) {
+    // getBoundingClientRect获取图片相对视口的位置
+    const coords = el.getBoundingClientRect()
+    return coords.top <= document.documentElement.clientHeight
+}
+
+// 当图片出现在可视区域内后，替换掉src属性
+function loadImg() {
+    for (let i = 0, len = imgList.length; i < len; i++) {
+        if (isShow(imgList[i])) {
+            imgList[i].src = imgList[i].getAttribute('data-src')
+        }
+    }
+}
+
+function handleScroll() {
+    throttle(loadImg, window)
+}
 export default {
     name: 'BaseEditorPreview',
     props: {
@@ -48,8 +82,33 @@ export default {
                             a.setAttribute('target', '_blank')
                         })
                     }
+
+                    if (this.$el.querySelectorAll('img')) {
+                        this.$el.querySelectorAll('img').forEach((i) => {
+                            if (!i.complete) {
+                                i.setAttribute('data-src', i.src)
+                                imgList.push(i)
+                                this.getWH(i)
+                            }
+                        })
+                    }
                 })
             }
+        },
+        getWH(imgDom) {
+            let timer = null
+            const check = () => {
+                if (imgDom.width) {
+                    imgDom.setAttribute('data-width', imgDom.width)
+                    imgDom.setAttribute('data-height', imgDom.height)
+                    imgDom.setAttribute('style', `width: ${imgDom.width}px;height: ${imgDom.height}px;background: #eee;`)
+                    imgDom.setAttribute('src', 'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==')
+
+                    // imgDom.setAttribute('src', '/loading.gif')
+                    clearInterval(timer)
+                }
+            }
+            timer = setInterval(check, 30)
         },
     },
     created() {
@@ -72,6 +131,19 @@ export default {
         }
         this.markdownit = markdownIt(options)
         this.renderIt()
+    },
+    directives: {
+        lazyload: {
+            bind(el, binding) {
+                if (!isServer) {
+                    throttle(loadImg, window) // 初始化，第一次进入页面时应该显示的图片
+                    window.addEventListener('scroll', handleScroll, false)
+                }
+            },
+        },
+    },
+    destroyed() {
+        window.removeEventListener('scroll', handleScroll, false)
     },
 }
 </script>

@@ -33,8 +33,6 @@
                 slot-scope="{row}"
             >
                 <i-button
-                    icon="ios-trash"
-                    type="error"
                     size="small"
                     @click="handleDelete(row)"
                     style="margin-right: 15px"
@@ -56,18 +54,23 @@ export default {
             columns: [
                 {
                     title: '评论内容',
+                    minWidth: 200,
                     slot: 'content',
                 },
                 {
                     title: '评论者',
+                    minWidth: 150,
                     slot: 'user',
                 },
                 {
                     title: '所属文章',
+                    minWidth: 150,
+                    ellipsis: true,
                     slot: 'title',
                 },
                 {
                     title: '操作',
+                    minWidth: 100,
                     slot: 'operator',
                 },
             ],

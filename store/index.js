@@ -3,7 +3,7 @@ import ajax from '@/assets/scripts/ajax'
 
 export const actions = {
     async nuxtServerInit({ commit, getters, dispatch }, { req, res }) {
-        await dispatch('page/getPages')
+        await Promise.all([dispatch('page/getPages'), dispatch('global/getSystemConfig')])
         if (req.cookies.token) {
             // init data
             await ajax.get('/user', {

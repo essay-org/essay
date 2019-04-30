@@ -1,6 +1,5 @@
 import ajax from '@/assets/scripts/ajax'
 
-
 export const mutations = {
     setArticles(state, { data, total }) {
         data.forEach((i) => {
@@ -17,6 +16,9 @@ export const mutations = {
     setArticlesNull(state) {
         state.articles = []
         state.total = 0
+    },
+    setArticlesTopNull(state) {
+        state.articlesTop = []
     },
 }
 
@@ -70,6 +72,13 @@ export const actions = {
             value: data,
         })
     },
+    async getArticlesTop({ commit }, id = '') {
+        const { data } = await ajax.get(`/articles-top/${id}`)
+        commit('setData', {
+            key: 'articlesTop',
+            value: data,
+        })
+    },
     async deleteArticle({ commit }, id) {
         return await ajax.delete(`/article/${id}`)
     },
@@ -86,6 +95,7 @@ export const actions = {
 
 export const state = () => ({
     articles: [],
+    articlesTop: [],
     total: 0,
     limit: 15,
     article: {},

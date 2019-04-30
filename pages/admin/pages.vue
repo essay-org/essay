@@ -26,7 +26,6 @@
                         >
                             <i-button
                                 size="small"
-                                type="error"
                             >删除</i-button>
                         </i-poptip>
                         <i-button

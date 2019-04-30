@@ -27,8 +27,13 @@
                             type="textarea"
                         />
                     </i-form-item>
+                    <i-form-item label="权重：">
+                        <i-input-number
+                            v-model="category.sort"
+                            :min="0"
+                        />
+                    </i-form-item>
                     <i-form-item label="状态：">
-                        <!-- 不允许修改 -->
                         <i-checkbox
                             v-model="category.isShow"
                             :disabled="!!category.id"
@@ -44,7 +49,6 @@
         >添加分类</i-button>
 
         <i-table
-            border
             :columns="columns"
             :data="categories"
         >
@@ -52,7 +56,7 @@
                 slot="name"
                 slot-scope="{row}"
             >
-                <nuxt-link :to="`/categories/${id}`">{{ row.name}}</nuxt-link>
+                <nuxt-link :to="`/categories/${row.id}`">{{ row.name}}</nuxt-link>
             </template>
             <template
                 slot="operation"
@@ -87,22 +91,32 @@ export default {
                 {
                     title: '名称',
                     slot: 'name',
+                    minWidth: 100,
                 },
                 {
                     title: '文章数',
                     key: 'total',
+                    minWidth: 100,
+                },
+                {
+                    title: '权重',
+                    key: 'sort',
+                    minWidth: 100,
                 },
                 {
                     title: '状态',
                     render: (h, { row }) => h('span', row.isShow ? '公开' : '私有'),
+                    minWidth: 100,
                 },
                 {
                     title: '创建日期',
                     render: (h, { row }) => h('p', this.$Moment(row.createdAt).format('YYYY年MM月DD日')),
+                    minWidth: 160,
                 },
                 {
                     title: '操作',
                     slot: 'operation',
+                    minWidth: 150,
                 },
             ],
             rules: {
@@ -139,6 +153,7 @@ export default {
                 name: '',
                 keywords: '',
                 description: '',
+                sort: 0,
                 isShow: true,
             }
         },

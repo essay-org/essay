@@ -31,8 +31,10 @@ export const actions = {
         })
     },
     async login({ commit, dispatch }, body) {
-        await ajax.post('/login', body)
-        await dispatch('getUser')
+        const { success } = await ajax.post('/login', body)
+        if (success) {
+            await dispatch('getUser')
+        }
     },
     async logout({ commit }) {
         await ajax.post('/logout')

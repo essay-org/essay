@@ -21,11 +21,11 @@ export const actions = {
             value: data,
         })
     },
-    async postPage({ commit }, page) {
-        return await ajax.post('/page', page)
+    async postPage({ commit }, body) {
+        return await ajax.post('/page', body)
     },
-    async patchPage({ commit }, page) {
-        return await ajax.patch(`/page/${page.id}`, page)
+    async patchPage({ commit }, body) {
+        return await ajax.patch(`/page/${body.id}`, body)
     },
     async deletePage({ commit }, id) {
         return await ajax.delete(`/page/${id}`)

@@ -1,4 +1,4 @@
-const config = require('./server/config')
+const globalConfig = require('./server/config/global.config')
 
 module.exports = {
     apps: [
@@ -17,9 +17,9 @@ module.exports = {
         production: {
             user: 'root',
             ref: 'origin/master',
-            host: config.pm2.host,
-            repo: config.pm2.repo,
-            path: config.pm2.path,
+            host: globalConfig.pm2.host,
+            repo: globalConfig.pm2.repo,
+            path: globalConfig.pm2.path,
             'post-deploy': 'yarn && npm run build && pm2 reload ecosystem.config.js --env production',
         },
     },

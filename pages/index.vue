@@ -11,7 +11,14 @@ export default {
     async fetch({ store, route }) {
         const { article } = store.state
         store.commit('article/setArticlesNull')
-        await store.dispatch('article/getArticles', { page: 1 })
+        await Promise.all([
+            store.dispatch('article/getArticles', { page: 1 }),
+            store.dispatch('article/getArticlesTop'),
+        ])
+    },
+    beforeRouteLeave(to, from, next) {
+        this.$store.commit('article/setArticlesTopNull')
+        next()
     },
 }
 </script>

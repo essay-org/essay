@@ -5,11 +5,11 @@
                 <div style="margin-bottom: 15px">
                     <i-input
                         placeholder="标题"
-                        v-model="articleTmp.title"
+                        v-model="tmp.title"
                     />
                 </div>
                 <base-editor-edit
-                    v-model="articleTmp.content"
+                    v-model="tmp.content"
                     :upload="upload"
                     @save="save(false)"
                 />
@@ -26,9 +26,9 @@
                 >
 
                     <div
-                        v-if="articleTmp.thumbnail"
+                        v-if="tmp.thumbnail"
                         class="posts__label"
-                        :style="{backgroundImage: `url(${articleTmp.thumbnail})`}"
+                        :style="{backgroundImage: `url(${tmp.thumbnail})`}"
                     >
                         <i-icon
                             type="ios-cloud-upload"
@@ -50,7 +50,7 @@
                     </div>
                 </i-upload>
                 <i-select
-                    v-model="articleTmp.category"
+                    v-model="tmp.category"
                     @on-change="handleChange"
                     clearable
                     placeholder="添加分类"
@@ -66,7 +66,7 @@
                     v-if="isShow"
                     multiple
                     filterable
-                    v-model="articleTmp.tags"
+                    v-model="tmp.tags"
                     placeholder="添加标签"
                     style="margin-bottom: 20px"
                 >
@@ -78,16 +78,19 @@
                         {{ item.name }}
                     </i-option>
                 </i-select>
-                <!-- 定时发布 -->
                 <!-- <DatePicker
+                    v-if="id"
                     type="datetime"
+                    :value="new Date(tmp.createdAt)"
                     :options="dateOption"
+                    @on-change="handleDate"
                     placeholder="发布时间"
                     style="margin: 15px 0;display: block;"
                 ></DatePicker> -->
                 <template v-if="isShow">
-                    <i-checkbox v-model="articleTmp.isRecommend">推荐到首页</i-checkbox>
-                    <i-checkbox v-model="articleTmp.enableComment">允许评论</i-checkbox>
+                    <i-checkbox v-model="tmp.isRecommend">推荐到首页</i-checkbox>
+                    <i-checkbox v-model="tmp.enableComment">允许评论</i-checkbox>
+                    <i-checkbox v-model="tmp.isTop">置顶</i-checkbox>
                 </template>
                 <div style="margin-top: 20px">
                     <i-button
@@ -113,14 +116,15 @@ export default {
     layout: 'admin',
     data() {
         return {
-            id: this.$route.params.id,
+            id: this.$route.params.id || this.$route.query.id,
+            newId: '',
             isShow: true,
-            // dateOption: {
-            //     disabledDate(date) {
-            //         return date && date.valueOf() > Date.now()
-            //     },
-            // },
-            articleTmp: {},
+            dateOption: {
+                disabledDate(date) {
+                    return date && date.valueOf() > Date.now()
+                },
+            },
+            tmp: {},
         }
     },
     methods: {
@@ -136,7 +140,7 @@ export default {
             'getTags',
         ]),
         handleSuccess(url) {
-            this.articleTmp.thumbnail = url
+            this.tmp.thumbnail = url
         },
         handleFormatError() {
             this.$Notice.error({
@@ -154,16 +158,17 @@ export default {
             })
         },
         handleChange(id) {
-            this.articleTmp.tags = []
+            this.tmp.tags = []
             // 默认状态
-            this.articleTmp.isRecommend = false
-            this.articleTmp.enableComment = true
+            this.tmp.isRecommend = false
+            this.tmp.enableComment = true
+            this.tmp.isTop = false
             // 分类是否公开
             const obj = this.categories.find(item => item.id === id)
             this.isShow = obj && obj.isShow
         },
         setDefault() {
-            this.articleTmp = {
+            this.tmp = {
                 user: this.user.id,
                 title: '',
                 content: '',
@@ -173,22 +178,29 @@ export default {
                 tags: [],
                 isRecommend: false,
                 enableComment: true,
+                isTop: false,
                 isPublish: false,
             }
         },
         async save(state, isTip = true) {
-            this.articleTmp.isPublish = state
+            this.tmp.isPublish = state
 
-            if (!this.articleTmp.title || !this.articleTmp.content) {
-                this.$Message.error('标题和内容不能为空')
+            if (!this.tmp.content) {
+                this.$Message.error('内容不能为空哦')
                 return
             }
-
             if (this.id) {
-                await this.patchArticle(this.articleTmp)
+                await this.patchArticle(this.tmp)
             } else {
-                const { data } = await this.postArticle(this.articleTmp)
-                this.$router.replace(`/admin/posts/${data.id}`)
+                const { data } = await this.postArticle(this.tmp)
+                this.id = data.id
+                this.tmp.id = data.id
+                this.$router.push({
+                    name: 'admin-posts-id',
+                    query: {
+                        id: data.id,
+                    },
+                })
             }
 
             if (state === true && isTip) {
@@ -238,7 +250,7 @@ export default {
         this.getTags()
         if (this.id) {
             await this.getArticle(this.id)
-            this.articleTmp = {
+            this.tmp = {
                 ...this.article,
                 category: this.article.category.id,
                 tags: this.article.tags.map(i => i.id),
@@ -250,7 +262,7 @@ export default {
     },
     watch: {
         /* eslint-disable func-names */
-        'articleTmp.content': debounce(function (newVal) {
+        'tmp.content': debounce(function (newVal) {
             if (newVal) {
                 // 自动保存成草稿
                 this.save(false, false)

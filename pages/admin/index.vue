@@ -34,67 +34,79 @@
                         target="_blank"
                     >qq22337383@gmail.com</a>
                 </i-form-item>
-                <i-form-item label="QQ：">
-                    <span>22337383</span>
-                </i-form-item>
-                <i-form-item label="微信：">
-                    <span>henanzhijia</span>
+                <i-form-item label="交流群：">
+                    <span>488268810</span>
                 </i-form-item>
             </i-form>
         </i-modal>
         <div class="admin__link">
-            <a @click="$router.push('/')">
-                <i-icon
-                    type="md-home"
-                    :size="30"
-                />
-                <p>博客首页</p>
-            </a>
-            <a
-                href="https://github.com/wmui/essay"
-                target="_blank"
-            >
-                <i-icon
-                    type="logo-github"
-                    :size="30"
-                />
-                <p>GitHub</p>
-            </a>
-            <a
-                href="https://github.com/wmui/essay/wikis"
-                target="_blank"
-            >
-                <i-icon
-                    type="md-help-circle"
-                    :size="30"
-                />
-                <p>API 文档</p>
-            </a>
-            <a @click="showModal2=true">
-                <i-icon
-                    type="md-mail"
-                    :size="30"
-                />
-                <p>联系作者</p>
-            </a>
-            <a @click="showModal=true">
-                <i-icon
-                    type="md-settings"
-                    :size="30"
-                />
-                <p>系统信息</p>
-            </a>
+            <i-row>
+                <i-col :sm="6" :xs="8">
+                    <a @click="$router.push('/')">
+                        <i-icon
+                            type="md-home"
+                            :size="30"
+                        />
+                        <p>博客首页</p>
+                    </a>
+                </i-col>
+                <i-col :sm="6" :xs="8">
+                    <a
+                        href="https://github.com/wmui/essay"
+                        target="_blank"
+                    >
+                        <i-icon
+                            type="logo-github"
+                            :size="30"
+                        />
+                        <p>GitHub</p>
+                    </a>
+                </i-col>
+                <i-col :sm="6" :xs="8">
+                    <a
+                        href="https://github.com/wmui/essay/wikis"
+                        target="_blank"
+                    >
+                        <i-icon
+                            type="md-help-circle"
+                            :size="30"
+                        />
+                        <p>API 文档</p>
+                    </a>
+                </i-col>
+                <i-col :sm="6" :xs="8">
+                    <a @click="showModal2=true">
+                        <i-icon
+                            type="md-mail"
+                            :size="30"
+                        />
+                        <p>联系作者</p>
+                    </a>
+                </i-col>
+                <i-col :sm="6" :xs="8">
+                    <a @click="showModal=true">
+                        <i-icon
+                            type="md-settings"
+                            :size="30"
+                        />
+                        <p>系统信息</p>
+                    </a>
+                </i-col>
+                <i-col :sm="6" :xs="8">
+                    <a @click="handleDataup">
+                        <i-icon
+                            type="md-cloud-download"
+                            :size="30"
+                        />
+                        <p>数据备份</p>
+                    </a>
+                </i-col>
+            </i-row>
         </div>
-        <i-divider dashed />
+        <!-- <i-divider dashed />
         <div class="admin__link">
-            <a @click="handleDataup">
-                <i-icon
-                    type="md-cloud-download"
-                    :size="30"
-                />
-                <p>数据备份</p>
-            </a>
-        </div>
+
+        </div> -->
     </div>
 </template>
 <script>
@@ -127,17 +139,23 @@ export default {
 </script>
 <style lang="less">
 .admin {
-    &__data,
+    // &__data,
+    // &__link {
+    //     display: flex;
+    //     justify-content: space-around;
+    //     text-align: center;
+    // }
+    // &__data {
+    //     margin-top: 30px;
+    //     span {
+    //         font-size: 20px;
+    //         font-weight: bold;
+    //     }
+    // }
     &__link {
-        display: flex;
-        justify-content: space-around;
-        text-align: center;
-    }
-    &__data {
-        margin-top: 30px;
-        span {
-            font-size: 20px;
-            font-weight: bold;
+        .ivu-col {
+            text-align: center;
+            padding: 15px 0;
         }
     }
     .office_qq {

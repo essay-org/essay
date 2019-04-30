@@ -1,8 +1,7 @@
-const configApp = require('./server/config')
+const globalConfig = require('./server/config/global.config')
 
-// 需要前后端共享的数据，添加到环境变量
-process.env.DOMAIN = configApp.app.domain
-process.env.SITE_NAME = configApp.app.siteName
+// 全局域名
+process.env.DOMAIN = globalConfig.app.domain
 
 module.exports = {
     mode: 'universal',

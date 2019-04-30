@@ -6,7 +6,7 @@
                 v-for="(tag, index) in tags"
                 :key="index"
             >
-                <nuxt-link :to="'/tags/'+ tag.id">{{ tag.name }}</nuxt-link>
+                <nuxt-link :to="'/tags/'+ tag.id">{{ tag.name }} ({{ tag.total }})</nuxt-link>
             </li>
         </ul>
     </div>

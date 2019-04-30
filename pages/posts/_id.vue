@@ -39,7 +39,7 @@
             </div>
         </div>
         <base-comment
-            v-if="article.enableComment"
+            v-if="article.enableComment && isConfigGithub"
             ref="comment"
         ></base-comment>
     </div>
@@ -77,7 +77,7 @@ export default {
         ...mapState('article', ['article']),
         ...mapState('comment', ['comments']),
         ...mapState('user', ['user']),
-        ...mapState('global', ['siteName']),
+        ...mapState('global', ['siteName', 'isConfigGithub']),
         isAdmin() {
             return this.user.role === 'superAdmin'
         },

@@ -16,6 +16,9 @@ export default {
             store.dispatch('category/getCategory', route.params.id).catch((err) => {
                 error({ statusCode: 404 })
             }),
+            store.dispatch('article/getArticlesTop', route.params.id).catch((err) => {
+                error({ statusCode: 404 })
+            }),
         ])
     },
     head() {
@@ -45,6 +48,10 @@ export default {
     computed: {
         ...mapState('category', ['category']),
         ...mapState('global', ['seo', 'siteName']),
+    },
+    beforeRouteLeave(to, from, next) {
+        this.$store.commit('article/setArticlesTopNull')
+        next()
     },
 }
 </script>

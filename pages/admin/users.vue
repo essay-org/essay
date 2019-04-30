@@ -32,18 +32,22 @@ export default {
                 {
                     title: '头像',
                     slot: 'avatar',
+                    minWidth: 100,
                 },
                 {
                     title: '用户名',
                     key: 'username',
+                    minWidth: 150,
                 },
                 {
                     title: '描述',
                     key: 'discription',
+                    minWidth: 150,
                 },
                 {
                     title: '邮箱',
                     key: 'email',
+                    minWidth: 150,
                 },
             ],
         }

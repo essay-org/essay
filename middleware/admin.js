@@ -1,12 +1,12 @@
-// 验证是否是管理员
+// 验证是否有管理权限
 export default ({
-    store,
-    error,
-    redirect,
-    res,
+  store,
+  error,
+  redirect,
+  res,
 }) => {
-    const { user } = store.state.user
-    if (!user || user.role !== 'superAdmin') {
-        redirect('/login')
-    }
+  const { token } = store.state
+  if (!token) {
+    redirect('/login')
+  }
 }

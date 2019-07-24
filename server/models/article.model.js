@@ -1,95 +1,66 @@
 const mongoose = require('mongoose')
-
+const md5 = require('md5')
 const { Schema } = mongoose
 
 const ArticleSchema = new Schema({
-    title: {
-        type: String,
-    },
-    content: {
-        type: String,
-    },
-    abstract: {
-        type: String,
-        default: '',
-    },
-    thumbnail: {
-        type: String,
-        default: '',
-    },
-    isTop: {
-        type: Boolean,
-        default: false,
-    },
-    isPublish: {
-        type: Boolean,
-        default: true,
-    },
-    isRecommend: {
-        type: Boolean,
-        default: true,
-    },
-    enableComment: {
-        type: Boolean,
-        default: true,
-    },
-    views: {
-        type: Number,
-        default: 0,
-    },
-    flag: {
-        type: Number,
-        default: 0,
-    },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-    },
-    category: {
-        type: Schema.Types.ObjectId,
-        ref: 'Category',
-    },
-    likes: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-    }],
-    media: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Media',
-    }],
-    extends: [{
-        name: {
-            type: String,
-            require: true,
-        },
-        value: {
-            type: Schema.Types.Mixed,
-            default: '',
-        },
-    }],
-    tags: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Tag',
-    }],
+  title: {
+    type: String,
+    default: '',
+  },
+  content: {
+    type: String,
+    default: '',
+  },
+  thumbnail: {
+    type: String,
+    default: '',
+  },
+  status: { // 1: 分类页显示 2: 首页显示 3: 置顶
+    type: Number,
+    default: 1,
+  },
+  isPublish: {
+    type: Boolean,
+    default: true,
+  },
+  enableComment: {
+    type: Boolean,
+    default: true,
+  },
+  password: { // 重要文章可以加密
+    type: String,
+    set: md5,
+  },
+  views: {
+    type: Number,
+    default: 0,
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 }, {
-    timestamps: {
-        createdAt: 'createdAt',
-        updatedAt: 'updatedAt',
-    },
     toJSON: {
-        virtuals: true,
-        versionKey: false,
-        transform(doc, ret) {
-            ret.id = ret._id
-            delete ret._id
-            // 设置分类默认值为空对象而非null
-            if (!ret.category) {
-                ret.category = {}
-            }
-        },
+      virtuals: true,
+      versionKey: false,
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
     },
     minimize: false,
-})
-
+  })
 
 mongoose.model('Article', ArticleSchema)

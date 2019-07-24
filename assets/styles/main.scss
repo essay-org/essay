@@ -1,0 +1,186 @@
+// var
+$main-color: #1aad19;
+
+// reset
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+
+html,
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #f3f3f3;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+// global css
+.container {
+  max-width: 960px;
+  font-size: 14px;
+  margin: 70px auto 50px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+p {
+  line-height: 1.8;
+}
+
+
+.dot {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+
+h3 {
+  font-weight: 500;
+  font-size: 18px;
+  color: #666;
+}
+
+a {
+  color: #333;
+
+  &:hover {
+    color: $main-color;
+  }
+}
+
+button {
+  border: none;
+  background-color: #fff;
+  padding: 7px 15px;
+  border-radius: 3px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #eee;
+
+  &.primary {
+    background-color: $main-color;
+    border-color: $main-color;
+    color: #fff;
+  }
+
+  &.small {
+    color: $main-color;
+    border: none;
+    padding: 0;
+
+  }
+
+  &:disabled {
+    color: #999;
+    cursor: not-allowed;
+  }
+}
+
+textarea,
+input[type=number],
+input[type=text],
+input[type=password] {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 7px 15px;
+  border-radius: 3px;
+  font-size: 14px;
+  border: none;
+  border: 1px solid #eee;
+
+  &::placeholder {
+    color: #999;
+  }
+
+  &:disabled {
+    background-color: #eee;
+    cursor: not-allowed;
+  }
+}

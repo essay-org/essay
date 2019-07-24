@@ -1,9 +1,9 @@
 <template>
-    <div
-        class="editor-preview markdown-body"
-        v-lazyload
-        v-html="html"
-    ></div>
+  <div
+    v-lazyload
+    class="editor-preview markdown-body"
+    v-html="html"
+  />
 </template>
 <script>
 import markdownIt from 'markdown-it'
@@ -13,6 +13,7 @@ const isServer = Vue.prototype.$isServer || process.server
 const hljs = require('highlight.js/lib/highlight.js')
 const hlHtml = require('highlight.js/lib/languages/xml.js')
 const hlCss = require('highlight.js/lib/languages/css.js')
+const hlPhp = require('highlight.js/lib/languages/php.js')
 const hlJavascript = require('highlight.js/lib/languages/javascript.js')
 const hlJson = require('highlight.js/lib/languages/json.js')
 const hlBash = require('highlight.js/lib/languages/bash.js')
@@ -25,133 +26,138 @@ const imgList = []
  * @param {number} time 节流时间
  */
 function throttle(method, context) {
-    clearTimeout(method.tId)
-    method.tId = setTimeout(() => {
-        method.call(context)
-    }, 300)
+  clearTimeout(method.tId)
+  method.tId = setTimeout(() => {
+    method.call(context)
+  }, 300)
 }
 
 // 判断图片出否出现在可视区
 function isShow(el) {
-    // getBoundingClientRect获取图片相对视口的位置
-    const coords = el.getBoundingClientRect()
-    return coords.top <= document.documentElement.clientHeight
+  // getBoundingClientRect获取图片相对视口的位置
+  const coords = el.getBoundingClientRect()
+
+  // 0是为了兼容虚拟DOM，这时候获取不到coords
+  return (coords.top <= document.documentElement.clientHeight) || (coords.top === 0)
 }
 
 // 当图片出现在可视区域内后，替换掉src属性
 function loadImg() {
-    for (let i = 0, len = imgList.length; i < len; i++) {
-        if (isShow(imgList[i])) {
-            imgList[i].src = imgList[i].getAttribute('data-src')
-        }
+  for (let i = 0, len = imgList.length; i < len; i++) {
+    if (isShow(imgList[i])) {
+      imgList[i].src = imgList[i].getAttribute('data-src')
     }
+  }
 }
 
 function handleScroll() {
-    throttle(loadImg, window)
+  throttle(loadImg, window)
 }
 export default {
-    name: 'BaseEditorPreview',
-    props: {
-        content: {
-            type: String,
-            default: '',
-        },
-        options: {
-            type: Object,
-            default: () => {},
-        },
-    },
-    data() {
-        return {
-            html: '',
+  name: 'EditorPreview',
+  directives: {
+    lazyload: {
+      bind(el, binding) {
+        if (!isServer) {
+          throttle(loadImg, window) // 初始化，第一次进入页面时应该显示的图片
+          window.addEventListener('scroll', handleScroll, false)
         }
+      },
     },
-    watch: {
-        content() {
-            this.renderIt()
-        },
+  },
+  props: {
+    content: {
+      type: String,
+      default: '',
     },
-    methods: {
-        renderIt() {
-            this.html = this.markdownit.render(this.content)
-            if (!isServer) {
-                this.$nextTick(() => {
-                    if (this.$el.querySelectorAll('a')) {
-                        this.$el.querySelectorAll('a').forEach((a) => {
-                            a.setAttribute('target', '_blank')
-                        })
-                    }
-
-                    if (this.$el.querySelectorAll('img')) {
-                        this.$el.querySelectorAll('img').forEach((i) => {
-                            if (!i.complete) {
-                                i.setAttribute('data-src', i.src)
-                                imgList.push(i)
-                                this.getWH(i)
-                            }
-                        })
-                    }
-                })
-            }
-        },
-        getWH(imgDom) {
-            let timer = null
-            const check = () => {
-                if (imgDom.width) {
-                    imgDom.setAttribute('data-width', imgDom.width)
-                    imgDom.setAttribute('data-height', imgDom.height)
-                    imgDom.setAttribute('style', `width: ${imgDom.width}px;height: ${imgDom.height}px;background: #eee;`)
-                    imgDom.setAttribute('src', 'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==')
-
-                    // imgDom.setAttribute('src', '/loading.gif')
-                    clearInterval(timer)
-                }
-            }
-            timer = setInterval(check, 30)
-        },
+    options: {
+      type: Object,
+      default: () => ({}),
     },
-    created() {
-        hljs.registerLanguage('html', hlHtml)
-        hljs.registerLanguage('css', hlCss)
-        hljs.registerLanguage('javascript', hlJavascript)
-        hljs.registerLanguage('json', hlJson)
-        hljs.registerLanguage('bash', hlBash)
-        const options = {
-            html: true,
-            breaks: true,
-            linkify: true,
-            highlight(str, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    return hljs.highlight(lang, str).value
-                }
-                return ''
-            },
-            ...this.options,
+  },
+  data() {
+    return {
+      html: '',
+    }
+  },
+  watch: {
+    content() {
+      this.renderIt()
+    },
+  },
+  created() {
+    hljs.registerLanguage('html', hlHtml)
+    hljs.registerLanguage('css', hlCss)
+    hljs.registerLanguage('javascript', hlJavascript)
+    hljs.registerLanguage('json', hlJson)
+    hljs.registerLanguage('bash', hlBash)
+    hljs.registerLanguage('php', hlPhp)
+    const options = {
+      html: true,
+      breaks: true,
+      linkify: true,
+      highlight(str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          return hljs.highlight(lang, str).value
         }
-        this.markdownit = markdownIt(options)
-        this.renderIt()
+        return ''
+      },
+      ...this.options,
+    }
+    this.markdownit = markdownIt(options)
+    this.renderIt()
+  },
+  destroyed() {
+    window.removeEventListener('scroll', handleScroll, false)
+  },
+  methods: {
+    renderIt() {
+      this.html = this.markdownit.render(this.content)
+      if (!isServer) {
+        this.$nextTick(() => {
+          if (this.$el.querySelectorAll('a')) {
+            this.$el.querySelectorAll('a').forEach((a) => {
+              a.setAttribute('target', '_blank')
+            })
+          }
+
+          if (this.$el.querySelectorAll('img')) {
+            this.$el.querySelectorAll('img').forEach((i) => {
+              // complete状态，图片未加载完成，但是基础数据可以获取到
+              if (!i.complete) {
+                i.setAttribute('data-src', i.src)
+                imgList.push(i)
+                this.getWH(i)
+              }
+            })
+          }
+        })
+      }
     },
-    directives: {
-        lazyload: {
-            bind(el, binding) {
-                if (!isServer) {
-                    throttle(loadImg, window) // 初始化，第一次进入页面时应该显示的图片
-                    window.addEventListener('scroll', handleScroll, false)
-                }
-            },
-        },
+    getWH(imgDom) {
+      let timer = null
+      const check = () => {
+        if (imgDom.width) {
+          imgDom.setAttribute('data-width', imgDom.width)
+          imgDom.setAttribute('data-height', imgDom.height)
+          imgDom.setAttribute('style', `width: ${imgDom.width}px;height: ${imgDom.height}px;background: #eee;`)
+          imgDom.setAttribute('src', 'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==')
+
+          // imgDom.setAttribute('src', '/loading.gif')
+          clearInterval(timer)
+        }
+      }
+      // 理论上无法在图片加载完成前获取宽高，因此使用轮询的方式
+      timer = setInterval(check, 30)
     },
-    destroyed() {
-        window.removeEventListener('scroll', handleScroll, false)
-    },
+  },
 }
 </script>
-<style lang="less">
+<style>
 .editor-preview {
-    flex: 1;
-    padding: 15px;
-    overflow: scroll;
+  flex: 1;
+  padding: 15px;
+  overflow: scroll;
 }
 
 /**
@@ -159,143 +165,140 @@ export default {
  * github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 */
 
-.markdown-body {
-    .hljs {
-        display: block;
-        overflow-x: auto;
-        padding: 0.5em;
-        color: #333;
-        background: #f8f8f8;
-    }
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
 
-    .hljs-comment,
-    .hljs-quote {
-        color: #998;
-        font-style: italic;
-    }
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
 
-    .hljs-keyword,
-    .hljs-selector-tag,
-    .hljs-subst {
-        color: #333;
-        font-weight: bold;
-    }
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
 
-    .hljs-number,
-    .hljs-literal,
-    .hljs-variable,
-    .hljs-template-variable,
-    .hljs-tag .hljs-attr {
-        color: #008080;
-    }
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
 
-    .hljs-string,
-    .hljs-doctag {
-        color: #d14;
-    }
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
 
-    .hljs-title,
-    .hljs-section,
-    .hljs-selector-id {
-        color: #900;
-        font-weight: bold;
-    }
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
 
-    .hljs-subst {
-        font-weight: normal;
-    }
+.hljs-subst {
+  font-weight: normal;
+}
 
-    .hljs-type,
-    .hljs-class .hljs-title {
-        color: #458;
-        font-weight: bold;
-    }
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
 
-    .hljs-tag,
-    .hljs-name,
-    .hljs-attribute {
-        color: #000080;
-        font-weight: normal;
-    }
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
 
-    .hljs-regexp,
-    .hljs-link {
-        color: #009926;
-    }
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
 
-    .hljs-symbol,
-    .hljs-bullet {
-        color: #990073;
-    }
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
 
-    .hljs-built_in,
-    .hljs-builtin-name {
-        color: #0086b3;
-    }
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
 
-    .hljs-meta {
-        color: #999;
-        font-weight: bold;
-    }
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
 
-    .hljs-deletion {
-        background: #fdd;
-    }
+.hljs-deletion {
+  background: #fdd;
+}
 
-    .hljs-addition {
-        background: #dfd;
-    }
+.hljs-addition {
+  background: #dfd;
+}
 
-    .hljs-emphasis {
-        font-style: italic;
-    }
+.hljs-emphasis {
+  font-style: italic;
+}
 
-    .hljs-strong {
-        font-weight: bold;
-    }
+.hljs-strong {
+  font-weight: bold;
 }
 
 /*
  * github-markdown.css
 */
 .markdown-body {
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    line-height: 1.5;
-    color: #333;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-        "Segoe UI Symbol";
-    font-size: 16px;
-    line-height: 1.5;
-    word-wrap: break-word;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
 }
 
 .markdown-body .pl-c {
-    color: #969896;
+  color: #969896;
 }
 
 .markdown-body .pl-c1,
 .markdown-body .pl-s .pl-v {
-    color: #0086b3;
+  color: #0086b3;
 }
 
 .markdown-body .pl-e,
 .markdown-body .pl-en {
-    color: #795da3;
+  color: #795da3;
 }
 
 .markdown-body .pl-smi,
 .markdown-body .pl-s .pl-s1 {
-    color: #333;
+  color: #333;
 }
 
 .markdown-body .pl-ent {
-    color: #63a35c;
+  color: #63a35c;
 }
 
 .markdown-body .pl-k {
-    color: #a71d5d;
+  color: #a71d5d;
 }
 
 .markdown-body .pl-s,
@@ -305,187 +308,187 @@ export default {
 .markdown-body .pl-sr .pl-cce,
 .markdown-body .pl-sr .pl-sre,
 .markdown-body .pl-sr .pl-sra {
-    color: #183691;
+  color: #183691;
 }
 
 .markdown-body .pl-v {
-    color: #ed6a43;
+  color: #ed6a43;
 }
 
 .markdown-body .pl-id {
-    color: #b52a1d;
+  color: #b52a1d;
 }
 
 .markdown-body .pl-ii {
-    color: #f8f8f8;
-    background-color: #b52a1d;
+  color: #f8f8f8;
+  background-color: #b52a1d;
 }
 
 .markdown-body .pl-sr .pl-cce {
-    font-weight: bold;
-    color: #63a35c;
+  font-weight: bold;
+  color: #63a35c;
 }
 
 .markdown-body .pl-ml {
-    color: #693a17;
+  color: #693a17;
 }
 
 .markdown-body .pl-mh,
 .markdown-body .pl-mh .pl-en,
 .markdown-body .pl-ms {
-    font-weight: bold;
-    color: #1d3e81;
+  font-weight: bold;
+  color: #1d3e81;
 }
 
 .markdown-body .pl-mq {
-    color: #008080;
+  color: #008080;
 }
 
 .markdown-body .pl-mi {
-    font-style: italic;
-    color: #333;
+  font-style: italic;
+  color: #333;
 }
 
 .markdown-body .pl-mb {
-    font-weight: bold;
-    color: #333;
+  font-weight: bold;
+  color: #333;
 }
 
 .markdown-body .pl-md {
-    color: #bd2c00;
-    background-color: #ffecec;
+  color: #bd2c00;
+  background-color: #ffecec;
 }
 
 .markdown-body .pl-mi1 {
-    color: #55a532;
-    background-color: #eaffea;
+  color: #55a532;
+  background-color: #eaffea;
 }
 
 .markdown-body .pl-mdr {
-    font-weight: bold;
-    color: #795da3;
+  font-weight: bold;
+  color: #795da3;
 }
 
 .markdown-body .pl-mo {
-    color: #1d3e81;
+  color: #1d3e81;
 }
 
 .markdown-body .octicon {
-    display: inline-block;
-    vertical-align: text-top;
-    fill: currentColor;
+  display: inline-block;
+  vertical-align: text-top;
+  fill: currentColor;
 }
 
 .markdown-body a {
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
 }
 
 .markdown-body a:active,
 .markdown-body a:hover {
-    outline-width: 0;
+  outline-width: 0;
 }
 
 .markdown-body strong {
-    font-weight: inherit;
+  font-weight: inherit;
 }
 
 .markdown-body strong {
-    font-weight: bolder;
+  font-weight: bolder;
 }
 
 .markdown-body h1 {
-    font-size: 2em;
-    margin: 0.67em 0;
+  font-size: 2em;
+  margin: 0.67em 0;
 }
 
 .markdown-body img {
-    border-style: none;
+  border-style: none;
 }
 
 .markdown-body svg:not(:root) {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .markdown-body code,
 .markdown-body kbd,
 .markdown-body pre {
-    font-family: monospace, monospace;
-    font-size: 1em;
+  font-family: monospace, monospace;
+  font-size: 1em;
 }
 
 .markdown-body hr {
-    box-sizing: content-box;
-    height: 0;
-    overflow: visible;
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
 }
 
 .markdown-body input {
-    font: inherit;
-    margin: 0;
+  font: inherit;
+  margin: 0;
 }
 
 .markdown-body input {
-    overflow: visible;
+  overflow: visible;
 }
 
 .markdown-body [type="checkbox"] {
-    box-sizing: border-box;
-    padding: 0;
+  box-sizing: border-box;
+  padding: 0;
 }
 
 .markdown-body * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .markdown-body input {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .markdown-body a {
-    color: #4078c0;
-    text-decoration: none;
+  color: #4078c0;
+  text-decoration: none;
 }
 
 .markdown-body a:hover,
 .markdown-body a:active {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .markdown-body strong {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .markdown-body hr {
-    height: 0;
-    margin: 15px 0;
-    overflow: hidden;
-    background: transparent;
-    border: 0;
-    border-bottom: 1px solid #ddd;
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .markdown-body hr::before {
-    display: table;
-    content: "";
+  display: table;
+  content: "";
 }
 
 .markdown-body hr::after {
-    display: table;
-    clear: both;
-    content: "";
+  display: table;
+  clear: both;
+  content: "";
 }
 
 .markdown-body table {
-    border-spacing: 0;
-    border-collapse: collapse;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 .markdown-body td,
 .markdown-body th {
-    padding: 0;
+  padding: 0;
 }
 
 .markdown-body h1,
@@ -494,125 +497,125 @@ export default {
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
-    margin-top: 0;
-    margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .markdown-body h1 {
-    font-size: 32px;
-    font-weight: 600;
+  font-size: 32px;
+  font-weight: 600;
 }
 
 .markdown-body h2 {
-    font-size: 24px;
-    font-weight: 600;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .markdown-body h3 {
-    font-size: 20px;
-    font-weight: 600;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .markdown-body h4 {
-    font-size: 16px;
-    font-weight: 600;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .markdown-body h5 {
-    font-size: 14px;
-    font-weight: 600;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .markdown-body h6 {
-    font-size: 12px;
-    font-weight: 600;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .markdown-body p {
-    margin-top: 0;
-    margin-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .markdown-body blockquote {
-    margin: 0;
+  margin: 0;
 }
 
 .markdown-body ul,
 .markdown-body ol {
-    padding-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .markdown-body ol ol,
 .markdown-body ul ol {
-    list-style-type: lower-roman;
+  list-style-type: lower-roman;
 }
 
 .markdown-body ul ul ol,
 .markdown-body ul ol ol,
 .markdown-body ol ul ol,
 .markdown-body ol ol ol {
-    list-style-type: lower-alpha;
+  list-style-type: lower-alpha;
 }
 
 .markdown-body dd {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 .markdown-body code {
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
 }
 
 .markdown-body pre {
-    margin-top: 0;
-    margin-bottom: 0;
-    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  margin-top: 0;
+  margin-bottom: 0;
+  font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 .markdown-body .octicon {
-    vertical-align: text-bottom;
+  vertical-align: text-bottom;
 }
 
 .markdown-body input {
-    -webkit-font-feature-settings: "liga" 0;
-    font-feature-settings: "liga" 0;
+  -webkit-font-feature-settings: "liga" 0;
+  font-feature-settings: "liga" 0;
 }
 
 .markdown-body::before {
-    display: table;
-    content: "";
+  display: table;
+  content: "";
 }
 
 .markdown-body::after {
-    display: table;
-    clear: both;
-    content: "";
+  display: table;
+  clear: both;
+  content: "";
 }
 
 .markdown-body > *:first-child {
-    margin-top: 0 !important;
+  margin-top: 0 !important;
 }
 
 .markdown-body > *:last-child {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .markdown-body a:not([href]) {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 .markdown-body .anchor {
-    float: left;
-    padding-right: 4px;
-    margin-left: -20px;
-    line-height: 1;
+  float: left;
+  padding-right: 4px;
+  margin-left: -20px;
+  line-height: 1;
 }
 
 .markdown-body .anchor:focus {
-    outline: none;
+  outline: none;
 }
 
 .markdown-body p,
@@ -622,44 +625,44 @@ export default {
 .markdown-body dl,
 .markdown-body table,
 .markdown-body pre {
-    margin-top: 0;
-    margin-bottom: 16px;
+  margin-top: 0;
+  margin-bottom: 16px;
 }
 
 .markdown-body hr {
-    height: 0.25em;
-    padding: 0;
-    margin: 24px 0;
-    background-color: #e7e7e7;
-    border: 0;
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e7e7e7;
+  border: 0;
 }
 
 .markdown-body blockquote {
-    padding: 0 1em;
-    color: #777;
-    border-left: 0.25em solid #ddd;
+  padding: 0 1em;
+  color: #777;
+  border-left: 0.25em solid #ddd;
 }
 
 .markdown-body blockquote > :first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .markdown-body blockquote > :last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .markdown-body kbd {
-    display: inline-block;
-    padding: 3px 5px;
-    font-size: 11px;
-    line-height: 10px;
-    color: #555;
-    vertical-align: middle;
-    background-color: #fcfcfc;
-    border: solid 1px #ccc;
-    border-bottom-color: #bbb;
-    border-radius: 3px;
-    box-shadow: inset 0 -1px 0 #bbb;
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb;
 }
 
 .markdown-body h1,
@@ -668,10 +671,10 @@ export default {
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
-    margin-top: 24px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    line-height: 1.25;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .markdown-body h1 .octicon-link,
@@ -680,9 +683,9 @@ export default {
 .markdown-body h4 .octicon-link,
 .markdown-body h5 .octicon-link,
 .markdown-body h6 .octicon-link {
-    color: #000;
-    vertical-align: middle;
-    visibility: hidden;
+  color: #000;
+  vertical-align: middle;
+  visibility: hidden;
 }
 
 .markdown-body h1:hover .anchor,
@@ -691,7 +694,7 @@ export default {
 .markdown-body h4:hover .anchor,
 .markdown-body h5:hover .anchor,
 .markdown-body h6:hover .anchor {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .markdown-body h1:hover .anchor .octicon-link,
@@ -700,240 +703,240 @@ export default {
 .markdown-body h4:hover .anchor .octicon-link,
 .markdown-body h5:hover .anchor .octicon-link,
 .markdown-body h6:hover .anchor .octicon-link {
-    visibility: visible;
+  visibility: visible;
 }
 
 .markdown-body h1 {
-    padding-bottom: 0.3em;
-    font-size: 2em;
-    border-bottom: 1px solid #eee;
+  padding-bottom: 0.3em;
+  font-size: 2em;
+  border-bottom: 1px solid #eee;
 }
 
 .markdown-body h2 {
-    padding-bottom: 0.3em;
-    font-size: 1.5em;
-    border-bottom: 1px solid #eee;
+  padding-bottom: 0.3em;
+  font-size: 1.5em;
+  border-bottom: 1px solid #eee;
 }
 
 .markdown-body h3 {
-    font-size: 1.25em;
+  font-size: 1.25em;
 }
 
 .markdown-body h4 {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 .markdown-body h5 {
-    font-size: 0.875em;
+  font-size: 0.875em;
 }
 
 .markdown-body h6 {
-    font-size: 0.85em;
-    color: #777;
+  font-size: 0.85em;
+  color: #777;
 }
 
 .markdown-body ul,
 .markdown-body ol {
-    padding-left: 2em;
+  padding-left: 2em;
 }
 
 .markdown-body ul ul,
 .markdown-body ul ol,
 .markdown-body ol ol,
 .markdown-body ol ul {
-    margin-top: 0;
-    margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .markdown-body li > p {
-    margin-top: 16px;
+  margin-top: 16px;
 }
 
 .markdown-body li + li {
-    margin-top: 0.25em;
+  margin-top: 0.25em;
 }
 
 .markdown-body dl {
-    padding: 0;
+  padding: 0;
 }
 
 .markdown-body dl dt {
-    padding: 0;
-    margin-top: 16px;
-    font-size: 1em;
-    font-style: italic;
-    font-weight: bold;
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
 }
 
 .markdown-body dl dd {
-    padding: 0 16px;
-    margin-bottom: 16px;
+  padding: 0 16px;
+  margin-bottom: 16px;
 }
 
 .markdown-body table {
-    display: block;
-    width: 100%;
-    overflow: auto;
+  display: block;
+  width: 100%;
+  overflow: auto;
 }
 
 .markdown-body table th {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .markdown-body table th,
 .markdown-body table td {
-    padding: 6px 13px;
-    border: 1px solid #ddd;
+  padding: 6px 13px;
+  border: 1px solid #ddd;
 }
 
 .markdown-body table tr {
-    background-color: #fff;
-    border-top: 1px solid #ccc;
+  background-color: #fff;
+  border-top: 1px solid #ccc;
 }
 
 .markdown-body table tr:nth-child(2n) {
-    background-color: #f8f8f8;
+  background-color: #f8f8f8;
 }
 
 .markdown-body img {
-    max-width: 100%;
-    box-sizing: content-box;
-    background-color: #fff;
+  max-width: 100%;
+  box-sizing: content-box;
+  background-color: #fff;
 }
 
 .markdown-body code {
-    padding: 0;
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-    margin: 0;
-    font-size: 85%;
-    background-color: rgba(0, 0, 0, 0.04);
-    border-radius: 3px;
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
 }
 
 .markdown-body code::before,
 .markdown-body code::after {
-    letter-spacing: -0.2em;
-    content: "\00a0";
+  letter-spacing: -0.2em;
+  content: "\00a0";
 }
 
 .markdown-body pre {
-    word-wrap: normal;
+  word-wrap: normal;
 }
 
 .markdown-body pre > code {
-    padding: 0;
-    margin: 0;
-    font-size: 100%;
-    word-break: normal;
-    white-space: pre;
-    background: transparent;
-    border: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
 }
 
 .markdown-body .highlight {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
 .markdown-body .highlight pre {
-    margin-bottom: 0;
-    word-break: normal;
+  margin-bottom: 0;
+  word-break: normal;
 }
 
 .markdown-body .highlight pre,
 .markdown-body pre {
-    padding: 16px;
-    overflow: auto;
-    font-size: 85%;
-    line-height: 1.45;
-    background-color: #f7f7f7;
-    border-radius: 3px;
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
 }
 
 .markdown-body pre code {
-    display: inline;
-    max-width: auto;
-    padding: 0;
-    margin: 0;
-    overflow: visible;
-    line-height: inherit;
-    word-wrap: normal;
-    background-color: transparent;
-    border: 0;
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
 }
 
 .markdown-body pre code::before,
 .markdown-body pre code::after {
-    content: normal;
+  content: normal;
 }
 
 .markdown-body .pl-0 {
-    padding-left: 0 !important;
+  padding-left: 0 !important;
 }
 
 .markdown-body .pl-1 {
-    padding-left: 3px !important;
+  padding-left: 3px !important;
 }
 
 .markdown-body .pl-2 {
-    padding-left: 6px !important;
+  padding-left: 6px !important;
 }
 
 .markdown-body .pl-3 {
-    padding-left: 12px !important;
+  padding-left: 12px !important;
 }
 
 .markdown-body .pl-4 {
-    padding-left: 24px !important;
+  padding-left: 24px !important;
 }
 
 .markdown-body .pl-5 {
-    padding-left: 36px !important;
+  padding-left: 36px !important;
 }
 
 .markdown-body .pl-6 {
-    padding-left: 48px !important;
+  padding-left: 48px !important;
 }
 
 .markdown-body .full-commit .btn-outline:not(:disabled):hover {
-    color: #4078c0;
-    border: 1px solid #4078c0;
+  color: #4078c0;
+  border: 1px solid #4078c0;
 }
 
 .markdown-body kbd {
-    display: inline-block;
-    padding: 3px 5px;
-    font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    line-height: 10px;
-    color: #555;
-    vertical-align: middle;
-    background-color: #fcfcfc;
-    border: solid 1px #ccc;
-    border-bottom-color: #bbb;
-    border-radius: 3px;
-    box-shadow: inset 0 -1px 0 #bbb;
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb;
 }
 
 .markdown-body :checked + .radio-label {
-    position: relative;
-    z-index: 1;
-    border-color: #4078c0;
+  position: relative;
+  z-index: 1;
+  border-color: #4078c0;
 }
 
 .markdown-body .task-list-item {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 .markdown-body .task-list-item + .task-list-item {
-    margin-top: 3px;
+  margin-top: 3px;
 }
 
 .markdown-body .task-list-item input {
-    margin: 0 0.2em 0.25em -1.6em;
-    vertical-align: middle;
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
 }
 
 .markdown-body hr {
-    border-bottom-color: #eee;
+  border-bottom-color: #eee;
 }
 </style>

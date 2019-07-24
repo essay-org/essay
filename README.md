@@ -17,8 +17,7 @@
 - Support server rendering.
 - Progressive Web Apps.
 - Lightweight Markdown editor based on VueJS.
-- Support Tag, Category, Search, Page, Comment, Email notification and Draft box.
-
+- Support Category, Search, Comment, Email notification and Draft box.
 
 ### Bootstrap
 
@@ -27,7 +26,7 @@
 Please install [MongoDB](https://www.mongodb.com/download-center?jmp=nav#community) and [Node.js](https://nodejs.org/en/), then start the database.
 
 ```bash
-# yourDBpath is your DB folder(Any position)
+# yourDBpath is your DB folder(anywhere)
 $ sudo mongod --dbpath yourDBpath
 ```
 
@@ -50,56 +49,45 @@ $ npm run dev # Visit http://127.0.0.1:3025
 Global config file is `server/config/global.config.js`, the default configuration like this
 
 ```js
+const isPro = process.env.NODE_ENV === "production";
+
 module.exports = {
-    mongodb: {
-        host: '127.0.0.1',
-        database: 'essay',
-        port: 27017,
-        user: '',
-        pass: '',
-    },
-    app: {
-        domain: 'http://127.0.0.1:3025',
-        siteName: 'Essay',
-    },
-    // Init admin information
-    admin: {
-        user: 'admin',
-        pass: '123456',
-        email: 'qq22337383@gmail.com',
-    },
-    // Secret is very important, please remember to modify it.
-    jwt: {
-        expiresIn: 365 * 86400,
-        secret: 'essay',
-    },
-    // If you want to send Email when received a comment, please config SMTP Server.
-    email: {
-        host: 'smtp.qq.com',
-        user: '22337383@qq.com',
-        pass: '',
-    },
-    // If you want to support GitHub login，please config clientID and secret.
-    github: {
-        id: '9588f02db3f89d176f36',
-        secret: '10f4f1daa81764664fafb2e50be2c6985ef139f8',
-        scope: 'user',
-    },
-    // If you want to support auto deploy，please config Server IP, repo and path.
-    pm2: {
-        host: '116.196.17.78',
-        repo: 'git@github.com:wmui/essay.git',
-        path: '/root/essay',
-    },
-}
+  mongodb: {
+    host: "127.0.0.1",
+    database: "essay",
+    port: 27017,
+    user: "",
+    pass: ""
+  },
+  app: {
+    domain: isPro ? "https://www.86886.wang" : "http://127.0.0.1:3025"
+  },
+  admin: {
+    username: "admin",
+    nickname: "wmui",
+    password: "123456",
+    description: "前端工程师",
+    email: "qq22337383@gmail.com"
+  },
+  jwt: {
+    expiresIn: 365 * 86400,
+    secret: "essay" // Secret is very important, please modify it.
+  },
+  // If you want to support auto deploy，please config Server IP, repo and path.
+  pm2: {
+    host: "116.196.17.78",
+    repo: "git@github.com:wmui/blog.git",
+    path: "/root/blog"
+  }
+};
 ```
 
-Default login email: `qq22337383@gmail.com`
+Default login username: `admin`
 Default login password: `123456`
 
 ### Deploy Essay
 
-If you want to deploy on production environment, you can do just like this
+If you want to deploy on production environment, you can just do like this
 
 ```bash
 $ git clone https://github.com/wmui/essay
@@ -110,15 +98,15 @@ $ yarn
 
 $ npm run build
 
-$ pm2 start npm --name "Essay" -- start
+$ pm2 start npm --name "essay" -- start
 ```
 
-如果需要自动化部署，可以参考这里[Node项目自动化部署](https://github.com/wmui/web-deploy)
+如果需要自动化部署，可以参考这里[Node 项目自动化部署](https://github.com/wmui/web-deploy)
 
 ### Join us
 
-QQ群：488268810
+QQ 群：4882 68810
 
 ### License
 
-[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)  
+[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)

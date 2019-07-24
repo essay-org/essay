@@ -1,52 +1,56 @@
-/*
- * @Author: wmui
- * @GitHub: https://github.com/wmui
- * @License: GPL-3.0
- */
-
-
 const nodemailer = require('nodemailer')
 const _ = require('lodash')
 const mongoose = require('mongoose')
 const globalConfig = require('../../config/global.config')
 
+const Option = mongoose.model('Option')
 const Article = mongoose.model('Article')
 
-const transporter = nodemailer.createTransport({
-    host: globalConfig.email.host,
+const getEmailOption = () => {
+  return Option.findOne({ name: 'email' }).exec()
+}
+
+let transporter = ''
+let emailOption = ''
+getEmailOption().then(ret => {
+  emailOption = ret.value
+  transporter = nodemailer.createTransport({
+    host: ret.value.host,
     port: 465,
     secure: true,
     auth: {
-        user: globalConfig.email.user,
-        pass: globalConfig.email.pass,
+      user: ret.value.user,
+      pass: ret.value.pass,
     },
+  })
 })
 
 exports.postEmail = async (req, res, next) => {
-    const {
-        fromUser,
-        toUser,
-        toUserEmail,
-        content,
-        id,
-    } = req.body
 
+  if (
+    !emailOption.host ||
+    !emailOption.user ||
+    !emailOption.pass) {
+    // res.handleError('未配置邮箱服务')
+    next()
+  }
 
-    // 根据邮箱查找用户
-    const article = await Article.findOne({ _id: id }).exec()
-    if (!article) {
-        res.json({
-            success: false,
-            message: '文章不存在',
-        })
-        return
-    }
+  const {
+    fromUser,
+    toUser,
+    toUserEmail,
+    content,
+    id,
+  } = req.body
 
-    const mailOptions = {
-        from: globalConfig.email.user,
-        to: toUserEmail,
-        subject: '留言回复通知',
-        html: `
+  const article = await Article.findOne({ _id: id }).exec()
+  if (!article) return res.handleError('文章不存在')
+
+  const mailOptions = {
+    from: emailOption.user,
+    to: toUserEmail,
+    subject: '留言回复通知',
+    html: `
         <h4>Hi,${toUser}，${fromUser} 回复了您</h4>
         <blockquote>
         <a href="${globalConfig.app.domain}/posts/${id}" target="_blank">${article.title}</a>
@@ -54,18 +58,12 @@ exports.postEmail = async (req, res, next) => {
         </blockquote>
         <p>PS: 本邮件由系统发送，请勿回复哦</p>
         `.trim(),
-    }
+  }
 
-    await transporter.sendMail(mailOptions).then((info) => {
-        res.json({
-            success: true,
-            data: info,
-        })
-    }).catch((error) => {
-        res.json({
-            success: false,
-            message: '邮件发送失败',
-            error,
-        })
-    })
+  await transporter.sendMail(mailOptions).then((info) => {
+    res.handleSuccess(info)
+  }).catch((error) => {
+    // res.handleError('邮件发送失败', error)
+    next()
+  })
 }

@@ -7,37 +7,27 @@ const app = express()
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const path = require('path')
-const requireAll = require('require-all')
 const cors = require('cors')
-const rss = require('./controllers/tools/rss.controller')
-const sitemap = require('./controllers/tools/sitemap.controller')
-const robots = require('./controllers/tools/robots.controller')
+const staticServer = express.static(path.resolve(__dirname, '../public'), { maxAge: 1000 * 60 * 60 * 24 })
 const globalConfig = require('./config/global.config')
+const handle = require('./middlewares/handle.middleware')
+const validate = require('./middlewares/validate.middleware')
+const router = require('./router')
+
 
 app.enable('trust proxy')
-
 app.use(cors({ origin: globalConfig.app.domain, credentials: true }))
     .use(bodyParser.json({ limit: '50mb' }))
-    .use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
+    .use(handle)
+    .use(validate)
     .use(cookieParser())
-    .use('/public', express.static(path.resolve(__dirname, '../public'), { maxAge: 1000 * 60 * 60 * 24 }))
+    .use('/public', staticServer)
+    .use(router)
 
-const routes = requireAll({
-    dirname: path.join(__dirname, './routes/'),
-    filter: /(.+)\.route\.js$/,
-})
-
-for (const router of Object.values(routes)) {
-    app.use('/api', router)
-}
-
-app.get('/robots.txt', robots)
-    .get('/sitemap.xml', sitemap)
-    .get('/rss.xml', rss)
 /* API server end */
 
 app.listen(3025, () => {
-    console.log('server started at 127.0.0.1:3025')
+    console.log(`server started at ${globalConfig.app.domain}`)
 })
 
 module.exports = app

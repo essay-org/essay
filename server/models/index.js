@@ -4,51 +4,71 @@ const path = require('path')
 const globalConfig = require('../config/global.config')
 
 requireAll({
-    dirname: path.join(__dirname, './'),
-    filter: /(.+)\.model\.js$/,
-    recursive: true,
+  dirname: path.join(__dirname, './'),
+  filter: /(.+)\.model\.js$/,
 })
 
 const User = mongoose.model('User')
 const Article = mongoose.model('Article')
+const Category = mongoose.model('Category')
+const Option = mongoose.model('Option')
+
 const mongoUrl = `mongodb://${globalConfig.mongodb.host}:${globalConfig.mongodb.port}/${globalConfig.mongodb.database}`
 
 mongoose.Promise = global.Promise
 mongoose.set('useFindAndModify', false)
 mongoose.connection
-    .openUri(mongoUrl, {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        user: globalConfig.mongodb.user,
-        pass: globalConfig.mongodb.pass,
-    })
-    .once('open', async () => {
-        let user = await User.findOne({
-            role: 'superAdmin',
-        }).exec()
+  .openUri(mongoUrl, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    user: globalConfig.mongodb.user,
+    pass: globalConfig.mongodb.pass,
+  })
+  .once('open', async () => {
+    const superAdmin = await User.findOne({
+      role: 'superAdmin',
+    }).exec()
 
-        // 数据初始化
-        if (!user) {
-            user = new User({
-                role: 'superAdmin',
-                username: globalConfig.admin.user,
-                password: globalConfig.admin.pass,
-                email: globalConfig.admin.email,
-                loginMode: 'register',
-                avatar: `${globalConfig.app.domain}/public/avatar/default.jpg`,
-            })
+    const defaultCategory = await Category.findOne({
+      title: '默认分类',
+    }).exec()
 
-            const article = new Article({
-                user: user.id,
-                title: '欢迎使用 Essay 博客系统',
-                content: '当您看到这篇文章，说明系统已经安装成功，接下来开始您的创作之旅吧',
-                isPublish: true,
-            })
+    // 数据初始化
+    if (!superAdmin) {
+      await new User({
+        role: 'superAdmin',
+        ...globalConfig.admin,
+      }).save()
 
-            user.save()
-            article.save()
-        }
-    })
-    .on('error', (error) => {
-        console.warn('数据库连接失败', error)
-    })
+      // seo
+      await new Option({
+        name: 'seo',
+        value: {
+          title: 'Essay-简约而不简单的博客系统',
+          keywords: 'Essay，JavaScript博客系统，NodeJS博客系统',
+          description: 'Essay，基于JavaScript构建的前后端同构博客系统',
+        },
+      }).save()
+
+      // smtp 自动发邮件
+      await new Option({
+        name: 'email',
+        value: {
+          host: '',
+          user: '',
+          pass: '',
+        },
+      }).save()
+    }
+
+    if (!defaultCategory) {
+      await new Category({
+        title: '默认分类',
+        keywords: '默认分类',
+        description: '默认分类',
+      }).save()
+    }
+  })
+  .on('error', (error) => {
+    console.warn('数据库连接失败', error)
+  })

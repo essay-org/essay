@@ -1,17 +1,15 @@
 <template>
-  <div class="base container">
-    <nuxt />
-  </div>
+  <div />
 </template>
 
 <script>
 export default {
-
+  layout: 'error',
+  fetch({ error }) {
+    error({ statusCode: 404 })
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.base {
-  padding: 15px;
-}
 </style>

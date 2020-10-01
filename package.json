@@ -1,5 +1,5 @@
 {
-  "name": "essay",
+  "name": "Essay",
   "version": "3.2.0",
   "description": "A blog system",
   "author": "wmui",
@@ -34,7 +34,7 @@
     "md5": "^2.2.1",
     "mongoose": "^5.6.2",
     "nodemailer": "^6.2.1",
-    "nuxt": "^2.0.0",
+    "next": "^2.0.0",
     "require-all": "^3.0.0",
     "shelljs": "^0.8.3",
     "trek-captcha": "^0.4.0",

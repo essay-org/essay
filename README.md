@@ -42,7 +42,7 @@ $ yarn
 $ npm run dev # Visit http://127.0.0.1:3025
 ```
 
-**Tips:** Do not use `localhost` visit the project, because of cookie is domain only support `127.0.0.1`.
+**Tips:** Do not use `localhost` to visit the project because cookie is domain only supports `127.0.0.1`.
 
 ### Global Config
 

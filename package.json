@@ -38,7 +38,7 @@
     "require-all": "^3.0.0",
     "shelljs": "^0.8.3",
     "trek-captcha": "^0.4.0",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",

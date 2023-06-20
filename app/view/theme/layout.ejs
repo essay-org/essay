@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ppx</title>
+    <link rel="stylesheet" href="/public/lib/lulu/ui.min.css" />
+    <link
+      rel="stylesheet"
+      href="//at.alicdn.com/t/c/font_4116632_2th5ql5s2x3.css"
+    />
+    <!-- <script src="/public/lib/lulu/polyfill.min.js" defer></script> -->
+    
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        background-color: #eee;
+      }
+      /*蓝色*/
+      a,
+      .blue,
+      a.dark[href]:hover {
+        color: #2a80eb;
+      }
+
+      /*hover蓝色*/
+      a:hover {
+        color: #0057c3;
+      }
+
+      /*灰色*/
+      .gray {
+        color: #a2a9b6;
+      }
+
+      /*白色*/
+      .white {
+        color: #fff;
+      }
+
+      /* 绿色 */
+      .green {
+        color: #1cad70;
+      }
+
+      /* 橘色 */
+      .orange {
+        color: #f59b00;
+      }
+
+      /* 红色 */
+      .red {
+        color: #eb4646;
+      }
+
+      /* 浅色 */
+      .light {
+        color: #f7f9fa;
+      }
+
+      .container {
+        box-sizing: border-box;
+        font-size: 14px;
+        margin: 50px auto;
+        max-width: 960px;
+      }
+      .card {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #fff;
+      }
+      .header {
+        margin: 30px 0 20px;
+      }
+      .nickname {
+        font-size: 26px;
+      }
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nav ul {
+        display: flex;
+        padding: 0;
+        list-style-type: none;
+      }
+      .nav .search input{
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        outline: none;
+        border-radius: 0;
+        padding: 0;
+        height: 30px;
+      }
+      .nav-item {
+        padding: 0 10px;
+      }
+      .main {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      
+      .footer {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        color: #999;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <header class="header">
+          <div class="nickname">胖胖熊博客</div>
+        </header>
+        <nav class="nav">
+          <ul>
+            <li><a href="/" class="nav-item">首页</a></li>
+            <li><a href="/" class="nav-item">留言板</a></li>
+            <li><a href="/post/editor" class="nav-item">新随笔</a></li>
+          </ul>
+
+          <div class="search">
+            <input type="search" class="ui-input" placeholder="搜索" autofocus>
+          </div>
+        </nav>
+        <main class="main">
+          <!-- <%- include('./list.ejs') -%> -->
+          <!-- <%- include('./post.ejs') -%> -->
+            <!-- <%- include('./login.ejs') -%> -->
+            <!-- <div><%- helper.shtml(data) %></div> -->
+        </main>
+      </div>
+
+      <footer class="footer">
+        <span class="icp"
+          >ICP备案14000000-1 Powered by
+          <a href="https://github.wmui/essay" target="_blank">Essay</a></span
+        >
+      </footer>
+      <script src="/public/lib/lulu/all.min.js" defer></script>
+    <script src="/public/lib/axios/axios.min.js" defer></script>
+    <script src="/public/lib/ejs/ejs.min.js" defer></script>
+    </div>
+  </body>
+</html>

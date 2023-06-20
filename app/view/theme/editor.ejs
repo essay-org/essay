@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>随笔</title>
+    <link
+      rel="stylesheet"
+      href="/public/lib/markdown/cherry-markdown.min.css"
+    />
+    <script src="/public/lib/markdown/cherry-markdown.min.js" defer></script>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="editor"></div>
+
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+        new Cherry({
+          id: 'editor',
+          value: '# welcome to cherry editor!',
+        });
+      });
+    </script>
+  </body>
+</html>

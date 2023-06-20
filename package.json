@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@journeyapps/sqlcipher": "^5.3.1",
+    "cherry-markdown": "^0.8.20",
     "egg": "^3",
     "egg-orm": "^2.3.0",
     "egg-scripts": "^2",

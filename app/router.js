@@ -6,6 +6,7 @@
 module.exports = app => {
   const { router, controller } = app;
   router.get('/', controller.post.home);
+  router.get('/post/editor', controller.post.editor);
   router.get('/post/:id', controller.post.one);
   router.post('/post/:id?', controller.post.save);
   router.post('/post-del', controller.post.remove);

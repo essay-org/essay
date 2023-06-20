@@ -1,4 +1,7 @@
 'use strict';
+const { default: CherryEngine } = require('cherry-markdown/dist/cherry-markdown.engine.core.common');
+const cherryEngineInstance = new CherryEngine();
+const htmlContent = cherryEngineInstance.makeHtml('# welcome to cherry editor!');
 
 const BaseController = require('../core/base');
 class UserController extends BaseController {
@@ -12,7 +15,7 @@ class UserController extends BaseController {
     const query = this.ctx.query;
     const { post } = this.ctx.service;
     // const data = await post.find(query);
-    await this.ctx.render('/theme/layout.ejs');
+    await this.ctx.render('/theme/layout.ejs', { data: htmlContent });
   }
   async list() {
     const query = this.ctx.query;
@@ -25,7 +28,9 @@ class UserController extends BaseController {
     // this.ctx.app.locals.menus = menus;
     // await this.ctx.redirect('/admin/dashboard');
   }
-
+  async editor() {
+    await this.ctx.render('/theme/editor.ejs');
+  }
   async remove() {
     const { post } = this.ctx.service;
     const params = this.ctx.params;

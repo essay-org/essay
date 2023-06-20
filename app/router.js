@@ -5,8 +5,11 @@
  */
 module.exports = app => {
   const { router, controller } = app;
+  // 首页
   router.get('/', controller.post.home);
-  router.get('/post/editor', controller.post.editor);
+  // 编辑页
+  router.get('/editor', controller.post.editor);
+  // 详情页
   router.get('/post', controller.post.find);
   router.post('/post', controller.post.save);
   router.put('/post', controller.post.save);
@@ -17,5 +20,7 @@ module.exports = app => {
   router.put('/user', controller.user.save);
   router.get('/login', controller.user.loginTmp);
   router.post('/login', controller.user.login);
+  // upload
+  router.post('/api/upload', controller.post.upload);
   router.get('*', controller.post.not);
 };

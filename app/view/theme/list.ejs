@@ -1,87 +1,67 @@
 <style>
-    .list ul{
-        padding: 0;
-        list-style-type: none;
-      }
-      .list li {
-        display: flex;
-        align-items: baseline;
-        margin-bottom: 15px;
-      }
-      .list .hr {
-        margin-top: 0;
-        margin-bottom: 0;
-        margin-right: 8px;
-        margin-left: 8px;
-        height: 1px;
-        border: 0;
-        border-bottom: 1px dotted #ccc;
-        flex: 1;
-      }
-      .list .date {
-        font-size: 12px;
-        color: #999;
-      }
-    .page {
-        display: flex;
-        justify-content: center;
-        border-radius: 3px;
-      }
-      .page .ui-page-x {
-        display: flex;
-        border-radius: 3px;
-      }
-      .page .ui-page {
-        min-width: 24px;
-        border-radius: 3px;
-      }
-      .page a.ui-page:hover {
-        border-color: transparent;
-        background-color: #eee;
-      }
+  .list ul {
+    padding: 0;
+    list-style-type: none;
+  }
+  .list li {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 15px;
+  }
+  .list .hr {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 8px;
+    margin-left: 8px;
+    height: 1px;
+    border: 0;
+    border-bottom: 1px dotted #ccc;
+    flex: 1;
+  }
+  .list .date {
+    font-size: 12px;
+    color: #999;
+  }
+  .page {
+    display: flex;
+    justify-content: center;
+    border-radius: 3px;
+  }
+  .page .ui-page-x {
+    display: flex;
+    border-radius: 3px;
+  }
+  .page .ui-page {
+    min-width: 24px;
+    border-radius: 3px;
+  }
+  .page a.ui-page:hover {
+    border-color: transparent;
+    background-color: #eee;
+  }
 </style>
 <div class="list">
-<ul >
+  <ul>
+    <% for(var i = 0; i < data.length; i++){ %>
     <li>
-      <a href="/">文章标题</a>
+      <a href="/post?id=<%=data[i].id%>"><%= data[i].title %></a>
       <hr class="hr" />
-      <time class="date">2022/12/12</time>
+      <time class="date"><%= data[i].createdAt %></time>
     </li>
-    <li>
-      <a href="/">文章标题</a>
-      <hr class="hr" />
-      <time class="date">2022/12/12</time>
-    </li><li>
-        <a href="/">文章标题</a>
-        <hr class="hr" />
-        <time class="date">2022/12/12</time>
-      </li><li>
-        <a href="/">文章标题</a>
-        <hr class="hr" />
-        <time class="date">2022/12/12</time>
-      </li><li>
-        <a href="/">文章标题</a>
-        <hr class="hr" />
-        <time class="date">2022/12/12</time>
-      </li><li>
-        <a href="/">文章标题</a>
-        <hr class="hr" />
-        <time class="date">2022/12/12</time>
-      </li>
+    <%}%>
   </ul>
-
   <div id="page" class="page"></div>
 </div>
-  <script>
-    window.addEventListener('DOMContentLoaded', function () {
-      new Pagination(document.querySelector('#page'), {
-        total: 400,
-        per: 15,
-        mode: 'short',
-        current: 1,
-        href(current) {
-          return '?pageid=' + current;
-        },
-      });
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    new Pagination(document.querySelector('#page'), {
+      total: 400,
+      per: 15,
+      mode: 'short',
+      current: 1,
+      href(current) {
+        return '?pageid=' + current;
+      },
     });
-  </script>
+  });
+</script>

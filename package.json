@@ -9,11 +9,14 @@
   "dependencies": {
     "@journeyapps/sqlcipher": "^5.3.1",
     "cherry-markdown": "^0.8.20",
+    "dayjs": "^1.11.8",
     "egg": "^3",
     "egg-orm": "^2.3.0",
     "egg-scripts": "^2",
     "egg-view-ejs": "^3.0.0",
+    "jimp": "^0.22.8",
     "md5": "^2.3.0",
+    "mz-modules": "^2.1.0",
     "sqlite3": "^5.1.6",
     "uid": "^2.0.2"
   },

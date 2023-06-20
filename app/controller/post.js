@@ -8,13 +8,18 @@ class UserController extends BaseController {
     const result = await post.save(body);
 
   }
+  async home() {
+    const query = this.ctx.query;
+    const { post } = this.ctx.service;
+    // const data = await post.find(query);
+    await this.ctx.render('/theme/layout.ejs');
+  }
   async list() {
     const query = this.ctx.query;
     const { post } = this.ctx.service;
-    const data = await post.find(query);
-    
+    // const data = await post.find(query);
+    await this.ctx.render('/theme/layout.ejs');
   }
-
   async one() {
     // const { post } = this.ctx.service;
     // this.ctx.app.locals.menus = menus;
@@ -28,7 +33,7 @@ class UserController extends BaseController {
   }
 
   async not() {
-   
+
   }
 }
 

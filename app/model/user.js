@@ -21,16 +21,16 @@ module.exports = function (app) {
           notEmpty: true,
         },
       },
-      username: {
+      email: {
         type: STRING,
+        unique: true,
         validate: {
           notNull: true,
           notEmpty: true,
         },
       },
-      email: {
+      nickname: {
         type: STRING,
-        unique: true,
         validate: {
           notNull: true,
           notEmpty: true,

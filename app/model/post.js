@@ -1,7 +1,7 @@
 module.exports = function (app) {
   const {
     Bone,
-    DataTypes: { STRING, INTEGER, BIGINT, DATE, JSON },
+    DataTypes: { STRING,BOOLEAN, DATE, JSON },
   } = app.model;
   class Post extends Bone {
     static table = 'post';
@@ -10,12 +10,22 @@ module.exports = function (app) {
         type: STRING,
         primaryKey: true,
       },
+      // 提取第一个h1作为标题
       title: {
         type: STRING,
         validate: {
           notEmpty: true,
           notNull: true
         },
+      },
+      // 提取第一张图作为缩略图
+      thumbnail: {
+        type: STRING
+      },
+      // 是否显示在菜单栏
+      show: {
+        type: BOOLEAN,
+        defaultValue: false
       },
       content: {
         type: STRING,

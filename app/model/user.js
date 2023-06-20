@@ -21,6 +21,10 @@ module.exports = function (app) {
           notEmpty: true,
         },
       },
+      sign: {
+        type: STRING,
+        defaultValue: ''
+      },
       email: {
         type: STRING,
         unique: true,

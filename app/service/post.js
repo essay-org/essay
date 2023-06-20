@@ -12,22 +12,13 @@ class PostService extends Service {
     return result;
   }
   async remove(id) {
-    // 软删除
-    const result = await this.ctx.model.Post.remove({ id });
+    const result = await this.ctx.model.Post.remove({ id }, true);
     return result;
   }
-  async one(id) {
-    const result = await this.ctx.model.Post.findOne({ id })
-      .select('id', 'type', 'username', 'email')
-      .with('user');
-
-    return result;
-  }
-
-  async list(query) {
-    const result = await this.ctx.model.Post.find(query)
-      .select('id', 'type', 'username', 'email')
-      .with('user');
+  async find(query) {
+    const result = query.id
+      ? await this.ctx.model.Post.findOne(query)
+      : await this.ctx.model.Post.find(query);
 
     return result;
   }

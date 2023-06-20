@@ -5,22 +5,12 @@ module.exports = function (app) {
   } = app.model;
   class Post extends Bone {
     static table = 'post';
-    static initialize() {
-      this.hasOne('user')
-    }
     static attributes = {
       id: {
         type: STRING,
         primaryKey: true,
       },
       title: {
-        type: STRING,
-        validate: {
-          notEmpty: true,
-          notNull: true
-        },
-      },
-      userId: {
         type: STRING,
         validate: {
           notEmpty: true,

@@ -1,5 +1,3 @@
-const md5 = require('md5')
-
 module.exports = function (app) {
   const {
     Bone,
@@ -51,10 +49,6 @@ module.exports = function (app) {
       createdAt: DATE,
       deleteAt: DATE,
     };
-
-    set password(value) {
-      this.attribute('password', md5(value))
-    }
   }
   return User;
 };

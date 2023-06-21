@@ -46,7 +46,7 @@
     <li>
       <a href="/post?id=<%=data[i].id%>"><%= data[i].title %></a>
       <hr class="hr" />
-      <time class="date"><%= data[i].createdAt %></time>
+      <time class="date"><%= helper.formatDate(data[i].createdAt) %></time>
     </li>
     <%}%>
   </ul>

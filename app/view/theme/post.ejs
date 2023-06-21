@@ -18,8 +18,8 @@
   <div class="content"><%- helper.shtml(data.content) %></div>
   <div class="post-footer">
     <div class="left">
-      <span>发布@2021/3/20</span>
-      <span>更新@2021/3/22</span>
+      <span>发布@<%= helper.formatDate(data.createdAt) %></span>
+      <span>更新@<%= helper.formatDate(data.updatedAt) %></span>
       <span>浏览量(200)</span>
     </div>
     <div class="right">

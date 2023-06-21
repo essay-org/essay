@@ -18,6 +18,7 @@
     "md5": "^2.3.0",
     "mz-modules": "^2.1.0",
     "sqlite3": "^5.1.6",
+    "svg-captcha": "^1.4.0",
     "uid": "^2.0.2"
   },
   "devDependencies": {

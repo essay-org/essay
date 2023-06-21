@@ -16,3 +16,4 @@ typings/
 database/*
 !database/.gitkeep
 demo/
+install.lock

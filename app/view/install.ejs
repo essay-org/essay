@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Essay博客系统安装</title>
+    <link rel="stylesheet" href="/public/lib/lulu/ui.min.css" />
+    <link
+      rel="stylesheet"
+      href="//at.alicdn.com/t/c/font_4116632_2th5ql5s2x3.css"
+    />
+  </head>
+  <body>
+    <style>
+      html,
+      body {
+        background-color: #f3f3f3;
+        font-size: 14px;
+      }
+      .install {
+        padding: 15px;
+        border-radius: 5px;
+        max-width: 400px;
+        margin: 100px auto 50px;
+        background-color: #fff;
+      }
+      .install p {
+        line-height: 1.6;
+      }
+      .line-title {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 500;
+        position: relative;
+        margin-left: 10px;
+        margin-bottom: 20px;
+      }
+      .line-title::before {
+        content: '';
+        position: absolute;
+        width: 4px;
+        left: -10px;
+        top: 3px;
+        right: 0;
+        bottom: 3px;
+        height: inherit;
+        background-color: #2e353c;
+      }
+      .form input,
+      .form button {
+        width: 100%;
+      }
+      .form-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .form-item label {
+        position: relative;
+        min-width: 90px;
+        text-align: right;
+      }
+      .form-item label .required {
+        color: #eb4646;
+      }
+      #form2 {
+        display: none;
+      }
+    </style>
+    <div class="install">
+      <form id="form1" class="form">
+        <div class="form-item line-title">安装许可协议</div>
+        <p>
+          欢迎使用 Essay
+          博客管理系统。希望我们的努力能为你提供一个高效、简洁、个性化的文章管理系统。
+        </p>
+        <p>
+          Essay 全称为 Essay 博客管理系统，Essay 产品的开发商，依法独立拥有
+          Essay 产品著作权。 Essay 博客系统的代码托管在
+          <a href="https://github.com/wmui/essay" target="_blank"
+            >https://github.com/wmui/essay</a
+          >。 Essay
+          著作权受到法律和国际公约保护。使用者：无论个人或组织、盈利与否、用途如何（包括以学习和研究为目的），均需仔细阅读本协议，在理解、同意、并遵守本协议的全部条款后，方可开始使用
+          Essay 软件。 本授权协议适用且仅适用于 Essay
+          产品，Essay所有方拥有对本授权协议的最终解释权。
+        </p>
+        <h4>协议许可的权利</h4>
+        <p>
+          你可以在完全遵守本最终用户授权协议的基础上，将本软件应用于个人、商业用途，而不必支付软件版权授权费用。
+          你可以在协议规定的约束和限制范围内修改 Essay
+          源代码或界面风格以适应你的网站要求。
+          你拥有使用本软件构建的网站中全部资料、文章及相关信息的所有权，并独立承担与文章内容的相关法律义务。
+        </p>
+        <h4>协议规定的约束和限制</h4>
+        <p>
+          Essay 使用开源协议 MIT 对代码进行了开源，使用本 Essay 前，请确保遵守
+          MIT 协议
+        </p>
+        <div class="form-item">
+          <button
+            data-type="primary"
+            type="button"
+            class="ui-button"
+            id="step1"
+          >
+            下一步
+          </button>
+        </div>
+      </form>
+      <form id="form2" class="form">
+        <div class="form-item line-title">Essay博客系统安装</div>
+        <div class="form-item">
+          <label for="nickname"><i class="required">* </i>博客名称：</label>
+          <input
+            id="nickname"
+            name="nickname"
+            required
+            type="text"
+            class="ui-input"
+            placeholder="填写博客名称"
+          />
+        </div>
+        <div class="form-item">
+          <label for="email"><i class="required">* </i>登录邮箱：</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            class="ui-input"
+            required
+            placeholder="设置登录邮箱"
+          />
+        </div>
+        <div class="form-item">
+          <label for="password"><i class="required">* </i>登录密码：</label>
+          <input
+            required
+            id="password"
+            name="password"
+            type="password"
+            class="ui-input"
+            placeholder="设置登录密码"
+          />
+        </div>
+        <div class="form-item">
+          <button data-type="primary" class="ui-button">完成设置</button>
+        </div>
+      </form>
+    </div>
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+        var step1 = document.querySelector('#step1');
+        var form1 = document.querySelector('#form1');
+        var form2 = document.querySelector('#form2');
+
+        step1.addEventListener('click', function () {
+          form1.style.display = 'none';
+          form2.style.display = 'block';
+        });
+
+        new Validate(form2, function () {
+          var email = document.querySelector('input[name=email]');
+          var password = document.querySelector('input[name=password]');
+          var nickname = document.querySelector('input[name=nickname]');
+          axios
+            .post('/api/user', {
+              email: email.value,
+              password: password.value,
+              nickname: nickname.value,
+            })
+            .then(function (data) {
+              var ret = data.data;
+              if (data.data.success) {
+                window.location.href = '/';
+              } else {
+                new LightTip().error('系统安装失败');
+              }
+              console.log(ret);
+            })
+            .catch(function (err) {
+              new LightTip().error('系统错误');
+            });
+        });
+      });
+    </script>
+    <script src="/public/lib/lulu/all.min.js" defer></script>
+    <script src="/public/lib/axios/axios.min.js" defer></script>
+    <script src="/public/lib/ejs/ejs.min.js" defer></script>
+  </body>
+</html>

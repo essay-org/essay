@@ -21,7 +21,7 @@ class UserController extends BaseController {
     this.success(result);
   }
 
-  async find() {
+  async view() {
     const { id = '' } = this.ctx.query;
     const { post } = this.ctx.service;
     const data = await post.find({ id });
@@ -32,6 +32,12 @@ class UserController extends BaseController {
     }
     // this.success(data);
     // await this.ctx.redirect('/admin/dashboard');
+  }
+  async find() {
+    const { id = '' } = this.ctx.query;
+    const { post } = this.ctx.service;
+    const data = await post.find({ id });
+    this.success(data);
   }
   async editor() {
     // const data = await
@@ -45,7 +51,7 @@ class UserController extends BaseController {
   }
 
   async not() {
-
+    await this.ctx.render('/theme/404.ejs');
   }
   async upload() {
     const data = await this.ctx.service.post.upload(true);

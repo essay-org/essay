@@ -21,9 +21,7 @@ class UserController extends BaseController {
     this.success(data);
   }
   async loginTmp() {
-    const { user } = this.ctx.service;
-    const params = this.ctx.params;
-    const result = await user.remove(params.id);
+    await this.ctx.render('/theme/login.ejs');
   }
 }
 

@@ -1,7 +1,30 @@
+<style>
+  .post-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #999;
+  }
+  .post-footer .left span {
+    margin-right: 5px;
+  }
+  .post-footer a {
+    margin-left: 10px;
+  }
+</style>
 
 <article class="post">
-    <h1 class="title"><%= data.title %></h1>
-    <div class="content">
-        <%- helper.shtml(data.content) %>
+  <h1 class="title"><%= data.title %></h1>
+  <div class="content"><%- helper.shtml(data.content) %></div>
+  <div class="post-footer">
+    <div class="left">
+      <span>发布@2021/3/20</span>
+      <span>更新@2021/3/22</span>
+      <span>浏览量(200)</span>
     </div>
+    <div class="right">
+      <a href="#">删除</a>
+      <a href="/editor?id=<%= data.id %>">编辑</a>
+    </div>
+  </div>
 </article>

@@ -1,60 +1,73 @@
-<style>
-  .login {
-    margin: 50px;
-  }
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>管理登录</title>
+    <%- include('./style.ejs') -%>
+  </head>
+  <body>
+    <style>
+      .login {
+        margin: 150px auto 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .form-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .form-item .iconfont {
+        /* margin */
+        position: absolute;
+        left: 7px;
+        font-size: 14px;
+        color: #999;
+      }
+      .form-item input {
+        text-indent: 1.3em;
+        width: 200px;
+      }
+    </style>
 
-  .login .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .form-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .form-item .iconfont {
-    /* margin */
-    position: absolute;
-    left: 7px;
-    font-size: 14px;
-    color: #999;
-  }
-  .form-item input {
-    text-indent: 1.3em;
-    width: 200px;
-  }
-</style>
-
-<div class="login">
-  <form action="#" id="form" class="form">
-    <div class="form-item">
-      <!-- <label for="email"><i class="required">*</i> 邮箱：</label> -->
-        <input
-          type="email"
-          class="ui-input"
-          placeholder="请填写邮箱"
-          required
-        />
-        <i class="iconfont icon-admin"></i>
+    <div class="login">
+      <h3>管理登录</h3>
+      <form action="#" id="form" class="form">
+        <div class="form-item">
+          <!-- <label for="email"><i class="required">*</i> 邮箱：</label> -->
+          <input
+            type="email"
+            class="ui-input"
+            placeholder="请填写邮箱"
+            required
+          />
+          <i class="iconfont icon-admin"></i>
+        </div>
+        <div class="form-item">
+          <input
+            type="password"
+            class="ui-input"
+            placeholder="请填写密码"
+            required
+          />
+          <i class="iconfont icon-password"></i>
+        </div>
+        <div class="form-item">
+          <button class="ui-button" style="width: 200px" data-type="primary">
+            登录
+          </button>
+        </div>
+      </form>
     </div>
-    <div class="form-item">
-        <input
-          type="password"
-          class="ui-input"
-          placeholder="请填写密码"
-          required
-        />
-        <i class="iconfont icon-password"></i>
-    </div>
-    <div class="form-item">
-      <button class="ui-button" style="width: 200px" data-type="primary">登录</button>
-    </div>
-  </form>
-</div>
-<script>
-    window.addEventListener('DOMContentLoaded', function() {
-        console.log(axios)
-    })
-</script>
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+        console.log(axios);
+      });
+    </script>
+    <%- include('./footer.ejs') -%>
+  </body>
+</html>

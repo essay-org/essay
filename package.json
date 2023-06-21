@@ -1,7 +1,7 @@
 {
   "name": "essay",
   "version": "4.0.0",
-  "description": "Single User Blogging System",
+  "description": "个性化博客系统",
   "private": false,
   "egg": {
     "declarations": true

@@ -23,7 +23,12 @@ module.exports = function (app) {
         type: STRING
       },
       // 是否显示在菜单栏
-      show: {
+      isShow: {
+        type: BOOLEAN,
+        defaultValue: false
+      },
+      // 是否置顶
+      isTop: {
         type: BOOLEAN,
         defaultValue: false
       },

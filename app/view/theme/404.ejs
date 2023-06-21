@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404</title>
+    <%- include('./style.ejs') -%>
+  </head>
+  <body>
+    <style>
+      .not {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 100px;
+        margin-bottom: 30px;
+      }
+      .not .des {
+        font-size: 14px;
+        color: #999;
+        margin-bottom: 20px;
+      }
+    </style>
+
+    <div class="not">
+      <h1>404</h1>
+      <span class="des">这个页面不见了，就像曾经的你丢失了某些东西...</span>
+      <a class="ui-button" href="/">回到首页</a>
+    </div>
+  </body>
+</html>

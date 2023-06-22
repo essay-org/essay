@@ -30,7 +30,7 @@ class UserService extends Service {
   async find() {
     const result = await this.ctx.model.User.findOne({
       type: 'admin',
-    }).select('id', 'email', 'nickname', 'icp');
+    }).select('id', 'email', 'nickname', 'sign', 'icp');
 
     return result;
   }
@@ -40,7 +40,7 @@ class UserService extends Service {
       type: 'admin',
       password: md5(password),
       email,
-    }).select('id', 'email', 'nickname');
+    }).select('id', 'email', 'nickname', 'sign', 'icp');
 
     return result;
   }

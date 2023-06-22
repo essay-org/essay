@@ -27,6 +27,18 @@ class OptionService extends Service {
     });
     return result;
   }
+
+  async siteInfo() {
+    const { post, user } = this.ctx.service;
+    const menus = await post.find({ isShow: true });
+    const seo = await this.findSeo();
+    const site = await user.find();
+    return {
+      menus,
+      seo: seo.value || {},
+      site: site || {},
+    };
+  }
 }
 
 module.exports = OptionService;

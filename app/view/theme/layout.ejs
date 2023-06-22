@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ppx</title>
+    <title><%= seo.title %></title>
+    <meta name="keywords" content="<%= seo.keywords %>">
+    <meta name="description" content="<%= seo.description %>">
+    <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon">
     <%- include('./style.ejs') -%>
   </head>
   <body>
@@ -34,6 +37,11 @@
       }
       .nickname {
         font-size: 26px;
+      }
+      .sign {
+        font-size: 12px;
+        color: #666;
+        margin-left: 15px;
       }
       .nav {
         display: flex;
@@ -75,7 +83,8 @@
       }
     </style>
     <header class="header">
-      <div class="nickname">胖胖熊博客</div>
+      <div class="nickname"><%= site.nickname %></div>
+      <div class="sign">--<%= site.sign %></div>
     </header>
     <div class="container">
       <nav class="nav">
@@ -108,7 +117,7 @@
     </div>
     <footer class="footer">
       <span class="icp"
-        >ICP备案14000000-1 Powered by
+        ><%= site.icp %> Powered by
         <a href="https://github.wmui/essay" target="_blank">Essay</a></span
       >
     </footer>

@@ -7,7 +7,7 @@ class UserController extends BaseController {
 
   async list() {
     const query = this.ctx.query;
-    const { post } = this.ctx.service;
+    const { post, option, user } = this.ctx.service;
     let data = [];
     if (query.keywords) {
       query.keywords = decodeURIComponent(query.keywords);
@@ -15,10 +15,13 @@ class UserController extends BaseController {
     } else {
       data = await post.find(query);
     }
-    const menus = await post.find({ isShow: true });
+    const { menus, seo, site } = await option.siteInfo();
+    console.log(menus, seo, site);
     await this.ctx.render('/theme/layout.ejs', {
       data,
       menus,
+      seo,
+      site,
       router: 'list',
     });
   }

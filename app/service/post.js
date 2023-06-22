@@ -10,10 +10,17 @@ const Service = require('egg').Service;
 
 class PostService extends Service {
   async save({ id = '', ...rest }) {
-    const result = await this.ctx.model.Post.upsert({
-      id: id ? id : uid(),
+    // upsert返回1表示成功
+    let result = await this.ctx.model.Post.upsert({
+      id: id || uid(),
       ...rest,
     });
+
+    // fix: orm无法正确返回ID
+    if (result) {
+      result = await this.ctx.model.Post.first;
+    }
+    console.log(result);
     return result;
   }
   async remove(id) {
@@ -23,7 +30,7 @@ class PostService extends Service {
   async find(query) {
     const result = query.id
       ? await this.ctx.model.Post.findOne(query)
-      : await this.ctx.model.Post.find(query);
+      : await this.ctx.model.Post.find(query).order({ createdAt: 'desc' });
 
     return result;
   }

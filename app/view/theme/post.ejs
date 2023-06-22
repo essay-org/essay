@@ -50,7 +50,6 @@
               events: function events(event) {
                 var id = del.getAttribute('data-id')
                 axios.delete('/api/post/'+ id).then(function(data){
-                    // 这里返回后页面是不刷新的
                     window.history.back();
                 }).catch(function() {
                     new LightTip().error('操作失败')

@@ -1,6 +1,6 @@
 {
   "name": "essay",
-  "version": "4.0.0",
+  "version": "3.1.0",
   "description": "个性化博客系统",
   "private": false,
   "egg": {

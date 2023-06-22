@@ -19,7 +19,7 @@ module.exports = app => {
   // 添加文章
   router.post('/api/post', controller.post.save);
   // 修改文章
-  router.put('/api/post', controller.post.save);
+  // router.put('/api/post', controller.post.save);
   // 删除文章
   router.delete('/api/post/:id', controller.post.remove);
   // 系统安装

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>随笔</title>
+    <title>随笔一下</title>
     <link
       rel="stylesheet"
       href="/public/lib/markdown/cherry-markdown.min.css"
@@ -44,9 +44,6 @@
   </head>
   <body>
     <div class="btns" id="btns">
-      <!-- <input type="checkbox" id="box" name="show" />
-      <label for="box" class="ui-checkbox"></label>
-      <label for="box" class="box">在导航栏显示</label> -->
       <button class="ui-button" data-status="draft">存草稿</button>
       <button class="ui-button" data-type="primary" data-status="pushed">
         发布
@@ -56,41 +53,74 @@
 
     <script>
       window.addEventListener('DOMContentLoaded', function () {
+        var params = new URLSearchParams(document.location.search);
+        var postId = (params && params.get('id')) || '';
+
+        var saveArticle = function (status, cb) {
+          var content = window.editor.getMarkdown();
+          var title = window.editor.getToc()
+          title = title.length ? title[0].id : '匿名随笔'
+          if(!content || !title) return false
+          axios
+            .post('/api/post', {
+              id: postId,
+              content: content,
+              status: status,
+              title: title,
+            })
+            .then(function (data) {
+              if (data.data.success === false) {
+                return new LightTip().error('操作失败');
+              }
+              // 发布的文章id
+              if(data.data.data.id) {
+                postId = data.data.data.id
+              }
+              cb && cb();
+            })
+            .catch(function () {
+              new LightTip().error('操作失败');
+            });
+        };
+
+        var autoSave = function (clear) {
+          var timer = null;
+          if (clear) {
+            clearInterval(timer);
+          } else {
+            timer = setInterval(function () {
+            saveArticle('draft', function() {
+              if(postId) {
+                window.history.replaceState(null, null, '/editor?id=' + postId)
+              }
+            });
+          }, 10000);
+          }
+          
+        };
         var callbacks = {
           afterInit: function () {
             var btns = document.querySelector('#btns');
-            var params = new URLSearchParams(document.location.search);
-            var postId = params && params.get('id')
             btns.style.display = 'block';
+            autoSave();
             btns.addEventListener('click', function (event) {
               var status = event.target.getAttribute('data-status');
-              var content = window.editor.getMarkdown();
-              // setMarkdown
-              if (status && content) {
-                axios
-                  .post('/api/post', {
-                    id: postId || '',
-                    content: content,
-                    status: status,
-                    title: 'title hahah',
-                  })
-                  .then(function (data) {
-                    console.log(data);
-                    window.location.href = postId ?  '/post?id=' + postId : '/'
-                    // new LightTip().success('操作完成');
-                  })
-                  .catch(function () {
-                    new LightTip().error('操作失败');
-                  });
-                // console.log(target, window.editor.getMarkdown());
+              // 发布成功后跳转到详情
+              if (status) {
+                saveArticle(status, function() {
+                  autoSave(true)
+                  window.location.href = postId ? '/post?id=' + postId : '/';
+                });
               }
             });
+            // 数据初始化
             if (postId) {
-              // console.log(params.get('id'))
               axios
                 .get('/api/post?id=' + postId)
                 .then(function (data) {
-                  console.log(data);
+                  if (data.data.success === false) {
+                    return new LightTip().error('内容获取失败');
+                  }
                   editor.setMarkdown(data.data.data.content);
                 })
                 .catch(function (error) {
@@ -99,7 +129,6 @@
             }
           },
           fileUpload: function (file, callback) {
-            // console.log(file, callback)
             var formData = new FormData();
             formData.append('uploadFile', file);
             axios

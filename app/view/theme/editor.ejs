@@ -23,6 +23,7 @@
       }
       .btns {
         position: absolute;
+        display: flex;
         right: 15px;
         top: 9px;
         display: none;
@@ -36,16 +37,25 @@
       }
 
       .btns .box {
-        font-size: 12px;
+        font-size: 14px;
         color: #666;
-        margin-right: 5px;
+        margin-right: 10px;
+      }
+      .btns .ui-checkbox + label {
+        margin-left: 0;
       }
     </style>
   </head>
   <body>
     <div class="btns" id="btns">
-      <button class="ui-button" data-status="draft">存草稿</button>
-      <button class="ui-button" data-type="primary" data-status="pushed">
+        <input type="checkbox" id="isTop" name="isTop" />
+        <label for="isTop" class="ui-checkbox"></label>
+        <label for="isTop" class="box">置顶</label>
+        <input type="checkbox" id="isShow" name="isShow" />
+        <label for="isShow" class="ui-checkbox"></label>
+        <label for="isShow" class="box">在导航栏显示</label>
+        <button class="ui-button" data-status="draft">存草稿</button>
+        <button class="ui-button" data-type="primary" data-status="pushed">
         发布
       </button>
     </div>
@@ -55,26 +65,31 @@
       window.addEventListener('DOMContentLoaded', function () {
         var params = new URLSearchParams(document.location.search);
         var postId = (params && params.get('id')) || '';
-
+        var isTop = document.querySelector('#isTop')
+          var isShow = document.querySelector('#isShow')
         var saveArticle = function (status, cb) {
           var content = window.editor.getMarkdown();
-          var title = window.editor.getToc()
-          title = title.length ? title[0].id : '匿名随笔'
-          if(!content || !title) return false
+          var title = window.editor.getToc();
+          
+          title = title.length ? window.decodeURIComponent(title[0].id) : '匿名随笔';
+          console.log(title)
+          if (!content || !title) return false;
           axios
             .post('/api/post', {
               id: postId,
               content: content,
               status: status,
               title: title,
+              isTop: isTop.checked,
+              isShow: isShow.checked
             })
             .then(function (data) {
               if (data.data.success === false) {
                 return new LightTip().error('操作失败');
               }
               // 发布的文章id
-              if(data.data.data.id) {
-                postId = data.data.data.id
+              if (data.data.data.id) {
+                postId = data.data.data.id;
               }
               cb && cb();
             })
@@ -89,14 +104,17 @@
             clearInterval(timer);
           } else {
             timer = setInterval(function () {
-            saveArticle('draft', function() {
-              if(postId) {
-                window.history.replaceState(null, null, '/editor?id=' + postId)
-              }
-            });
-          }, 10000);
+              saveArticle('draft', function () {
+                if (postId) {
+                  window.history.replaceState(
+                    null,
+                    null,
+                    '/editor?id=' + postId
+                  );
+                }
+              });
+            }, 10000);
           }
-          
         };
         var callbacks = {
           afterInit: function () {
@@ -107,8 +125,8 @@
               var status = event.target.getAttribute('data-status');
               // 发布成功后跳转到详情
               if (status) {
-                saveArticle(status, function() {
-                  autoSave(true)
+                saveArticle(status, function () {
+                  autoSave(true);
                   window.location.href = postId ? '/post?id=' + postId : '/';
                 });
               }
@@ -121,7 +139,10 @@
                   if (data.data.success === false) {
                     return new LightTip().error('内容获取失败');
                   }
-                  editor.setMarkdown(data.data.data.content);
+                  var val = data.data.data
+                  editor.setMarkdown(val.content);
+                  isTop.checked = val.isTop
+                  isShow.checked = val.isShow
                 })
                 .catch(function (error) {
                   new LightTip().error('内容获取失败');
@@ -138,7 +159,6 @@
                 },
               })
               .then(function (data) {
-                // console.log(data);
                 var url = data.data.data.uploadFile + '?q60';
                 callback(url);
               });

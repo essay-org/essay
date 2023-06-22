@@ -1,0 +1,206 @@
+<style></style>
+
+<div class="setting">
+  <form id="form1" class="form">
+    <div class="form-item line-title">SEO信息</div>
+    <div class="form-item">
+      <label for="title"><i class="required">* </i>标题：</label>
+      <input
+        id="title"
+        name="title"
+        required
+        value="<%= seo.title %>"
+        type="text"
+        class="ui-input"
+        placeholder="填写标题"
+      />
+    </div>
+    <div class="form-item">
+      <label for="keywords"><i class="required">* </i>关键字：</label>
+      <input
+        id="keywords"
+        name="keywords"
+        value="<%= seo.keywords %>"
+        required
+        type="text"
+        class="ui-input"
+        placeholder="填写关键字"
+      />
+    </div>
+    <div class="form-item">
+      <label for="description"><i class="required">* </i>描述：</label>
+      <input
+        id="description"
+        name="description"
+        value="<%= seo.description %>"
+        required
+        type="text"
+        class="ui-input"
+        placeholder="填写描述"
+      />
+    </div>
+    <div class="form-item">
+      <button data-type="primary" class="ui-button" id="btn1">完成</button>
+    </div>
+  </form>
+  <form id="form2" class="form">
+    <div class="form-item line-title">博客信息</div>
+
+    <div class="form-item">
+      <label for="nickname"><i class="required">* </i>博客名字：</label>
+      <input
+        id="nickname"
+        value="<%= userInfo.nickname %>"
+        name="nickname"
+        required
+        type="text"
+        class="ui-input"
+        placeholder="填写博客名字"
+      />
+    </div>
+    <div class="form-item">
+      <label for="sign"><i class="required">* </i>个性签名：</label>
+      <input
+        id="sign"
+        name="sign"
+        required
+        value="<%= userInfo.sign %>"
+        type="text"
+        class="ui-input"
+        placeholder="填写个性签名"
+      />
+    </div>
+    <div class="form-item">
+      <label for="icp"><i class="required">* </i>ICP备案：</label>
+      <input
+        id="icp"
+        name="icp"
+        required
+        type="text"
+        value="<%= userInfo.icp %>"
+        class="ui-input"
+        placeholder="填写ICP备案号"
+      />
+    </div>
+    <div class="form-item">
+      <button data-type="primary" class="ui-button" id="btn2">完成</button>
+    </div>
+  </form>
+  <form id="form3" class="form"  autocomplete="off">
+    <div class="form-item line-title">账号重置</div>
+
+    <div class="form-item">
+      <label for="email"><i class="required">* </i>登录邮箱：</label>
+      <input
+        id="email"
+        name="email"
+        value="<%= userInfo.email %>"
+        type="email"
+        class="ui-input"
+        required
+        placeholder="重置登录邮箱"
+      />
+    </div>
+    <div class="form-item">
+      <label for="password"><i class="required">* </i>登录密码：</label>
+      <input
+        required
+        id="password"
+        name="password"
+        autocomplete="new-password"
+        type="password"
+        class="ui-input"
+        placeholder="重置登录密码"
+      />
+    </div>
+    <div class="form-item">
+      <button data-type="primary" class="ui-button" id="btn3">完成</button>
+    </div>
+  </form>
+</div>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var form1 = document.querySelector('#form1');
+    var form2 = document.querySelector('#form2');
+    var form3 = document.querySelector('#form3');
+    var btn1 = document.querySelector('#btn1');
+    var btn2 = document.querySelector('#btn2');
+    var btn3 = document.querySelector('#btn3');
+
+    var fail = function (msg) {
+      new LightTip().error(msg || '操作失败');
+    };
+    var success = function (msg) {
+      new LightTip().success(msg || '操作成功');
+    };
+    // seo form
+    new Validate(form1, function () {
+      var title = document.querySelector('input[name=title]');
+      var keywords = document.querySelector('input[name=keywords]');
+      var description = document.querySelector('input[name=description]');
+
+      axios
+        .post('/api/seo', {
+          title: title.value,
+          keywords: keywords.value,
+          description: description.value,
+        })
+        .then(function (data) {
+            console.log(data)
+          if (data.data.success) {
+            success();
+          } else {
+            fail();
+          }
+        })
+        .catch(function (err) {
+            console.log(err)
+          fail();
+        });
+    });
+
+    // site form
+    new Validate(form2, function () {
+      var nickname = document.querySelector('input[name=nickname]');
+      var sign = document.querySelector('input[name=sign]');
+      var icp = document.querySelector('input[name=icp]');
+      axios
+        .put('/api/user', {
+          nickname: nickname.value,
+          sign: sign.value,
+          icp: icp.value,
+        })
+        .then(function (data) {
+          if (data.data.success) {
+            success();
+          } else {
+            fail();
+          }
+        })
+        .catch(function (err) {
+          fail();
+        });
+    });
+
+    // user form
+    new Validate(form3, function () {
+      var email = document.querySelector('input[name=email]');
+      var password = document.querySelector('input[name=password]');
+      axios
+        .put('/api/user', {
+          email: email.value,
+          password: password.value,
+        })
+        .then(function (data) {
+          if (data.data.success) {
+            success();
+          } else {
+            fail();
+          }
+        })
+        .catch(function (err) {
+          fail();
+        });
+    });
+  });
+</script>

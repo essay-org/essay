@@ -1,65 +1,25 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>管理登录</title>
-    <%- include('./style.ejs') -%>
-  </head>
-  <body>
-    <style>
-      .login {
-        margin: 150px auto 50px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .form-item {
-        position: relative;
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-      .form-item .iconfont {
-        /* margin */
-        position: absolute;
-        left: 7px;
-        font-size: 14px;
-        color: #999;
-      }
-      .form-item input {
-        text-indent: 1.3em;
-        width: 230px;
-      }
-      .form-item button {
-        width: 230px;
-      }
-    </style>
+<style>
 
-    <div class="login">
-      <h3>管理登录</h3>
-      <form id="form" class="form">
-        <div class="form-item">
-          <!-- <label for="email"><i class="required">*</i> 邮箱：</label> -->
-          <input
-            type="email"
-            class="ui-input"
-            placeholder="请填写邮箱"
-            required
-          />
-          <i class="iconfont icon-admin"></i>
-        </div>
-        <div class="form-item">
-          <input
-            type="password"
-            class="ui-input"
-            placeholder="请填写密码"
-            required
-          />
-          <i class="iconfont icon-password"></i>
-        </div>
-        <!-- <div class="form-item">
+</style>
+
+<div class="login">
+  <form id="form" class="form">
+    <div class="form-item line-title">管理登录</div>
+    <div class="form-item">
+      <label for="email"><i class="required">*</i> 邮箱：</label>
+      <input type="email" class="ui-input" placeholder="请填写邮箱" required />
+    </div>
+    <div class="form-item">
+      <label for="password"><i class="required">*</i> 密码：</label>
+      <input
+        type="password"
+        class="ui-input"
+        placeholder="请填写密码"
+        required
+      />
+      <i class="iconfont icon-password"></i>
+    </div>
+    <!-- <div class="form-item">
           <input
             type="password"
             class="ui-input"
@@ -69,40 +29,36 @@
           <i class="iconfont icon-password"></i>
           
         </div> -->
-        <div class="form-item">
-          <button class="ui-button" id="login" data-type="primary">
-            登录
-          </button>
-        </div>
-      </form>
+    <div class="form-item">
+      <button class="ui-button" id="login" data-type="primary">登录</button>
     </div>
-    <script>
-      window.addEventListener('DOMContentLoaded', function () {
-        var form = document.querySelector('#form')
-        var login = document.querySelector('#login')
+  </form>
+</div>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var form = document.querySelector('#form');
+    var login = document.querySelector('#login');
 
+    new Validate(form, function () {
+      var pass = document.querySelector('input[type=password]');
+      var email = document.querySelector('input[type=email]');
 
-        new Validate(form, function() {
-          var pass = document.querySelector('input[type=password]')
-          var email = document.querySelector('input[type=email]')
-          
-          axios.post('/api/login', {
-            password: pass.value,
-            email: email.value
-          }).then(function(data) {
-            console.log(data)
-            if(data.data.success) {
-              window.location.href = '/editor'
-            }else {
-              new LightTip().error('邮箱或密码错误')
-            }
-            
-          }).catch(function() {
-            new LightTip().error('系统错误')
-          })
+      axios
+        .post('/api/login', {
+          password: pass.value,
+          email: email.value,
         })
-      });
-    </script>
-    <%- include('./script.ejs') -%>
-  </body>
-</html>
+        .then(function (data) {
+          console.log(data);
+          if (data.data.success) {
+            window.location.href = '/editor';
+          } else {
+            new LightTip().error('邮箱或密码错误');
+          }
+        })
+        .catch(function () {
+          new LightTip().error('系统错误');
+        });
+    });
+  });
+</script>

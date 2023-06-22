@@ -45,7 +45,9 @@ class UserController extends BaseController {
     this.success(data);
   }
   async loginTmp() {
-    await this.ctx.render('/theme/login.ejs');
+    await this.ctx.render('/theme/layout.ejs', {
+      router: 'login',
+    });
   }
   async captcha() {
     const { user } = this.ctx.service;

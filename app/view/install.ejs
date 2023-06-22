@@ -28,7 +28,7 @@
       .install p {
         line-height: 1.6;
       }
-      .line-title {
+      .form .line-title {
         display: flex;
         justify-content: space-between;
         font-size: 14px;
@@ -37,7 +37,7 @@
         margin-left: 10px;
         margin-bottom: 20px;
       }
-      .line-title::before {
+      .form .line-title::before {
         content: '';
         position: absolute;
         width: 4px;
@@ -178,7 +178,6 @@
               } else {
                 new LightTip().error('系统安装失败');
               }
-              console.log(ret);
             })
             .catch(function (err) {
               new LightTip().error('系统错误');

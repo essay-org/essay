@@ -10,16 +10,17 @@ class UserService extends Service {
     let result = await this.ctx.model.User.findOne({
       type: 'admin',
     });
+    if (password) {
+      password = md5(password);
+    }
     if (result) {
       await this.ctx.model.User.update({ type: 'admin' }, {
         ...rest,
-        password: md5(password),
       });
     } else {
       result = await this.ctx.model.User.create({
         id: uid(),
         ...rest,
-        password: md5(password),
         type: 'admin',
       });
     }
@@ -29,7 +30,7 @@ class UserService extends Service {
   async find() {
     const result = await this.ctx.model.User.findOne({
       type: 'admin',
-    }).select('id', 'email', 'nickname');
+    }).select('id', 'email', 'nickname', 'icp');
 
     return result;
   }

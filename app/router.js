@@ -9,9 +9,9 @@ module.exports = app => {
   const { router, controller, middleware } = app;
   const isInstall = middleware.isInstall();
   // 首页
-  router.get('/', isInstall, controller.post.home);
+  router.get('/', controller.post.home);
   // 编辑器
-  router.get('/editor', isInstall, controller.post.editor);
+  router.get('/editor', controller.post.editor);
   // 文章详情页
   router.get('/post', controller.post.view);
   // 获取文章
@@ -36,6 +36,12 @@ module.exports = app => {
   router.post('/api/login', controller.user.login);
   // 初始化管理员
   router.post('/api/user', controller.user.init);
+  // 设置
+  router.get('/setting', controller.option.setting);
+  // 修改或新增seo
+  router.post('/api/seo', controller.option.saveSeo);
+  router.get('/api/seo', controller.option.findSeo);
+
   // 资源上传
   router.post('/api/upload', controller.post.upload);
   // 其他

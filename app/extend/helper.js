@@ -7,4 +7,7 @@ module.exports = {
   formatDate(date, format = 'YYYY/MM/DD') {
     return dayjs(date).format(format);
   },
+  get(obj = {}, key = '') {
+    return obj[key] || '';
+  },
 };

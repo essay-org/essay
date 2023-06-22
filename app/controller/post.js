@@ -21,14 +21,18 @@ class UserController extends BaseController {
     this.success(result);
   }
 
+  // 详情
   async view() {
     const { id = '' } = this.ctx.query;
     const { post } = this.ctx.service;
     const data = await post.find({ id });
 
-    if (id) {
+    if (id && data) {
       data.content = cherryEngineInstance.makeHtml(data.content);
+      await post.save({ id, view: data.view + 1, ...data });
       await this.ctx.render('/theme/layout.ejs', { data, router: 'post' });
+    } else {
+      await this.not();
     }
     // this.success(data);
     // await this.ctx.redirect('/admin/dashboard');

@@ -17,7 +17,7 @@ class PostService extends Service {
     return result;
   }
   async remove(id) {
-    const result = await this.ctx.model.Post.remove({ id }, true);
+    const result = await this.ctx.model.Post.remove({ id });
     return result;
   }
   async find(query) {

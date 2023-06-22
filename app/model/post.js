@@ -1,7 +1,7 @@
 module.exports = function (app) {
   const {
     Bone,
-    DataTypes: { STRING,BOOLEAN, DATE, JSON },
+    DataTypes: { STRING,BOOLEAN, DATE, JSON, BIGINT},
   } = app.model;
   class Post extends Bone {
     static table = 'post';
@@ -17,6 +17,14 @@ module.exports = function (app) {
           notEmpty: true,
           notNull: true
         },
+      },
+      sort: {
+        type: BIGINT,
+        defaultValue: 0
+      },
+      view: {
+        type: BIGINT,
+        defaultValue: 1
       },
       // 提取第一张图作为缩略图
       thumbnail: {

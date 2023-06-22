@@ -45,6 +45,10 @@ module.exports = function (app) {
           notEmpty: true,
         },
       },
+      icp: {
+        type: STRING,
+        defaultValue: ''
+      },
       updatedAt: DATE,
       createdAt: DATE,
       deleteAt: DATE,

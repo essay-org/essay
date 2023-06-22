@@ -81,7 +81,7 @@
       <nav class="nav">
         <ul>
           <li><a href="/" class="nav-item">首页</a></li>
-          <li><a href="/" class="nav-item">留言板</a></li>
+          <li><a href="/setting" class="nav-item">设置</a></li>
           <li><a href="/editor" class="nav-item">新随笔</a></li>
         </ul>
 
@@ -94,8 +94,12 @@
           <%- include('./list.ejs', { data }) -%>
         <%} else if(router === 'post') {%>
           <%- include('./post.ejs', { data }) -%>
+        <%} else if(router === 'login') {%>
+          <%- include('./login.ejs') -%>
+        <%} else if(router === 'setting') {%>
+          <%- include('./setting.ejs') -%>
         <%} else {%>
-          
+          <%- include('./404.ejs') -%>
         <%}%>
       </main>
     </div>

@@ -20,11 +20,47 @@
     <div class="left">
       <span>发布@<%= helper.formatDate(data.createdAt) %></span>
       <span>更新@<%= helper.formatDate(data.updatedAt) %></span>
-      <span>浏览量(200)</span>
+      <span>浏览量(<%= data.view %>)</span>
     </div>
     <div class="right">
-      <a href="#">删除</a>
+      <a href="javascript:;" id="del" data-id="<%= data.id %>">删除</a>
       <a href="/editor?id=<%= data.id %>">编辑</a>
     </div>
   </div>
 </article>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var del = document.querySelector('#del');
+    del.addEventListener('click', function () {
+      new Dialog().confirm(
+        '<h6>确定要删除吗？</h6><p>删除后文章不会出现在列表中</p>',
+        {
+          buttons: [
+            {
+              type: 'normal',
+              value: '取消',
+              events: function events(event) {
+                console.log('cancel');
+                event.dialog.remove();
+              },
+            },
+            {
+              type: 'danger',
+              value: '确定',
+              events: function events(event) {
+                var id = del.getAttribute('data-id')
+                axios.delete('/api/post/'+ id).then(function(data){
+                    // 这里返回后页面是不刷新的
+                    window.history.back();
+                }).catch(function() {
+                    new LightTip().error('操作失败')
+                })
+                event.dialog.remove();
+              },
+            },
+          ],
+        }
+      );
+    });
+  });
+</script>

@@ -10,17 +10,21 @@ const Service = require('egg').Service;
 
 class PostService extends Service {
   async save({ id = '', ...rest }) {
-    // upsert返回1表示成功
-    let result = await this.ctx.model.Post.upsert({
-      id: id || uid(),
-      ...rest,
-    });
-
-    // fix: orm无法正确返回ID
-    if (result) {
-      result = await this.ctx.model.Post.first;
+    // 创建/更新成功返回id
+    let result = null;
+    if (id) {
+      result = await this.ctx.model.Post.update({ id }, {
+        ...rest,
+      });
+      result && (result = id);
+    } else {
+      const newId = uid();
+      await this.ctx.model.Post.create({
+        id: newId,
+        ...rest,
+      });
+      result = newId;
     }
-    console.log(result);
     return result;
   }
   async remove(id) {
@@ -30,7 +34,7 @@ class PostService extends Service {
   async find(query) {
     const result = query.id
       ? await this.ctx.model.Post.findOne(query)
-      : await this.ctx.model.Post.find(query).order({ createdAt: 'desc' });
+      : await this.ctx.model.Post.find(query).order({ isTop: 'desc', createdAt: 'desc' });
 
     return result;
   }

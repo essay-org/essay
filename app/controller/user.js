@@ -45,8 +45,11 @@ class UserController extends BaseController {
     this.success(data);
   }
   async loginTmp() {
+    const { post } = this.ctx.service;
+    const menus = await post.find({ isShow: true });
     await this.ctx.render('/theme/layout.ejs', {
       router: 'login',
+      menus,
     });
   }
   async captcha() {

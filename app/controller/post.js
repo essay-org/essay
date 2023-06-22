@@ -5,20 +5,32 @@ const cherryEngineInstance = new CherryEngine();
 const BaseController = require('../core/base');
 class UserController extends BaseController {
 
-  async home() {
+  async list() {
     const query = this.ctx.query;
     const { post } = this.ctx.service;
-    const data = await post.find(query);
+    let data = [];
+    if (query.keywords) {
+      query.keywords = decodeURIComponent(query.keywords);
+      data = await post.find({ content: { $like: `%${query.keywords}%` } });
+    } else {
+      data = await post.find(query);
+    }
+    const menus = await post.find({ isShow: true });
     await this.ctx.render('/theme/layout.ejs', {
       data,
-      router: 'home',
+      menus,
+      router: 'list',
     });
   }
   async save() {
     const { post } = this.ctx.service;
     const body = this.ctx.request.body;
     const result = await post.save(body);
-    this.success(result);
+    if (result) {
+      this.success(result);
+    } else {
+      this.fail(result);
+    }
   }
 
   // 详情
@@ -26,16 +38,14 @@ class UserController extends BaseController {
     const { id = '' } = this.ctx.query;
     const { post } = this.ctx.service;
     const data = await post.find({ id });
-
+    const menus = await post.find({ isShow: true });
     if (id && data) {
       data.content = cherryEngineInstance.makeHtml(data.content);
       await post.save({ id, view: data.view + 1, ...data });
-      await this.ctx.render('/theme/layout.ejs', { data, router: 'post' });
+      await this.ctx.render('/theme/layout.ejs', { data, router: 'post', menus });
     } else {
       await this.not();
     }
-    // this.success(data);
-    // await this.ctx.redirect('/admin/dashboard');
   }
   async find() {
     const { id = '' } = this.ctx.query;
@@ -44,7 +54,6 @@ class UserController extends BaseController {
     this.success(data);
   }
   async editor() {
-    // const data = await
     await this.ctx.render('/theme/editor.ejs');
   }
   async remove() {

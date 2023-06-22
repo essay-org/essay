@@ -10,6 +10,7 @@
       href="/public/lib/markdown/cherry-markdown.min.css"
     />
     <link rel="stylesheet" href="/public/lib/lulu/ui.min.css" />
+    <script src="/public/lib/lulu/all.min.js" defer></script>
     <script src="/public/lib/markdown/cherry-markdown.min.js" defer></script>
     <script src="/public/lib/axios/axios.min.js" defer></script>
     <style>
@@ -88,8 +89,8 @@
                 return new LightTip().error('操作失败');
               }
               // 发布的文章id
-              if (data.data.data.id) {
-                postId = data.data.data.id;
+              if (data.data.data) {
+                postId = data.data.data;
               }
               cb && cb();
             })

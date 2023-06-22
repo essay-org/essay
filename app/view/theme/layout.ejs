@@ -81,6 +81,9 @@
       <nav class="nav">
         <ul>
           <li><a href="/" class="nav-item">首页</a></li>
+          <% for(var i = 0; i < menus.length; i++) {%>
+            <li><a href="/post?id=<%=menus[i].id%>" class="nav-item"><%= menus[i].title %></a></li>
+            <%}%>
           <li><a href="/setting" class="nav-item">设置</a></li>
           <li><a href="/editor" class="nav-item">新随笔</a></li>
         </ul>
@@ -90,7 +93,7 @@
         </div>
       </nav>
       <main class="main">
-        <% if(router === 'home') {%>
+        <% if(router === 'list') {%>
           <%- include('./list.ejs', { data }) -%>
         <%} else if(router === 'post') {%>
           <%- include('./post.ejs', { data }) -%>
@@ -109,6 +112,16 @@
         <a href="https://github.wmui/essay" target="_blank">Essay</a></span
       >
     </footer>
+    <script>
+      window.addEventListener('DOMContentLoaded', function(){
+        var search = document.querySelector('input[type=search]')
+        search.addEventListener('keyup', function(event) {
+          if(event.key === 'Enter' && search.value) {
+            window.location.href = '/search?keywords=' + encodeURIComponent(search.value)
+          }
+        })
+      })
+    </script>
     <%- include('./script.ejs') -%>
   </body>
 </html>

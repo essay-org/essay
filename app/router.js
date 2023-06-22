@@ -9,7 +9,8 @@ module.exports = app => {
   const { router, controller, middleware } = app;
   const isInstall = middleware.isInstall();
   // 首页
-  router.get('/', controller.post.home);
+  router.get('/', controller.post.list);
+  router.get('/search', controller.post.list);
   // 编辑器
   router.get('/editor', controller.post.editor);
   // 文章详情页

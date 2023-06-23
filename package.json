@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@nuxtjs/google-analytics": "^2.2.0",
-    "@nuxtjs/pwa": "^3.0.0-beta.16",
+    "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/style-resources": "^0.1.2",
     "archiver": "^3.0.0",
     "axios": "^0.19.0",

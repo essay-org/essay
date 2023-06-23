@@ -4,6 +4,7 @@
     justify-content: space-between;
     font-size: 12px;
     color: #999;
+    margin-bottom: 30px;
   }
   .post-footer .left span {
     margin-right: 5px;
@@ -11,10 +12,23 @@
   .post-footer a {
     margin-left: 10px;
   }
+  .pre-next {
+    color: #666;
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
 </style>
 
 <article class="post">
   <div class="content"><%- helper.shtml(data.content) %></div>
+  <div class="pre-next">
+    <% if(pre) {%>
+    <div class="pre">上一篇：<a href="/post?id=<%= pre.id %>"><%= pre.title %></a></div>
+    <%}%>
+    <% if(next) {%>
+    <div class="next">下一篇：<a href="/post?id=<%= next.id %>"><%= next.title %></a></div>
+    <%}%>
+  </div>
   <div class="post-footer">
     <div class="left">
       <span>发布@<%= helper.formatDate(data.createdAt) %></span>

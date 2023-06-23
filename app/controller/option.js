@@ -1,18 +1,18 @@
 'use strict';
 
 const BaseController = require('../core/base');
-
+const pkg = require('../../package.json');
 class OptionController extends BaseController {
   async setting() {
     const { option, user, post } = this.ctx.service;
-    const seo = await option.findSeo();
-    const menus = await post.find({ isShow: true });
+    const { menus, seo, site } = await option.siteInfo();
     const userInfo = await user.find();
     await this.ctx.render('/theme/layout.ejs', {
       router: 'setting',
       userInfo,
       menus,
-      seo: seo.value || {},
+      seo,
+      site,
     });
   }
 
@@ -27,6 +27,9 @@ class OptionController extends BaseController {
     const { option } = this.ctx.service;
     const result = await option.findSeo();
     this.success(result);
+  }
+  async version() {
+    this.success(pkg.version);
   }
 }
 

@@ -39,6 +39,21 @@ class PostService extends Service {
     return result;
   }
 
+  async pre({ createdAt }) {
+    const data = await this.ctx.model.Post.findOne({ createdAt: { $lt: createdAt }, status: 'pushed' });
+    return data && {
+      id: data.id,
+      title: data.title,
+    };
+  }
+
+  async next({ createdAt }) {
+    const data = await this.ctx.model.Post.findOne({ createdAt: { $gt: createdAt }, status: 'pushed' });
+    return data && {
+      id: data.id,
+      title: data.title,
+    };
+  }
   async upload(enableThumbnail) {
     const parts = this.ctx.multipart({ autoFields: true });
     let stream = null;

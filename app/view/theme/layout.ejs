@@ -4,7 +4,19 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= seo.title %></title>
+    <title>
+      <% if(router === 'list') {%>
+        <%= seo.title %>
+      <%} else if(router === 'post') {%>
+        <%= data.title %>-<%= site.nickname %>
+      <%} else if(router === 'login') {%>
+          登录-<%= site.nickname %>
+        <%} else if(router === 'setting') {%>
+          设置-<%= site.nickname %>
+      <%} else {%>
+          404
+      <%}%>
+    </title>
     <meta name="keywords" content="<%= seo.keywords %>">
     <meta name="description" content="<%= seo.description %>">
     <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon">
@@ -84,7 +96,7 @@
     </style>
     <header class="header">
       <div class="nickname"><%= site.nickname %></div>
-      <div class="sign">--<%= site.sign %></div>
+      <div class="sign"><%= site.sign %></div>
     </header>
     <div class="container">
       <nav class="nav">
@@ -93,6 +105,7 @@
           <% for(var i = 0; i < menus.length; i++) {%>
             <li><a href="/post?id=<%=menus[i].id%>" class="nav-item"><%= menus[i].title %></a></li>
             <%}%>
+          <li><a href="/draft" class="nav-item">草稿箱</a></li>
           <li><a href="/setting" class="nav-item">设置</a></li>
           <li><a href="/editor" class="nav-item">新随笔</a></li>
         </ul>
@@ -105,7 +118,7 @@
         <% if(router === 'list') {%>
           <%- include('./list.ejs', { data }) -%>
         <%} else if(router === 'post') {%>
-          <%- include('./post.ejs', { data }) -%>
+          <%- include('./post.ejs', { data, pre, next }) -%>
         <%} else if(router === 'login') {%>
           <%- include('./login.ejs') -%>
         <%} else if(router === 'setting') {%>

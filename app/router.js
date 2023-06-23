@@ -11,6 +11,7 @@ module.exports = app => {
   // 首页
   router.get('/', controller.post.list);
   router.get('/search', controller.post.list);
+  router.get('/draft', controller.post.draft);
   // 编辑器
   router.get('/editor', controller.post.editor);
   // 文章详情页
@@ -45,6 +46,8 @@ module.exports = app => {
 
   // 资源上传
   router.post('/api/upload', controller.post.upload);
+  // version
+  router.get('/api/version', controller.option.version);
   // 其他
   router.get('*', controller.post.not);
 };

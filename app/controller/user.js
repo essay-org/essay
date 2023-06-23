@@ -35,8 +35,6 @@ class UserController extends BaseController {
     } else {
       this.fail();
     }
-    // this.ctx.app.locals.menus = menus;
-    // await this.ctx.redirect('/admin/dashboard');
   }
 
   async find() {
@@ -45,11 +43,13 @@ class UserController extends BaseController {
     this.success(data);
   }
   async loginTmp() {
-    const { post } = this.ctx.service;
-    const menus = await post.find({ isShow: true });
+    const { option } = this.ctx.service;
+    const { menus, seo, site } = await option.siteInfo();
     await this.ctx.render('/theme/layout.ejs', {
       router: 'login',
       menus,
+      seo,
+      site,
     });
   }
   async captcha() {

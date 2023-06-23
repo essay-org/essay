@@ -59,7 +59,6 @@
               type: 'normal',
               value: '取消',
               events: function events(event) {
-                console.log('cancel');
                 event.dialog.remove();
               },
             },
@@ -68,7 +67,7 @@
               value: '确定',
               events: function events(event) {
                 var id = del.getAttribute('data-id');
-                axios
+                ajax
                   .delete('/api/post/' + id)
                   .then(function (data) {
                     window.history.back();

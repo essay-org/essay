@@ -80,7 +80,6 @@
           title = title.length
             ? window.decodeURIComponent(title[0].id)
             : '匿名随笔';
-          console.log(title);
           if (!content || !title) return false;
           ajax
             .post('/api/post', {

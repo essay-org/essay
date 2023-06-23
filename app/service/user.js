@@ -3,6 +3,7 @@ const { uid } = require('uid');
 const svgCaptcha = require('svg-captcha');
 const fs = require('fs');
 const md5 = require('md5');
+const jwt = require('jsonwebtoken');
 const Service = require('egg').Service;
 
 class UserService extends Service {
@@ -14,9 +15,12 @@ class UserService extends Service {
       password = md5(password);
     }
     if (result) {
-      await this.ctx.model.User.update({ type: 'admin' }, {
-        ...rest,
-      });
+      await this.ctx.model.User.update(
+        { type: 'admin' },
+        {
+          ...rest,
+        }
+      );
     } else {
       result = await this.ctx.model.User.create({
         id: uid(),
@@ -69,12 +73,49 @@ class UserService extends Service {
         throwIfNoEntry: false,
       });
       if (!lock) {
-        await fs.writeFileSync('install.lock', 'true');
+        await fs.writeFileSync('install.lock', uid());
       }
       return true;
     } catch (err) {
       return false;
     }
+  }
+
+  // 过期时间单位是秒，这里默认7天有效期
+  sign({ email, id }) {
+    const key = fs.readFileSync(this.ctx.app.baseDir + '/install.lock', 'utf8');
+    const token = jwt.sign({
+      email, id,
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7),
+    }, key);
+    return token;
+  }
+
+  verify(token) {
+    const key = fs.readFileSync(this.ctx.app.baseDir + '/install.lock', 'utf8');
+    return jwt.verify(token, key, (err, decoded) => {
+      if (err) {
+        // JWT验证失败，可能是过期或无效
+        return {
+          status: -1,
+          data: 'token解析失败',
+        };
+      }
+      // JWT验证成功 当前时间的UNIX时间戳
+      const currentTime = Math.floor(Date.now() / 1000);
+      if (decoded.exp < currentTime) {
+        // JWT已过期
+        return {
+          status: 0,
+          data: 'token已过期',
+        };
+      }
+      // JWT仍然有效
+      return {
+        status: 1,
+        data: decoded,
+      };
+    });
   }
 }
 

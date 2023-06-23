@@ -16,6 +16,7 @@
     "egg-scripts": "^2",
     "egg-view-ejs": "^3.0.0",
     "jimp": "^0.22.8",
+    "jsonwebtoken": "^9.0.0",
     "md5": "^2.3.0",
     "mz-modules": "^2.1.0",
     "sqlite3": "^5.1.6",

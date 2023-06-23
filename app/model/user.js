@@ -3,7 +3,6 @@ module.exports = function (app) {
     Bone,
     DataTypes: { STRING, DATE },
   } = app.model;
-  // console.log(Realm)
   class User extends Bone {
     static table = 'user';
     static attributes = {

@@ -5,12 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Essay博客系统安装</title>
-    <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="/public/lib/lulu/ui.min.css" />
-    <link
-      rel="stylesheet"
-      href="//at.alicdn.com/t/c/font_4116632_2th5ql5s2x3.css"
-    />
+    <script src="/public/lib/util/util.js" defer></script>
   </head>
   <body>
     <style>
@@ -156,7 +153,9 @@
         var step1 = document.querySelector('#step1');
         var form1 = document.querySelector('#form1');
         var form2 = document.querySelector('#form2');
-
+        var ajax = axios.create({
+          headers: { 'x-csrf-token': $util.getCookie('csrfToken') },
+        });
         step1.addEventListener('click', function () {
           form1.style.display = 'none';
           form2.style.display = 'block';
@@ -166,7 +165,7 @@
           var email = document.querySelector('input[name=email]');
           var password = document.querySelector('input[name=password]');
           var nickname = document.querySelector('input[name=nickname]');
-          axios
+          ajax
             .post('/api/user', {
               email: email.value,
               password: password.value,

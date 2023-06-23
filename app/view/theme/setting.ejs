@@ -126,7 +126,9 @@
     var btn1 = document.querySelector('#btn1');
     var btn2 = document.querySelector('#btn2');
     var btn3 = document.querySelector('#btn3');
-
+    var ajax = axios.create({
+      headers: { 'x-csrf-token': $util.getCookie('csrfToken') },
+    });
     var fail = function (msg) {
       new LightTip().error(msg || '操作失败');
     };
@@ -139,14 +141,13 @@
       var keywords = document.querySelector('input[name=keywords]');
       var description = document.querySelector('input[name=description]');
 
-      axios
+      ajax
         .post('/api/seo', {
           title: title.value,
           keywords: keywords.value,
           description: description.value,
         })
         .then(function (data) {
-            console.log(data)
           if (data.data.success) {
             success();
           } else {
@@ -154,7 +155,6 @@
           }
         })
         .catch(function (err) {
-            console.log(err)
           fail();
         });
     });
@@ -164,7 +164,7 @@
       var nickname = document.querySelector('input[name=nickname]');
       var sign = document.querySelector('input[name=sign]');
       var icp = document.querySelector('input[name=icp]');
-      axios
+      ajax
         .put('/api/user', {
           nickname: nickname.value,
           sign: sign.value,
@@ -186,7 +186,7 @@
     new Validate(form3, function () {
       var email = document.querySelector('input[name=email]');
       var password = document.querySelector('input[name=password]');
-      axios
+      ajax
         .put('/api/user', {
           email: email.value,
           password: password.value,

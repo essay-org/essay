@@ -6,7 +6,6 @@
  * @param {Egg.EggAppInfo} appInfo app info
  */
 module.exports = appInfo => {
-  // console.log(`${appInfo.baseDir}/database/data.db`);
   /**
    * built-in config
    * @type {Egg.EggAppConfig}

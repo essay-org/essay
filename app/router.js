@@ -7,13 +7,13 @@
  */
 module.exports = app => {
   const { router, controller, middleware } = app;
-  const isInstall = middleware.isInstall();
+  const { auth, isInstall } = middleware;
   // 首页
   router.get('/', controller.post.list);
   router.get('/search', controller.post.list);
-  router.get('/draft', controller.post.draft);
+  router.get('/draft', auth(true), controller.post.draft);
   // 编辑器
-  router.get('/editor', controller.post.editor);
+  router.get('/editor', auth(true), controller.post.editor);
   // 文章详情页
   router.get('/post', controller.post.view);
   // 获取文章

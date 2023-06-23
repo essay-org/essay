@@ -30,8 +30,16 @@ class UserController extends BaseController {
     const { user } = this.ctx.service;
     const body = this.ctx.request.body;
     const admin = user.login(body);
+
     if (admin) {
-      this.success();
+      const token = this.ctx.service.user.sign({
+        id: admin.id,
+        email: admin.email,
+      });
+      // 用于get请求验证
+      this.ctx.cookies.set('Token', token);
+      // 用于api请求验证
+      this.success(token);
     } else {
       this.fail();
     }
@@ -43,6 +51,9 @@ class UserController extends BaseController {
     this.success(data);
   }
   async loginTmp() {
+    this.ctx.cookies.set('test', 'aaaa', {
+      maxAge: 30,
+    });
     const { option } = this.ctx.service;
     const { menus, seo, site } = await option.siteInfo();
     await this.ctx.render('/theme/layout.ejs', {

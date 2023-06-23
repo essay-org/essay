@@ -65,7 +65,7 @@
     var page = document.querySelector('#page')
     var pageId = (params && params.get('page')) || 1
     new Pagination(page, {
-      total: page.getAttribute('data-total'),
+      total: page ? page.getAttribute('data-total') : 0,
       per: 15,
       mode: 'short',
       current: pageId,

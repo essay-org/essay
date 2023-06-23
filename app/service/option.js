@@ -35,7 +35,7 @@ class OptionService extends Service {
     const site = await user.find();
     return {
       menus,
-      seo: seo.value || {},
+      seo: seo ? seo.value : {},
       site: site || {},
     };
   }

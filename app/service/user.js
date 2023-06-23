@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const Service = require('egg').Service;
 
 class UserService extends Service {
-  async save({ type = '', password, ...rest }) {
+  async save({ password, ...rest }) {
     let result = await this.ctx.model.User.findOne({
       type: 'admin',
     });
@@ -25,6 +25,7 @@ class UserService extends Service {
       result = await this.ctx.model.User.create({
         id: uid(),
         ...rest,
+        password,
         type: 'admin',
       });
     }

@@ -16,14 +16,18 @@ class UserController extends BaseController {
       // 初始化管理员和文章
       const { user, post } = this.ctx.service;
       const body = this.ctx.request.body;
-      await this.ctx.service.user.install();
-      await user.save(body);
-      await post.save({
+      const initUser = await user.save(body);
+      const initPost = await post.save({
         title: '欢迎使用Essay博客系统',
         content: '欢迎使用Essay博客系统，开启你的创作之旅吧~',
         status: 'pushed',
       });
-      this.success('ok');
+      if (initUser && initPost) {
+        await this.ctx.service.user.install();
+        this.success('安装完成');
+      } else {
+        this.fail('安装失败');
+      }
     }
   }
   async login() {

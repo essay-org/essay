@@ -72,9 +72,11 @@ class UserController extends BaseController {
   // 详情
   async view() {
     const { id = '' } = this.ctx.query;
-    const { post, option } = this.ctx.service;
+    const { post, option, user } = this.ctx.service;
+    const token = this.ctx.cookies.get('token');
     const data = await post.find({ id });
     const { menus, seo, site } = await option.siteInfo();
+    const loginStatus = user.verify(token);
     if (id && data) {
       // 上一篇 下一篇
       const pre = await post.pre({ createdAt: data.createdAt });
@@ -89,6 +91,7 @@ class UserController extends BaseController {
         site,
         pre,
         next,
+        loginStatus,
       });
     } else {
       await this.not();

@@ -30,14 +30,14 @@ module.exports = function (app) {
           notEmpty: true,
         },
       },
-      nickname: {
+      password: {
         type: STRING,
         validate: {
           notNull: true,
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
-      password: {
+      nickname: {
         type: STRING,
         validate: {
           notNull: true,

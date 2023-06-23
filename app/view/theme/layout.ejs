@@ -122,7 +122,7 @@
         <% if(router === 'list') {%>
           <%- include('./list.ejs', { data, router, total }) -%>
         <%} else if(router === 'post') {%>
-          <%- include('./post.ejs', { data, pre, next }) -%>
+          <%- include('./post.ejs', { data, pre, next, loginStatus }) -%>
         <%} else if(router === 'login') {%>
           <%- include('./login.ejs') -%>
         <%} else if(router === 'setting') {%>

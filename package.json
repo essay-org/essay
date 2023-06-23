@@ -28,7 +28,7 @@
     "express": "^4.16.3",
     "formidable": "^1.2.1",
     "highlight.js": "^9.15.8",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.14",
     "markdown-it": "^8.4.2",
     "md5": "^2.2.1",

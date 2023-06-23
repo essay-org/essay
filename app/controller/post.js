@@ -18,7 +18,9 @@ class UserController extends BaseController {
         status: 'pushed',
       });
     } else {
-      total = await post.totalCount();
+      total = await post.totalCount({
+        status: 'pushed',
+      });
       data = await post.findByPage({
         ...query,
         status: 'pushed',
@@ -37,8 +39,13 @@ class UserController extends BaseController {
   }
   async draft() {
     const { post, option } = this.ctx.service;
+    const query = this.ctx.query;
     const { menus, seo, site } = await option.siteInfo();
-    const data = await post.find({
+    const data = await post.findByPage({
+      ...query,
+      status: 'draft',
+    });
+    const total = await post.totalCount({
       status: 'draft',
     });
     await this.ctx.render('/theme/layout.ejs', {
@@ -46,6 +53,7 @@ class UserController extends BaseController {
       menus,
       seo,
       site,
+      total,
       router: 'list',
     });
   }

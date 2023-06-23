@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>随笔一下</title>
-    <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon" />
     <link
       rel="stylesheet"
       href="/public/lib/markdown/cherry-markdown.min.css"
@@ -14,6 +14,7 @@
     <script src="/public/lib/lulu/all.min.js" defer></script>
     <script src="/public/lib/markdown/cherry-markdown.min.js" defer></script>
     <script src="/public/lib/axios/axios.min.js" defer></script>
+    <script src="/public/lib/util/util.js" defer></script>
     <style>
       html,
       body {
@@ -50,14 +51,14 @@
   </head>
   <body>
     <div class="btns" id="btns">
-        <input type="checkbox" id="isTop" name="isTop" />
-        <label for="isTop" class="ui-checkbox"></label>
-        <label for="isTop" class="box">置顶</label>
-        <input type="checkbox" id="isShow" name="isShow" />
-        <label for="isShow" class="ui-checkbox"></label>
-        <label for="isShow" class="box">在导航栏显示</label>
-        <button class="ui-button" data-status="draft">存草稿</button>
-        <button class="ui-button" data-type="primary" data-status="pushed">
+      <input type="checkbox" id="isTop" name="isTop" />
+      <label for="isTop" class="ui-checkbox"></label>
+      <label for="isTop" class="box">置顶</label>
+      <input type="checkbox" id="isShow" name="isShow" />
+      <label for="isShow" class="ui-checkbox"></label>
+      <label for="isShow" class="box">在导航栏显示</label>
+      <button class="ui-button" data-status="draft">存草稿</button>
+      <button class="ui-button" data-type="primary" data-status="pushed">
         发布
       </button>
     </div>
@@ -67,23 +68,28 @@
       window.addEventListener('DOMContentLoaded', function () {
         var params = new URLSearchParams(document.location.search);
         var postId = (params && params.get('id')) || '';
-        var isTop = document.querySelector('#isTop')
-          var isShow = document.querySelector('#isShow')
+        var isTop = document.querySelector('#isTop');
+        var isShow = document.querySelector('#isShow');
+        var ajax = axios.create({
+          headers: { 'x-csrf-token': $util.getCookie('csrfToken')}
+        });
         var saveArticle = function (status, cb) {
           var content = window.editor.getMarkdown();
           var title = window.editor.getToc();
-          
-          title = title.length ? window.decodeURIComponent(title[0].id) : '匿名随笔';
-          console.log(title)
+
+          title = title.length
+            ? window.decodeURIComponent(title[0].id)
+            : '匿名随笔';
+          console.log(title);
           if (!content || !title) return false;
-          axios
+          ajax
             .post('/api/post', {
               id: postId,
               content: content,
               status: status,
               title: title,
               isTop: isTop.checked,
-              isShow: isShow.checked
+              isShow: isShow.checked,
             })
             .then(function (data) {
               if (data.data.success === false) {
@@ -135,16 +141,16 @@
             });
             // 数据初始化
             if (postId) {
-              axios
+              ajax
                 .get('/api/post?id=' + postId)
                 .then(function (data) {
                   if (data.data.success === false) {
                     return new LightTip().error('内容获取失败');
                   }
-                  var val = data.data.data
+                  var val = data.data.data;
                   editor.setMarkdown(val.content);
-                  isTop.checked = val.isTop
-                  isShow.checked = val.isShow
+                  isTop.checked = val.isTop;
+                  isShow.checked = val.isShow;
                 })
                 .catch(function (error) {
                   new LightTip().error('内容获取失败');
@@ -154,7 +160,7 @@
           fileUpload: function (file, callback) {
             var formData = new FormData();
             formData.append('uploadFile', file);
-            axios
+            ajax
               .post('/api/upload', formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data',

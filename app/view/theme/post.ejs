@@ -20,13 +20,16 @@
 </style>
 
 <article class="post">
-  <div class="content"><%- helper.shtml(data.content) %></div>
+  <div class="content"><%- data.content %></div>
   <div class="pre-next">
-    <% if(pre) {%>
-    <div class="pre">上一篇：<a href="/post?id=<%= pre.id %>"><%= pre.title %></a></div>
-    <%}%>
-    <% if(next) {%>
-    <div class="next">下一篇：<a href="/post?id=<%= next.id %>"><%= next.title %></a></div>
+    <% if(pre && !data.isShow) {%>
+    <div class="pre">
+      上一篇：<a href="/post?id=<%= pre.id %>"><%= pre.title %></a>
+    </div>
+    <%}%> <% if(next && !data.isShow) {%>
+    <div class="next">
+      下一篇：<a href="/post?id=<%= next.id %>"><%= next.title %></a>
+    </div>
     <%}%>
   </div>
   <div class="post-footer">
@@ -43,6 +46,9 @@
 </article>
 <script>
   window.addEventListener('DOMContentLoaded', function () {
+    var ajax = axios.create({
+      headers: { 'x-csrf-token': $util.getCookie('csrfToken') },
+    });
     var del = document.querySelector('#del');
     del.addEventListener('click', function () {
       new Dialog().confirm(
@@ -61,12 +67,15 @@
               type: 'danger',
               value: '确定',
               events: function events(event) {
-                var id = del.getAttribute('data-id')
-                axios.delete('/api/post/'+ id).then(function(data){
+                var id = del.getAttribute('data-id');
+                axios
+                  .delete('/api/post/' + id)
+                  .then(function (data) {
                     window.history.back();
-                }).catch(function() {
-                    new LightTip().error('操作失败')
-                })
+                  })
+                  .catch(function () {
+                    new LightTip().error('操作失败');
+                  });
                 event.dialog.remove();
               },
             },

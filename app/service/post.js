@@ -46,8 +46,8 @@ class PostService extends Service {
     return result;
   }
 
-  async totalCount() {
-    return await this.ctx.model.Post.find({ status: 'pushed' }).count();
+  async totalCount(query) {
+    return await this.ctx.model.Post.find(query).count();
   }
   async pre({ createdAt }) {
     const data = await this.ctx.model.Post.findOne({ createdAt: { $lt: createdAt }, status: 'pushed' });
@@ -89,8 +89,8 @@ class PostService extends Service {
     await Jimp.read(target, (err, lenna) => {
       // lenna.resize(400, Jimp.AUTO)
       if (err) throw err;
-      lenna.quality(80).write(target + '?q80');
-      lenna.quality(60).write(target + '?q60');
+      lenna.resize(400, Jimp.AUTO).quality(60).write(target + '?q60');
+      lenna.resize(300, Jimp.AUTO).quality(40).write(target + '?q40');
     });
   }
 

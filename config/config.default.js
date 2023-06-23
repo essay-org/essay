@@ -35,7 +35,7 @@ module.exports = appInfo => {
     },
     security: {
       csrf: {
-        enable: false,
+        enable: true,
       },
     },
   };

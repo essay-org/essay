@@ -1,3 +1,6 @@
+<p align="center" dir="auto">
+    <img src="/app/public/favicon.png" width="70px">
+</p>
 <p align="center">
     <a href="https://travis-ci.org/wmui/essay"><img src="https://travis-ci.org/wmui/essay.svg?branch=main" alt="Build Status"></a>
     <a href="https://github.com/wmui/essay"><img src="https://img.shields.io/badge/node-%3E%3D16.0.0-orange.svg" alt="Version"></a>

@@ -1,5 +1,5 @@
 const dayjs = require('dayjs');
-
+const cheerio = require('cheerio');
 module.exports = {
   isChecked(list = [], current = '') {
     return list.includes(current) ? 'checked' : '';
@@ -9,5 +9,11 @@ module.exports = {
   },
   get(obj = {}, key = '') {
     return obj[key] || '';
+  },
+  // 解析content
+  description(content) {
+    const $ = cheerio.load(content);
+    const des = $('p').text() || '';
+    return des.slice(0, 60);
   },
 };

@@ -38,7 +38,17 @@ class PostService extends Service {
 
     return result;
   }
+  async findByPage(query) {
+    const { page = 1, limit = 15 } = query;
+    const result = await this.ctx.model.Post.find(query).order({ isTop: 'desc', createdAt: 'desc' })
+      .limit(limit)
+      .offset(limit * (page - 1));
+    return result;
+  }
 
+  async totalCount() {
+    return await this.ctx.model.Post.find({ status: 'pushed' }).count();
+  }
   async pre({ createdAt }) {
     const data = await this.ctx.model.Post.findOne({ createdAt: { $lt: createdAt }, status: 'pushed' });
     return data && {

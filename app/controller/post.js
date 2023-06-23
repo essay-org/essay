@@ -1,14 +1,16 @@
 'use strict';
-const { default: CherryEngine } = require('cherry-markdown/dist/cherry-markdown.engine.core.common');
+const {
+  default: CherryEngine,
+} = require('cherry-markdown/dist/cherry-markdown.engine.core.common');
 const cherryEngineInstance = new CherryEngine();
 
 const BaseController = require('../core/base');
 class UserController extends BaseController {
-
   async list() {
     const query = this.ctx.query;
-    const { post, option, user } = this.ctx.service;
+    const { post, option } = this.ctx.service;
     let data = [];
+    let total = 0;
     if (query.keywords) {
       query.keywords = decodeURIComponent(query.keywords);
       data = await post.find({
@@ -16,7 +18,8 @@ class UserController extends BaseController {
         status: 'pushed',
       });
     } else {
-      data = await post.find({
+      total = await post.totalCount();
+      data = await post.findByPage({
         ...query,
         status: 'pushed',
       });
@@ -28,6 +31,7 @@ class UserController extends BaseController {
       menus,
       seo,
       site,
+      total,
       router: 'list',
     });
   }
@@ -67,8 +71,6 @@ class UserController extends BaseController {
       // 上一篇 下一篇
       const pre = await post.pre({ createdAt: data.createdAt });
       const next = await post.next({ createdAt: data.createdAt });
-      // console.log(pre, next);
-
       data.content = cherryEngineInstance.makeHtml(data.content);
       await post.save({ id, view: data.view + 1, ...data });
       await this.ctx.render('/theme/layout.ejs', {

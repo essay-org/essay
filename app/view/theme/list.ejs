@@ -55,17 +55,22 @@
     </li>
     <%}%>
   </ul>
-  <div id="page" class="page"></div>
+  <% if(total) {%>
+  <div id="page" class="page" data-total="<%= total %>"></div>
+  <%}%>
 </div>
 <script>
   window.addEventListener('DOMContentLoaded', function () {
-    new Pagination(document.querySelector('#page'), {
-      total: 400,
+    var params = new URLSearchParams(document.location.search)
+    var page = document.querySelector('#page')
+    var pageId = (params && params.get('page')) || 1
+    new Pagination(page, {
+      total: page.getAttribute('data-total'),
       per: 15,
       mode: 'short',
-      current: 1,
+      current: pageId,
       href(current) {
-        return '?pageid=' + current;
+        return '?page=' + current;
       },
     });
   });

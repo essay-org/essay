@@ -13,7 +13,11 @@ run/
 *.un~
 typings/
 .nyc_output/
+
+# eeeay
 database/*
 !database/.gitkeep
+app/public/media/*
+!app/public/media/.gitkeep
 demo/
 install.lock

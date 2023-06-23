@@ -38,7 +38,7 @@
       <span>更新@<%= helper.formatDate(data.updatedAt) %></span>
       <span>浏览量(<%= data.view %>)</span>
     </div>
-    <% if(loginStatus.status){%>
+    <% if(loginStatus.status === 1){%>
     <div class="right">
       <a href="javascript:;" id="del" data-id="<%= data.id %>">删除</a>
       <a href="/editor?id=<%= data.id %>">编辑</a>

@@ -73,7 +73,7 @@ class UserController extends BaseController {
   async view() {
     const { id = '' } = this.ctx.query;
     const { post, option, user } = this.ctx.service;
-    const token = this.ctx.cookies.get('token');
+    const token = this.ctx.cookies.get('Token');
     const data = await post.find({ id });
     const { menus, seo, site } = await option.siteInfo();
     const loginStatus = user.verify(token);

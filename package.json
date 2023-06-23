@@ -38,8 +38,8 @@
   },
   "browserslist": "last 2 versions",
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-EssayCMS",
-    "stop": "egg-scripts stop --title=egg-server-EssayCMS",
+    "start": "egg-scripts start --daemon --title=egg-server-essay",
+    "stop": "egg-scripts stop --title=egg-server-essay",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",

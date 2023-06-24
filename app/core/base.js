@@ -10,10 +10,10 @@ class BaseController extends Controller {
     };
   }
 
-  fail(isArray = false) {
+  fail(data = '') {
     this.ctx.body = {
       success: false,
-      data: isArray ? [] : {},
+      data,
     };
   }
 }

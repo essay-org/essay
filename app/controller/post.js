@@ -78,6 +78,9 @@ class UserController extends BaseController {
     const { menus, seo, site } = await option.siteInfo();
     const loginStatus = user.verify(token);
     if (id && data) {
+      if (data.status === 'draft' && loginStatus.status !== 1) {
+        return this.not();
+      }
       // 上一篇 下一篇
       const pre = await post.pre({ createdAt: data.createdAt });
       const next = await post.next({ createdAt: data.createdAt });
@@ -101,6 +104,7 @@ class UserController extends BaseController {
     const { id = '' } = this.ctx.query;
     const { post } = this.ctx.service;
     const data = await post.find({ id });
+    if (!data) { return this.fail('获取失败'); }
     this.success(data);
   }
   async editor() {

@@ -50,18 +50,18 @@ class PostService extends Service {
     return await this.ctx.model.Post.find(query).count();
   }
   async pre({ createdAt }) {
-    const data = await this.ctx.model.Post.findOne({ createdAt: { $lt: createdAt }, status: 'pushed' });
-    return data && {
-      id: data.id,
-      title: data.title,
+    const data = await this.ctx.model.Post.find({ createdAt: { $lt: createdAt }, status: 'pushed' }).order({ createdAt: 'desc' });
+    return data.length && {
+      id: data[0].id,
+      title: data[0].title,
     };
   }
 
   async next({ createdAt }) {
-    const data = await this.ctx.model.Post.findOne({ createdAt: { $gt: createdAt }, status: 'pushed' });
-    return data && {
-      id: data.id,
-      title: data.title,
+    const data = await this.ctx.model.Post.find({ createdAt: { $gt: createdAt }, status: 'pushed' }).order({ createdAt: 'asc' });
+    return data.length && {
+      id: data[0].id,
+      title: data[0].title,
     };
   }
   async upload(enableThumbnail) {

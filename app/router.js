@@ -17,7 +17,7 @@ module.exports = app => {
   // 文章详情页
   router.get('/post', controller.post.view);
   // 获取文章
-  router.get('/api/post', controller.post.find);
+  router.get('/api/post', auth(), controller.post.find);
   // 添加文章
   router.post('/api/post', auth(), controller.post.save);
   // 修改文章

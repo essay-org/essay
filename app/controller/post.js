@@ -8,7 +8,9 @@ const BaseController = require('../core/base');
 class UserController extends BaseController {
   async list() {
     const query = this.ctx.query;
-    const { post, option } = this.ctx.service;
+    const { post, option, user } = this.ctx.service;
+    const token = this.ctx.cookies.get('Token');
+    const loginStatus = user.verify(token);
     let data = [];
     let total = 0;
     if (query.keywords) {
@@ -34,13 +36,16 @@ class UserController extends BaseController {
       seo,
       site,
       total,
+      loginStatus,
       router: 'list',
     });
   }
   async draft() {
-    const { post, option } = this.ctx.service;
+    const { post, option, user } = this.ctx.service;
     const query = this.ctx.query;
     const { menus, seo, site } = await option.siteInfo();
+    const token = this.ctx.cookies.get('Token');
+    const loginStatus = user.verify(token);
     const data = await post.findByPage({
       ...query,
       status: 'draft',
@@ -54,6 +59,7 @@ class UserController extends BaseController {
       seo,
       site,
       total,
+      loginStatus,
       router: 'list',
     });
   }
@@ -73,9 +79,9 @@ class UserController extends BaseController {
   async view() {
     const { id = '' } = this.ctx.query;
     const { post, option, user } = this.ctx.service;
-    const token = this.ctx.cookies.get('Token');
     const data = await post.find({ id });
     const { menus, seo, site } = await option.siteInfo();
+    const token = this.ctx.cookies.get('Token');
     const loginStatus = user.verify(token);
     if (id && data) {
       if (data.status === 'draft' && loginStatus.status !== 1) {

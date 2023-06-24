@@ -110,8 +110,12 @@
           <% for(var i = 0; i < menus.length; i++) {%>
             <li><a href="/post?id=<%=menus[i].id%>" class="nav-item"><%= menus[i].title %></a></li>
             <%}%>
+          <% if(loginStatus.status === 1){%>
           <li><a href="/draft" class="nav-item">草稿箱</a></li>
+          <%}%>
+          <% if(loginStatus.status === 1){%>
           <li><a href="/setting" class="nav-item">设置</a></li>
+          <%}%>
           <li><a href="/editor" class="nav-item">新随笔</a></li>
         </ul>
 

@@ -6,12 +6,15 @@ class OptionController extends BaseController {
   async setting() {
     const { option, user, post } = this.ctx.service;
     const { menus, seo, site } = await option.siteInfo();
+    const token = this.ctx.cookies.get('Token');
+    const loginStatus = user.verify(token);
     const userInfo = await user.find();
     await this.ctx.render('/theme/layout.ejs', {
       router: 'setting',
       userInfo,
       menus,
       seo,
+      loginStatus,
       site,
     });
   }

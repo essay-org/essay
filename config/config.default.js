@@ -26,6 +26,13 @@ module.exports = appInfo => {
         '.ejs': 'ejs',
       },
     },
+    cluster: {
+      // https: {
+      //   enable: true,
+      //   key: appInfo.baseDir + '/demo/ssl/ppx.link.key',
+      //   cert: appInfo.baseDir + '/demo/ssl/ppx.link_bundle.crt',
+      // },
+    },
     orm: {
       client: '@journeyapps/sqlcipher',
       dialect: 'sqlite',

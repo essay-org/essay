@@ -8,10 +8,10 @@
   "env": {
     "browser": true,
     "node": true
-},
-"globals": {
-  "Dialog": true,
-  "Validate": true,
-  "LightTip": true
-}
+  },
+  "globals": {
+    "Dialog": true,
+    "Validate": true,
+    "LightTip": true
+  }
 }

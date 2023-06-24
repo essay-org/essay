@@ -66,7 +66,7 @@
     var pageId = (params && params.get('page')) || 1
     new Pagination(page, {
       total: page ? page.getAttribute('data-total') : 0,
-      per: 15,
+      per: 20,
       mode: 'short',
       current: pageId,
       href(current) {

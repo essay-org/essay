@@ -48,6 +48,8 @@ module.exports = app => {
   router.post('/api/upload', auth(), controller.post.upload);
   // version
   router.get('/api/version', controller.option.version);
+  // 数据同步
+  router.get('/api/cnblogs', controller.post.cnblogsSync);
   // 其他
   router.get('*', controller.post.not);
 };

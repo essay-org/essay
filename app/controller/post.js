@@ -3,7 +3,7 @@ const {
   default: CherryEngine,
 } = require('cherry-markdown/dist/cherry-markdown.engine.core.common');
 const cherryEngineInstance = new CherryEngine();
-
+const fs = require('fs');
 const BaseController = require('../core/base');
 class UserController extends BaseController {
   async list() {
@@ -119,6 +119,46 @@ class UserController extends BaseController {
   async upload() {
     const data = await this.ctx.service.post.upload(true);
     this.success(data);
+  }
+  async cnblogsSync() {
+    const hasFile = await fs.statSync(this.ctx.app.baseDir + '/posts.json', {
+      throwIfNoEntry: false,
+    });
+    if (hasFile) {
+      let posts = fs.readFileSync(this.ctx.app.baseDir + '/posts.json', 'utf8');
+      posts = JSON.parse(posts);
+      for (let index = 0; index <= posts.length; index++) {
+        const element = posts[index];
+        const newArt = {};
+        newArt.title = element.Title;
+        newArt.createdAt = element.DateAdded;
+        newArt.updatedAt = element.DateUpdated;
+        if (element.PostType === 'BlogPost') {
+          newArt.status = 'pushed';
+        } else {
+          newArt.status = 'draft';
+        }
+
+        if (element.IsMarkdown) {
+          newArt.content = `#${element.Title}\n\n${element.Body}`;
+        } else {
+          newArt.content = `#${element.Title}\n\n${cherryEngineInstance.makeMarkdown(element.Body)}`;
+        }
+        const { post } = this.ctx.service;
+        try {
+          await post.save(newArt);
+          console.log('ok');
+
+        } catch (error) {
+          console.log('err', element.id);
+          continue;
+        }
+
+      }
+      this.success('数据同步完成');
+    } else {
+      this.fail('文件不存在');
+    }
   }
 }
 

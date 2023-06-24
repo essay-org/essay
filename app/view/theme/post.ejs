@@ -1,3 +1,7 @@
+<link
+rel="stylesheet"
+href="/public/lib/markdown/cherry-markdown.min.css"
+/>
 <style>
   .post-footer {
     display: flex;
@@ -15,7 +19,13 @@
   .pre-next {
     color: #666;
     margin-top: 30px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  .pre {
+    margin-bottom: 5px;
+  }
+  pre {
+    border-radius: 3px;
   }
 </style>
 
@@ -52,7 +62,7 @@
       headers: { 'x-csrf-token': $util.getCookie('csrfToken') },
     });
     var del = document.querySelector('#del');
-    del.addEventListener('click', function () {
+    del && del.addEventListener('click', function () {
       new Dialog().confirm(
         '<h6>确定要删除吗？</h6><p>删除后文章不会出现在列表中</p>',
         {

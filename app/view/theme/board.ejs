@@ -1,0 +1,62 @@
+<style>
+
+</style>
+
+<div class="login">
+  <form id="form" class="form">
+    <div class="form-item line-title">管理登录</div>
+    <div class="form-item">
+      <label for="email"><i class="required">*</i> 邮箱：</label>
+      <input type="email" class="ui-input" placeholder="请填写邮箱" required />
+    </div>
+    <div class="form-item">
+      <label for="password"><i class="required">*</i> 密码：</label>
+      <input
+        type="password"
+        class="ui-input"
+        placeholder="请填写密码"
+        required
+      />
+    </div>
+    <!-- <div class="form-item">
+          <input
+            type="password"
+            class="ui-input"
+            placeholder="请填写验证码"
+            required
+          />          
+        </div> -->
+    <div class="form-item">
+      <button class="ui-button" id="login" data-type="primary">登录</button>
+    </div>
+  </form>
+</div>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var form = document.querySelector('#form');
+    var login = document.querySelector('#login');
+    var ajax = axios.create({
+      headers: { 'x-csrf-token': $util.getCookie('csrfToken') },
+    });
+    new Validate(form, function () {
+      var pass = document.querySelector('input[type=password]');
+      var email = document.querySelector('input[type=email]');
+
+      ajax
+        .post('/api/login', {
+          password: pass.value,
+          email: email.value,
+        })
+        .then(function (data) {
+          if (data.data.success) {
+            window.location.href = '/editor';
+          } else {
+            new LightTip().error('邮箱或密码错误');
+          }
+        })
+        .catch(function () {
+          new LightTip().error('系统错误');
+        });
+    });
+  });
+</script>

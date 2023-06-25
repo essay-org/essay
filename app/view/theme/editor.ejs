@@ -25,14 +25,22 @@
         position: relative;
       }
       .btns {
-        position: absolute;
+        position: fixed;
         display: flex;
-        right: 15px;
-        top: 9px;
         display: none;
         z-index: 9;
+        bottom: 0;
+        background-color: #fff;
+        width: 100%;
+        height: 50px;
+        box-sizing: border-box;
+        border-top: 1px solid #eee;
+        line-height: 50px;
       }
-
+      .btns-wrap {
+        float: right;
+        margin-right: 14px;
+      }
       .btns .ui-button {
         height: 30px;
         line-height: 30px;
@@ -47,20 +55,25 @@
       .btns .ui-checkbox + label {
         margin-left: 0;
       }
+      .cherry-toolbar {
+        overflow-x: auto;
+      }
     </style>
   </head>
   <body>
     <div class="btns" id="btns">
-      <input type="checkbox" id="isTop" name="isTop" />
-      <label for="isTop" class="ui-checkbox"></label>
-      <label for="isTop" class="box">置顶</label>
-      <input type="checkbox" id="isShow" name="isShow" />
-      <label for="isShow" class="ui-checkbox"></label>
-      <label for="isShow" class="box">在导航栏显示</label>
-      <button class="ui-button" data-status="draft">存草稿</button>
-      <button class="ui-button" data-type="primary" data-status="pushed">
-        发布
-      </button>
+      <div class="btns-wrap">
+        <input type="checkbox" id="isTop" name="isTop" />
+        <label for="isTop" class="ui-checkbox"></label>
+        <label for="isTop" class="box">置顶</label>
+        <input type="checkbox" id="isShow" name="isShow" />
+        <label for="isShow" class="ui-checkbox"></label>
+        <label for="isShow" class="box">在导航栏显示</label>
+        <button class="ui-button" data-status="draft">存草稿</button>
+        <button class="ui-button" data-type="primary" data-status="pushed">
+          发布
+        </button>
+    </div>
     </div>
     <div id="editor"></div>
 

@@ -33,7 +33,7 @@ class UserController extends BaseController {
   async login() {
     const { user } = this.ctx.service;
     const body = this.ctx.request.body;
-    const admin = user.login(body);
+    const admin = await user.login(body);
 
     if (admin) {
       const token = this.ctx.service.user.sign({

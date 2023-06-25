@@ -5,6 +5,7 @@ module.exports = redirect => {
       await ctx.redirect('/login');
     } else {
       const data = ctx.service.user.verify(Token);
+      // console.log('TOKEN:', data);
       if (data.status === 1) {
         await next();
       } else {

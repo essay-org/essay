@@ -39,6 +39,25 @@ class OptionService extends Service {
       site: site || {},
     };
   }
+
+  async findBoard() {
+    const result = await this.ctx.model.Option.find({ name: 'board' });
+    return result;
+  }
+
+  async boardSave(value) {
+    const result = await this.ctx.model.Option.create({
+      id: uid(),
+      name: 'board',
+      value,
+    });
+    return result;
+  }
+
+  async boardDel(id) {
+    const result = await this.ctx.model.Option.remove({ id });
+    return result;
+  }
 }
 
 module.exports = OptionService;

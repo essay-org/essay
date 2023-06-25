@@ -121,6 +121,7 @@
           <% if(loginStatus.status === 1){%>
           <li><a href="/setting" class="nav-item">设置</a></li>
           <%}%>
+          <li><a href="/board" class="nav-item">留言板</a></li>
           <li><a href="/editor" class="nav-item">新随笔</a></li>
         </ul>
 
@@ -130,13 +131,15 @@
       </nav>
       <main class="main">
         <% if(router === 'list') {%>
-          <%- include('./list.ejs', { data, router, total }) -%>
+          <%- include('./list.ejs') -%>
         <%} else if(router === 'post') {%>
-          <%- include('./post.ejs', { data, pre, next, loginStatus }) -%>
+          <%- include('./post.ejs') -%>
         <%} else if(router === 'login') {%>
           <%- include('./login.ejs') -%>
         <%} else if(router === 'setting') {%>
           <%- include('./setting.ejs') -%>
+        <%} else if(router === 'board') {%>
+          <%- include('./board.ejs') -%>
         <%} else {%>
           <%- include('./404.ejs') -%>
         <%}%>

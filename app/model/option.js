@@ -12,7 +12,6 @@ module.exports = function (app) {
         },
         name: {
           type: STRING,
-          unique: true,
           validate: {
             notEmpty: true,
             notNull: true

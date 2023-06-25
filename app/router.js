@@ -50,6 +50,10 @@ module.exports = app => {
   router.get('/api/version', controller.option.version);
   // 数据同步
   router.get('/api/cnblogs', controller.post.cnblogsSync);
+  // 留言板
+  router.get('/board', controller.option.boardTmp);
+  router.post('/api/board', controller.option.boardSave);
+  router.delete('/api/board/:id', auth(), controller.option.boardDel);
   // 其他
   router.get('*', controller.post.not);
 };

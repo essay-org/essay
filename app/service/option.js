@@ -41,7 +41,7 @@ class OptionService extends Service {
   }
 
   async findBoard() {
-    const result = await this.ctx.model.Option.find({ name: 'board' });
+    const result = await this.ctx.model.Option.find({ name: 'board' }).order({ createAt: 'desc' });
     return result;
   }
 

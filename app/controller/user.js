@@ -55,16 +55,16 @@ class UserController extends BaseController {
     this.success(data);
   }
   async loginTmp() {
-    this.ctx.cookies.set('test', 'aaaa', {
-      maxAge: 30,
-    });
-    const { option } = this.ctx.service;
+    const token = this.ctx.cookies.get('Token');
+    const { option, user } = this.ctx.service;
     const { menus, seo, site } = await option.siteInfo();
+    const loginStatus = user.verify(token);
     await this.ctx.render('/theme/layout.ejs', {
       router: 'login',
       menus,
       seo,
       site,
+      loginStatus,
     });
   }
   async captcha() {

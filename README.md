@@ -24,7 +24,7 @@ yarn install # or npm install
 npm run start
 ```
 
-项目启动后，访问http://127.0.0.1:7001/install，进入安装界面：
+项目启动后，访问 (http://127.0.0.1:7001/install)[http://127.0.0.1:7001/install]，进入安装界面：
 
 <p align="center" dir="auto">
     <img src="/app/public/1.png" width="400px">

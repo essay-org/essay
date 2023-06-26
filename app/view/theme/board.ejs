@@ -68,7 +68,7 @@
         >
       </div>
       <% if(loginStatus.status === 1) {%>
-      <div id="del" class="blue del" data-id="<%= data[i].id %>">删除</div>
+      <div id="del" class="blue del" onclick="delFn('<%= data[i].id %>')" data-id="<%= data[i].id %>">删除</div>
       <%}%>
       <div class="content"><%= data[i].value.content %></div>
     </div>
@@ -76,6 +76,7 @@
   </div>
 </div>
 <script>
+    var delFn = null
   window.addEventListener('DOMContentLoaded', function () {
     var form = document.querySelector('#form');
     var save = document.querySelector('#save');
@@ -84,8 +85,7 @@
       headers: { 'x-csrf-token': $util.getCookie('csrfToken') },
     });
 
-    del && del.addEventListener('click', function() {
-        var id = del.getAttribute('data-id')
+    delFn = function(id) {
         ajax.delete('/api/board/' + id).then(function(data) {
             if(data.data.success) {
                 window.location.href = '/board'
@@ -93,7 +93,8 @@
         }).catch(function(err) {
             new LightTip().error('删除失败')
         })
-    })
+    }
+
     new Validate(form, function () {
       var nickname = document.querySelector('input[name=nickname]');
       var content = document.querySelector('#content');

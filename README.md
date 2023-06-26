@@ -11,6 +11,42 @@
 
 > Essay - 个性化博客系统
 
-### Essay
+### 安装
 
-4.0.0正在开发中...
+安装前请确保本地的Node版本大于16，本机已安装sqlite
+
+```bash
+# 下载项目
+git clone https://github.com/wmui/essay.git
+# 安装依赖
+yarn install # or npm install
+# 启动项目
+npm run start
+```
+
+项目启动后，访问http://127.0.0.1:7001/install，进入安装界面：
+
+<p align="center" dir="auto">
+    <img src="/app/public/1.png" width="400px">
+</p>
+
+点击下一步，设置管理员密码：
+
+<p align="center" dir="auto">
+    <img src="/app/public/2.png" width="400px">
+</p>
+
+点击完成设置，安装就完成了，超简单
+
+<p align="center" dir="auto">
+    <img src="/app/public/3.png" width="400px">
+</p>
+
+### 开始写作
+
+点击新随笔，开始愉快的创作吧
+
+
+<p align="center" dir="auto">
+    <img src="/app/public/4.png" width="500px">
+</p>

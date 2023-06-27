@@ -120,6 +120,12 @@ class UserService extends Service {
       };
     });
   }
+
+  loginStatus() {
+    const token = this.ctx.get('Token') || this.ctx.cookies.get('Token');
+    const loginStatus = this.verify(token);
+    return loginStatus;
+  }
 }
 
 module.exports = UserService;

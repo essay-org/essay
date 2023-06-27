@@ -97,6 +97,7 @@ class UserService extends Service {
     return jwt.verify(token, key, (err, decoded) => {
       if (err) {
         // JWT验证失败，可能是过期或无效
+        this.logger.error('token 验证失败', err);
         return {
           status: -1,
           data: 'token解析失败',
@@ -105,6 +106,7 @@ class UserService extends Service {
       // JWT验证成功 当前时间的UNIX时间戳
       const currentTime = Math.floor(Date.now() / 1000);
       if (decoded.exp < currentTime) {
+        this.logger.warn('token 无效');
         // JWT已过期
         return {
           status: 0,

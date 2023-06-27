@@ -41,7 +41,9 @@ class UserController extends BaseController {
         email: admin.email,
       });
       // 用于get请求验证
-      this.ctx.cookies.set('Token', token);
+      this.ctx.cookies.set('Token', token, {
+        maxAge: 60 * 60 * 24 * 7,
+      });
       // 用于api请求验证
       this.success(token);
     } else {

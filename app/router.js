@@ -11,9 +11,9 @@ module.exports = app => {
   // 首页
   router.get('/', controller.post.list);
   router.get('/search', controller.post.list);
-  router.get('/draft', auth(true), controller.post.draft);
+  router.get('/draft', auth('/login'), controller.post.draft);
   // 编辑器
-  router.get('/editor', auth(true), controller.post.editor);
+  router.get('/editor', auth('/login'), controller.post.editor);
   // 文章详情页
   router.get('/post', controller.post.view);
   // 获取文章
@@ -39,7 +39,7 @@ module.exports = app => {
   // 初始化管理员
   router.post('/api/user', controller.user.init);
   // 设置
-  router.get('/setting', auth(true), controller.option.setting);
+  router.get('/setting', auth('/login'), controller.option.setting);
   // 修改或新增seo
   router.post('/api/seo', auth(), controller.option.saveSeo);
   router.get('/api/seo', auth(), controller.option.findSeo);
@@ -51,7 +51,7 @@ module.exports = app => {
   // 数据同步
   router.get('/api/cnblogs', controller.post.cnblogsSync);
   // 留言板
-  router.get('/board', auth(true), controller.option.boardTmp);
+  router.get('/board', auth('/board'), controller.option.boardTmp);
   router.post('/api/board', auth(), controller.option.boardSave);
   router.delete('/api/board/:id', auth(), controller.option.boardDel);
   // 其他

@@ -1,4 +1,4 @@
-module.exports = redirect => {
+module.exports = redirectUrl => {
   return async (ctx, next) => {
     const Token = ctx.get('Token') || ctx.cookies.get('Token');
     if (!Token) {
@@ -9,8 +9,8 @@ module.exports = redirect => {
       if (data.status === 1) {
         await next();
       } else {
-        if (redirect) {
-          await ctx.redirect('/login');
+        if (redirectUrl) {
+          await ctx.redirect(redirectUrl);
         } else {
           ctx.body = {
             success: false,

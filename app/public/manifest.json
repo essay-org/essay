@@ -1,0 +1,16 @@
+{
+  "name": "Essay",
+  "short_name": "Essay",
+  "icons": [
+    {
+      "src": "/public/favicon.png",
+      "type": "image/png",
+      "sizes": "400x400"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#fff"
+}

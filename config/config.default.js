@@ -6,7 +6,8 @@
  * @param {Egg.EggAppInfo} appInfo app info
  */
 module.exports = appInfo => {
-  console.log(appInfo.root);
+  // console.log(appInfo.root);
+
   /**
    * built-in config
    * @type {Egg.EggAppConfig}

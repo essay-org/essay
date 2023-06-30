@@ -97,7 +97,7 @@ class UserService extends Service {
     return jwt.verify(token, key, (err, decoded) => {
       if (err) {
         // JWT验证失败，可能是过期或无效
-        this.logger.error('token 验证失败', err);
+        this.logger.warn('token 验证失败', err);
         return {
           status: -1,
           data: 'token解析失败',

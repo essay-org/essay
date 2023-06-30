@@ -27,6 +27,7 @@
       <meta name="description" content="<%= seo.description %>">
     <%}%>
     <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon">
+    <link rel="manifest" href="/public/manifest.json">
     <%- include('./style.ejs') -%>
   </head>
   <body>
@@ -151,7 +152,7 @@
     <footer class="footer">
       <span class="icp"
         ><%= site.icp %> Powered by
-        <a href="https://github.wmui/essay" target="_blank">Essay</a></span
+        <a href="https://github.com/wmui/essay" target="_blank">Essay</a></span
       >
     </footer>
     <script>
@@ -162,6 +163,23 @@
             window.location.href = '/search?keywords=' + encodeURIComponent(search.value)
           }
         })
+
+        // https://www.imooc.com/article/289875
+        if('serviceWorker' in navigator) {
+          navigator.serviceWorker
+            .register('/public/sw.js', { scope: '/' })
+            .then(function (registration) {
+              // 注册成功
+              console.log(
+                'ServiceWorker registration successful with scope: ',
+                registration.scope
+              );
+            })
+            .catch(function (err) {
+              // 注册失败:(
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        }
       })
     </script>
     <%- include('./script.ejs') -%>

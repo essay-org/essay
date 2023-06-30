@@ -42,7 +42,7 @@ class UserController extends BaseController {
       });
       // 用于get请求验证
       this.ctx.cookies.set('Token', token, {
-        maxAge: 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
       });
       // 用于api请求验证
       this.success(token);

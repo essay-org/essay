@@ -7,7 +7,7 @@
     <a href="https://github.com/wmui/essay"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
-<p align="center"><a href="https://ppx.link" target="_blank">演示网站</a></p>
+<p align="center"><a href="https://code.ppx.link" target="_blank">演示网站</a></p>
 
 > Essay - 个性化博客系统
 

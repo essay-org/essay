@@ -7,7 +7,7 @@
     <a href="https://github.com/wmui/essay"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
-<p align="center"><a href="https://www.ppx.link" target="_blank">演示网站</a></p>
+<!-- <p align="center"><a href="https://www.ppx.link" target="_blank">演示网站</a></p> -->
 
 > Essay - 个性化博客系统
 
@@ -17,7 +17,7 @@
 
 ```bash
 # 下载项目
-git clone https://github.com/wmui/essay.git
+git clone https://github.com/essay-org/essay.git
 # 安装依赖
 yarn install # or npm install
 # 启动项目
